@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { conn } from '../../utils/database'
+import { conn } from 'src/utils/database'
 
 type Data = {
   message: string;
