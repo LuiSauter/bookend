@@ -5,7 +5,6 @@ interface Props {
 }
 
 const Home = ({ books }: Props) => {
-  console.log(books)
   // const [darkMode, setDarkMode] = useState(false)
   // const handleClick = () => {
   //   document.documentElement.classList.toggle('dark')
