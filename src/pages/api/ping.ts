@@ -1,12 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { conn } from 'src/utils/database'
+import { dbConnect, runMiddleware } from '../../db/utils'
+import { NextApiRequest, NextApiResponse } from 'next'
+import Morgan from 'morgan'
 
-type Data = {
-  message: string;
-  time: string
-};
+dbConnect()
 
-export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const response = await conn.query('SELECT NOW()')
-  res.status(200).json({ message: 'pong', time: response.rows[0].now })
+// define the morgan middelware
+const morgan = Morgan('dev')
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  // run morgan before the return response
+  await runMiddleware(req, res, morgan)
+
+  // return response to the client
+  return res.json({ msg: 'Pong!' })
 }
