@@ -16,18 +16,7 @@ const postSchema = new Schema<IPost>(
     image: {
       type: String,
     },
-    comments: {
-      type: Map,
-      of: {
-        user: {
-          type: String,
-        },
-        comment: {
-          type: String,
-        },
-      },
-      default: {},
-    },
+    comments: [String],
     user: {
       type: String,
       required: true,
