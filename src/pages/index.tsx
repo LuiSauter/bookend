@@ -8,6 +8,10 @@ const Home = () => {
   //   setDarkMode(!darkMode)
   // }
   // const text = !darkMode ? 'dark mode' : 'light mode'
-  return <h1>hello world</h1>
+  return (
+    <>
+      <h1>hello world</h1>
+    </>
+  )
 }
 export default Home
