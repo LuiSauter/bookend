@@ -1,12 +1,12 @@
 import type { AppProps } from 'next/app'
-import React from 'react'
+import React, { useEffect } from 'react'
 import 'tailwindcss/tailwind.css'
-import {
-  ApolloClient,
-  ApolloProvider,
-  createHttpLink,
-  InMemoryCache,
-} from '@apollo/client'
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
+import { SessionProvider, useSession } from 'next-auth/react'
+import { Layout } from 'src/layouts/Layout'
+import { useRouter } from 'next/router'
+import { LoadingPage } from 'src/layouts/LoadingPage'
+import { NavBar } from 'src/components/Nav/NavBar'
 
 const link = createHttpLink({
   uri: 'http://localhost:4000'
@@ -18,14 +18,47 @@ const client = new ApolloClient({
   link,
 })
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface Props {
+  children: JSX.Element;
+}
+
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps): JSX.Element {
   return (
-    <ApolloProvider client={client}>
-      <main className="bg-white dark:bg-black min-h-screen grid place-content-center">
-        <Component {...pageProps} />
-      </main>
-    </ApolloProvider>
+    <SessionProvider session={session}>
+      {Auth ? (
+        <Auth>
+          <ApolloProvider client={client}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ApolloProvider>
+        </Auth>
+      ) : (
+        <LoadingPage />
+      )}
+    </SessionProvider>
   )
+}
+
+function Auth({ children }: Props) {
+  const router = useRouter()
+  const { data: session, status } = useSession()
+  const isUser = !!session?.user
+
+  useEffect(() => {
+    console.log(status)
+    if (status === 'loading') return
+    if (!isUser) {
+      router.replace('/')
+    } else {
+      router.replace('/home')
+    }
+  }, [isUser, status])
+
+  return status === 'loading' ? <LoadingPage /> : children
 }
 
 export default MyApp
