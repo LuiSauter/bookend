@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
 export const PhotoUser = () => {
-  const [showModal, setShowModal] = useState(false)
+  const [dropdownOpen, setShowModal] = useState(false)
   const router = useRouter()
   const { data: session, status } = useSession()
   const handleSignOut = async () => {
@@ -12,7 +12,7 @@ export const PhotoUser = () => {
   }
   const handleModalOut = () => {
     console.log('button')
-    setShowModal(!showModal)
+    setShowModal(!dropdownOpen)
   }
 
   return (
@@ -35,14 +35,24 @@ export const PhotoUser = () => {
           </span>
         </figure>
       </div>
-      <div className="bg-red-500 absolute md:block transform z-50 md: md:right-4 md:px-4 md:py-1">
-        <span>Sign out</span>
-      </div>
-      {/* {showModal && (
-        <div className="bg-red-500 absolute hidden md:block z-50 md:-bottom-7 md:right-4 md:px-4 md:py-1">
-          <span>Sign out</span>
-        </div>
-      )} */}
+      {dropdownOpen && (
+        <>
+          <div
+            className="bg-textGray transition-colors hover:bg-thirdBlue rounded-md absolute hidden
+            sm:block sm:z-50 sm:bottom-6 sm:-right-20 shadow-lg hover:shadow-xl sm:px-4 sm:py-1
+            md:-bottom-8 md:right-4"
+          >
+            <button onClick={handleSignOut}>
+              Sign out
+            </button>
+          </div>
+          <div
+            x-show="dropdownOpen"
+            onClick={() => setShowModal(false)}
+            className="fixed inset-0 h-full w-full z-10"
+          ></div>
+        </>
+      )}
     </>
   )
 }
