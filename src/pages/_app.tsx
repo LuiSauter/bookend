@@ -2,14 +2,13 @@ import type { AppProps, } from 'next/app'
 import React, { useEffect } from 'react'
 import 'tailwindcss/tailwind.css'
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
-import { getSession, SessionProvider, useSession } from 'next-auth/react'
+import { SessionProvider, useSession } from 'next-auth/react'
 import { Layout } from 'src/layouts/Layout'
 import { LoginStateProvider } from 'src/context/LoginStateProvider'
 import { useRouter } from 'next/router'
-import { LoadingPage } from 'src/layouts/LoadingPage'
 
 const link = createHttpLink({
-  uri: 'http://localhost:4000'
+  uri: 'http://localhost:4000',
 })
 
 const client = new ApolloClient({
@@ -52,8 +51,6 @@ function Auth({ children }: Props) {
     if (status === 'loading') return
     if (!isUser) {
       router.replace('/')
-    } else {
-      router.replace('/home')
     }
   }, [isUser, status])
 

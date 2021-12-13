@@ -1,4 +1,3 @@
-
 // server rendering styeld-components :)
 import React, { ReactElement } from 'react'
 import Document, {
