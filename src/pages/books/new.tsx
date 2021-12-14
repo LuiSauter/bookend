@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 
 interface FormInp {
   title: string;
@@ -20,26 +20,33 @@ const New = (): JSX.Element => {
     register,
     formState: { errors },
     handleSubmit,
+    control,
   } = useForm<FormInputs>()
+
   const [dataForm, setDataForm] = useState<FormInp>(initalState)
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    const file = data.img[0]
+  const [fileImage, setFileImage] = useState<string | any>('')
+  const handleChangeFile = (data: FileList | any) => {
+    const file = data[0]
     const fileReader = new FileReader()
     fileReader.readAsDataURL(file)
     return (fileReader.onload = (e) => {
       const imgSrc = e.target?.result
-      return setDataForm({
-        ...dataForm,
-        title: data.title,
-        description: data.description,
-        img: imgSrc,
-        book: data.book,
-      })
+      return setFileImage(imgSrc)
     })
   }
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    return setDataForm({
+      ...dataForm,
+      title: data.title,
+      description: data.description,
+      img: fileImage,
+      book: data.book,
+    })
+  }
+  console.log(dataForm)
   return (
     <>
-      <section className="flex flex-col gap-4 w-full bg-secondary py-4 px-6 min-w-minForm sm:rounded-xl">
+      <section className="flex flex-col m-auto my-4 gap-4 w-11/12 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 sm:w-full rounded-xl">
         <article className="w-full sm:w-11/12 m-auto sm:min-w-minForm">
           <header className="mb-4">
             <h2 className="mb-1 text-lg font-semibold">Create new book</h2>
@@ -57,7 +64,7 @@ const New = (): JSX.Element => {
                 </span>
               )}
               <input
-                className="block w-full rounded-md py-1 px-2 mt-1 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 ring-offset-2 focus:border-thirdBlue focus:ring-opacity-25 focus:ring-offset-gray-200"
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
                 {...register('title', {
                   required: {
                     value: true,
@@ -68,7 +75,7 @@ const New = (): JSX.Element => {
                 placeholder="Write a title"
               />
             </label>
-            <label>
+            <label className="font-semibold">
               Description <span className="text-thirdBlue">* </span>
               {errors.description?.type === 'required' && (
                 <span className="text-red-500 text-sm font-medium">
@@ -76,7 +83,7 @@ const New = (): JSX.Element => {
                 </span>
               )}
               <input
-                className="block w-full rounded-md py-1 px-2 mt-1 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 ring-offset-2 focus:border-thirdBlue focus:ring-offset-gray-200"
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue"
                 {...register('description', {
                   required: {
                     value: true,
@@ -87,33 +94,40 @@ const New = (): JSX.Element => {
                 placeholder="Write a description"
               />
             </label>
-            {errors.description?.type === 'required' && (
-              <span>{errors.description.message}</span>
-            )}
-            <label>
+            <label className="font-semibold">
               Add an image <span className="text-thirdBlue">* </span>
               {errors.img?.type === 'required' && (
                 <span className="text-red-500 text-sm font-medium">
                   {errors.img.message}
                 </span>
               )}
-              <input
-                className="flex p-1 rounded-md hover:bg-secondaryLigth transition-colors focus:outline-none focus:ring-4 ring-offset-2 focus:border-thirdBlue focus:ring-offset-gray-200"
-                {...register('img', {
+              <Controller
+                control={control}
+                name="img"
+                rules={{
                   required: {
                     value: true,
                     message: 'This image is required',
                   },
-                })}
-                type="file"
-                accept="image/*"
-                placeholder="drive.google.com/example"
+                }}
+                render={({ field: { onChange } }) => (
+                  <input
+                    className="flex p-1 mt-1 w-full rounded-md hover:bg-secondaryLigth transition-colors focus:outline-none focus:ring-4 focus:border-thirdBlue"
+                    onChange={(e) => {
+                      handleChangeFile(e.target.files)
+                      onChange(e)
+                    }}
+                    type="file"
+                    accept="image/*"
+                    placeholder="drive.google.com/example"
+                  />
+                )}
               />
             </label>
-            {errors.img?.type === 'required' && (
-              <span>{errors.img.message}</span>
+            {fileImage && (
+              <img className="m-auto rounded-md mt-2 w-full max-w-aside shadow-lg" src={fileImage} />
             )}
-            <label>
+            <label className="font-semibold">
               Book in google drive <span className="text-thirdBlue">* </span>
               {errors.book?.type === 'required' && (
                 <span className="text-red-500 text-sm font-medium">
@@ -121,7 +135,7 @@ const New = (): JSX.Element => {
                 </span>
               )}
               <input
-                className="block w-full rounded-md py-1 px-2 mt-1 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 ring-offset-2 focus:border-thirdBlue focus:ring-offset-gray-200"
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200"
                 {...register('book', {
                   required: {
                     value: true,
@@ -132,17 +146,13 @@ const New = (): JSX.Element => {
                 placeholder="drive.google.com/example"
               />
             </label>
-            {errors.book?.type === 'required' && (
-              <span>{errors.book.message}</span>
-            )}
             <label className="text-textGray text-base">
               <span className="text-thirdBlue">*</span> fields required
             </label>
-            <button className="bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 ring-offset-2 focus:border-thirdBlue focus:ring-offset-gray-200">
+            <button className="bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200">
               submit
             </button>
           </form>
-          {dataForm?.img && <img src={dataForm.img} />}
         </article>
       </section>
     </>

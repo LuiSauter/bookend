@@ -33,7 +33,7 @@ module.exports = {
       },
       minWidth: {
         minAside: '230px',
-        minForm: '360px',
+        minForm: '380px',
       },
       minHeight: {
         nav: '48px',

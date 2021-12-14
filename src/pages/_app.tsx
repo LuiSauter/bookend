@@ -47,7 +47,6 @@ function Auth({ children }: Props) {
   const isUser = !!session?.user
 
   useEffect(() => {
-    console.log(session, status)
     if (status === 'loading') return
     if (!isUser) {
       router.replace('/')
