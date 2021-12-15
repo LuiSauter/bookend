@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import config from 'src/config/config'
 interface IUser {
   email: string;
-  password: string;
+  name: string;
   _id?: string;
   __v?: number;
 }
@@ -17,9 +17,7 @@ interface User {
 }
 
 function createToken(user: IUser) {
-  return jwt.sign({ id: user._id, email: user.email }, config.jwtSecret, {
-    expiresIn: 86400,
-  })
+  return jwt.sign({ id: user._id, email: user.email }, config.jwtSecret)
 }
 
 const resolvers = {
@@ -38,26 +36,18 @@ const resolvers = {
     },
   },
   Mutation: {
-    signup: async (root: any, args: any) => {
-      const { email, password, confirm_password } = args
-      if (password !== confirm_password) return null
-      if (password.lenght < 8) return null
-      const emailFind = await User.findOne({ email })
-      if (emailFind) return null
-      const user = new User({ email, password })
-      user.save()
-      return {
-        message: 'signup successfully!',
-      }
-    },
     signin: async (root: any, args: any) => {
-      const { email, password } = args
-      const userFind = await User.findOne({ email })
-      if (!userFind) return null
-      const isMatch = await userFind.comparePassword(password)
-      if (!isMatch) return null
-      const token = createToken(userFind)
-      return { token }
+      const { email, name } = args
+      const userFind = await User.findOne({ email, name })
+      if (!userFind) {
+        const user = new User({ email, name })
+        user.save()
+        user.message = 'signup'
+        return user
+      } else {
+        const token = createToken(userFind)
+        return { message: token }
+      }
     },
     addPost: (root: any, args: any) => {
       const post = new Post({ ...args })

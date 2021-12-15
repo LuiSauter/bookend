@@ -45,11 +45,6 @@ const profileSchema = new Schema<IProfile>(
       trim: true,
       maxlength: [200, 'description cannot be grater than 200 characters'],
     },
-    photo: {
-      type: String,
-      default:
-        'https://raw.githubusercontent.com/LuiSauter/bookend/main/public/default-user.webp',
-    },
     gender: {
       type: String,
     },

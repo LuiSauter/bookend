@@ -1,10 +1,10 @@
 import { gql } from 'apollo-server-micro'
 
 const typeDefinitions = gql`
-  type Token {
-    token: String!
-  }
-  type Signup {
+  type Signin {
+    name: String
+    email: String
+    _id: String
     message: String
   }
   type User {
@@ -46,8 +46,7 @@ const typeDefinitions = gql`
   }
 
   type Mutation {
-    signup(email: String!, password: String!, confirm_password: String!): Signup
-    signin(email: String!, password: String!): Token
+    signin(email: String!, name: String!): Signin!
     addProfile(
       user: String!
       username: String!
