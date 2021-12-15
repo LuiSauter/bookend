@@ -19,7 +19,7 @@ export const Layout = ({ children }: Props) => {
             Profile Profile Profile Profile Profile Profile Profile Profile
           </section>
         )}
-        <main className="max-w-post w-full xl:max-w-maxPost">
+        <main className="sm:min-w-minForm max-w-post w-full xl:max-w-maxPost">
           {children ? children : <LoadingPage />}
         </main>
         {status === 'authenticated' && (
