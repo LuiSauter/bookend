@@ -50,7 +50,7 @@ const New = (): JSX.Element => {
         <article className="w-full sm:w-11/12 m-auto sm:min-w-minForm">
           <header className="mb-4">
             <h2 className="mb-1 text-lg font-semibold">Create new book</h2>
-            <hr />
+            <hr className="border-secondaryLigth border-b-2 rounded-lg" />
           </header>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -125,7 +125,10 @@ const New = (): JSX.Element => {
               />
             </label>
             {fileImage && (
-              <img className="m-auto rounded-md mt-2 w-full max-w-aside shadow-lg" src={fileImage} />
+              <img
+                className="m-auto rounded-md mt-2 w-full max-w-aside shadow-lg"
+                src={fileImage}
+              />
             )}
             <label className="font-semibold">
               Book in google drive <span className="text-thirdBlue">* </span>

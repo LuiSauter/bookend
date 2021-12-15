@@ -44,6 +44,7 @@ export default MyApp
 function Auth({ children }: Props) {
   const router = useRouter()
   const { data: session, status } = useSession()
+  console.log(session)
   const isUser = !!session?.user
 
   useEffect(() => {
