@@ -1,6 +1,7 @@
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 export const PhotoUser = () => {
   const [dropdownOpen, setShowModal] = useState(false)
@@ -38,11 +39,26 @@ export const PhotoUser = () => {
       {dropdownOpen && (
         <>
           <div
-            className="bg-textGray transition-colors hover:bg-thirdBlue rounded-md absolute hidden
-            sm:block sm:z-50 sm:bottom-6 sm:-right-20 shadow-lg hover:shadow-xl sm:px-4 sm:py-1
-            md:-bottom-8 md:right-4"
+            className="bg-secondary transition-colors rounded-md absolute hidden shadow-2xl shadow-secondaryLigth border border-secondaryLigth
+            sm:flex sm:flex-col sm:z-50 sm:bottom-6 sm:-right-36 hover:shadow-xl sm:p-4
+            md:-bottom-40 md:right-2"
           >
-            <button onClick={handleSignOut}>
+            <Link href={`/${session?.user?.name}`}>
+              <a className="w-full hover:bg-secondaryLigth rounded-md py-1 px-3">
+                See your profile
+              </a>
+            </Link>
+            <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-3">
+              Send feedback
+            </button>
+            <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-3">
+              Settings
+            </button>
+            <hr className="border-secondaryLigth rounded-xl" />
+            <button
+              className="w-full hover:bg-red-500 rounded-md py-1 px-3 bg-red-400"
+              onClick={handleSignOut}
+            >
               Sign out
             </button>
           </div>

@@ -10,20 +10,27 @@ interface Props {
 export const Layout = ({ children }: Props) => {
   const { data: session, status } = useSession()
   return (
-    <div className="relative bg-primary text-textWhite min-h-screen md:w-11/12 2xl:w-10/12 flex flex-col m-auto sm:flex-row sm:justify-center md:flex-col md:justify-start">
+    <div
+      className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto
+    sm:flex-row sm:justify-center md:px-4
+    md:flex-col md:justify-start 2xl:px-6"
+    >
       {status === 'authenticated' && <NavBar />}
 
-      <div className="flex flex-row items-start justify-evenly gap-4 sm:mt-4 xl:gap-6 2xl:gap-8">
+      <div className="flex flex-row items-start justify-center gap-4 sm:mt-4 xl:gap-6 2xl:gap-8">
         {status === 'authenticated' && (
-          <section className="bg-red-600 hidden min-w-minAside max-w-aside sticky top-16 md:flex xl:max-w-maxAside">
+          <section className="bg-red-600 w-full hidden min-w-minAside max-w-aside sticky top-16 md:flex lg:max-w-maxAside">
             Profile Profile Profile Profile Profile Profile Profile Profile
+            Profile Profile Profile Profile Profile Profile Profile Profile
+            Profile Profile Profile Profile Profile Profile Profile Profile
+            Profile Profile
           </section>
         )}
-        <main className="sm:min-w-minForm max-w-post w-full xl:max-w-maxPost">
+        <main className="sm:min-w-minPost max-w-post w-full mx-auto xl:max-w-maxPost">
           {children ? children : <LoadingPage />}
         </main>
         {status === 'authenticated' && (
-          <section className="bg-green-500 hidden max-w-aside min-w-minAside sticky top-16 lg:mr-4 lg:flex xl:max-w-maxAside xl:mr-0">
+          <section className="bg-green-500 hidden w-full max-w-aside min-w-minAside sticky top-16 lg:flex lg:max-w-maxAside xl:mr-0">
             trends trends trends trends trends trends trends trends trends
             trends trends trends trends trends trends trends trends trends
             trends trends trends trends trends trends trends trends trends
