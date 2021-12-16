@@ -27,13 +27,14 @@ module.exports = {
       },
       maxWidth: {
         aside: '280px',
-        maxAside: '325px',
+        maxAside: '360px',
         post: '596px',
         maxPost: '615px',
       },
       minWidth: {
-        minAside: '230px',
+        minAside: '250px',
         minForm: '380px',
+        minPost: '470px'
       },
       minHeight: {
         nav: '48px',

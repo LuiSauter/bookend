@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 interface IUser extends Document {
   email?: string;
   name?: string;
+  profile?: string;
 }
 
 const userSchema: Schema = new Schema<IUser>(
@@ -17,6 +18,10 @@ const userSchema: Schema = new Schema<IUser>(
       type: String,
       required: [true, 'name is required'],
       unique: [true, 'name already exist'],
+    },
+    profile: {
+      type: String,
+      unique: [true, 'profile already exist'],
     },
   },
   { timestamps: true, versionKey: false }

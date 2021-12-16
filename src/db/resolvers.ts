@@ -3,6 +3,7 @@ import Profile from './models/profile'
 import Post from './models/post'
 import jwt from 'jsonwebtoken'
 import config from 'src/config/config'
+import { UserInputError } from 'apollo-server-micro'
 interface IUser {
   email: string;
   name: string;
@@ -27,6 +28,11 @@ const resolvers = {
       const { username } = args
       return await Profile.findOne({ username: username })
     },
+    findProfile: async (root: any, args: any) => {
+      const { username } = args
+      const isfindProfile =  await Profile.findOne({ username: username })
+      return isfindProfile
+    },
     allPosts: async () => {
       return await Post.find({})
     },
@@ -35,18 +41,55 @@ const resolvers = {
       return await Post.findById(id)
     },
   },
+  Profile: {
+    me: (root: any) => {
+      return {
+        name: root.name,
+        username: root.username,
+        photo: root.photo,
+        user: root.user,
+      }
+    }
+  },
   Mutation: {
     signin: async (root: any, args: any) => {
-      const { email, name } = args
+      const { email, name, image } = args
       const userFind = await User.findOne({ email, name })
       if (!userFind) {
         const user = new User({ email, name })
-        user.save()
-        user.message = 'signup'
-        return user
+        await user.save()
+        const userName = email.split('@')[0] + name.length
+        const profile = new Profile({
+          user: user._id,
+          photo: image,
+          name: name,
+          email: email,
+          username: userName,
+        })
+        await profile.save()
+        const newUser = {
+          email: user.email,
+          name: user.name,
+          profile: profile._id,
+        }
+        const updateUser = await User.findByIdAndUpdate(user._id, newUser, {
+          new: true,
+        })
+        updateUser.message = 'signup'
+        return updateUser
       } else {
         const token = createToken(userFind)
-        return { message: token }
+        userFind.message = token
+        return userFind
+      }
+    },
+    createProfile: async (root: any, args: any) => {
+      const { user } = args
+      const findProfile = await Profile.findOne({ user })
+      console.log(findProfile)
+      if (!findProfile) {
+        const profile = new Profile({ ...args })
+        return profile.save()
       }
     },
     addPost: (root: any, args: any) => {
@@ -54,16 +97,6 @@ const resolvers = {
       return post.save()
     },
   },
-  // Profile: {
-  //   User: (root: User) => {
-  //     return {
-  //       username: root.username,
-  //       name: root.name,
-  //       photo: root.photo,
-  //       id: root.id,
-  //     }
-  //   },
-  // },
 }
 
 export default resolvers

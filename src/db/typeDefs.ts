@@ -2,21 +2,25 @@ import { gql } from 'apollo-server-micro'
 
 const typeDefinitions = gql`
   type Signin {
-    name: String
-    email: String
-    _id: String
+    name: String!
+    email: String!
+    id: String!
+    profile: String
     message: String
   }
   type User {
     username: String!
     name: String!
     photo: String
-    id: String!
+    user: String!
   }
   type Profile {
     verified: Boolean
-    user: User!
-    accountType: String
+    # username: String!
+    # name: String!
+    # photo: String
+    id: String!
+    me: User!
     description: String
     gender: String
     website: String
@@ -41,25 +45,23 @@ const typeDefinitions = gql`
   type Query {
     userCount: Int!
     findUser(username: String!): Profile
+    findProfile(username: String!): Profile!
     allPosts: [Post]!
     findPost(id: String!): Post
   }
 
   type Mutation {
-    signin(email: String!, name: String!): Signin!
-    addProfile(
+    signin(email: String!, name: String!, image: String!): Signin
+    createProfile(
+      photo: String
       user: String!
       username: String!
       name: String!
-      photo: String
       description: String
       gender: String
       website: String
       location: String
-      followers: [String]
-      following: [String]
-      liked: [String]
-    ): Profile!
+    ): Profile
     addPost(description: String!, image: String, user: String!): Post!
   }
 `

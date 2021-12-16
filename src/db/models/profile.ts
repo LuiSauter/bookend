@@ -4,7 +4,6 @@ interface IProfile extends Document {
   verified?: boolean;
   user: string;
   username: string;
-  accountType?: string;
   name: string;
   description?: string;
   photo?: string;
@@ -26,13 +25,11 @@ const profileSchema = new Schema<IProfile>(
     username: {
       type: String,
       unique: true,
-      minlength: [5, 'username cannot be greater than 5 characters'],
+      minlength: [3, 'username cannot be greater than 5 characters'],
       required: [true, 'username is required'],
     },
-    accountType: {
+    photo: {
       type: String,
-      enum: ['normal', 'creator'],
-      default: 'normal',
     },
     name: {
       type: String,
