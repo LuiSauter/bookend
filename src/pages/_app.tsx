@@ -8,7 +8,7 @@ import { LoginStateProvider } from 'src/context/LoginStateProvider'
 import { useRouter } from 'next/router'
 
 const link = createHttpLink({
-  uri: 'http://localhost:4000',
+  uri: '/api/graphql',
 })
 
 const client = new ApolloClient({
@@ -44,7 +44,6 @@ export default MyApp
 function Auth({ children }: Props) {
   const router = useRouter()
   const { data: session, status } = useSession()
-  console.log(session)
   const isUser = !!session?.user
 
   useEffect(() => {
