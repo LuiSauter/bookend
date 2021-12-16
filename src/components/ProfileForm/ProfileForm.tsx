@@ -3,8 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { LOGINQL } from 'src/login/graphql-mutations'
 import { FIND_PROFILE } from 'src/users/graphql-queries'
+interface Props {
+  profileData: LoginProfile;
+}
 
-const ProfileForm = () => {
+const ProfileForm = ({ profileData }: Props) => {
   const {
     register,
     handleSubmit,
@@ -74,6 +77,7 @@ const ProfileForm = () => {
                   },
                 })}
                 type="text"
+                value={profileData.name}
                 placeholder="Write your name"
               />
             </label>
@@ -106,13 +110,15 @@ const ProfileForm = () => {
             </span>
           )}
           <input
-            className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
+            className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50"
             {...register('email', {
               required: {
                 value: true,
                 message: 'This field is required',
               },
             })}
+            value={profileData.email}
+            disabled={true}
             type="text"
             placeholder="Write a email"
           />

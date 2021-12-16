@@ -30,6 +30,6 @@ connection.on('connected', () => {
 })
 
 connection.on('error', (err) => {
-  console.error('Mongodb connected to', err.message)
+  console.error('Mongodb connected to "Error"', err.message)
   process.exit(1)
 })

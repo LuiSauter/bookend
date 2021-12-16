@@ -10,20 +10,28 @@ interface UserLogin {
   image: string | null | undefined;
 }
 
+const initialState = {
+  email: '',
+  id: '',
+  message: '',
+  name: '',
+  profile: '',
+}
+
 const Home = (): JSX.Element => {
   const { data: session, status } = useSession()
+  const [profileData, setProfileData] = useState<LoginProfile>(initialState)
   const [userLogin, setUserLogin] = useState<UserLogin>({} as UserLogin)
-  const [login, { data }] = useMutation(LOGINQL)
+  const [getLogin, { data }] = useMutation(LOGINQL)
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
       if (status === 'authenticated') {
-        session?.user &&
-          setUserLogin({
-            name: session?.user?.name,
-            email: session?.user?.email,
-            image: session?.user?.image,
-          })
+        setUserLogin({
+          name: session?.user?.name,
+          email: session?.user?.email,
+          image: session?.user?.image,
+        })
       }
     }
     return () => {
@@ -35,44 +43,46 @@ const Home = (): JSX.Element => {
     let cleanup = true
     if (cleanup) {
       const { email, image, name } = userLogin
-      console.log(userLogin.email === undefined)
       if (userLogin.email !== undefined) {
-        login({ variables: { email: email, name: name, image: image } })
+        getLogin({ variables: { email, name, image } })
       }
     }
     return () => {
       cleanup = false
     }
   }, [userLogin.email])
-  console.log(data)
-  // const [login, result] = useMutation(LOGINQL)
-  // login({
-  //   variables: {
-  //     name: session?.user?.name,
-  //     email: session?.user?.email,
-  //     image: session?.user?.image,
-  //   },
-  // })
-  // const [thereIsProfile, setThereIsProfile] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      setProfileData(data?.signin)
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [data?.signin])
   return (
     <>
-      <ProfileForm />
-      <article className="w-full bg-secondary flex flex-row p-4 relative gap-4">
-        <figure className="m-0">
-          <img src="/default-user.webp" width={200} alt="" />
-        </figure>
-        <div>
-          <h2>Sauter</h2>
-          <span className="text-textGray text-sm">few minutes ago</span>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde
-            aperiam tenetur nemo enim voluptatem odio voluptate? Voluptatibus id
-            adipisci facilis. Facilis, iste! Tempore optio quisquam, voluptas
-            ullam sint nostrum adipisci!
-          </p>
-          <span>bu as xd 1213k</span>
-        </div>
-      </article>
+      {profileData && profileData?.message !== 'signup' ? (
+        <ProfileForm profileData={profileData} />
+      ) : (
+        <article className="w-full bg-secondary flex flex-row p-4 relative gap-4">
+          <figure className="m-0">
+            <img src="/default-user.webp" width={200} alt="" />
+          </figure>
+          <div>
+            <h2>Sauter</h2>
+            <span className="text-textGray text-sm">few minutes ago</span>
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde
+              aperiam tenetur nemo enim voluptatem odio voluptate? Voluptatibus
+              id adipisci facilis. Facilis, iste! Tempore optio quisquam,
+              voluptas ullam sint nostrum adipisci!
+            </p>
+            <span>bu as xd 1213k</span>
+          </div>
+        </article>
+      )}
     </>
   )
 }
