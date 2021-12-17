@@ -16,9 +16,6 @@ const typeDefinitions = gql`
   }
   type Profile {
     verified: Boolean
-    # username: String!
-    # name: String!
-    # photo: String
     id: String!
     me: User!
     description: String
@@ -53,10 +50,8 @@ const typeDefinitions = gql`
   type Mutation {
     signin(email: String!, name: String!, image: String!): Signin
     createProfile(
-      photo: String
-      user: String!
       username: String!
-      name: String!
+      profile: String!
       description: String
       gender: String
       website: String

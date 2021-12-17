@@ -64,7 +64,7 @@ const Home = (): JSX.Element => {
   return (
     <>
       {profileData && profileData?.message !== 'signup' ? (
-        <ProfileForm profileData={profileData} />
+        <ProfileForm profileData={profileData} image={userLogin.image} />
       ) : (
         <article className="w-full bg-secondary flex flex-row p-4 relative gap-4">
           <figure className="m-0">

@@ -21,3 +21,16 @@ export const FIND_PROFILE = gql`
     }
   }
 `
+
+export const FIND_USER = gql`
+  query findUserByUsername($username: String!) {
+    findUser(username: $username) {
+      me {
+        name
+        photo
+        user
+        username
+      }
+    }
+  }
+`

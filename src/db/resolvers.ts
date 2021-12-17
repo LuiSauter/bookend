@@ -84,12 +84,24 @@ const resolvers = {
       }
     },
     createProfile: async (root: any, args: any) => {
-      const { user } = args
-      const findProfile = await Profile.findOne({ user })
-      console.log(findProfile)
-      if (!findProfile) {
-        const profile = new Profile({ ...args })
-        return profile.save()
+      const { username, profile } = args
+      const findProfile = await Profile.findOne({ profile })
+      console.log(findProfile, 'findprofile', username, profile)
+      if (findProfile) {
+        // const NewProfile = {
+
+        // }
+        const profileUpdated = await Profile.findOneAndUpdate(
+          profile,
+          { ...args },
+          {
+            new: true,
+          }
+        )
+        console.log(profileUpdated)
+        return profileUpdated
+      } else {
+        return null
       }
     },
     addPost: (root: any, args: any) => {

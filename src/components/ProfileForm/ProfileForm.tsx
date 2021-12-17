@@ -1,45 +1,45 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { LOGINQL } from 'src/login/graphql-mutations'
-import { FIND_PROFILE } from 'src/users/graphql-queries'
+import { CREATE_PROFILE } from 'src/users/graphql-mutations'
+import { FIND_USER } from 'src/users/graphql-queries'
 interface Props {
   profileData: LoginProfile;
+  image: string | null | undefined;
 }
 
-const ProfileForm = ({ profileData }: Props) => {
+const ProfileForm = ({ profileData, image }: Props) => {
+  const { name, email } = profileData
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
-  // const [getProfile, result] = useLazyQuery(FIND_PROFILE)
-  // const [user, setUser] = useState(null)
-  // getProfile({variables: {}})
-  // useEffect(() => {
-  //   let cleanup = true
-  //   if (cleanup) {
-  //     if (result.data) setUser(result.data.findProfile)
-  //   }
-  //   return () => {
-  //     cleanup = false
-  //   }
-  // }, [])
+  } = useForm({
+    defaultValues: {
+      description: '',
+      email: email,
+      gender: 'male',
+      location: '',
+      name: name,
+      username: '',
+      website: '',
+    },
+  })
+  const [getProfile, { data, loading, error }] = useMutation(CREATE_PROFILE)
   const onSubmit = (data: any) => {
     const { description, email, gender, location, name, username, website } =
       data
     if (!(name && username && email)) return
-    // login({
-    //   variables: {
-    //     description,
-    //     email,
-    //     gender,
-    //     location,
-    //     name,
-    //     username,
-    //     website,
-    //   },
-    // })
+    getProfile({
+      variables: {
+        username: username,
+        profile: profileData.profile,
+        description: description,
+        gender: gender,
+        website: website,
+        location: location,
+      },
+    })
     console.log(data)
   }
   return (
@@ -56,20 +56,15 @@ const ProfileForm = ({ profileData }: Props) => {
           <figure className="m-0 rounded-full overflow-hidden h-full mr-5">
             <img
               className="w-32 m-auto rounded-full"
-              src="/default-user.webp"
-              alt=""
+              src={image ? image : '/default-user.webp'}
+              alt={profileData.name}
             />
           </figure>
           <div className="flex flex-col">
             <label className="font-semibold w-full">
               Name <span className="text-thirdBlue">* </span>
-              {errors.name?.type === 'required' && (
-                <span className="text-red-500 text-sm font-medium">
-                  {errors.name.message}
-                </span>
-              )}
               <input
-                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50 cursor-default"
                 {...register('name', {
                   required: {
                     value: true,
@@ -77,7 +72,7 @@ const ProfileForm = ({ profileData }: Props) => {
                   },
                 })}
                 type="text"
-                value={profileData.name}
+                disabled={true}
                 placeholder="Write your name"
               />
             </label>
@@ -104,11 +99,6 @@ const ProfileForm = ({ profileData }: Props) => {
         </div>
         <label className="font-semibold">
           Email <span className="text-thirdBlue">* </span>
-          {errors.email?.type === 'required' && (
-            <span className="text-red-500 text-sm font-medium">
-              {errors.email.message}
-            </span>
-          )}
           <input
             className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50"
             {...register('email', {
@@ -117,7 +107,7 @@ const ProfileForm = ({ profileData }: Props) => {
                 message: 'This field is required',
               },
             })}
-            value={profileData.email}
+            // value={profileData.email}
             disabled={true}
             type="text"
             placeholder="Write a email"
@@ -169,13 +159,14 @@ const ProfileForm = ({ profileData }: Props) => {
               className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
               {...register('location')}
               type="text"
-              placeholder="Tokio, Japam"
+              placeholder="Tokio, Japón"
             />
           </label>
         </div>
         <label className="text-textGray text-base">
           <span className="text-thirdBlue">*</span> fields required
         </label>
+        {console.log(errors)}
         <button className="bg-blue-500 text-lg font-semibold py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200">
           Save your profile
         </button>
