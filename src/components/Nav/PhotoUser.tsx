@@ -2,28 +2,58 @@ import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useLazyQuery } from '@apollo/client'
+import { FIND_USER } from 'src/users/graphql-queries'
+import { useToggleUser } from 'src/hooks/useToggleUser'
+import { useProfileId } from 'src/hooks/useProfileId'
 
 export const PhotoUser = () => {
-  const [dropdownOpen, setShowModal] = useState(false)
+  const [dataProfile, setDataProfile] = useState<Profile | null>(null)
+  const { dropdownOpen, handleToggleModal } = useToggleUser()
+  const { profile } = useProfileId()
   const router = useRouter()
   const { data: session, status } = useSession()
+  const [getUserByProfileId, { loading, error, data }] =
+    useLazyQuery(FIND_USER)
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      if (profile) {
+        getUserByProfileId({ variables: { profile } })
+      }
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [profile])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      data?.findUser && setDataProfile(data?.findUser)
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [data?.findUser])
+
   const handleSignOut = async () => {
     const data = await signOut({ redirect: false, callbackUrl: '/' })
     return router.replace(data?.url)
   }
+
   const handleModalOut = () => {
-    console.log('button')
-    setShowModal(!dropdownOpen)
+    handleToggleModal()
   }
 
   return (
     <>
       <div
         onClick={handleModalOut}
-        className="hidden items-center justify-center h-12 sm:h-12 sm:min-h-nav sm:w-12 transition-colors sm:flex sm:hover:bg-secondaryHover sm:rounded-full md:w-max md:h-12 md:hover:bg-transparent cursor-pointer active focus:bg-red-600"
+        className="hidden relative items-center justify-center h-12 sm:h-12 sm:min-h-nav sm:w-12 transition-colors sm:flex sm:hover:bg-secondaryHover sm:rounded-full md:w-max md:h-12 md:hover:bg-transparent cursor-pointer active focus:bg-red-600"
         id="show-menu"
       >
-        <figure className="bg-secondary hover:bg-secondaryLigth overflow-hidden sm:h-auto md:w-full md:rounded-3xl md:h-8 md:flex md:items-center">
+        <figure className="bg-secondary hover:bg-secondaryLigth overflow-hidden sm:h-auto md:w-full md:rounded-3xl md:h-8 md:flex md:items-center rounded-full">
           <img
             className="w-8 rounded-full md:w-6 md:ml-1"
             src={
@@ -31,7 +61,7 @@ export const PhotoUser = () => {
             }
             alt={session?.user?.name ? session?.user?.name : ''}
           />
-          <span className="text-small whitespace-nowrap text-textWhite px-2 hidden md:flex">
+          <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
             {session?.user?.name ? session?.user?.name : ''}
           </span>
         </figure>
@@ -39,22 +69,43 @@ export const PhotoUser = () => {
       {dropdownOpen && (
         <>
           <div
-            className="bg-secondary transition-colors rounded-md absolute hidden shadow-2xl shadow-secondaryLigth border border-secondaryLigth
-            sm:flex sm:flex-col sm:z-50 sm:bottom-6 sm:-right-36 hover:shadow-xl sm:p-4
-            md:-bottom-40 md:right-2"
+            className="bg-secondary transition-colors rounded-md absolute shadow-2xl shadow-secondaryLigth border border-secondaryLigth w-max sm:h-min
+            flex top-12 left-auto flex-col z-50 p-4 justify-center
+            sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto hover:shadow-xl sm:py-4 sm:px-4
+            md:-bottom-56 md:right-auto"
           >
-            <Link href={`/${session?.user?.name}`}>
-              <a className="w-full hover:bg-secondaryLigth rounded-md py-1 px-3">
-                See your profile
+            <Link href={`/${dataProfile?.me.username}`}>
+              <a
+                onClick={handleModalOut}
+                className="w-full hover:bg-secondaryLigth rounded-md py-1 px-4 flex items-center justify-center"
+              >
+                <img
+                  src={
+                    session?.user?.image
+                      ? session?.user?.image
+                      : '/default-user.webp'
+                  }
+                  className="w-8 rounded-full md:w-12 mr-4"
+                  alt={dataProfile?.me.name}
+                />
+                <div className="flex flex-col">
+                  <h2>{dataProfile?.me.name}</h2>
+                  <span className="text-sm text-gray-400">
+                    @{dataProfile?.me.username}
+                  </span>
+                  <span className="text-sm text-textGray">
+                    See your profile
+                  </span>
+                </div>
               </a>
             </Link>
-            <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-3">
+            <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto">
               Send feedback
             </button>
-            <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-3">
+            <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto">
               Settings
             </button>
-            <hr className="border-secondaryLigth rounded-xl" />
+            <hr className="border-secondaryLigth rounded-xl my-3" />
             <button
               className="w-full hover:bg-red-500 rounded-md py-1 px-3 bg-red-400"
               onClick={handleSignOut}
@@ -64,7 +115,7 @@ export const PhotoUser = () => {
           </div>
           <div
             x-show="dropdownOpen"
-            onClick={() => setShowModal(false)}
+            onClick={handleToggleModal}
             className="fixed inset-0 h-full w-full z-10"
           ></div>
         </>
