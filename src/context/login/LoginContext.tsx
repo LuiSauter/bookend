@@ -1,7 +1,8 @@
 import { createContext } from 'react'
 
 type IsLogged = {
-  isLogged: boolean;
+  profile: string;
+  setProfileId: (profile: string) => void;
 };
 
 export const LoginContext = createContext<IsLogged>({} as IsLogged)
