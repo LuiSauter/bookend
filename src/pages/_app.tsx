@@ -4,8 +4,9 @@ import 'tailwindcss/tailwind.css'
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
 import { SessionProvider, useSession } from 'next-auth/react'
 import { Layout } from 'src/layouts/Layout'
-import { LoginStateProvider } from 'src/context/LoginStateProvider'
+import { LoginStateProvider } from 'src/context/login/LoginStateProvider'
 import { useRouter } from 'next/router'
+import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 
 const link = createHttpLink({
   uri: '/api/graphql',
@@ -30,9 +31,11 @@ function MyApp({
       <Auth>
         <LoginStateProvider>
           <ApolloProvider client={client}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <ToggleStateProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ToggleStateProvider>
           </ApolloProvider>
         </LoginStateProvider>
       </Auth>

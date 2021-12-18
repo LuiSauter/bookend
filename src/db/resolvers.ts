@@ -25,12 +25,12 @@ const resolvers = {
   Query: {
     userCount: () => User.collection.countDocuments(),
     findUser: async (root: any, args: any) => {
-      const { username } = args
-      return await Profile.findOne({ username: username })
+      const { profile } = args
+      return await Profile.findById(profile)
     },
     findProfile: async (root: any, args: any) => {
       const { username } = args
-      const isfindProfile =  await Profile.findOne({ username: username })
+      const isfindProfile = await Profile.findOne({ username: username })
       return isfindProfile
     },
     allPosts: async () => {
@@ -49,12 +49,12 @@ const resolvers = {
         photo: root.photo,
         user: root.user,
       }
-    }
+    },
   },
   Mutation: {
     signin: async (root: any, args: any) => {
       const { email, name, image } = args
-      const userFind = await User.findOne({ email, name })
+      const userFind = await User.findOne({ email })
       if (!userFind) {
         const user = new User({ email, name })
         await user.save()
@@ -86,11 +86,7 @@ const resolvers = {
     createProfile: async (root: any, args: any) => {
       const { username, profile } = args
       const findProfile = await Profile.findOne({ profile })
-      console.log(findProfile, 'findprofile', username, profile)
       if (findProfile) {
-        // const NewProfile = {
-
-        // }
         const profileUpdated = await Profile.findOneAndUpdate(
           profile,
           { ...args },
@@ -98,7 +94,6 @@ const resolvers = {
             new: true,
           }
         )
-        console.log(profileUpdated)
         return profileUpdated
       } else {
         return null

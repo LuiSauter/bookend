@@ -1,9 +1,17 @@
 interface Profile {
   description: string;
-  email: string;
+  followers?: string[];
+  following?: string[];
   gender?: string;
+  id: string;
+  liked: string[];
   location?: string;
-  name: string;
-  username: string;
+  verified?: boolean;
   website?: string;
+  me: {
+    name: string;
+    photo: string;
+    user: string;
+    username: string;
+  };
 }

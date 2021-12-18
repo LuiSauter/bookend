@@ -41,7 +41,7 @@ const typeDefinitions = gql`
 
   type Query {
     userCount: Int!
-    findUser(username: String!): Profile
+    findUser(profile: String!): Profile
     findProfile(username: String!): Profile!
     allPosts: [Post]!
     findPost(id: String!): Post

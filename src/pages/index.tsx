@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const Login = () => {
   // const router = useRouter()
@@ -56,10 +57,12 @@ const Login = () => {
         </div>
         <div className="">
           <p className="text-textGray border-dashed border-b border-textGray">
-            create by:
-            <span className="font-semibold hover:text-textWhite">
-              sauterdev
-            </span>
+            create by:{' '}
+            <Link href="https://sauterdev.vercel.app">
+              <a className="font-semibold hover:text-textWhite" target="_blank">
+                sauterdev
+              </a>
+            </Link>
           </p>
         </div>
       </nav>

@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CREATE_PROFILE } from 'src/users/graphql-mutations'
-import { FIND_USER } from 'src/users/graphql-queries'
 interface Props {
   profileData: LoginProfile;
   image: string | null | undefined;
@@ -10,6 +10,7 @@ interface Props {
 
 const ProfileForm = ({ profileData, image }: Props) => {
   const { name, email } = profileData
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -40,7 +41,7 @@ const ProfileForm = ({ profileData, image }: Props) => {
         location: location,
       },
     })
-    console.log(data)
+    router.reload()
   }
   return (
     <section className="m-auto sm:w-11/12 lg:w-full sm:min-w-minForm mb-4 bg-secondary rounded-xl">
@@ -166,7 +167,6 @@ const ProfileForm = ({ profileData, image }: Props) => {
         <label className="text-textGray text-base">
           <span className="text-thirdBlue">*</span> fields required
         </label>
-        {console.log(errors)}
         <button className="bg-blue-500 text-lg font-semibold py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200">
           Save your profile
         </button>

@@ -23,8 +23,15 @@ export const FIND_PROFILE = gql`
 `
 
 export const FIND_USER = gql`
-  query findUserByUsername($username: String!) {
-    findUser(username: $username) {
+  query findUserByProfileId($profile: String!) {
+    findUser(profile: $profile) {
+      followers
+      following
+      verified
+      id
+      description
+      location
+      website
       me {
         name
         photo
