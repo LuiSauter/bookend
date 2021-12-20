@@ -1,15 +1,15 @@
 import { useMutation } from '@apollo/client'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
-import { CREATE_PROFILE } from 'src/users/graphql-mutations'
+import { UPDATE_PROFILE } from 'src/users/graphql-mutations'
 interface Props {
-  profileData: LoginProfile;
-  image: string | null | undefined;
+  profileData: Profile | any;
 }
 
-const ProfileForm = ({ profileData, image }: Props) => {
-  const { name, email } = profileData
+const ProfileForm = ({ profileData }: Props) => {
+  const { data: session } = useSession()
   const router = useRouter()
   const {
     register,
@@ -17,16 +17,18 @@ const ProfileForm = ({ profileData, image }: Props) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      description: '',
-      email: email,
-      gender: 'male',
-      location: '',
-      name: name,
-      username: '',
-      website: '',
+      description: profileData.description || '',
+      email: session?.user?.email,
+      gender: profileData.gender || 'other',
+      name: session?.user?.name,
+      username: profileData.me.username || '',
+      website: profileData.website || '',
+      location: profileData.location || '',
     },
   })
-  const [getProfile, { data, loading, error }] = useMutation(CREATE_PROFILE)
+  const [getProfile] = useMutation(UPDATE_PROFILE, {
+    // refetchQueries: [{ query: FIND_USER }],
+  })
   const onSubmit = (data: any) => {
     const { description, email, gender, location, name, username, website } =
       data
@@ -34,15 +36,16 @@ const ProfileForm = ({ profileData, image }: Props) => {
     getProfile({
       variables: {
         username: username,
-        profile: profileData.profile,
+        profile: profileData.id,
         description: description,
         gender: gender,
         website: website,
         location: location,
       },
     })
-    router.reload()
+    router.push('/home')
   }
+
   return (
     <section className="m-auto sm:w-11/12 lg:w-full sm:min-w-minForm mb-4 bg-secondary rounded-xl">
       <header className="mb-4 p-4 pb-0">
@@ -57,8 +60,12 @@ const ProfileForm = ({ profileData, image }: Props) => {
           <figure className="m-0 rounded-full overflow-hidden h-full mr-5">
             <img
               className="w-32 m-auto rounded-full"
-              src={image ? image : '/default-user.webp'}
-              alt={profileData.name}
+              src={
+                session?.user?.image
+                  ? session?.user?.image
+                  : '/default-user.webp'
+              }
+              alt={profileData?.me.name || 'bookend'}
             />
           </figure>
           <div className="flex flex-col">
@@ -108,7 +115,6 @@ const ProfileForm = ({ profileData, image }: Props) => {
                 message: 'This field is required',
               },
             })}
-            // value={profileData.email}
             disabled={true}
             type="text"
             placeholder="Write a email"

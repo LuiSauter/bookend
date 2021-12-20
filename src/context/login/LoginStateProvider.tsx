@@ -20,7 +20,6 @@ export const LoginStateProvider = ({ children }: Props) => {
     let cleanup = true
     if (cleanup) {
       if (state.profile === '') {
-        console.log('holis')
         if (typeof window !== 'undefined') {
           const getDataStorage = localStorage.getItem('profileId') || ''
           setstate({ profile: getDataStorage })
