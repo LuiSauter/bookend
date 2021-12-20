@@ -12,9 +12,11 @@ export const PhotoUser = () => {
   const { dropdownOpen, handleToggleModal } = useToggleUser()
   const { profile } = useProfileId()
   const router = useRouter()
-  const { data: session, status } = useSession()
-  const [getUserByProfileId, { loading, error, data }] =
-    useLazyQuery(FIND_USER)
+  const { data: session } = useSession()
+  const [getUserByProfileId, { data }] = useLazyQuery(FIND_USER)
+  // const { data, loading, error } = useQuery(FIND_USER, {
+  //   variables: { profile },
+  // })
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
@@ -38,6 +40,7 @@ export const PhotoUser = () => {
   }, [data?.findUser])
 
   const handleSignOut = async () => {
+    localStorage.removeItem('profileId')
     const data = await signOut({ redirect: false, callbackUrl: '/' })
     return router.replace(data?.url)
   }
@@ -62,7 +65,7 @@ export const PhotoUser = () => {
             alt={session?.user?.name ? session?.user?.name : ''}
           />
           <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
-            {session?.user?.name ? session?.user?.name : ''}
+            {dataProfile?.me.name ? dataProfile?.me.name : 'loading...'}
           </span>
         </figure>
       </div>

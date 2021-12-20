@@ -1,6 +1,5 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React from 'react'
 import { Nav } from './Nav'
 import { PhotoUser } from './PhotoUser'
 import * as icons from '../../assets/icons'
@@ -8,7 +7,6 @@ import { useToggleUser } from 'src/hooks/useToggleUser'
 
 export const NavBar = () => {
   // const router = useRouter()
-  const { data: session, status } = useSession()
   const router = useRouter()
   // const [darkMode, setDarkMode] = useState(false)
   // const handleClick = () => {
@@ -20,7 +18,7 @@ export const NavBar = () => {
   // const handleSignOut = async () => {
   //   const data = await signOut({ redirect: false, callbackUrl: '/' })
   //   return router.replace(data?.url)
-  const { dropdownOpen, handleToggleModal } = useToggleUser()
+  const { handleToggleModal } = useToggleUser()
   return (
     <>
       <nav
@@ -54,14 +52,18 @@ export const NavBar = () => {
           md:flex-row md:justify-end"
         >
           <div className="flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min">
-            <Nav path={'/home'} visible={'flex md:hidden bg-primary'}>
+            <div
+              className="flex md:hidden bg-primary items-center justify-center w-full h-11 transition-colorssm:h-12
+              sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4
+              md:mt-0 md:h-8 md:w-12 md:hover:rounded-3xl hover:bg-secondaryHover"
+            >
               <img
                 onClick={handleToggleModal}
                 className="w-9 md:hidden"
                 src="/images/bookend-logo.png"
                 alt="bookend logo"
               />
-            </Nav>
+            </div>
             <Nav path={'/search'} visible={'flex md:hidden'}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
