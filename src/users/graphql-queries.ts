@@ -10,14 +10,15 @@ export const FIND_PROFILE = gql`
       id
       liked
       location
-      verified
-      website
       me {
         name
         photo
         user
         username
+        email
       }
+      verified
+      website
     }
   }
 `
@@ -37,6 +38,7 @@ export const FIND_USER = gql`
         photo
         user
         username
+        email
       }
     }
   }

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
-export const CREATE_PROFILE = gql`
-  mutation createProfileByUser(
+export const UPDATE_PROFILE = gql`
+  mutation updateProfileByUser(
     $username: String!
     $profile: String!
     $description: String
@@ -9,7 +9,7 @@ export const CREATE_PROFILE = gql`
     $website: String
     $location: String
   ) {
-    createProfile(
+    updateProfile(
       username: $username
       profile: $profile
       description: $description
