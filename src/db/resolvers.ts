@@ -48,6 +48,7 @@ const resolvers = {
         username: root.username,
         photo: root.photo,
         user: root.user,
+        email: root.email,
       }
     },
   },
@@ -83,17 +84,18 @@ const resolvers = {
         return userFind
       }
     },
-    createProfile: async (root: any, args: any) => {
-      const { username, profile } = args
-      const findProfile = await Profile.findOne({ profile })
+    updateProfile: async (root: any, args: any) => {
+      const { profile } = args
+      const findProfile = await Profile.findById(profile)
       if (findProfile) {
-        const profileUpdated = await Profile.findOneAndUpdate(
+        const profileUpdated = await Profile.findByIdAndUpdate(
           profile,
           { ...args },
           {
             new: true,
           }
         )
+        console.log(profileUpdated)
         return profileUpdated
       } else {
         return null

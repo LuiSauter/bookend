@@ -13,6 +13,7 @@ interface IProfile extends Document {
   followers?: string[];
   following?: string[];
   liked?: string[];
+  email?: string;
 }
 
 const profileSchema = new Schema<IProfile>(
@@ -49,6 +50,9 @@ const profileSchema = new Schema<IProfile>(
       type: String,
     },
     location: {
+      type: String,
+    },
+    email: {
       type: String,
     },
     followers: [String],
