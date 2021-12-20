@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Head from 'next/head'
 
 const Login = () => {
   // const router = useRouter()
@@ -68,6 +69,17 @@ const Login = () => {
       </nav>
     </section>
   )
-  return status === 'unauthenticated' ? noAuthentication : authentication
+  return (
+    <>
+      <Head>
+        <title>Bookend | Login</title>
+        <meta
+          name="description"
+          content="In Bookend you will find many digital books totally free."
+        />
+      </Head>
+      {status === 'unauthenticated' ? noAuthentication : authentication}
+    </>
+  )
 }
 export default Login

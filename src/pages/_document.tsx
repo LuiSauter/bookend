@@ -39,6 +39,7 @@ class MyDocument extends Document {
               `,
             }}
           /> */}
+          {/* <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> */}
         </Head>
         <body className="bg-primary">
           <Main />

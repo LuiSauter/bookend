@@ -1,24 +1,24 @@
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import ProfileForm from 'src/components/ProfileForm/ProfileForm'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { LOGINQL } from 'src/login/graphql-mutations'
+import { FIND_USER } from 'src/users/graphql-queries'
 
 interface UserLogin {
   name: string | null | undefined;
   email: string | null | undefined;
   image: string | null | undefined;
 }
-const initialState = { email: '', id: '', message: '', name: '', profile: '' }
 
 const Home = (): JSX.Element => {
-  const [dataUser, setDataUser] = useState<LoginProfile>(initialState)
+  const [dataUser, setDataUser] = useState<any>()
   const [userLogin, setUserLogin] = useState<UserLogin>({} as UserLogin)
   const { setProfileId } = useProfileId()
   const { data: session, status } = useSession()
   const [getLogin, { data }] = useMutation(LOGINQL)
-
+  const [getProfile, { data: findData }] = useLazyQuery(FIND_USER)
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
@@ -54,6 +54,8 @@ const Home = (): JSX.Element => {
       setProfileId(data?.signin?.profile)
       localStorage.setItem('profileId', data?.signin?.profile)
       setDataUser(data?.signin)
+      data?.signin &&
+        getProfile({ variables: { profile: data?.signin?.profile } })
     }
     return () => {
       cleanup = false
@@ -62,7 +64,7 @@ const Home = (): JSX.Element => {
   return (
     <>
       {dataUser && dataUser?.message === 'signup' ? (
-        <ProfileForm profileData={dataUser} image={userLogin.image} />
+        findData?.findUser && <ProfileForm profileData={findData?.findUser} />
       ) : (
         <>
           <article className="w-full bg-secondary flex flex-row p-4 relative gap-4">
