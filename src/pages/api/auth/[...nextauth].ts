@@ -19,4 +19,5 @@ export default NextAut({
     colorScheme: 'dark',
     logo: '/images/bookend-logo.png',
   },
+  debug: false,
 })
