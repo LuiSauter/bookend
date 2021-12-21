@@ -14,6 +14,7 @@ export default NextAut({
       clientSecret: config.clientGitHubSecret,
     }),
   ],
+  secret: process.env.SECRET,
   theme: {
     colorScheme: 'dark',
     logo: '/images/bookend-logo.png',

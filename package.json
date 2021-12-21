@@ -1,6 +1,7 @@
 {
   "name": "crud-postgress",
   "private": true,
+  "homepage": "https://bookendd.vercel.app",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
