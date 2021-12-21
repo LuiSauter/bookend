@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react'
 import React from 'react'
+import CardProfile from 'src/components/CardProfile/CardProfile'
 import { NavBar } from 'src/components/Nav/NavBar'
 import { LoadingPage } from './LoadingPage'
 
@@ -19,11 +20,8 @@ export const Layout = ({ children }: Props) => {
 
       <div className="flex flex-row items-start justify-center gap-4 sm:mt-4 xl:gap-6 2xl:gap-8">
         {status === 'authenticated' && (
-          <section className="bg-red-600 w-full hidden min-w-minAside max-w-aside sticky top-16 md:flex lg:max-w-maxAside">
-            Profile Profile Profile Profile Profile Profile Profile Profile
-            Profile Profile Profile Profile Profile Profile Profile Profile
-            Profile Profile Profile Profile Profile Profile Profile Profile
-            Profile Profile
+          <section className="w-full hidden min-w-minAside max-w-aside sticky top-16 md:flex lg:max-w-maxAside mx-auto">
+            <CardProfile />
           </section>
         )}
         <main className="sm:min-w-minPost max-w-post w-full mx-auto xl:max-w-maxPost">
