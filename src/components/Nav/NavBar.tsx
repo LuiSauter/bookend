@@ -30,7 +30,7 @@ export const NavBar = () => {
           <Nav
             path={'/home'}
             visible={
-              'flex md:bg-primary relative overflow-hidden md:m-0 md:p-0'
+              'flex md:bg-primary relative overflow-hidden md:m-0 md:p-0 md:hover:bg-primary'
             }
           >
             <img
