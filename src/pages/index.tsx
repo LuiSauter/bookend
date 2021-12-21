@@ -3,6 +3,7 @@ import { useSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Head from 'next/head'
+import { github, Google } from 'src/assets/icons'
 
 const Login = () => {
   // const router = useRouter()
@@ -19,8 +20,11 @@ const Login = () => {
     }
   }, [status === 'authenticated'])
 
-  const handleSignIn = async () => {
-    return await signIn('', { callbackUrl: '/home' })
+  const handleSignInWithGoogle = async () => {
+    return await signIn('google', { callbackUrl: '/home' })
+  }
+  const handleSignInWithGitHub = async () => {
+    return await signIn('github', { callbackUrl: '/home' })
   }
   const authentication = (
     <>
@@ -38,12 +42,20 @@ const Login = () => {
       <h2 className="text-xl text-center">
         a social network for sharing Books
       </h2>
-      <button
-        className="bg-thirdBlue rounded-2xl text-textWhite font-semibold px-5 py-1 m-3 hover:bg-blue-500 transition-colors"
-        onClick={handleSignIn}
-      >
-        Sing in
-      </button>
+      <div className="flex flex-row flex-wrap justify-center">
+        <button
+          className="bg-white flex items-center justify-center rounded-3xl text-textGray font-semibold px-4 py-2 m-3 hover:bg-blue-100 transition-colors shadow-2xl"
+          onClick={handleSignInWithGoogle}
+        >
+          {Google} Sign in with Google
+        </button>
+        <button
+          className="bg-black flex items-center justify-center rounded-3xl text-textWhite font-semibold px-4 py-2 m-3 hover:bg-opacity-70 transition-colors shadow-xl"
+          onClick={handleSignInWithGitHub}
+        >
+          {github} Sign in with GitHub
+        </button>
+      </div>
       <span className="text-center text-xs text-textGray mb-9">
         Sign in with google or github
       </span>

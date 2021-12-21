@@ -15,7 +15,7 @@ interface UserLogin {
 const Home = (): JSX.Element => {
   const [dataUser, setDataUser] = useState<any>()
   const [userLogin, setUserLogin] = useState<UserLogin>({} as UserLogin)
-  const { setProfileId } = useProfileId()
+  const { setProfileId, profile } = useProfileId()
   const { data: session, status } = useSession()
   const [getLogin, { data }] = useMutation(LOGINQL)
   const [getProfile, { data: findData }] = useLazyQuery(FIND_USER)
@@ -51,7 +51,9 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      setProfileId(data?.signin?.profile)
+      if (profile === 'undefined') {
+        setProfileId(data?.signin?.profile)
+      }
       localStorage.setItem('profileId', data?.signin?.profile)
       setDataUser(data?.signin)
       data?.signin &&
