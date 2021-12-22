@@ -5,29 +5,25 @@ import Link from 'next/link'
 import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { useToggleUser } from 'src/hooks/useToggleUser'
-import { useProfileId } from 'src/hooks/useProfileId'
 
 export const PhotoUser = () => {
   const [dataProfile, setDataProfile] = useState<Profile | null>(null)
+  const { data: session, status } = useSession()
   const { dropdownOpen, handleToggleModal } = useToggleUser()
-  const { profile } = useProfileId()
   const router = useRouter()
-  const { data: session } = useSession()
-  const [getUserByProfileId, { data }] = useLazyQuery(FIND_USER)
-  // const { data, loading, error } = useQuery(FIND_USER, {
-  //   variables: { profile },
-  // })
+  const [getUserByProfileId, { data, loading }] = useLazyQuery(FIND_USER)
+
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (profile) {
-        getUserByProfileId({ variables: { profile } })
+      if (status === 'authenticated') {
+        getUserByProfileId({ variables: { email: session?.user?.email } })
       }
     }
     return () => {
       cleanup = false
     }
-  }, [profile])
+  }, [status === 'authenticated'])
 
   useEffect(() => {
     let cleanup = true
@@ -64,9 +60,13 @@ export const PhotoUser = () => {
             }
             alt={session?.user?.name ? session?.user?.name : ''}
           />
-          <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
-            {dataProfile?.me.name ? dataProfile?.me.name : 'loading...'}
-          </span>
+          {loading ? (
+            'loading...'
+          ) : (
+            <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
+              {dataProfile?.me.name ? dataProfile?.me.name : 'loading...'}
+            </span>
+          )}
         </figure>
       </div>
       {dropdownOpen && (

@@ -3,12 +3,14 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { arrowLeft } from 'src/assets/icons'
 import { UPDATE_PROFILE } from 'src/users/graphql-mutations'
 interface Props {
   profileData: Profile | any;
+  onClick?: () => void;
 }
 
-const ProfileForm = ({ profileData }: Props) => {
+const ProfileForm = ({ profileData, onClick }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
   const {
@@ -20,21 +22,20 @@ const ProfileForm = ({ profileData }: Props) => {
       description: profileData.description || '',
       email: session?.user?.email,
       gender: profileData.gender || 'other',
-      name: session?.user?.name,
+      name: profileData.me.name ? profileData.me.name : session?.user?.name,
       username: profileData.me.username || '',
       website: profileData.website || '',
       location: profileData.location || '',
     },
   })
-  const [getProfile] = useMutation(UPDATE_PROFILE, {
-    // refetchQueries: [{ query: FIND_USER }],
-  })
+  const [getProfile] = useMutation(UPDATE_PROFILE)
   const onSubmit = (data: any) => {
     const { description, email, gender, location, name, username, website } =
       data
     if (!(name && username && email)) return
     getProfile({
       variables: {
+        name: name,
         username: username,
         profile: profileData.id,
         description: description,
@@ -48,10 +49,16 @@ const ProfileForm = ({ profileData }: Props) => {
 
   return (
     <section className="m-auto sm:w-11/12 lg:w-full sm:min-w-minForm mb-4 bg-secondary rounded-xl">
-      <header className="mb-4 p-4 pb-0">
+      <header className="p-2 flex">
+        <button
+          className="mr-4 hover:bg-secondaryLigth rounded-full w-9 h-9 flex items-center justify-center"
+          onClick={onClick}
+        >
+          {arrowLeft}
+        </button>
         <h2 className="mb-1 text-lg font-semibold">Edit your profile</h2>
-        <hr className="border-secondaryLigth border-b-2 rounded-lg" />
       </header>
+      <hr className="border-secondaryLigth border-b-2 rounded-lg" />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 w-full sm:w-11/12 m-auto p-4 sm:p-0 sm:pb-4"
@@ -71,8 +78,13 @@ const ProfileForm = ({ profileData }: Props) => {
           <div className="flex flex-col">
             <label className="font-semibold w-full">
               Name <span className="text-thirdBlue">* </span>
+              {errors.name?.type === 'required' && (
+                <span className="text-red-500 text-sm font-medium">
+                  {errors.name.message}
+                </span>
+              )}
               <input
-                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50 cursor-default"
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25"
                 {...register('name', {
                   required: {
                     value: true,
@@ -80,7 +92,6 @@ const ProfileForm = ({ profileData }: Props) => {
                   },
                 })}
                 type="text"
-                disabled={true}
                 placeholder="Write your name"
               />
             </label>
