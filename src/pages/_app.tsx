@@ -13,15 +13,11 @@ import { LoginStateProvider } from 'src/context/login/LoginStateProvider'
 import { useRouter } from 'next/router'
 import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 
-// const link = createHttpLink({
-//   uri: '/api/graphql',
-// })
-
 const client = new ApolloClient({
   connectToDevTools: true,
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: 'https://bookendd.vercel.app/api/graphql',
+    uri: '/api/graphql',
   }),
 })
 

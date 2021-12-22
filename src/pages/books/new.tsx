@@ -47,7 +47,7 @@ const New = (): JSX.Element => {
   console.log(dataForm)
   return (
     <>
-      <section className="flex flex-col m-auto my-4 gap-4 w-11/12 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 sm:w-full rounded-xl">
+      <section className="flex flex-col sm:m-auto my-4 gap-4 sm:w-11/12 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 w-full rounded-xl">
         <article className="w-full sm:w-11/12 m-auto sm:min-w-minForm">
           <header className="mb-4">
             <h2 className="mb-1 text-lg font-semibold">Create new book</h2>
