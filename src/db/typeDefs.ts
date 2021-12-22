@@ -42,7 +42,7 @@ const typeDefinitions = gql`
 
   type Query {
     userCount: Int!
-    findUser(profile: String!): Profile
+    findUser(email: String): Profile
     findProfile(username: String!): Profile!
     allPosts: [Post]!
     findPost(id: String!): Post
@@ -51,6 +51,7 @@ const typeDefinitions = gql`
   type Mutation {
     signin(email: String!, name: String!, image: String!): Signin
     updateProfile(
+      name: String!
       username: String!
       profile: String!
       description: String

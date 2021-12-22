@@ -25,8 +25,10 @@ const resolvers = {
   Query: {
     userCount: () => User.collection.countDocuments(),
     findUser: async (root: any, args: any) => {
-      const { profile } = args
-      return await Profile.findById(profile)
+      const { email } = args
+      if (email) {
+        return await Profile.findOne({ email })
+      }
     },
     findProfile: async (root: any, args: any) => {
       const { username } = args

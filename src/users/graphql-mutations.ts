@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 
 export const UPDATE_PROFILE = gql`
   mutation updateProfileByUser(
+    $name: String!
     $username: String!
     $profile: String!
     $description: String
@@ -10,6 +11,7 @@ export const UPDATE_PROFILE = gql`
     $location: String
   ) {
     updateProfile(
+      name: $name
       username: $username
       profile: $profile
       description: $description

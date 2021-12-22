@@ -24,8 +24,8 @@ export const FIND_PROFILE = gql`
 `
 
 export const FIND_USER = gql`
-  query findUserByProfileId($profile: String!) {
-    findUser(profile: $profile) {
+  query findUserByProfileId($email: String!) {
+    findUser(email: $email) {
       followers
       following
       verified
