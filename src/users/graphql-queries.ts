@@ -43,3 +43,16 @@ export const FIND_USER = gql`
     }
   }
 `
+
+export const ALL_USERS = gql`
+  query {
+    allUsers {
+      name
+      username
+      user
+      email
+      photo
+      verified
+    }
+  }
+`

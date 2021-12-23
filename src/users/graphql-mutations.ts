@@ -37,3 +37,20 @@ export const UPDATE_PROFILE = gql`
     }
   }
 `
+
+export const FOLLOW_USER = gql`
+  mutation ($user: String!, $email: String!) {
+    follow(user: $user, email: $email) {
+      following
+    }
+  }
+`
+
+export const UNFOLLOW_USER = gql`
+  mutation ($user: String!, $email: String!) {
+    unFollow(user: $user, email: $email) {
+      following
+      followers
+    }
+  }
+`
