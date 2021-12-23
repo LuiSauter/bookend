@@ -1,32 +1,32 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
+import Footer from 'src/components/Footer'
 import ProfileForm from 'src/components/ProfileForm/ProfileForm'
-import { useProfileId } from 'src/hooks/useProfileId'
 import { LOGINQL } from 'src/login/graphql-mutations'
-import { FIND_USER } from 'src/users/graphql-queries'
-
-interface UserLogin {
-  name: string | null | undefined;
-  email: string | null | undefined;
-  image: string | null | undefined;
-}
+import { ALL_USERS, FIND_USER } from 'src/users/graphql-queries'
 
 const Home = (): JSX.Element => {
-  const [dataUser, setDataUser] = useState<any>()
-  const [userLogin, setUserLogin] = useState<UserLogin>({} as UserLogin)
-  const { setProfileId, profile } = useProfileId()
   const { data: session, status } = useSession()
-  const [getLogin, { data }] = useMutation(LOGINQL)
+  const [getLogin, { data }] = useMutation(LOGINQL, {
+    refetchQueries: [
+      { query: FIND_USER, variables: { email: session?.user?.email } },
+      { query: ALL_USERS },
+    ],
+  })
   const [getProfile, { data: findData }] = useLazyQuery(FIND_USER)
+  const [updateProfile, setUpdateProfile] = useState<boolean>(true)
+
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
       if (status === 'authenticated') {
-        setUserLogin({
-          name: session?.user?.name,
-          email: session?.user?.email,
-          image: session?.user?.image,
+        getLogin({
+          variables: {
+            name: session?.user?.name,
+            email: session?.user?.email,
+            image: session?.user?.image,
+          },
         })
       }
     }
@@ -38,35 +38,29 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (userLogin.email) {
-        const { email, image, name } = userLogin
-        getLogin({ variables: { email, name, image } })
-      }
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [userLogin.email])
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (profile === 'undefined') {
-        setProfileId(data?.signin?.profile)
-      }
-      localStorage.setItem('profileId', data?.signin?.profile)
-      setDataUser(data?.signin)
-      status === 'authenticated' &&
+      if (session?.user?.email) {
         getProfile({ variables: { email: session?.user?.email } })
+      }
     }
     return () => {
       cleanup = false
     }
   }, [data?.signin])
+
+  const handleClickArrowLeft = () => {
+    setUpdateProfile(!updateProfile)
+  }
+
   return (
     <>
-      {dataUser && dataUser?.message === 'signup' ? (
-        findData?.findUser && <ProfileForm profileData={findData?.findUser} />
+      {data?.signin && data?.signin?.message === 'signup' ? (
+        findData?.findUser &&
+        updateProfile && (
+          <ProfileForm
+            profileData={findData?.findUser}
+            onClick={handleClickArrowLeft}
+          />
+        )
       ) : (
         <>
           <article className="w-full bg-secondary flex flex-row p-4 relative gap-4">
@@ -213,6 +207,9 @@ const Home = (): JSX.Element => {
               <span>bu as xd 1213k</span>
             </div>
           </article>
+          <footer className="w-full py-4 flex justify-center lg:hidden">
+            <Footer />
+          </footer>
         </>
       )}
     </>

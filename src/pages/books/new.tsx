@@ -44,7 +44,6 @@ const New = (): JSX.Element => {
       book: data.book,
     })
   }
-  console.log(dataForm)
   return (
     <>
       <section className="flex flex-col sm:m-auto my-4 gap-4 sm:w-11/12 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 w-full rounded-xl">

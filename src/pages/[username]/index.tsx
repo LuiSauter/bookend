@@ -27,12 +27,11 @@ const Profile = () => {
   }, [username])
 
   if (error?.message === errorMessage || data === null) {
-    // router.push('/404')
+    router.push('/404')
   }
   const handleEditProfile = () => {
     setEditProfile(!editProfile)
   }
-  console.log(data?.findProfile?.me.photo)
   return (
     <>
       <Head>
@@ -77,7 +76,7 @@ const Profile = () => {
             <h2 className="text-lg mt-2 font-bold flex items-center justify-start gap-1">
               {data?.findProfile?.me.name}
               {data?.findProfile?.verified && (
-                <span className="">{checkVeriFied}</span>
+                <span title="Verified account">{checkVeriFied}</span>
               )}
             </h2>
             <span className="text-textGray text-base">
@@ -85,12 +84,16 @@ const Profile = () => {
             </span>
             <p className="my-3">{data?.findProfile?.description}</p>
             <div className="text-textGray flex flex-row flex-wrap">
-              <span className="mr-4">{data?.findProfile?.location}</span>
-              <Link href={`https://${data?.findProfile?.website}`}>
-                <a target="_blank" className="text-thirdBlue hover:underline">
-                  {data?.findProfile?.website}
-                </a>
-              </Link>
+              {data?.findProfile?.location && (
+                <span className="mr-4">{data?.findProfile?.location}</span>
+              )}
+              {data?.findProfile?.website && (
+                <Link href={`https://${data?.findProfile?.website}`}>
+                  <a target="_blank" className="text-thirdBlue hover:underline">
+                    {data?.findProfile?.website}
+                  </a>
+                </Link>
+              )}
             </div>
             <div className="flex flex-row justify-start mt-3">
               <Link href="#">

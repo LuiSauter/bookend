@@ -6,8 +6,7 @@ import Head from 'next/head'
 import { github, Google } from 'src/assets/icons'
 
 const Login = () => {
-  // const router = useRouter()
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const Login = () => {
     </>
   )
   const noAuthentication = (
-    <section className="md:relatives min-h-screen w-full -mt-4 h-full grid place-content-center place-items-center z-10 overflow-hidden absolute inset-0">
+    <section className="md:relative h-full min-h-screen w-full -mt-4 m-auto  grid place-content-center place-items-center z-10 overflow-x-hidden">
       <figure className="mx-auto">
         <img className="max-w-xs" src="/images/bookend-logo.png" alt="" />
       </figure>
@@ -59,7 +58,7 @@ const Login = () => {
       <span className="text-center text-xs text-textGray mb-9">
         Sign in with google or github
       </span>
-      <nav className="z-20 flex h-11 items-center justify-center gap-4 absolute bottom-0">
+      <nav className="z-20 flex h-11 items-center justify-center gap-4">
         <div className="text-textGray border-dashed border-b border-textGray">
           <button
             className="text-base font-semibold w-full h-full transition-colors hover:text-textWhite"
