@@ -5,6 +5,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { arrowLeft } from 'src/assets/icons'
 import { UPDATE_PROFILE } from 'src/users/graphql-mutations'
+import { ALL_USERS } from 'src/users/graphql-queries'
 interface Props {
   profileData: Profile | any;
   onClick?: () => void;
@@ -19,16 +20,18 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      description: profileData.description || '',
-      email: session?.user?.email,
+      description: profileData.description ? profileData.description : '',
+      email: session?.user?.email || '',
       gender: profileData.gender || 'other',
       name: profileData.me.name ? profileData.me.name : session?.user?.name,
-      username: profileData.me.username || '',
-      website: profileData.website || '',
-      location: profileData.location || '',
+      username: profileData.me.username ? profileData.me.username : '',
+      website: profileData.website ? profileData.website : '',
+      location: profileData.location ? profileData.location : '',
     },
   })
-  const [getProfile] = useMutation(UPDATE_PROFILE)
+  const [getProfile] = useMutation(UPDATE_PROFILE, {
+    refetchQueries: [{ query: ALL_USERS }],
+  })
   const onSubmit = (data: any) => {
     const { description, email, gender, location, name, username, website } =
       data
@@ -44,7 +47,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         location: location,
       },
     })
-    router.push('/home')
+    router.push('/')
   }
 
   return (

@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import { useProfileId } from 'src/hooks/useProfileId'
+import { checkVeriFied } from 'src/assets/icons'
 
 export const PhotoUser = () => {
   const [dataProfile, setDataProfile] = useState<Profile | null>(null)
@@ -12,6 +14,7 @@ export const PhotoUser = () => {
   const { dropdownOpen, handleToggleModal } = useToggleUser()
   const router = useRouter()
   const [getUserByProfileId, { data, loading }] = useLazyQuery(FIND_USER)
+  const { setProfileId, profile } = useProfileId()
 
   useEffect(() => {
     let cleanup = true
@@ -28,6 +31,10 @@ export const PhotoUser = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
+      if (profile === 'undefined' || profile === '') {
+        setProfileId(data?.findUser?.me.username)
+      }
+      localStorage.setItem('profileUser', data?.findUser?.me.username)
       data?.findUser && setDataProfile(data?.findUser)
     }
     return () => {
@@ -111,6 +118,9 @@ export const PhotoUser = () => {
             </button>
             <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto">
               Settings
+            </button>
+            <button className="w-full hover:bg-secondaryLigth flex items-center justify-center rounded-md py-1 px-4 cursor-auto">
+              request verification <span className="text-textGray ml-1">{checkVeriFied}</span>
             </button>
             <hr className="border-secondaryLigth rounded-xl my-3" />
             <button

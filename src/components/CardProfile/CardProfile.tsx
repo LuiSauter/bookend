@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useLazyQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
 import { FIND_USER } from 'src/users/graphql-queries'
-import Category from '../Category/Category'
 import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
 
@@ -24,7 +23,6 @@ const CardProfile = () => {
       cleanup = false
     }
   }, [status === 'authenticated'])
-
   return (
     <>
       {router.asPath !== `/${data?.findUser?.me.username}` && (
@@ -38,7 +36,7 @@ const CardProfile = () => {
                   <div className="bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-lg"></div>
                 </header>
                 <img
-                  className="w-20 rounded-full m-auto mt-8"
+                  className="w-20 rounded-full m-auto mt-8 relative"
                   src={data?.findUser?.me.photo}
                   alt={data?.findUser?.me.name}
                 />
@@ -46,7 +44,7 @@ const CardProfile = () => {
                   <h2 className="text-lg font-bold p-0 m-0 flex items-center justify-center gap-1">
                     {data?.findUser?.me.name}
                     {data?.findUser?.verified && (
-                      <span className="">{checkVeriFied}</span>
+                      <span title="Verified account">{checkVeriFied}</span>
                     )}
                   </h2>
                   <h3 className="text-textGray">
