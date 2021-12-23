@@ -32,6 +32,7 @@ const Profile = () => {
   const handleEditProfile = () => {
     setEditProfile(!editProfile)
   }
+  console.log(data?.findProfile?.me.photo)
   return (
     <>
       <Head>
@@ -53,7 +54,7 @@ const Profile = () => {
           <header className="m-0 w-full z-0">
             <div className="bg-backgroundImageFronPage absolute top-0 w-full h-32 sm:h-36 md:h-44 rounded-lg"></div>
           </header>
-          <article className="w-full z-50 relative px-4">
+          <article className="w-full relative px-4">
             {data?.findProfile.me.email === session?.user?.email && (
               <button
                 onClick={handleEditProfile}
@@ -62,12 +63,14 @@ const Profile = () => {
                 Edit Profile
               </button>
             )}
-            <figure className="mx-auto mt-6 sm:mt-11 md:mt-16 w-28 sm:w-full rounded-full border-4 border-secondary max-w-maxPhotoProfile overflow-hidden">
-              <img
-                className="w-full rounded-full h-full"
-                src={session?.user?.image || ''}
-                alt={data?.findProfile?.me.name}
-              />
+            <figure className="mx-auto relative mt-6 z-auto sm:mt-11 md:mt-16 w-28 sm:w-full rounded-full border-4 border-secondary max-w-maxPhotoProfile overflow-hidden">
+              {data?.findProfile && (
+                <img
+                  className="w-full rounded-full h-full z-auto relative"
+                  src={data?.findProfile?.me.photo || '/default-user.webp'}
+                  alt={data?.findProfile?.me.name}
+                />
+              )}
             </figure>
           </article>
           <div className="px-4">

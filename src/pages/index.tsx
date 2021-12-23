@@ -34,7 +34,7 @@ const Login = () => {
     </>
   )
   const noAuthentication = (
-    <section className="md:relative bg-primary min-h-screen -mt-4 h-full grid place-content-center place-items-center z-10 overflow-hidden absolute inset-0">
+    <section className="md:relatives min-h-screen w-full -mt-4 h-full grid place-content-center place-items-center z-10 overflow-hidden absolute inset-0">
       <figure className="mx-auto">
         <img className="max-w-xs" src="/images/bookend-logo.png" alt="" />
       </figure>
