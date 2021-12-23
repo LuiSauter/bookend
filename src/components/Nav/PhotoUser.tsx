@@ -64,7 +64,11 @@ export const PhotoUser = () => {
             'loading...'
           ) : (
             <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
-              {dataProfile?.me.name ? dataProfile?.me.name : 'loading...'}
+              {dataProfile?.me.name ? (
+                dataProfile?.me.name
+              ) : (
+                <span>loading...</span>
+              )}
             </span>
           )}
         </figure>
