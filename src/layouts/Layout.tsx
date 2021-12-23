@@ -1,17 +1,18 @@
-import { useSession } from 'next-auth/react'
 import React from 'react'
+import { useSession } from 'next-auth/react'
 import CardProfile from 'src/components/CardProfile/CardProfile'
 import Category from 'src/components/Category/Category'
-import { NavBar } from 'src/components/Nav/NavBar'
 import WhoToFollow from 'src/components/WhoToFollow/WhoToFollow'
 import { LoadingPage } from './LoadingPage'
+import { NavBar } from 'src/components/Nav/NavBar'
+import Footer from 'src/components/Footer'
 
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
 
 export const Layout = ({ children }: Props) => {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   return (
     <div
       className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto
@@ -44,7 +45,8 @@ export const Layout = ({ children }: Props) => {
         </main>
         {status === 'authenticated' && (
           <section className="hidden w-full max-w-aside min-w-minAside sticky top-16 lg:flex lg:flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4">
-            {status === 'authenticated' && <WhoToFollow />}
+            <WhoToFollow />
+            <Footer />
           </section>
         )}
       </div>
