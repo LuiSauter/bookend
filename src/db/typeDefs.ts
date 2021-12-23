@@ -14,6 +14,7 @@ const typeDefinitions = gql`
     photo: String
     user: String!
     email: String!
+    verified: Boolean!
   }
   type Profile {
     verified: Boolean
@@ -42,8 +43,9 @@ const typeDefinitions = gql`
 
   type Query {
     userCount: Int!
-    findUser(email: String): Profile
+    findUser(email: String!): Profile
     findProfile(username: String!): Profile!
+    allUsers: [User]!
     allPosts: [Post]!
     findPost(id: String!): Post
   }
@@ -59,7 +61,10 @@ const typeDefinitions = gql`
       website: String
       location: String
     ): Profile
+    follow(user: String!, email: String!): Profile
+    unFollow(user: String!, email: String!): Profile
     addPost(description: String!, image: String, user: String!): Post!
+    deleteUser(user: String!): String
   }
 `
 

@@ -28,12 +28,17 @@ const resolvers = {
       const { email } = args
       if (email) {
         return await Profile.findOne({ email })
+      } else {
+        return null
       }
     },
     findProfile: async (root: any, args: any) => {
       const { username } = args
       const isfindProfile = await Profile.findOne({ username: username })
       return isfindProfile
+    },
+    allUsers: async () => {
+      return await Profile.find({})
     },
     allPosts: async () => {
       return await Post.find({})
@@ -51,6 +56,7 @@ const resolvers = {
         photo: root.photo,
         user: root.user,
         email: root.email,
+        verified: root.verified,
       }
     },
   },
@@ -97,15 +103,67 @@ const resolvers = {
             new: true,
           }
         )
-        console.log(profileUpdated)
         return profileUpdated
       } else {
         return null
       }
     },
+    follow: async (root: any, args: any) => {
+      const { email, user } = args
+      const findUser = await Profile.findOne({ email })
+      const filterUser = findUser.following.some(
+        (userString: string) => userString === user
+      )
+      if (filterUser) return null
+      const findYourUser = await Profile.findOne({ user })
+      const filterYourUSer = findYourUser.followers.some(
+        (userId: string) => userId === findUser.user
+      )
+      if (findUser) {
+        const filter = { email }
+        const update = { $push: { following: user } }
+        await Profile.findOneAndUpdate(filter, update)
+        await Profile.findOne({ email })
+      }
+      if (!filterYourUSer) {
+        const filter = { user }
+        const update = { $push: { followers: findUser.user } }
+        await Profile.findOneAndUpdate(filter, update)
+        return await Profile.findOne({ user })
+      }
+      return null
+    },
+    unFollow: async (root: any, args: any) => {
+      const { email, user } = args
+      const findUser = await Profile.findOne({ email })
+      const findTheUser = await Profile.findOne({ user })
+      const filterId = findUser.following.filter(
+        (userId: string) => userId !== user
+      )
+      const filterTheUser = findTheUser.followers.filter(
+        (userId: string) => userId === findTheUser.user
+      )
+      const filter = { email }
+      const FindFilterTheUser = { user }
+
+      const update = { following: filterId }
+      const updateTheUser = { followers: filterTheUser }
+      await Profile.findOneAndUpdate(filter, update, { new: true })
+      await Profile.findOneAndUpdate(FindFilterTheUser, updateTheUser, {
+        new: true,
+      })
+      return  null
+    },
     addPost: (root: any, args: any) => {
       const post = new Post({ ...args })
       return post.save()
+    },
+    deleteUser: async (root: any, args: any) => {
+      const {user} = args
+      await User.findByIdAndDelete(user)
+      await Profile.findOneAndDelete({ user })
+      // const findPost = Post.findByIdAndDelete(user)
+      return 'delete successfully'
     },
   },
 }
