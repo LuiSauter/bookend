@@ -107,6 +107,7 @@ This is an example of how to list things you need to use the software and how to
   ## Create cluster in mongodb free tier
   ## https://docs.atlas.mongodb.com/tutorial/create-new-cluster/#select-the-cluster-tier
   MONGODB_URI=mongodb+srv://<username>:<password>@<your-cluster-url>?retryWrites=true&w=majority
+  ## EXAMPLE: https://dev.to/veritechie/deploy-node-express-mongo-atlas-con-fetch-de-react-en-heroku-mern-app-3ien
   
   ## Create credentials google client and google client secret Oauth
   ## https://developers.google.com/identity/protocols/oauth2
