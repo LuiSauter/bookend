@@ -31,6 +31,7 @@ const FollowItem = ({
   const { data: dataUser } = useQuery(FIND_USER, {
     variables: { email: session?.user?.email },
   })
+
   const [getFollow] = useMutation(FOLLOW_USER, {
     refetchQueries: [
       { query: FIND_USER, variables: { email: session?.user?.email } },
@@ -50,6 +51,7 @@ const FollowItem = ({
       },
     ],
   })
+
   const handleClickLi = (data: string) => {
     router.push(`/${data}`)
   }
@@ -65,7 +67,6 @@ const FollowItem = ({
   const isMatch = dataUser?.findUser?.following.some(
     (userId: string) => userId === user
   )
-  console.log(verified)
   return (
     <>
       {session?.user?.email !== email && (
