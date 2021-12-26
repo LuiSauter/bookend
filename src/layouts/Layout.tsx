@@ -16,8 +16,8 @@ export const Layout = ({ children }: Props) => {
   return (
     <div
       className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto
-    sm:flex-row sm:justify-center md:px-4
-    md:flex-col md:justify-start 2xl:px-6"
+    sm:flex-row sm:justify-center md:px-6
+    md:flex-col md:justify-start 2xl:px-8"
     >
       {status === 'authenticated' && <NavBar />}
 
@@ -25,7 +25,7 @@ export const Layout = ({ children }: Props) => {
         {status === 'authenticated' && (
           <section
             className="w-full h-full hidden min-w-minAside max-w-aside
-            md:flex md:gap-4 md:flex-col md:overflow-y-visible md:pr-2 pb-4
+            md:flex md:gap-4 md:flex-col md:overflow-y-visible pb-4
             lg:max-w-maxAside mx-auto sticky -top-64"
           >
             <CardProfile />
@@ -44,7 +44,7 @@ export const Layout = ({ children }: Props) => {
           {children ? children : <LoadingPage />}
         </main>
         {status === 'authenticated' && (
-          <section className="hidden w-full max-w-aside min-w-minAside sticky top-16 lg:flex lg:flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4">
+          <section className="hidden w-full max-w-aside min-w-minAside sticky top-16  lg:flex lg:flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4">
             <WhoToFollow />
             <Footer />
           </section>

@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import onExpandableTextareaInput from 'src/config/textarea'
 
-interface FormInp {
-  title: string;
-  description: string;
-  img: string | any;
-  book: string;
+if (typeof window !== 'undefined') {
+  const description = document.getElementById('description') || null
+  description?.addEventListener('input', onExpandableTextareaInput)
 }
 
 const initalState = {
   title: '',
-  description: '',
-  img: '',
-  book: '',
+  description: [],
+  image: '',
+  bookUrl: '',
 }
+
 
 const New = (): JSX.Element => {
   const {
@@ -24,7 +24,7 @@ const New = (): JSX.Element => {
     control,
   } = useForm<FormInputs>()
 
-  const [dataForm, setDataForm] = useState<FormInp>(initalState)
+  const [dataForm, setDataForm] = useState<Post>(initalState)
   const [fileImage, setFileImage] = useState<string | any>('')
   const handleChangeFile = (data: FileList | any) => {
     const file = data[0]
@@ -36,18 +36,23 @@ const New = (): JSX.Element => {
     })
   }
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    const hasLength = data.description.split('\n')
+    console.log(hasLength.length)
     return setDataForm({
       ...dataForm,
       title: data.title,
-      description: data.description,
-      img: fileImage,
-      book: data.book,
+      description: data.description.split('\n'),
+      image: fileImage,
+      bookUrl: data.book,
     })
   }
+
+  console.log(dataForm)
+
   return (
     <>
-      <section className="flex flex-col sm:m-auto my-4 gap-4 sm:w-11/12 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 w-full rounded-xl">
-        <article className="w-full sm:w-11/12 m-auto sm:min-w-minForm">
+      <section className="flex flex-col sm:mx-auto my-4 gap-4 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 w-full rounded-xl">
+        <article className="w-full m-auto sm:min-w-minForm">
           <header className="mb-4">
             <h2 className="mb-1 text-lg font-semibold">Create new book</h2>
             <hr className="border-secondaryLigth border-b-2 rounded-lg" />
@@ -56,44 +61,6 @@ const New = (): JSX.Element => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-4 w-full"
           >
-            <label className="font-semibold">
-              Title <span className="text-thirdBlue">* </span>
-              {errors.title?.type === 'required' && (
-                <span className="text-red-500 text-sm font-medium">
-                  {errors.title.message}
-                </span>
-              )}
-              <input
-                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
-                {...register('title', {
-                  required: {
-                    value: true,
-                    message: 'title is required',
-                  },
-                })}
-                type="text"
-                placeholder="Write a title"
-              />
-            </label>
-            <label className="font-semibold">
-              Description <span className="text-thirdBlue">* </span>
-              {errors.description?.type === 'required' && (
-                <span className="text-red-500 text-sm font-medium">
-                  {errors.description.message}
-                </span>
-              )}
-              <input
-                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue"
-                {...register('description', {
-                  required: {
-                    value: true,
-                    message: 'Description is required',
-                  },
-                })}
-                type="text"
-                placeholder="Write a description"
-              />
-            </label>
             <label className="font-semibold">
               Add an image <span className="text-thirdBlue">* </span>
               {errors.img?.type === 'required' && (
@@ -126,10 +93,61 @@ const New = (): JSX.Element => {
             </label>
             {fileImage && (
               <img
-                className="m-auto rounded-md mt-2 w-full max-w-aside shadow-lg"
+                className="m-auto rounded-lg mt-2 w-full shadow-lg"
                 src={fileImage}
               />
             )}
+            <label className="font-semibold">
+              Title <span className="text-thirdBlue">* </span>
+              {errors.title?.type === 'required' && (
+                <span className="text-red-500 text-sm font-medium">
+                  {errors.title.message}
+                </span>
+              )}
+              <input
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
+                {...register('title', {
+                  required: {
+                    value: true,
+                    message: 'title is required',
+                  },
+                })}
+                type="text"
+                placeholder="Write a title"
+              />
+            </label>
+            <label className="font-semibold">
+              Description <span className="text-thirdBlue">* </span>
+              {errors.description?.type === 'required' && (
+                <span className="text-red-500 text-sm font-medium">
+                  {errors.description.message}
+                </span>
+              )}
+              {/* <input
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue"
+                {...register('description', {
+                  required: {
+                    value: true,
+                    message: 'Description is required',
+                  },
+                })}
+                type="text"
+                placeholder="Write a description"
+              /> */}
+              <textarea
+                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue overflow-hidden resize-none"
+                {...register('description', {
+                  required: {
+                    value: true,
+                    message: 'Description is required',
+                  },
+                })}
+                rows={3}
+                data-min-rows={3}
+                id="description"
+                placeholder="Write a description"
+              />
+            </label>
             <label className="font-semibold">
               Book in google drive <span className="text-thirdBlue">* </span>
               {errors.book?.type === 'required' && (

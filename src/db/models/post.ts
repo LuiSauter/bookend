@@ -1,20 +1,27 @@
 import { Schema, models, model } from 'mongoose'
 
 interface IPost extends Document {
-  description: string;
+  title: string;
+  description?: string[];
   image: string;
+  bookUrl: string;
   comments?: string;
   user: string;
 }
 
 const postSchema = new Schema<IPost>(
   {
-    description: {
+    title: {
       type: String,
-      maxlength: [250, 'description cannot be grater than 250 characters'],
+      required: true,
     },
+    description: [String],
     image: {
       type: String,
+    },
+    bookUrl: {
+      type: String,
+      required: true,
     },
     comments: [String],
     user: {
