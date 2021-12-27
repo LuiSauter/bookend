@@ -5,4 +5,5 @@ interface Post {
   bookUrl: string;
   comments?: string;
   user?: string;
+  tags?: string[];
 }
