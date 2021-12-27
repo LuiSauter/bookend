@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import onExpandableTextareaInput from 'src/config/textarea'
+import { categorys } from 'src/assets/data/category'
+import { useMutation } from '@apollo/client'
+import { ADD_POST } from 'src/post/graphql-mutations'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 if (typeof window !== 'undefined') {
   const description = document.getElementById('description') || null
   description?.addEventListener('input', onExpandableTextareaInput)
 }
-
-const initalState = {
-  title: '',
-  description: [],
-  image: '',
-  bookUrl: '',
-}
-
 
 const New = (): JSX.Element => {
   const {
@@ -23,9 +20,11 @@ const New = (): JSX.Element => {
     handleSubmit,
     control,
   } = useForm<FormInputs>()
-
-  const [dataForm, setDataForm] = useState<Post>(initalState)
   const [fileImage, setFileImage] = useState<string | any>('')
+  const { data: session } = useSession()
+  const router = useRouter()
+  const [newPostWithBook] = useMutation(ADD_POST)
+
   const handleChangeFile = (data: FileList | any) => {
     const file = data[0]
     const fileReader = new FileReader()
@@ -37,17 +36,18 @@ const New = (): JSX.Element => {
   }
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     const hasLength = data.description.split('\n')
-    console.log(hasLength.length)
-    return setDataForm({
-      ...dataForm,
-      title: data.title,
-      description: data.description.split('\n'),
-      image: fileImage,
-      bookUrl: data.book,
+    newPostWithBook({
+      variables: {
+        title: data.title,
+        description: hasLength,
+        email: session?.user?.email,
+        bookUrl: data.book,
+        image: fileImage,
+        tags: [...data.tags],
+      },
     })
+    return router.push('/home')
   }
-
-  console.log(dataForm)
 
   return (
     <>
@@ -123,17 +123,6 @@ const New = (): JSX.Element => {
                   {errors.description.message}
                 </span>
               )}
-              {/* <input
-                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue"
-                {...register('description', {
-                  required: {
-                    value: true,
-                    message: 'Description is required',
-                  },
-                })}
-                type="text"
-                placeholder="Write a description"
-              /> */}
               <textarea
                 className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue overflow-hidden resize-none"
                 {...register('description', {
@@ -167,6 +156,19 @@ const New = (): JSX.Element => {
                 placeholder="drive.google.com/example"
               />
             </label>
+            <div className="w-full grid grid-cols-2 sm:grid-cols-3 justify-evenly gap-2">
+              {categorys.map((category: string, index: number) => (
+                <label key={index} className="font-medium flex items-center">
+                  <input
+                    type="checkbox"
+                    value={category}
+                    className="accent-sky-600 mr-1 h-4 w-4"
+                    {...register('tags')}
+                  />
+                  {category}
+                </label>
+              ))}
+            </div>
             <label className="text-textGray text-base">
               <span className="text-thirdBlue">*</span> fields required
             </label>
