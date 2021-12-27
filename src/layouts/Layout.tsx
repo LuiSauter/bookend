@@ -15,9 +15,10 @@ export const Layout = ({ children }: Props) => {
   const { status } = useSession()
   return (
     <div
-      className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto
-    sm:flex-row sm:justify-center md:px-6
-    md:flex-col md:justify-start 2xl:px-8"
+      className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
+      selection:text-cyan-900
+      sm:flex-row sm:justify-center md:px-6
+      md:flex-col md:justify-start 2xl:px-8"
     >
       {status === 'authenticated' && <NavBar />}
 
