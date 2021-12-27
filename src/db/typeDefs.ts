@@ -27,6 +27,7 @@ const typeDefinitions = gql`
     followers: [String]
     following: [String]
     liked: [String]
+    post: [String]
   }
   type Comment {
     text: String!
@@ -34,10 +35,13 @@ const typeDefinitions = gql`
     id: String!
   }
   type Post {
-    description: String!
+    title: String!
+    description: [String]
     image: String
-    user: User!
-    comments: [Comment]!
+    bookUrl: String!
+    user: String!
+    comments: [String]
+    tags: [String]
     id: String!
   }
 
@@ -46,7 +50,7 @@ const typeDefinitions = gql`
     findUser(email: String!): Profile
     findProfile(username: String!): Profile!
     allUsers: [User]!
-    allPosts: [Post]!
+    allPosts: [Post]
     findPost(id: String!): Post
   }
 
@@ -63,7 +67,15 @@ const typeDefinitions = gql`
     ): Profile
     follow(user: String!, email: String!): Profile
     unFollow(user: String!, email: String!): Profile
-    addPost(description: String!, image: String, user: String!): Post!
+    addPost(
+      image: String
+      title: String
+      description: [String]!
+      bookUrl: String!
+      tags: [String]
+      email: String!
+    ): Post
+    deletePost(id: String!, user: String!): String
     deleteUser(user: String!): String
   }
 `

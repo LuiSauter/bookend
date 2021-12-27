@@ -1,6 +1,7 @@
 import User from './models/user'
 import Profile from './models/profile'
 import Post from './models/post'
+
 import jwt from 'jsonwebtoken'
 import config from 'src/config/config'
 import { UserInputError } from 'apollo-server-micro'
@@ -41,7 +42,8 @@ const resolvers = {
       return await Profile.find({})
     },
     allPosts: async () => {
-      return await Post.find({})
+      const findPost = await Post.find({})
+      return findPost
     },
     findPost: async (root: any, args: any) => {
       const { id } = args
@@ -148,18 +150,48 @@ const resolvers = {
 
       const update = { following: filterId }
       const updateTheUser = { followers: filterTheUser }
+
       await Profile.findOneAndUpdate(filter, update, { new: true })
       await Profile.findOneAndUpdate(FindFilterTheUser, updateTheUser, {
         new: true,
       })
-      return  null
+      return null
     },
-    addPost: (root: any, args: any) => {
-      const post = new Post({ ...args })
-      return post.save()
+    addPost: async (root: any, args: any) => {
+      const { bookUrl, email } = args
+      const userEmail = { email }
+      const findUser = await Profile.findOne(userEmail)
+      if (!findUser) return null
+      const findBook = await Post.findOne({ bookUrl })
+      if (!findBook) {
+        const post = new Post({ ...args, user: findUser.user })
+        const update = { $push: { post: post._id } }
+        await Profile.findOneAndUpdate(userEmail, update)
+        return post.save()
+      } else {
+        return null
+      }
+    },
+    deletePost: async (root: any, args: any) => {
+      const { id, user } = args
+      const filter = { user }
+      const findUser = await Profile.findOne(filter)
+      if (findUser) {
+        const postFitered = findUser.post.filter(
+          (postId: string) => postId !== id
+        )
+        console.log(postFitered)
+        const update = { post: postFitered }
+        await Post.findByIdAndDelete(id)
+        await Profile.findOneAndUpdate(filter, update, {
+          new: true,
+        })
+        return ''
+      }
+      return null
     },
     deleteUser: async (root: any, args: any) => {
-      const {user} = args
+      const { user } = args
       await User.findByIdAndDelete(user)
       await Profile.findOneAndDelete({ user })
       // const findPost = Post.findByIdAndDelete(user)

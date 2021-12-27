@@ -5,6 +5,7 @@ interface IPost extends Document {
   description?: string[];
   image: string;
   bookUrl: string;
+  tags?: string[];
   comments?: string;
   user: string;
 }
@@ -24,6 +25,7 @@ const postSchema = new Schema<IPost>(
       required: true,
     },
     comments: [String],
+    tags: [String],
     user: {
       type: String,
       required: true,
