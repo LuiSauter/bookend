@@ -83,9 +83,9 @@ export const PhotoUser = () => {
       {dropdownOpen && (
         <>
           <div
-            className="bg-secondary transition-colors rounded-md absolute shadow-2xl shadow-secondaryLigth border border-secondaryLigth w-max sm:h-min
+            className="bg-secondary transition-colors rounded-md absolute shadow-2xl shadow-gray-700/75 border border-secondaryLigth w-max sm:h-min
             flex top-12 left-auto flex-col z-50 p-4 justify-center
-            sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto hover:shadow-xl sm:py-4 sm:px-4
+            sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
             md:-bottom-56 md:right-auto"
           >
             <Link href={`/${dataProfile?.me.username}`}>

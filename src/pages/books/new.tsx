@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import onExpandableTextareaInput from 'src/config/textarea'
 import { categorys } from 'src/assets/data/category'

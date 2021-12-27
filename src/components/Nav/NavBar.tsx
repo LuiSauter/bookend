@@ -81,7 +81,7 @@ export const NavBar = () => {
               </svg>
             </Nav>
             <Nav
-              visible={'flex md:w-max'}
+              visible={'flex md:w-min'}
               path={'/home'}
               name={'home'}
               unique={true}
@@ -89,7 +89,7 @@ export const NavBar = () => {
               {router.pathname === '/home' ? icons.homeCurrent : icons.home}
             </Nav>
             <Nav
-              visible={'flex md:w-max'}
+              visible={'flex md:w-min'}
               path={'/books'}
               name={'Books'}
               unique={true}
@@ -97,7 +97,7 @@ export const NavBar = () => {
               {router.pathname === '/books' ? icons.bookCurrent : icons.book}
             </Nav>
             <Nav
-              visible={'flex md:w-max'}
+              visible={'flex md:w-min'}
               path={'/notifications'}
               name={'Notifications'}
               unique={true}
@@ -107,7 +107,7 @@ export const NavBar = () => {
                 : icons.notification}
             </Nav>
             <Nav
-              visible={'flex md:w-max'}
+              visible={'flex md:w-min'}
               path={'/message'}
               name={'Message'}
               unique={true}

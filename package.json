@@ -17,6 +17,7 @@
     "apollo-server-micro": "^3.5.0",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
+    "cssnano": "^5.0.14",
     "graphql": "^16.1.0",
     "jsonwebtoken": "^8.5.1",
     "micro": "^9.3.4",
