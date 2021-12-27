@@ -6,6 +6,7 @@ export const FIND_PROFILE = gql`
       description
       followers
       following
+      post
       gender
       id
       liked
@@ -33,6 +34,7 @@ export const FIND_USER = gql`
       description
       location
       website
+      post
       me {
         name
         photo
