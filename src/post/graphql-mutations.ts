@@ -16,8 +16,6 @@ export const ADD_POST = gql`
       bookUrl: $bookUrl
       image: $image
       tags: $tags
-    ) {
-      id
-    }
+    )
   }
 `
