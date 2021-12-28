@@ -50,7 +50,7 @@ const typeDefinitions = gql`
     findUser(email: String!): Profile
     findProfile(username: String!): Profile!
     allUsers: [User]!
-    allPosts: [Post]
+    allPosts(pageSize: Int!, skipValue: Int!): [Post]
     findPost(id: String!): Post
   }
 
@@ -65,8 +65,8 @@ const typeDefinitions = gql`
       website: String
       location: String
     ): Profile
-    follow(user: String!, email: String!): Profile
-    unFollow(user: String!, email: String!): Profile
+    follow(user: String!, email: String!): String
+    unFollow(user: String!, email: String!): String
     addPost(
       image: String
       title: String
@@ -74,7 +74,7 @@ const typeDefinitions = gql`
       bookUrl: String!
       tags: [String]
       email: String!
-    ): Post
+    ): String
     deletePost(id: String!, user: String!): String
     deleteUser(user: String!): String
   }

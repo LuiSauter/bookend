@@ -47,6 +47,9 @@ module.exports = {
         nav: '48px',
         minHeight: '200px',
       },
+      aspectRatio: {
+        book: '160 / 242',
+      },
     },
   },
   variants: {

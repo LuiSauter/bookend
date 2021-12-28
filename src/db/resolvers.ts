@@ -41,8 +41,9 @@ const resolvers = {
     allUsers: async () => {
       return await Profile.find({})
     },
-    allPosts: async () => {
-      const findPost = await Post.find({})
+    allPosts: async (root: any, args: any) => {
+      const { pageSize, skipValue } = args
+      const findPost = await Post.find({}).sort({ createdAt: 'desc' }).limit(pageSize).skip(skipValue)
       return findPost
     },
     findPost: async (root: any, args: any) => {
@@ -131,7 +132,8 @@ const resolvers = {
         const filter = { user }
         const update = { $push: { followers: findUser.user } }
         await Profile.findOneAndUpdate(filter, update)
-        return await Profile.findOne({ user })
+        await Profile.findOne({ user })
+        return 'Follow'
       }
       return null
     },
@@ -143,7 +145,7 @@ const resolvers = {
         (userId: string) => userId !== user
       )
       const filterTheUser = findTheUser.followers.filter(
-        (userId: string) => userId === findTheUser.user
+        (userId: string) => userId !== findUser.user
       )
       const filter = { email }
       const FindFilterTheUser = { user }
@@ -155,7 +157,7 @@ const resolvers = {
       await Profile.findOneAndUpdate(FindFilterTheUser, updateTheUser, {
         new: true,
       })
-      return null
+      return 'unFollow'
     },
     addPost: async (root: any, args: any) => {
       const { bookUrl, email } = args
@@ -167,7 +169,8 @@ const resolvers = {
         const post = new Post({ ...args, user: findUser.user })
         const update = { $push: { post: post._id } }
         await Profile.findOneAndUpdate(userEmail, update)
-        return post.save()
+        await post.save()
+        return 'new Post'
       } else {
         return null
       }
@@ -186,7 +189,7 @@ const resolvers = {
         await Profile.findOneAndUpdate(filter, update, {
           new: true,
         })
-        return ''
+        return 'delete successfully'
       }
       return null
     },
