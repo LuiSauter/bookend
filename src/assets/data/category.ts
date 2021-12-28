@@ -12,4 +12,6 @@ export const categorys = [
   'Quantum',
   'Future',
   'Elements',
+  'Cosmology',
+  'Science'
 ]

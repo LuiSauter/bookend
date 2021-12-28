@@ -71,14 +71,14 @@ const FollowItem = ({
     <>
       {session?.user?.email !== email && (
         <li
-          className="flex justify-center items-center relative mx-3 p-3 rounded-xl hover:bg-secondaryLigth transition-colors cursor-pointer"
+          className="flex justify-center items-center w-full relative p-2 rounded-xl hover:bg-secondaryLigth transition-colors cursor-pointer"
           onClick={() => handleClickLi(username)}
         >
-          <img src={photo} alt={name} className="w-12 h-12 rounded-full mr-3" />
+          <img src={photo} alt={name} className="w-11 h-11 rounded-full mr-3" />
           <div className="flex flex-row w-full justify-between items-center relative">
             <Link href={`/${username}`}>
               <a className="flex flex-col overflow-hidden w-full">
-                <h3 className="hover:underline font-semibold flex items-center">
+                <h3 className="hover:underline font-semibold text-sm flex items-center">
                   {name}{' '}
                   <span title="Verified account">
                     {verified && checkVeriFied}
@@ -93,7 +93,7 @@ const FollowItem = ({
                   event.stopPropagation()
                   handleClickButtonFollow(user)
                 }}
-                className="bg-blue-400 hover:bg-thirdBlue text-textWhite transition-colors font-medium text-sm rounded-2xl px-3 py-1 relative"
+                className="bg-blue-400 hover:bg-thirdBlue text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
               >
                 Follow
               </button>
@@ -103,7 +103,7 @@ const FollowItem = ({
                   event.stopPropagation()
                   handleClickButtonUnFollow(user)
                 }}
-                className="bg-transparent border border-textGray  hover:bg-red-500 hover:border-red-500 transition-colors font-medium text-sm rounded-2xl px-3 py-1 relative"
+                className="bg-transparent border border-textGray  hover:bg-red-500 hover:border-red-500 transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
               >
                 Unfollow
               </button>

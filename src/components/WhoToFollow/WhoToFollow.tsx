@@ -28,7 +28,7 @@ const WhoToFollow = () => {
   }, [data?.allUsers])
 
   return (
-    <article className="w-full bg-secondary rounded-xl py-4 relative">
+    <article className="w-full bg-secondary rounded-xl p-3 xl:p-4 relative">
       {loading ? (
         <span>Loading...</span>
       ) : (
