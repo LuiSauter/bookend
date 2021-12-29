@@ -1,46 +1,18 @@
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
+import React, { useEffect } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { useToggleUser } from 'src/hooks/useToggleUser'
-import { useProfileId } from 'src/hooks/useProfileId'
 import { checkVeriFied } from 'src/assets/icons'
+import ClientOnly from '../ClientOnly'
+import Name from './Name'
+import UserOfModal from './UserOfModal'
 
 export const PhotoUser = () => {
-  const [dataProfile, setDataProfile] = useState<Profile | null>(null)
   const { data: session, status } = useSession()
   const { dropdownOpen, handleToggleModal } = useToggleUser()
   const router = useRouter()
-  const [getUserByProfileId, { data, loading }] = useLazyQuery(FIND_USER)
-  const { setProfileId, profile } = useProfileId()
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (status === 'authenticated') {
-        getUserByProfileId({ variables: { email: session?.user?.email } })
-      }
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [status === 'authenticated'])
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (profile === 'undefined' || profile === '') {
-        setProfileId(data?.findUser?.me.username)
-      }
-      localStorage.setItem('profileUser', data?.findUser?.me.username)
-      data?.findUser && setDataProfile(data?.findUser)
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [data?.findUser])
 
   const handleSignOut = async () => {
     localStorage.removeItem('profileId')
@@ -67,17 +39,11 @@ export const PhotoUser = () => {
             }
             alt={session?.user?.name ? session?.user?.name : ''}
           />
-          {loading ? (
-            'loading...'
-          ) : (
-            <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
-              {dataProfile?.me.name ? (
-                dataProfile?.me.name
-              ) : (
-                <span>loading...</span>
-              )}
-            </span>
-          )}
+          {
+            <ClientOnly>
+              <Name />
+            </ClientOnly>
+          }
         </figure>
       </div>
       {dropdownOpen && (
@@ -88,31 +54,9 @@ export const PhotoUser = () => {
             sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
             md:-bottom-56 md:right-auto"
           >
-            <Link href={`/${dataProfile?.me.username}`}>
-              <a
-                onClick={handleModalOut}
-                className="w-full hover:bg-secondaryLigth rounded-md py-1 px-4 flex items-center justify-center"
-              >
-                <img
-                  src={
-                    session?.user?.image
-                      ? session?.user?.image
-                      : '/default-user.webp'
-                  }
-                  className="w-8 rounded-full md:w-12 mr-4"
-                  alt={dataProfile?.me.name}
-                />
-                <div className="flex flex-col">
-                  <h2>{dataProfile?.me.name}</h2>
-                  <span className="text-sm text-gray-400">
-                    @{dataProfile?.me.username}
-                  </span>
-                  <span className="text-sm text-textGray">
-                    See your profile
-                  </span>
-                </div>
-              </a>
-            </Link>
+            <ClientOnly>
+              <UserOfModal />
+            </ClientOnly>
             <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto">
               Send feedback
             </button>
@@ -120,7 +64,8 @@ export const PhotoUser = () => {
               Settings
             </button>
             <button className="w-full hover:bg-secondaryLigth flex items-center justify-center rounded-md py-1 px-4 cursor-auto">
-              request verification <span className="text-textGray ml-1">{checkVeriFied}</span>
+              request verification{' '}
+              <span className="text-textGray ml-1">{checkVeriFied}</span>
             </button>
             <hr className="border-secondaryLigth rounded-xl my-3" />
             <button

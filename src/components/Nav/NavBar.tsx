@@ -118,9 +118,9 @@ export const NavBar = () => {
                 : icons.message}
             </Nav>
           </div>
-          <ClientOnly>
-            <PhotoUser />
-          </ClientOnly>
+          {/* <ClientOnly> */}
+          <PhotoUser />
+          {/* </ClientOnly> */}
         </div>
       </nav>
     </>
