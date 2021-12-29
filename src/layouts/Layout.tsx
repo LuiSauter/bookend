@@ -6,6 +6,7 @@ import WhoToFollow from 'src/components/WhoToFollow/WhoToFollow'
 import { LoadingPage } from './LoadingPage'
 import { NavBar } from 'src/components/Nav/NavBar'
 import Footer from 'src/components/Footer'
+import ClientOnly from 'src/components/ClientOnly'
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -22,16 +23,20 @@ export const Layout = ({ children }: Props) => {
     >
       {status === 'authenticated' && <NavBar />}
 
-      <div className="flex flex-row items-start relative justify-center w-full gap-4 sm:mt-4 xl:gap-6
+      <div
+        className="flex flex-row items-start relative justify-center w-full gap-4 sm:mt-4 xl:gap-6
       2xl:gap-6 2xl:justify-between
-      ">
+      "
+      >
         {status === 'authenticated' && (
           <section
             className="w-full h-full hidden min-w-minAside
-            md:flex md:gap-4 md:flex-col md:overflow-y-visible pb-4
-            max-w-maxAside sticky -top-64"
+            md:flex md:gap-0 md:flex-col md:overflow-y-visible pb-4
+            max-w-maxAside sticky -top-72"
           >
-            <CardProfile />
+            <ClientOnly>
+              <CardProfile />
+            </ClientOnly>
             <article className="w-full bg-secondary rounded-xl ">
               <h2 className="text-lg font-bold px-4 py-2">Categorys</h2>
               <hr className="border-textGray opacity-30" />
@@ -47,7 +52,9 @@ export const Layout = ({ children }: Props) => {
         </main>
         {status === 'authenticated' && (
           <section className="hidden w-full max-w-aside min-w-minAside sticky top-16  lg:flex lg:flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4">
-            <WhoToFollow />
+            <ClientOnly>
+              <WhoToFollow />
+            </ClientOnly>
             <Footer />
           </section>
         )}

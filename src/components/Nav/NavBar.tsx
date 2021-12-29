@@ -4,6 +4,7 @@ import { Nav } from './Nav'
 import { PhotoUser } from './PhotoUser'
 import * as icons from '../../assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import ClientOnly from '../ClientOnly'
 
 export const NavBar = () => {
   // const router = useRouter()
@@ -117,7 +118,9 @@ export const NavBar = () => {
                 : icons.message}
             </Nav>
           </div>
-          <PhotoUser />
+          <ClientOnly>
+            <PhotoUser />
+          </ClientOnly>
         </div>
       </nav>
     </>
