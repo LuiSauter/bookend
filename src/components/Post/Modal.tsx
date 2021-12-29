@@ -24,7 +24,7 @@ const Modal = ({ description, title, hoverInfo }: Props) => {
     <div
       className={`${
         hoverModal ? 'scale-105' : 'scale-0'
-      } hidden lg:flex flex-col transition-all absolute bottom-20 translate-x-1/3 rounded-xl w-60 p-3  z-20 shadow-lg shadow-blue-500/30`}
+      } hidden lg:flex flex-col cursor-default transition-all absolute bottom-20 translate-x-1/3 rounded-xl w-60 p-3 z-50 shadow-2xl shadow-blue-500/30`}
     >
       <div className="bg-secondaryHover/70 backdrop-blur-md w-full h-full absolute inset-0 rounded-xl"></div>
       <span className="font-semibold z-10 text-teal-50">{title}</span>

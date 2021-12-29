@@ -1,119 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
+import Head from 'next/head'
 
 import Footer from 'src/components/Footer'
 import PostItem from 'src/components/Post/PostItem'
 import ProfileForm from 'src/components/ProfileForm/ProfileForm'
 
 import { LOGINQL } from 'src/login/graphql-mutations'
-import { ALL_POSTS } from 'src/post/graphql-queries'
+import { ALL_POSTS, POSTS_COUNT } from 'src/post/graphql-queries'
 import { ALL_USERS, FIND_USER } from 'src/users/graphql-queries'
+import useNearScreen from 'src/hooks/useNearScreen'
 
-const datas = [
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-  {
-    title: 'asdasd',
-    description: ['asdasd', 'asdasd'],
-    image: 'https://i.ibb.co/svPgr92/Las-4-fuerzas-que-rigen-el-universo.jpg',
-    bookUrl: 'asdsad',
-    comments: ['asdsa'],
-    user: 'asdasd12321321',
-    tags: ['dsasdsa', 'asdasdsa12312'],
-    id: 'asdsad124',
-  },
-]
+const INITIAL_PAGE = 6
 
 const Home = (): JSX.Element => {
+  const externalRef = useRef(null)
+  const [page, setPage] = useState(INITIAL_PAGE)
+  const [allPosts, setAllPosts] = useState<Post[]>([])
   const { data: session, status } = useSession()
   const [getLogin, { data }] = useMutation(LOGINQL, {
     refetchQueries: [
@@ -122,10 +26,48 @@ const Home = (): JSX.Element => {
     ],
   })
   const [getProfile, { data: findData }] = useLazyQuery(FIND_USER)
-  const { data: allPostData, loading } = useQuery(ALL_POSTS, {
-    variables: { pageSize: 6, skipValue: 0 },
-  })
   const [updateProfile, setUpdateProfile] = useState<boolean>(true)
+
+  const { data: allPostData, loading } = useQuery(ALL_POSTS, {
+    variables: { pageSize: page, skipValue: 0 },
+  })
+  const { data: postsCount } = useQuery(POSTS_COUNT)
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      allPostData?.allPosts?.map((p: Post) => {
+        const isMatch = allPosts.some((itemPost) => itemPost.id === p.id)
+        if (!isMatch) {
+          setAllPosts((prevPost) => [...prevPost, p])
+        }
+      })
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [allPostData?.allPosts])
+
+  const { isNearScreen } = useNearScreen({
+    externalRef: loading ? null : externalRef,
+    once: false,
+  })
+
+  const throttleHandleNextPage = useCallback(() => {
+    setPage((prevPage) => prevPage + INITIAL_PAGE)
+  }, [setPage])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      if (page > postsCount?.postCount) return
+      console.log(page)
+      if (isNearScreen) throttleHandleNextPage()
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [isNearScreen, throttleHandleNextPage])
 
   useEffect(() => {
     let cleanup = true
@@ -163,6 +105,9 @@ const Home = (): JSX.Element => {
 
   return (
     <>
+      <Head>
+        <title>Bookend | home</title>
+      </Head>
       {data?.signin && data?.signin?.message === 'signup' ? (
         findData?.findUser &&
         updateProfile && (
@@ -173,12 +118,13 @@ const Home = (): JSX.Element => {
         )
       ) : (
         <>
-          <section className="w-full min-h-screen  grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 bg-secondary rounded-xl p-4 transition-all">
-            {loading ? (
-              <span className="w-full text-center">Loading...</span>
-            ) : (
+          <section
+            className="w-full min-h-screen  grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 bg-secondary rounded-xl p-4 transition-all
+            2xl:grid-cols-4"
+          >
+            {
               <>
-                {allPostData?.allPosts?.map((post: Post) => (
+                {allPosts.map((post: Post) => (
                   <PostItem
                     key={post.id}
                     bookUrl={post.bookUrl}
@@ -192,8 +138,10 @@ const Home = (): JSX.Element => {
                   />
                 ))}
               </>
-            )}
+            }
+            {loading && <span>LOADING....</span>}
           </section>
+          <div id="visor" className="relative" ref={externalRef} />
           <footer className="w-full py-4 flex justify-center lg:hidden">
             <Footer />
           </footer>
