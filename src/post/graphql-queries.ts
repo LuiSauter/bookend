@@ -14,3 +14,9 @@ export const ALL_POSTS = gql`
     }
   }
 `
+
+export const POSTS_COUNT = gql`
+  query {
+    postCount
+  }
+`
