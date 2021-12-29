@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -7,6 +7,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { FOLLOW_USER, UNFOLLOW_USER } from 'src/users/graphql-mutations'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { checkVeriFied } from 'src/assets/icons'
+import { useToggleUser } from 'src/hooks/useToggleUser'
 
 interface Props {
   email: string;
@@ -25,9 +26,11 @@ const FollowItem = ({
   username,
   verified,
 }: Props) => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
   const { profile } = useProfileId()
+  const { handleLoginOpen } = useToggleUser()
+
   const { data: dataUser } = useQuery(FIND_USER, {
     variables: { email: session?.user?.email },
   })
@@ -57,6 +60,7 @@ const FollowItem = ({
   }
 
   const handleClickButtonFollow = (data: string) => {
+    if (status === 'unauthenticated') return handleLoginOpen()
     getFollow({ variables: { user: data, email: session?.user?.email } })
   }
 
@@ -67,6 +71,7 @@ const FollowItem = ({
   const isMatch = dataUser?.findUser?.following.some(
     (userId: string) => userId === user
   )
+
   return (
     <>
       {session?.user?.email !== email && (

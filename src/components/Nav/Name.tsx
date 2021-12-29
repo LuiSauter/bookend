@@ -1,12 +1,11 @@
 import { useLazyQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { FIND_USER } from 'src/users/graphql-queries'
 
 const Name = () => {
   const { data: session, status } = useSession()
-  const [dataProfile, setDataProfile] = useState<Profile | null>(null)
   const { setProfileId, profile } = useProfileId()
   const [getUserByProfileId, { data, loading }] = useLazyQuery(FIND_USER)
 
@@ -30,7 +29,6 @@ const Name = () => {
         setProfileId(data?.findUser?.me.username)
       }
       localStorage.setItem('profileUser', data?.findUser?.me.username)
-      data?.findUser && setDataProfile(data?.findUser)
     }
     return () => {
       cleanup = false
@@ -41,7 +39,7 @@ const Name = () => {
     <span>Loading...</span>
   ) : (
     <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
-      {dataProfile?.me.name ? dataProfile?.me.name : <span>loading...</span>}
+      {data?.findUser?.me.name ? data?.findUser?.me.name : <span>sign in</span>}
     </span>
   )
 }

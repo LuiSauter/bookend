@@ -1,8 +1,6 @@
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
-import { useLazyQuery } from '@apollo/client'
-import { FIND_USER } from 'src/users/graphql-queries'
+import React from 'react'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import { checkVeriFied } from 'src/assets/icons'
 import ClientOnly from '../ClientOnly'
@@ -11,7 +9,7 @@ import UserOfModal from './UserOfModal'
 
 export const PhotoUser = () => {
   const { data: session, status } = useSession()
-  const { dropdownOpen, handleToggleModal } = useToggleUser()
+  const { dropdownOpen, handleToggleModal, handleLoginOpen } = useToggleUser()
   const router = useRouter()
 
   const handleSignOut = async () => {
@@ -32,31 +30,39 @@ export const PhotoUser = () => {
         id="show-menu"
       >
         <figure className="bg-secondary hover:bg-secondaryLigth overflow-hidden sm:h-auto md:w-full md:rounded-3xl md:h-8 md:flex md:items-center rounded-full">
-          <img
-            className="w-8 rounded-full md:w-6 md:ml-1"
-            src={
-              session?.user?.image ? session?.user?.image : '/default-user.webp'
-            }
-            alt={session?.user?.name ? session?.user?.name : ''}
-          />
-          {
-            <ClientOnly>
-              <Name />
-            </ClientOnly>
-          }
+          <ClientOnly>
+            <img
+              className="w-8 rounded-full md:w-6 md:ml-1"
+              src={
+                session?.user?.image
+                  ? session?.user?.image
+                  : '/default-user.webp'
+              }
+              alt={session?.user?.name ? session?.user?.name : ''}
+            />
+          </ClientOnly>
+          <ClientOnly>
+            <Name />
+          </ClientOnly>
         </figure>
       </div>
       {dropdownOpen && (
         <>
           <div
-            className="bg-secondary transition-colors rounded-md absolute shadow-2xl shadow-blue-500/30 border border-secondaryLigth w-max sm:h-min
+            className="bg-secondary transition-colors rounded-xl absolute shadow-2xl shadow-blue-500/30 border border-secondaryLigth w-max sm:h-min
             flex top-12 left-auto flex-col z-50 p-4 justify-center
             sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
-            md:-bottom-56 md:right-auto"
+            md:top-12 md:right-auto"
           >
-            <ClientOnly>
-              <UserOfModal />
-            </ClientOnly>
+            {status === 'authenticated' ? (
+              <ClientOnly>
+                <UserOfModal />
+              </ClientOnly>
+            ) : (
+              <span className="w-full rounded-md py-3 px-4 text-center text-slate-500">
+                Sign In
+              </span>
+            )}
             <button className="w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto">
               Send feedback
             </button>
@@ -68,12 +74,24 @@ export const PhotoUser = () => {
               <span className="text-textGray ml-1">{checkVeriFied}</span>
             </button>
             <hr className="border-secondaryLigth rounded-xl my-3" />
-            <button
-              className="w-full hover:bg-red-500 rounded-md py-1 px-3 bg-red-400"
-              onClick={handleSignOut}
-            >
-              Sign out
-            </button>
+            {status === 'authenticated' ? (
+              <button
+                className="w-full hover:bg-red-500 rounded-md py-1 px-3 bg-red-400"
+                onClick={handleSignOut}
+              >
+                Sign out
+              </button>
+            ) : (
+              <button
+                className="w-full hover:bg-thirdBlue rounded-md py-1 px-3 bg-blue-400"
+                onClick={() => {
+                  handleToggleModal()
+                  handleLoginOpen()
+                }}
+              >
+                Sign in
+              </button>
+            )}
           </div>
           <div
             x-show="dropdownOpen"
