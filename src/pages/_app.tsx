@@ -33,13 +33,13 @@ function MyApp({
     <SessionProvider session={session}>
       <Auth>
         <LoginStateProvider>
-          <ApolloProvider client={client}>
-            <ToggleStateProvider>
+          <ToggleStateProvider>
+            <ApolloProvider client={client}>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-            </ToggleStateProvider>
-          </ApolloProvider>
+            </ApolloProvider>
+          </ToggleStateProvider>
         </LoginStateProvider>
       </Auth>
     </SessionProvider>
