@@ -19,7 +19,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/pages/auth/[[...path]].jsx"  ],
+    "**/*.tsx",
+    "src/pages/auth/[[...path]].jsx"
+  ],
   "exclude": ["node_modules"]
 }
