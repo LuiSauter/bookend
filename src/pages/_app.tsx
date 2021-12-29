@@ -1,5 +1,5 @@
 import type { AppProps, } from 'next/app'
-import React, { useEffect } from 'react'
+import React from 'react'
 import 'tailwindcss/tailwind.css'
 import {
   ApolloClient,
@@ -7,10 +7,9 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client'
-import { SessionProvider, useSession } from 'next-auth/react'
+import { SessionProvider } from 'next-auth/react'
 import { Layout } from 'src/layouts/Layout'
 import { LoginStateProvider } from 'src/context/login/LoginStateProvider'
-import { useRouter } from 'next/router'
 import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 
 const client = new ApolloClient({
@@ -21,47 +20,22 @@ const client = new ApolloClient({
   }),
 })
 
-interface Props {
-  children: JSX.Element;
-}
-
 function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps): JSX.Element {
   return (
     <SessionProvider session={session}>
-      <Auth>
+      <ApolloProvider client={client}>
         <LoginStateProvider>
           <ToggleStateProvider>
-            <ApolloProvider client={client}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </ApolloProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </ToggleStateProvider>
         </LoginStateProvider>
-      </Auth>
+      </ApolloProvider>
     </SessionProvider>
   )
 }
 export default MyApp
-
-function Auth({ children }: Props) {
-  const router = useRouter()
-  const { data: session, status } = useSession()
-  const isUser = !!session?.user
-
-  useEffect(() => {
-    if (status === 'loading') return
-    if (!isUser) {
-      router.replace('/')
-    }
-  }, [isUser, status])
-
-  if (isUser) {
-    return children
-  }
-
-  return children
-}
