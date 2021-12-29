@@ -1,16 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
 
 const UserOfModal = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const { handleToggleModal } = useToggleUser()
-  const { data, loading } = useQuery(FIND_USER, {
-    variables: { email: session?.user?.email },
-  })
+  const [getUserByEmail, { data, loading }] = useLazyQuery(FIND_USER)
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      if (status === 'authenticated') {
+        console.log('xd')
+        getUserByEmail({ variables: { email: session?.user?.email } })
+      }
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [status === 'authenticated'])
 
   const handleModalOut = () => {
     handleToggleModal()

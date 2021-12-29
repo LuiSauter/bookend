@@ -1,7 +1,9 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import useNearScreen from 'src/hooks/useNearScreen'
 import { ALL_POSTS, POSTS_COUNT } from 'src/post/graphql-queries'
+import Link from 'next/link'
+
+import useNearScreen from 'src/hooks/useNearScreen'
 import PostItem from './PostItem'
 const INITIAL_PAGE = 6
 
@@ -30,7 +32,6 @@ const AllPosts = () => {
     let cleanup = true
     if (cleanup) {
       if (page > postsCount?.postCount) return
-      console.log(page)
       if (isNearScreen) throttleHandleNextPage()
     }
     return () => {
@@ -55,22 +56,22 @@ const AllPosts = () => {
 
   return (
     <>
-      <section
-        className="w-full min-h-screen  grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 bg-secondary rounded-xl p-4 transition-all
-              2xl:grid-cols-4"
-      >
+      <section className="w-full min-h-screen  grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 bg-secondary rounded-xl p-4 transition-all 2xl:grid-cols-4">
         {allPosts.map((post: Post) => (
-          <PostItem
-            key={post.id}
-            bookUrl={post.bookUrl}
-            comments={post.comments}
-            description={post.description}
-            id={post.id}
-            image={post.image}
-            tags={post.tags}
-            title={post.title}
-            user={post.user}
-          />
+          <Link href={`/books/${post.id}`} key={post.id}>
+            <a>
+              <PostItem
+                bookUrl={post.bookUrl}
+                comments={post.comments}
+                description={post.description}
+                id={post.id}
+                image={post.image}
+                tags={post.tags}
+                title={post.title}
+                user={post.user}
+              />
+            </a>
+          </Link>
         ))}
         {loading && <span>LOADING....</span>}
       </section>

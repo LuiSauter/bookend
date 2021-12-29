@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { FIND_PROFILE, FIND_USER } from 'src/users/graphql-queries'
-import { useMutation, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { FOLLOW_USER, UNFOLLOW_USER } from 'src/users/graphql-mutations'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { checkVeriFied } from 'src/assets/icons'
@@ -31,9 +31,20 @@ const FollowItem = ({
   const { profile } = useProfileId()
   const { handleLoginOpen } = useToggleUser()
 
-  const { data: dataUser } = useQuery(FIND_USER, {
-    variables: { email: session?.user?.email },
-  })
+  const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
+
+  useEffect(() => {
+    const cleanup = true
+    if (cleanup) {
+      status === 'authenticated' &&
+        getUserByEmail({
+          variables: { email: session?.user?.email },
+        })
+    }
+    return () => {
+      cleanup
+    }
+  }, [status === 'authenticated'])
 
   const [getFollow] = useMutation(FOLLOW_USER, {
     refetchQueries: [
