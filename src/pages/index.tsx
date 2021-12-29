@@ -6,12 +6,15 @@ import Footer from 'src/components/Footer'
 import AllPosts from 'src/components/Post/AllPosts'
 import ClientOnly from 'src/components/ClientOnly'
 import IsNewProfile from 'src/components/ProfileForm/IsNewProfile'
+import LoginModal from 'src/components/LoginModal'
+import { useToggleUser } from 'src/hooks/useToggleUser'
 
 const Home = (): JSX.Element => {
+  const { loginOpen } = useToggleUser()
   return (
     <>
       <Head>
-        <title>Bookend | home</title>
+        <title>Bookend | Inicio</title>
       </Head>
       <ClientOnly>
         <IsNewProfile />
@@ -19,6 +22,11 @@ const Home = (): JSX.Element => {
       <ClientOnly>
         <AllPosts />
       </ClientOnly>
+      {loginOpen && (
+        <ClientOnly>
+          <LoginModal />
+        </ClientOnly>
+      )}
       <footer className="w-full py-4 flex justify-center lg:hidden">
         <Footer />
       </footer>
