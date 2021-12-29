@@ -18,16 +18,18 @@ export const Layout = ({ children }: Props) => {
       className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
       selection:text-cyan-900
       sm:flex-row sm:justify-center md:px-6
-      md:flex-col md:justify-start 2xl:px-8"
+      md:flex-col md:justify-start 2xl:px-6"
     >
       {status === 'authenticated' && <NavBar />}
 
-      <div className="flex flex-row items-start relative justify-center w-full gap-4 sm:mt-4 xl:gap-6 2xl:gap-8">
+      <div className="flex flex-row items-start relative justify-center w-full gap-4 sm:mt-4 xl:gap-6
+      2xl:gap-6 2xl:justify-between
+      ">
         {status === 'authenticated' && (
           <section
-            className="w-full h-full hidden min-w-minAside max-w-aside
+            className="w-full h-full hidden min-w-minAside
             md:flex md:gap-4 md:flex-col md:overflow-y-visible pb-4
-            lg:max-w-maxAside mx-auto sticky -top-64"
+            max-w-maxAside sticky -top-64"
           >
             <CardProfile />
             <article className="w-full bg-secondary rounded-xl ">
@@ -38,9 +40,8 @@ export const Layout = ({ children }: Props) => {
           </section>
         )}
         <main
-          className="w-full px-4 sm:px-0 gap-4
-          sm:min-w-minPost sm:pr-4 md:pr-0 max-w-post mx-auto xl:max-w-maxPost 2xl:max-w-maxPost2xl relative
-          "
+          className="w-full px-4 pb-8 sm:px-0 gap-4
+          sm:min-w-minPost sm:pr-4 md:pr-0 max-w-post xl:mx-auto 2xl:m-0 xl:max-w-maxPost 2xl:max-w-none relative"
         >
           {children ? children : <LoadingPage />}
         </main>
@@ -53,4 +54,4 @@ export const Layout = ({ children }: Props) => {
       </div>
     </div>
   )
-}
+} //2xl:max-w-maxPost2xl

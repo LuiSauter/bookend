@@ -25,6 +25,7 @@ function createToken(user: IUser) {
 const resolvers = {
   Query: {
     userCount: () => User.collection.countDocuments(),
+    postCount: () => Post.collection.countDocuments(),
     findUser: async (root: any, args: any) => {
       const { email } = args
       if (email) {
@@ -43,7 +44,10 @@ const resolvers = {
     },
     allPosts: async (root: any, args: any) => {
       const { pageSize, skipValue } = args
-      const findPost = await Post.find({}).sort({ createdAt: 'desc' }).limit(pageSize).skip(skipValue)
+      const findPost = await Post.find({})
+        .sort({ createdAt: 'desc' })
+        .limit(pageSize)
+        .skip(skipValue)
       return findPost
     },
     findPost: async (root: any, args: any) => {

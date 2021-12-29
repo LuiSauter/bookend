@@ -29,7 +29,7 @@ module.exports = {
       },
       maxWidth: {
         aside: '280px',
-        maxAside: '360px',
+        maxAside: '340px',
         post: '596px',
         maxPost: '615px',
         maxPost2xl: '720px',

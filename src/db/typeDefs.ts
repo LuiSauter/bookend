@@ -46,6 +46,7 @@ const typeDefinitions = gql`
   }
 
   type Query {
+    postCount: Int!
     userCount: Int!
     findUser(email: String!): Profile
     findProfile(username: String!): Profile!
