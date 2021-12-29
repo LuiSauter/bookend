@@ -34,6 +34,10 @@ const resolvers = {
         return null
       }
     },
+    findUserById: async (root: any, args: any) => {
+      const { user } = args
+      return await Profile.findOne({ user })
+    },
     findProfile: async (root: any, args: any) => {
       const { username } = args
       const isfindProfile = await Profile.findOne({ username: username })

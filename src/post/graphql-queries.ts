@@ -20,3 +20,18 @@ export const POSTS_COUNT = gql`
     postCount
   }
 `
+
+export const FINDONE_POST = gql`
+  query findPostById($id: String!) {
+    findPost(id: $id) {
+      bookUrl
+      comments
+      description
+      id
+      image
+      tags
+      title
+      user
+    }
+  }
+`

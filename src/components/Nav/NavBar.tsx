@@ -4,7 +4,6 @@ import { Nav } from './Nav'
 import { PhotoUser } from './PhotoUser'
 import * as icons from '../../assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
-import ClientOnly from '../ClientOnly'
 
 export const NavBar = () => {
   // const router = useRouter()
@@ -29,7 +28,7 @@ export const NavBar = () => {
       >
         <div className="hidden md:flex justify-center md:items-center relative">
           <Nav
-            path={'/home'}
+            path={'/'}
             visible={
               'flex md:bg-primary relative overflow-hidden md:m-0 md:p-0 md:hover:bg-primary'
             }
@@ -83,11 +82,11 @@ export const NavBar = () => {
             </Nav>
             <Nav
               visible={'flex md:w-min'}
-              path={'/home'}
-              name={'home'}
+              path={'/'}
+              name={'inicio'}
               unique={true}
             >
-              {router.pathname === '/home' ? icons.homeCurrent : icons.home}
+              {router.pathname === '/' ? icons.homeCurrent : icons.home}
             </Nav>
             <Nav
               visible={'flex md:w-min'}
