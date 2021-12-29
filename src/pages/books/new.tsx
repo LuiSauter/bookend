@@ -25,7 +25,9 @@ const New = (): JSX.Element => {
   const { data: session } = useSession()
   const router = useRouter()
   const [newPostWithBook] = useMutation(ADD_POST, {
-    refetchQueries: [{ query: ALL_POSTS }],
+    refetchQueries: [
+      { query: ALL_POSTS, variables: { pageSize: 3, skipValue: 0 } },
+    ],
   })
 
   const handleChangeFile = (data: string) => {
@@ -43,7 +45,7 @@ const New = (): JSX.Element => {
         tags: [...data.tags],
       },
     })
-    return router.push('/home')
+    return router.push('/')
   }
 
   return (
@@ -110,7 +112,7 @@ const New = (): JSX.Element => {
                 </label>
                 <label className="font-semibold">
                   Description <span className="text-thirdBlue">* </span>
-                  {errors.description?.type === 'required' && (
+                  {errors.description?.type && (
                     <span className="text-red-500 text-sm font-medium">
                       {errors.description.message}
                     </span>
@@ -121,6 +123,10 @@ const New = (): JSX.Element => {
                       required: {
                         value: true,
                         message: 'Description is required',
+                      },
+                      maxLength: {
+                        value: 190,
+                        message: '180 is max length',
                       },
                     })}
                     rows={3}
