@@ -4,6 +4,8 @@ import { Nav } from './Nav'
 import { PhotoUser } from './PhotoUser'
 import * as icons from '../../assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import ClientOnly from '../ClientOnly'
+import LoginModal from '../LoginModal'
 
 export const NavBar = () => {
   // const router = useRouter()
@@ -19,8 +21,14 @@ export const NavBar = () => {
   //   const data = await signOut({ redirect: false, callbackUrl: '/' })
   //   return router.replace(data?.url)
   const { handleToggleModal } = useToggleUser()
+  const { loginOpen } = useToggleUser()
   return (
     <>
+      {loginOpen && (
+        <ClientOnly>
+          <LoginModal />
+        </ClientOnly>
+      )}
       <nav
         className="bg-primary sticky inset-0 flex w-full z-50 transition-all
         sm:h-screen sm:flex-col sm:w-auto sm:pl-4 sm:pr-2 sm:py-4 sm:justify-between

@@ -56,7 +56,7 @@ const AllPosts = () => {
 
   return (
     <>
-      <section className="w-full min-h-screen  grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 bg-secondary rounded-xl p-4 transition-all 2xl:grid-cols-4">
+      <section className="w-full min-h-screen grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4">
         {allPosts.map((post: Post) => (
           <Link href={`/books/${post.id}`} key={post.id}>
             <a>

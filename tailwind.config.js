@@ -13,7 +13,7 @@ module.exports = {
       },
       colors: {
         primary: '#06141D',
-        secondary: '#1B2730',
+        secondary: '#192734',
         secondaryHover: '#1a252d',
         secondaryLigth: '#28343E',
         thirdPurple: '#5046bb',
@@ -29,7 +29,7 @@ module.exports = {
       },
       maxWidth: {
         aside: '280px',
-        maxAside: '340px',
+        maxAside: '300px',
         post: '596px',
         maxPost: '615px',
         maxPost2xl: '720px',

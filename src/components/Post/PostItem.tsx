@@ -16,12 +16,12 @@ const PostItem = ({ image, title, description }: Post) => {
         <div
           className={`${
             hoverInfo ? 'opacity-100' : 'opacity-0'
-          } absolute transition-all cursor-pointer w-full bg-black/30 h-full`}
+          } absolute transition-all z-[1] cursor-pointer w-full bg-black/40 h-full`}
         >
           <div
             className={`${
               hoverInfo ? 'scale-150' : 'scale-0'
-            } absolute transition-all top-[50%] left-[40%] text-teal-50`}
+            } absolute transition-all z-[1] top-[50%] left-[40%] text-teal-50`}
           >
             {icons.book}
           </div>

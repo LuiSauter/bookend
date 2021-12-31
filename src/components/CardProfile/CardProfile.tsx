@@ -27,7 +27,7 @@ const CardProfile = () => {
     <>
       {status === 'authenticated' &&
         router.asPath !== `/${data?.findUser?.me.username}` && (
-        <article className="bg-secondary w-full rounded-xl flex flex-col gap-1 mb-4 items-center relative">
+        <article className="bg-secondary w-full rounded-xl flex flex-col snap-center shrink-0 gap-1 mb-4 items-center relative">
           {loading ? (
             'loading...'
           ) : (

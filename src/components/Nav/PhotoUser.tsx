@@ -10,12 +10,10 @@ import UserOfModal from './UserOfModal'
 export const PhotoUser = () => {
   const { data: session, status } = useSession()
   const { dropdownOpen, handleToggleModal, handleLoginOpen } = useToggleUser()
-  const router = useRouter()
 
   const handleSignOut = async () => {
     localStorage.removeItem('profileId')
-    const data = await signOut({ redirect: false, callbackUrl: '/' })
-    return router.replace(data?.url)
+    return await signOut({ redirect: true, callbackUrl: '/' })
   }
 
   const handleModalOut = () => {
