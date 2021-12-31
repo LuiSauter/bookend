@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSession } from 'next-auth/react'
 import CardProfile from 'src/components/CardProfile/CardProfile'
 import Category from 'src/components/Category/Category'
 import WhoToFollow from 'src/components/WhoToFollow/WhoToFollow'
@@ -17,7 +16,7 @@ export const Layout = ({ children }: Props) => {
     <div
       className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
       selection:text-cyan-900
-      sm:flex-row sm:justify-center md:px-6
+      sm:flex-row sm:justify-center md:px-4
       md:flex-col md:justify-start 2xl:px-6"
     >
       <NavBar />
@@ -27,14 +26,14 @@ export const Layout = ({ children }: Props) => {
       "
       >
         <section
-          className="w-full h-full hidden min-w-minAside
-            md:flex md:gap-0 md:flex-col md:overflow-y-visible pb-4
-            max-w-maxAside sticky -top-72"
+          className="hidden min-w-[270px] sticky top-16 scrollbar:bg-transparent
+          xl:flex flex-col h-[90vh] snap-proximity snap-y overflow-y-auto pb-4 px-[0.30rem]"
+          id="custom-scrollbar"
         >
           <ClientOnly>
             <CardProfile />
           </ClientOnly>
-          <article className="w-full bg-secondary rounded-xl ">
+          <article className="w-full snap-center shrink-0 bg-secondary rounded-xl overflow-auto">
             <h2 className="text-lg font-bold px-4 py-2">Categorys</h2>
             <hr className="border-textGray opacity-30" />
             <Category />
@@ -42,11 +41,11 @@ export const Layout = ({ children }: Props) => {
         </section>
         <main
           className="w-full px-4 pb-8 sm:px-0 gap-4
-          sm:min-w-minPost sm:pr-4 md:pr-0 max-w-post xl:mx-auto 2xl:m-0 xl:max-w-maxPost 2xl:max-w-none relative"
+          sm:pr-4 md:pr-0 xl:mx-auto 2xl:m-0 relative"
         >
           {children ? children : <LoadingPage />}
         </main>
-        <section className="hidden w-full max-w-aside min-w-minAside sticky top-16  lg:flex lg:flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4">
+        <section className="hidden w-full max-w-aside min-w-minAside sticky top-16  md:flex flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4">
           <article className="w-full bg-secondary rounded-xl p-3 xl:p-4">
             <ClientOnly>
               <WhoToFollow />
