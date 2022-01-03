@@ -19,3 +19,18 @@ export const ADD_POST = gql`
     )
   }
 `
+
+export const FIND_POST_BY_ID = gql`
+  query ($id: String!) {
+    findPost(id: $id) {
+      bookUrl
+      comments
+      description
+      id
+      image
+      tags
+      title
+      user
+    }
+  }
+`
