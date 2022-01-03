@@ -51,7 +51,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
   }
 
   return (
-    <section className="m-auto sm:w-11/12 lg:w-full sm:min-w-minForm mb-4 bg-secondary rounded-xl">
+    <section className="m-auto sm:w-full lg:w-4/5 xl:w-full sm:min-w-minForm mb-4 rounded-xl 2xl:bg-secondary 2xl:p-8">
       <header className="p-2 flex">
         <button
           className="mr-4 hover:bg-secondaryLigth rounded-full w-9 h-9 flex items-center justify-center"
@@ -61,10 +61,10 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         </button>
         <h2 className="mb-1 text-lg font-semibold">Edit your profile</h2>
       </header>
-      <hr className="border-secondaryLigth border-b-2 rounded-lg" />
+      {/* <hr className="border-secondaryLigth border-b-2 rounded-lg mb-4" /> */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full sm:w-11/12 m-auto p-4 sm:p-0 sm:pb-4"
+        className="flex flex-col gap-4 w-full sm:w-11/12 m-auto p-4"
       >
         <div className="flex items-center justify-center m-auto w-full">
           <figure className="m-0 rounded-full overflow-hidden h-full mr-5">
@@ -119,22 +119,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
             </label>
           </div>
         </div>
-        <label className="font-semibold">
-          Email <span className="text-thirdBlue">* </span>
-          <input
-            className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50"
-            {...register('email', {
-              required: {
-                value: true,
-                message: 'This field is required',
-              },
-            })}
-            disabled={true}
-            type="text"
-            placeholder="Write a email"
-          />
-        </label>
-        <label className="font-semibold">
+        <label className="font-semibold w-full">
           Description <span className="text-thirdBlue">* </span>
           {errors.description?.type === 'required' && (
             <span className="text-red-500 text-sm font-medium">
@@ -153,17 +138,34 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
             placeholder="Write a description"
           />
         </label>
-        <label className="font-semibold">
-          Gender
-          <select
-            {...register('gender')}
-            className="text-black rounded-md ml-4 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25"
-          >
-            <option value="female">female</option>
-            <option value="male">male</option>
-            <option value="other">other</option>
-          </select>
-        </label>
+        <div className="flex flex-col gap-4 2xl:flex-row justify-center w-full items-center">
+          <label className="font-semibold w-full">
+            Email <span className="text-thirdBlue">* </span>
+            <input
+              className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50"
+              {...register('email', {
+                required: {
+                  value: true,
+                  message: 'This field is required',
+                },
+              })}
+              disabled={true}
+              type="text"
+              placeholder="Write a email"
+            />
+          </label>
+          <label className="font-semibold w-full h-full flex items-center mt-7 rounded-md">
+            Gender
+            <select
+              {...register('gender')}
+              className="text-black rounded-md ml-4 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 p-1"
+            >
+              <option value="female">female</option>
+              <option value="male">male</option>
+              <option value="other">other</option>
+            </select>
+          </label>
+        </div>
         <div className="flex flex-row w-full">
           <label className="font-semibold mr-4 w-full">
             Website
@@ -187,7 +189,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         <label className="text-textGray text-base">
           <span className="text-thirdBlue">*</span> fields required
         </label>
-        <button className="bg-blue-500 text-lg font-semibold py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200">
+        <button className="bg-blue-500 text-lg font-semibold py-1 rounded-md hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200">
           Save your profile
         </button>
       </form>
