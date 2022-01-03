@@ -94,7 +94,7 @@ export const PhotoUser = () => {
           <div
             x-show="dropdownOpen"
             onClick={handleToggleModal}
-            className="fixed inset-0 h-full w-full z-10"
+            className="fixed inset-0 h-screen overflow-hidden z-10"
           ></div>
         </>
       )}
