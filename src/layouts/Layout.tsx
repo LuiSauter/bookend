@@ -14,20 +14,19 @@ interface Props {
 export const Layout = ({ children }: Props) => {
   return (
     <div
-      className="relative bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
+      className=" bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
       selection:text-cyan-900
-      sm:flex-row sm:justify-center md:px-4
-      md:flex-col md:justify-start 2xl:px-6"
+      sm:flex-row sm:justify-center
+      md:flex-col md:justify-start"
     >
       <NavBar />
       <div
-        className="flex flex-row items-start relative justify-center w-full gap-4 sm:mt-4 xl:gap-6
-      2xl:gap-6 2xl:justify-between
-      "
+        className="flex flex-row items-start justify-center w-full gap-4 sm:mt-4 xl:gap-6 md:px-6 2xl:px-8
+        2xl:gap-6 2xl:justify-between"
       >
         <section
           className="hidden min-w-[270px] sticky top-16 scrollbar:bg-transparent
-          xl:flex flex-col h-[90vh] snap-proximity snap-y overflow-y-auto pb-4 px-[0.30rem]"
+          xl:flex flex-col h-[90vh] snap-proximity snap-y overflow-y-auto pb-4 pr-3"
           id="custom-scrollbar"
         >
           <ClientOnly>
@@ -40,7 +39,7 @@ export const Layout = ({ children }: Props) => {
           </article>
         </section>
         <main
-          className="w-full px-4 pb-8 sm:px-0 gap-4
+          className="w-full pb-8 sm:px-0 gap-4
           sm:pr-4 md:pr-0 xl:mx-auto 2xl:m-0 relative"
         >
           {children ? children : <LoadingPage />}
