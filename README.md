@@ -135,6 +135,9 @@ _Use the package manager `yarn` to install the dependencies._
    ```
 2. Install Yarn packages
    ```sh
+   ## Install yarn global
+   npm install --global yarn
+   
    yarn install
    ```
 3. Meet the prerequisites `.env.local`
