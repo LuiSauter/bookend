@@ -11,8 +11,10 @@ interface Profile {
   me: {
     name?: string;
     photo?: string;
-    user?: string;
+    user?: string | undefined;
     username?: string;
+    verified?: boolean;
+    email: string;
   };
   message?: string;
 }

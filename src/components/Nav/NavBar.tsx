@@ -30,9 +30,9 @@ export const NavBar = () => {
         </ClientOnly>
       )}
       <nav
-        className="bg-primary sticky inset-0 flex w-full z-50 transition-all
+        className="bg-primary/70 backdrop-blur-md sticky inset-0 flex w-full z-50 transition-all
         sm:h-screen sm:flex-col sm:w-auto sm:pl-4 sm:pr-2 sm:py-4 sm:justify-between
-        md:py-0 md:mx-0 md:px-0 md:flex-row md:w-full md:h-12 md:justify-between md:overflow-visible"
+        md:py-0 md:mx-0 md:px-4 md:flex-row md:w-full md:h-12 md:justify-between md:overflow-visible 2xl:px-6"
       >
         <div className="hidden md:flex justify-center md:items-center relative">
           <Nav
@@ -61,7 +61,7 @@ export const NavBar = () => {
         >
           <div className="flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min">
             <div
-              className="flex md:hidden bg-primary items-center justify-center w-full h-11 transition-colorssm:h-12
+              className="flex md:hidden items-center justify-center w-full h-11 transition-colorssm:h-12
               sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4
               md:mt-0 md:h-8 md:w-12 md:hover:rounded-3xl hover:bg-secondaryHover"
             >

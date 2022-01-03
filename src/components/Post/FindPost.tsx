@@ -1,10 +1,13 @@
-import { useLazyQuery, useQuery } from '@apollo/client'
 import React, { useEffect } from 'react'
-import { FINDONE_POST } from 'src/post/graphql-queries'
-import * as icons from 'src/assets/icons'
+import Link from 'next/link'
+import Head from 'next/head'
+
+import { useLazyQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
-import Head from 'next/head'
+import { FINDONE_POST } from 'src/post/graphql-queries'
+import * as icons from 'src/assets/icons'
+import User from './User'
 interface Props {
   id: string | string[];
 }
@@ -31,7 +34,6 @@ const FindPost = ({ id }: Props) => {
     let cleanup = true
     if (cleanup) {
       if (data?.findPost.user) {
-        console.log('inside')
         getUserById({ variables: { user: data?.findPost?.user } })
       }
     }
@@ -39,8 +41,6 @@ const FindPost = ({ id }: Props) => {
       cleanup = false
     }
   }, [data?.findPost])
-
-  console.log(data)
 
   return (
     <>
@@ -52,8 +52,8 @@ const FindPost = ({ id }: Props) => {
       {loading ? (
         <span>Loading...</span>
       ) : (
-        <article className="w-full bg-secondary p-4 rounded-xl">
-          <div className="flex items-center gap-4">
+        <article className="w-full p-4 rounded-xl relative">
+          <div className="flex items-center gap-4 relative z-[1]">
             <button
               className="rounded-full hover:bg-secondaryLigth flex h-9 w-9 items-center justify-center"
               onClick={() => router.back()}
@@ -62,11 +62,19 @@ const FindPost = ({ id }: Props) => {
             </button>
             <span className="text-xl font-semibold">Book</span>
           </div>
-          <div className="flex flex-row my-4 gap-4 justify-start">
+          <figure className="absolute inset-0 z-[0] h-[70vh]">
+            <div className="bg-gradient-to-t from-primary via-primary/60 to-primary h-full w-full absolute inset-0" />
+            <img
+              className="w-full h-full object-cover object-center z-[0]"
+              src={data?.findPost.image}
+              alt={data?.findPost.title}
+            />
+          </figure>
+          <div className="flex flex-col my-4 gap-4 justify-start relative lg:flex-row">
             <header className="flex flex-col items-center gap-4">
-              <figure className="m-0 rounded-lg overflow-hidden aspect-[160/230] w-40 sm:w-48 xl:w-52">
+              <figure className="m-0 rounded-lg relative overflow-hidden aspect-[160/230] w-44">
                 <img
-                  className="w-full h-full rounded-lg object-cover object-center"
+                  className="w-full h-full absolute inset-0 rounded-lg object-cover object-center"
                   src={data?.findPost.image}
                   alt={data?.findPost.title}
                 />
@@ -79,48 +87,29 @@ const FindPost = ({ id }: Props) => {
                 {data?.findPost.description[1]}
               </p>
               <p className="text-slate-400">{data?.findPost.description[0]}</p>
-              <div className="flex items-center flex-row flex-wrap gap-3">
-                <div className="bg-secondaryLigth rounded-lg flex items-center gap-2 px-2 py-1 select-none">
-                  <button className="hover:text-red-500 active:scale-125 active:-rotate-12 transition-all">
-                    {icons.heart}
-                  </button>
-                  favoritos
-                </div>
-                <button className="flex items-center bg-black/30 py-2 px-4 rounded-xl gap-3 hover:bg-secondaryLigth hover:shadow-md hover:shadow-black-600/30">
-                  <span>{icons.googDrive}</span>Google drive PDF
-                </button>
-                {findUser?.findUserById && (
-                  <div className="flex flex-row gap-4 justify-center p-3 rounded-xl items-center bg-secondaryLigth">
-                    <figure className="w-9 h-9 rounded-full overflow-hidden">
-                      <img
-                        className="w-full rounded-full"
-                        src={findUser?.findUserById?.me.photo}
-                        alt={findUser?.findUserById?.me.name}
-                      />
-                    </figure>
-                    <div className="flex justify-between gap-4">
-                      <div>
-                        <p className="flex flex-row items-center">
-                          {findUser?.findUserById?.me.name}
-                          {findUser?.findUserById?.me.verified && (
-                            <span>{icons.checkVeriFied}</span>
-                          )}
-                        </p>
-                        <span className="text-sm text-slate-400/90">
-                          @{findUser?.findUserById?.me.username}
-                        </span>
-                      </div>
-                      <button>Follow</button>
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
-          <ul className="flex flex-row flex-wrap gap-3 transition-all 2xl">
+          <div className="flex items-center flex-row flex-wrap gap-3 relative mb-4">
+            <div className="bg-secondary shadow-lg shadow-primary/80 rounded-lg flex items-center gap-2 px-2 py-1 select-none">
+              <button className="hover:text-red-500 active:scale-125 active:-rotate-12 transition-all">
+                {icons.heart}
+              </button>
+              favoritos
+            </div>
+            <Link href={data?.findPost?.bookUrl || '/'}>
+              <a
+                className="flex items-center shadow-lg shadow-primary/80 bg-secondary py-2 px-4 rounded-xl gap-3 hover:bg-secondaryLigth hover:shadow-md hover:shadow-black-600/30"
+                target="_blank"
+              >
+                <span>{icons.googDrive}</span>Google drive PDF
+              </a>
+            </Link>
+          </div>
+          {findUser?.findUserById && <User findUser={findUser?.findUserById} />}
+          <ul className="flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative">
             {data?.findPost.tags.map((tag: string, index: number) => (
               <li
-                className="bg-secondaryLigth px-3 hover:bg-slate-700 text-slate-400"
+                className="bg-secondary rounded-md px-3 hover:bg-slate-700 text-slate-400"
                 key={index}
               >
                 {tag}

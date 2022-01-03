@@ -62,7 +62,9 @@ export const ALL_USERS = gql`
 export const FIND_USER_BY_USER = gql`
   query findUserByUserID($user: String!) {
     findUserById(user: $user) {
+      following
       me {
+        email
         name
         photo
         user
