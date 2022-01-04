@@ -15,7 +15,7 @@ module.exports = {
         primary: '#06141D',
         secondary: '#192734',
         secondaryHover: '#1a252d',
-        secondaryLigth: '#28343E',
+        secondaryLigth: '#202e3a',
         thirdPurple: '#5046bb',
         thirdBlue: '#0099ff',
         fourth: '#ffc540',
