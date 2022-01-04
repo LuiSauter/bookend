@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { arrowLeft } from 'src/assets/icons'
+import { useToggleUser } from 'src/hooks/useToggleUser'
 import { UPDATE_PROFILE } from 'src/users/graphql-mutations'
 import { ALL_USERS } from 'src/users/graphql-queries'
 interface Props {
@@ -14,6 +15,8 @@ interface Props {
 const ProfileForm = ({ profileData, onClick }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
+  const { handleEditProfile } = useToggleUser()
+
   const {
     register,
     handleSubmit,
@@ -47,12 +50,14 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         location: location,
       },
     })
+    handleEditProfile()
     router.push('/')
   }
 
   return (
-    <section className="m-auto sm:w-full lg:w-4/5 xl:w-full sm:min-w-minForm mb-4 rounded-xl 2xl:bg-secondary 2xl:p-8">
-      <header className="p-2 flex">
+    //lg:w-4/5 xl:w-full sm:min-w-minForm
+    <section className="mx-auto sm:w-full rounded-xl 2xl:bg-secondary">
+      <header className="pl-4 pt-4 flex">
         <button
           className="mr-4 hover:bg-secondaryLigth rounded-full w-9 h-9 flex items-center justify-center"
           onClick={onClick}
@@ -61,10 +66,9 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         </button>
         <h2 className="mb-1 text-lg font-semibold">Edit your profile</h2>
       </header>
-      {/* <hr className="border-secondaryLigth border-b-2 rounded-lg mb-4" /> */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full sm:w-11/12 m-auto p-4"
+        className="flex flex-col gap-4 w-full h-full sm:w-11/12 m-auto p-4"
       >
         <div className="flex items-center justify-center m-auto w-full">
           <figure className="m-0 rounded-full overflow-hidden h-full mr-5">
@@ -138,7 +142,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
             placeholder="Write a description"
           />
         </label>
-        <div className="flex flex-col gap-4 2xl:flex-row justify-center w-full items-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center w-full items-center">
           <label className="font-semibold w-full">
             Email <span className="text-thirdBlue">* </span>
             <input
@@ -154,7 +158,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
               placeholder="Write a email"
             />
           </label>
-          <label className="font-semibold w-full h-full flex items-center mt-7 rounded-md">
+          <label className="font-semibold w-full h-full pt-7 flex items-center rounded-md">
             Gender
             <select
               {...register('gender')}

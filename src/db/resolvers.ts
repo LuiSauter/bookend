@@ -47,12 +47,20 @@ const resolvers = {
       return await Profile.find({})
     },
     allPosts: async (root: any, args: any) => {
-      const { pageSize, skipValue } = args
-      const findPost = await Post.find({})
-        .sort({ createdAt: 'desc' })
-        .limit(pageSize)
-        .skip(skipValue)
-      return findPost
+      const { pageSize, skipValue, user } = args
+      if (user) {
+        const findPost = await Post.find({ user })
+          .sort({ createdAt: 'desc' })
+          .limit(pageSize)
+          .skip(skipValue)
+        return findPost
+      } else {
+        const findPost = await Post.find({})
+          .sort({ createdAt: 'desc' })
+          .limit(pageSize)
+          .skip(skipValue)
+        return findPost
+      }
     },
     findPost: async (root: any, args: any) => {
       const { id } = args

@@ -81,9 +81,9 @@ const FindPost = ({ id }: Props) => {
               </figure>
             </header>
             <div className="w-full flex flex-col gap-4 justify-center">
-              <h1 className="text-xl font-semibold">{data?.findPost.title}</h1>
+              <h1 className="text-2xl font-bold">{data?.findPost.title}</h1>
               <p>
-                <span className="text-slate-500">Autor:</span>{' '}
+                <span className="text-slate-500 font-medium">Autor:</span>{' '}
                 {data?.findPost.description[1]}
               </p>
               <p className="text-slate-400">{data?.findPost.description[0]}</p>
