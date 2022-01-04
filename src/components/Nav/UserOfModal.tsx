@@ -14,7 +14,6 @@ const UserOfModal = () => {
     let cleanup = true
     if (cleanup) {
       if (status === 'authenticated') {
-        console.log('xd')
         getUserByEmail({ variables: { email: session?.user?.email } })
       }
     }
