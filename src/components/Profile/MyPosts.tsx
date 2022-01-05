@@ -96,7 +96,8 @@ const MyPosts = () => {
         {allPosts.map((post: Post) => (
           <article
             key={post.id}
-            className="lg:bg-secondary rounded-xl flex flex-col justify-center p-4 gap-4 lg:flex-row relative lg:hover:bg-secondaryLigth transition-colors hover:brightness-100"
+            className="lg:bg-secondary rounded-xl flex flex-col justify-center p-4 gap-4 lg:flex-row relative lg:hover:bg-secondaryLigth transition-colors hover:brightness-100 cursor-pointer"
+            onClick={() => router.push(`/books/${post.id}`)}
           >
             <div className="absolute xl:hidden inset-0 w-full h-[50%] z-0 lg:h-full rounded-xl overflow-hidden">
               <div className="bg-gradient-to-t from-primary via-primary/70 to-primary absolute inset-0 z-[0]" />
@@ -121,7 +122,10 @@ const MyPosts = () => {
                 {post.description ? post.description[1] : ''}
               </p>
               <div className="flex items-center flex-row flex-wrap gap-3 relative">
-                <div className="bg-secondary rounded-lg flex items-center gap-2 px-2 py-1 select-none">
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="bg-secondary rounded-lg flex items-center gap-2 px-2 py-1 select-none cursor-auto"
+                >
                   <button className="hover:text-red-500 active:scale-125 active:-rotate-12 transition-all">
                     {icons.heart}
                   </button>
@@ -131,6 +135,7 @@ const MyPosts = () => {
                   <a
                     className="flex items-center bg-secondary py-1 px-3 rounded-xl gap-3 hover:bg-thirdBlue hover:shadow-md hover:shadow-black-600/30 transition-colors"
                     target="_blank"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <span>{icons.googDrive}</span>Google drive PDF
                   </a>

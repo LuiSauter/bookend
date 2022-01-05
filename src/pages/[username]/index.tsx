@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import MyProfile from 'src/components/Profile/MyProfile'
 import MyPosts from 'src/components/Profile/MyPosts'
 import ClientOnly from 'src/components/ClientOnly'
-import { useToggleUser } from 'src/hooks/useToggleUser'
 
 const Profile = () => {
   const router = useRouter()
