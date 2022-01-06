@@ -5,6 +5,7 @@ import Link from 'next/link'
 
 import useNearScreen from 'src/hooks/useNearScreen'
 import PostItem from './PostItem'
+import CarruselWhoToFollow from '../WhoToFollow/CarruselWhoToFollow'
 const INITIAL_PAGE = 6
 
 const AllPosts = () => {
@@ -56,22 +57,29 @@ const AllPosts = () => {
 
   return (
     <>
-      <section className="w-full min-h-screen grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4">
+      <section className="w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4">
+        {allPosts.length > 6 && (
+          <div className="odd:row-start-4 col-span-2 sm:col-span-3">
+            <CarruselWhoToFollow />
+          </div>
+        )}
         {allPosts.map((post: Post) => (
-          <Link href={`/books/${post.id}`} key={post.id}>
-            <a>
-              <PostItem
-                bookUrl={post.bookUrl}
-                comments={post.comments}
-                description={post.description}
-                id={post.id}
-                image={post.image}
-                tags={post.tags}
-                title={post.title}
-                user={post.user}
-              />
-            </a>
-          </Link>
+          <>
+            <Link href={`/books/${post.id}`} key={post.id}>
+              <a>
+                <PostItem
+                  bookUrl={post.bookUrl}
+                  comments={post.comments}
+                  description={post.description}
+                  id={post.id}
+                  image={post.image}
+                  tags={post.tags}
+                  title={post.title}
+                  user={post.user}
+                />
+              </a>
+            </Link>
+          </>
         ))}
         {loading && <span>LOADING....</span>}
       </section>

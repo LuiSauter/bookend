@@ -30,15 +30,15 @@ export const NavBar = () => {
         </ClientOnly>
       )}
       <nav
-        className="bg-primary/70 backdrop-blur-md sticky inset-0 flex w-full z-50 transition-all
+        className="bg-primary/70 backdrop-blur-md fixed bottom-0 sm:sticky sm:inset-0 flex w-full z-50 transition-all
         sm:h-screen sm:flex-col sm:w-auto sm:pl-4 sm:pr-2 sm:py-4 sm:justify-between
         md:py-0 md:mx-0 md:px-4 md:flex-row md:w-full md:h-12 md:justify-between md:overflow-visible 2xl:px-6"
       >
-        <div className="hidden md:flex justify-center md:items-center relative">
+        <div className="hidden md:flex justify-center md:items-center relative bg-transparent">
           <Nav
             path={'/'}
             visible={
-              'flex md:bg-primary relative overflow-hidden md:m-0 md:p-0 md:hover:bg-primary'
+              'flex relative overflow-hidden md:m-0 md:p-0 md:hover:bg-transparent'
             }
           >
             <img
@@ -50,7 +50,7 @@ export const NavBar = () => {
           <div className="flex items-center">
             <input
               placeholder="# Explore"
-              className="flex w-48 rounded-xl bg-secondary text-gray-300 text-sm outline-none  px-2 py-2 font-medium ml-2"
+              className="flex w-48 rounded-xl bg-secondary text-gray-300 text-sm outline-none  px-2 py-[0.4rem] font-medium ml-2"
               type="text"
             />
           </div>

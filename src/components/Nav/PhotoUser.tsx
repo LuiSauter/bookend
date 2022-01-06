@@ -48,7 +48,7 @@ export const PhotoUser = () => {
         <>
           <div
             className="bg-secondary transition-colors rounded-xl absolute shadow-2xl shadow-blue-500/30 border border-secondaryLigth w-max sm:h-min
-            flex top-12 left-auto flex-col z-50 p-4 justify-center
+            flex bottom-12 left-1 flex-col z-50 p-4 justify-center
             sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
             md:top-12 md:right-auto"
           >
@@ -94,7 +94,7 @@ export const PhotoUser = () => {
           <div
             x-show="dropdownOpen"
             onClick={handleToggleModal}
-            className="fixed inset-0 h-screen overflow-hidden z-10"
+            className="fixed bottom-0 left-0 right-0  h-screen overflow-hidden z-10"
           ></div>
         </>
       )}
