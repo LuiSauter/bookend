@@ -62,7 +62,7 @@ Bookend is a web application to share books and it was thanks to the idea that a
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]
+![Product Name Screen Shot][product-screenshot]
 
 Bookend is a web application to share books and it was thanks to the idea that arose when I was looking to carry out fullstack development practices, and I asked myself, can I develop a social network? thanks to this I have learned a lot!
 
