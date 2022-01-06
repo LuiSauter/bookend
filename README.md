@@ -62,7 +62,7 @@ Bookend is a web application to share books and it was thanks to the idea that a
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/LuiSauter/bookend/blob/main/public/images/bookendd.vercel.app_sauterdev.png)
+[![Product Name Screen Shot][product-screenshot]]
 
 Bookend is a web application to share books and it was thanks to the idea that arose when I was looking to carry out fullstack development practices, and I asked myself, can I develop a social network? thanks to this I have learned a lot!
 
@@ -163,7 +163,7 @@ _Use the package manager `yarn` to install the dependencies._
 [license-url]: https://github.com/LuiSauter/bookend/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/luis-gabriel-janco/
-[product-screenshot]: public/images/bookendd.vercel.app_sauterdev.png
+[product-screenshot]: public/images/bookend-demo.jpg
 
 
 ## Contributing
