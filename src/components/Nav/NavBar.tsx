@@ -30,11 +30,11 @@ export const NavBar = () => {
         </ClientOnly>
       )}
       <nav
-        className="bg-primary/70 backdrop-blur-md fixed bottom-0 sm:sticky sm:inset-0 flex w-full z-50 transition-all
+        className='bg-primary/70 backdrop-blur-md fixed bottom-0 sm:sticky sm:inset-0 flex w-full z-50 transition-all
         sm:h-screen sm:flex-col sm:w-auto sm:pl-4 sm:pr-2 sm:py-4 sm:justify-between
-        md:py-0 md:mx-0 md:px-4 md:flex-row md:w-full md:h-12 md:justify-between md:overflow-visible 2xl:px-6"
+        md:py-0 md:mx-0 md:px-4 md:flex-row md:w-full md:h-12 md:justify-between md:overflow-visible 2xl:px-6'
       >
-        <div className="hidden md:flex justify-center md:items-center relative bg-transparent">
+        <div className='hidden md:flex justify-center md:items-center relative bg-transparent'>
           <Nav
             path={'/'}
             visible={
@@ -42,49 +42,49 @@ export const NavBar = () => {
             }
           >
             <img
-              className="w-8 m-auto"
-              src="/images/bookend-logo.png"
-              alt="bookend"
+              className='w-8 m-auto'
+              src='/images/bookend-logo.png'
+              alt='bookend'
             />
           </Nav>
-          <div className="flex items-center">
+          <div className='flex items-center'>
             <input
-              placeholder="# Explore"
-              className="flex w-48 rounded-xl bg-secondary text-gray-300 text-sm outline-none  px-2 py-[0.4rem] font-medium ml-2"
-              type="text"
+              placeholder='# Explore'
+              className='flex w-48 rounded-xl bg-secondary text-gray-300 text-sm outline-none  px-2 py-[0.4rem] font-medium ml-2'
+              type='text'
             />
           </div>
         </div>
         <div
-          className="flex w-full sm:flex-col sm:h-full sm:justify-between sm:overflow-y-auto
-          md:flex-row md:justify-end"
+          className='flex w-full sm:flex-col sm:h-full sm:justify-between sm:overflow-y-auto
+          md:flex-row md:justify-end'
         >
-          <div className="flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min">
+          <div className='flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min'>
             <div
-              className="flex md:hidden items-center justify-center w-full h-11 transition-colorssm:h-12
+              className='flex md:hidden items-center justify-center w-full h-11 transition-colorssm:h-12
               sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4
-              md:mt-0 md:h-8 md:w-12 md:hover:rounded-3xl hover:bg-secondaryHover"
+              md:mt-0 md:h-8 md:w-12 md:hover:rounded-3xl hover:bg-secondaryHover'
             >
               <img
                 onClick={handleToggleModal}
-                className="w-9 md:hidden"
-                src="/images/bookend-logo.png"
-                alt="bookend logo"
+                className='w-9 md:hidden'
+                src='/images/bookend-logo.png'
+                alt='bookend logo'
               />
             </div>
             <Nav path={'/search'} visible={'flex md:hidden'}>
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-6 w-6'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
                 />
               </svg>
             </Nav>

@@ -10,7 +10,7 @@ export default function Button({ children, onClick }: Props) {
   return (
     <button
       onClick={onClick}
-      className="bg-gradient-to-r from-gray-500 to-black hover:from-gray-700 dark:from-purple-900 transition-colors dark:to-pink-900 text-white py-2 rounded-b-xl shadow-lg"
+      className='bg-gradient-to-r from-gray-500 to-black hover:from-gray-700 dark:from-purple-900 transition-colors dark:to-pink-900 text-white py-2 rounded-b-xl shadow-lg'
     >
       {children}
     </button>
