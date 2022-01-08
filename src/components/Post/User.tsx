@@ -7,6 +7,7 @@ import { useToggleUser } from 'src/hooks/useToggleUser'
 import { FOLLOW_USER, UNFOLLOW_USER } from 'src/users/graphql-mutations'
 import { FIND_PROFILE, FIND_USER } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons'
+import BtnFollow from '../BtnFollow/BtnFollow'
 
 interface Props {
   findUser: Profile;
@@ -84,29 +85,7 @@ const User = ({ findUser }: Props) => {
             </span>
           </div>
           {session?.user?.email !== findUser?.me.email && (
-            <>
-              {!isMatch ? (
-                <button
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    handleClickButtonFollow(findUser?.me.user)
-                  }}
-                  className="bg-blue-400 hover:bg-thirdBlue text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
-                >
-                  Follow
-                </button>
-              ) : (
-                <button
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    handleClickButtonUnFollow(findUser?.me.user)
-                  }}
-                  className="bg-transparent border border-textGray  hover:bg-red-500 hover:border-red-500 transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
-                >
-                  Unfollow
-                </button>
-              )}
-            </>
+            <BtnFollow user={findUser?.me.user} />
           )}
         </div>
       </div>

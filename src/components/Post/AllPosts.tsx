@@ -64,22 +64,20 @@ const AllPosts = () => {
           </div>
         )}
         {allPosts.map((post: Post) => (
-          <>
-            <Link href={`/books/${post.id}`} key={post.id}>
-              <a>
-                <PostItem
-                  bookUrl={post.bookUrl}
-                  comments={post.comments}
-                  description={post.description}
-                  id={post.id}
-                  image={post.image}
-                  tags={post.tags}
-                  title={post.title}
-                  user={post.user}
-                />
-              </a>
-            </Link>
-          </>
+          <Link href={`/books/${post.id}`} key={post.id}>
+            <a>
+              <PostItem
+                bookUrl={post.bookUrl}
+                comments={post.comments}
+                description={post.description}
+                id={post.id}
+                image={post.image}
+                tags={post.tags}
+                title={post.title}
+                user={post.user}
+              />
+            </a>
+          </Link>
         ))}
         {loading && <span>LOADING....</span>}
       </section>

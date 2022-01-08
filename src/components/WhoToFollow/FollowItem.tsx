@@ -8,6 +8,7 @@ import { FOLLOW_USER, UNFOLLOW_USER } from 'src/users/graphql-mutations'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { checkVeriFied } from 'src/assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import BtnFollow from '../BtnFollow/BtnFollow'
 
 interface Props {
   email: string;
@@ -28,60 +29,10 @@ const FollowItem = ({
 }: Props) => {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const { profile } = useProfileId()
-  const { handleLoginOpen } = useToggleUser()
-
-  const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
-
-  useEffect(() => {
-    const cleanup = true
-    if (cleanup) {
-      status === 'authenticated' &&
-        getUserByEmail({
-          variables: { email: session?.user?.email },
-        })
-    }
-    return () => {
-      cleanup
-    }
-  }, [status === 'authenticated'])
-
-  const [getFollow] = useMutation(FOLLOW_USER, {
-    refetchQueries: [
-      { query: FIND_USER, variables: { email: session?.user?.email } },
-      {
-        query: FIND_PROFILE,
-        variables: { username: router.query.username || profile },
-      },
-    ],
-  })
-
-  const [getUnFollow] = useMutation(UNFOLLOW_USER, {
-    refetchQueries: [
-      { query: FIND_USER, variables: { email: session?.user?.email } },
-      {
-        query: FIND_PROFILE,
-        variables: { username: router.query.username || profile },
-      },
-    ],
-  })
 
   const handleClickLi = (data: string) => {
     router.push(`/${data}`)
   }
-
-  const handleClickButtonFollow = (data: string) => {
-    if (status === 'unauthenticated') return handleLoginOpen()
-    getFollow({ variables: { user: data, email: session?.user?.email } })
-  }
-
-  const handleClickButtonUnFollow = (data: string) => {
-    getUnFollow({ variables: { user: data, email: session?.user?.email } })
-  }
-
-  const isMatch = dataUser?.findUser?.following.some(
-    (userId: string) => userId === user
-  )
 
   return (
     <>
@@ -103,27 +54,7 @@ const FollowItem = ({
                 <span className="text-textGray text-sm">@{username}</span>
               </a>
             </Link>
-            {!isMatch ? (
-              <button
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleClickButtonFollow(user)
-                }}
-                className="bg-blue-400 hover:bg-thirdBlue text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
-              >
-                Follow
-              </button>
-            ) : (
-              <button
-                onClick={(event) => {
-                  event.stopPropagation()
-                  handleClickButtonUnFollow(user)
-                }}
-                className="bg-transparent border border-textGray  hover:bg-red-500 hover:border-red-500 transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
-              >
-                Unfollow
-              </button>
-            )}
+            <BtnFollow user={user} />
           </div>
         </li>
       )}
