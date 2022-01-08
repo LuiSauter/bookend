@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import React from 'react'
 import onExpandableTextareaInput from 'src/config/textarea'
-import { categorys } from 'src/assets/data/category'
-import { useMutation } from '@apollo/client'
-import { ADD_POST } from 'src/post/graphql-mutations'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
-import { ALL_POSTS } from 'src/post/graphql-queries'
 import NewForm from 'src/components/Post/NewForm'
 import ClientOnly from 'src/components/ClientOnly'
 
@@ -17,38 +10,6 @@ if (typeof window !== 'undefined') {
 }
 
 const New = (): JSX.Element => {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    control,
-  } = useForm<FormInputs>()
-  const [fileImage, setFileImage] = useState<string | any>('')
-  const { data: session } = useSession()
-  const router = useRouter()
-  const [newPostWithBook] = useMutation(ADD_POST, {
-    refetchQueries: [
-      { query: ALL_POSTS, variables: { pageSize: 3, skipValue: 0 } },
-    ],
-  })
-
-  const handleChangeFile = (data: string) => {
-    return setFileImage(data)
-  }
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    const hasLength = data.description.split('\n')
-    newPostWithBook({
-      variables: {
-        title: data.title,
-        description: hasLength,
-        email: session?.user?.email,
-        bookUrl: data.book,
-        image: data.img,
-        tags: [...data.tags],
-      },
-    })
-    return router.push('/')
-  }
 
   return (
     <>

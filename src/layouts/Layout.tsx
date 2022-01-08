@@ -21,7 +21,7 @@ export const Layout = ({ children }: Props) => {
     >
       <NavBar />
       <div
-        className='flex flex-row items-start justify-center w-full gap-4 sm:mt-4 xl:gap-6 md:px-6 2xl:px-8
+        className='flex flex-row items-start justify-center w-full gap-4 sm:mt-4 xl:gap-6 md:px-4 lg:px-6 2xl:px-8
         2xl:gap-6 2xl:justify-between'
       >
         <section
