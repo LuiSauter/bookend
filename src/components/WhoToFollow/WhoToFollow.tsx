@@ -35,7 +35,7 @@ const WhoToFollow = () => {
       {loading ? (
         <span>Loading...</span>
       ) : (
-        <ul className="flex w-full flex-col overflow-x-auto relative overflow-hidden">
+        <ul className='flex w-full flex-col overflow-x-auto relative overflow-hidden'>
           {allUser.length !== 0 &&
             allUser.map((user: IUser) => (
               <FollowItem

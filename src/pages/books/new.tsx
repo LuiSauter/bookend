@@ -50,26 +50,26 @@ const New = (): JSX.Element => {
 
   return (
     <>
-      <section className="flex flex-col sm:mx-auto my-4 gap-4 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 w-full rounded-xl">
-        <article className="w-full m-auto sm:min-w-minForm">
-          <header className="mb-4">
-            <h2 className="mb-1 text-lg font-semibold">Create new book</h2>
-            <hr className="border-secondaryLigth border-b-2 rounded-lg" />
+      <section className='flex flex-col sm:mx-auto my-4 gap-4 bg-secondary py-4 px-6 sm:min-w-minForm sm:mt-0 w-full rounded-xl'>
+        <article className='w-full m-auto sm:min-w-minForm'>
+          <header className='mb-4'>
+            <h2 className='mb-1 text-lg font-semibold'>Create new book</h2>
+            <hr className='border-secondaryLigth border-b-2 rounded-lg' />
           </header>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-4 w-full"
+            className='flex flex-col gap-4 w-full'
           >
-            <label className="font-semibold">
-              Add an image <span className="text-thirdBlue">* </span>
+            <label className='font-semibold'>
+              Add an image <span className='text-thirdBlue'>* </span>
               {errors.img?.type === 'required' && (
-                <span className="text-red-500 text-sm font-medium">
+                <span className='text-red-500 text-sm font-medium'>
                   {errors.img.message}
                 </span>
               )}
               <Controller
                 control={control}
-                name="img"
+                name='img'
                 rules={{
                   required: {
                     value: true,
@@ -78,47 +78,47 @@ const New = (): JSX.Element => {
                 }}
                 render={({ field: { onChange } }) => (
                   <input
-                    className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
+                    className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
                     onChange={(e) => {
                       handleChangeFile(e.target.value)
                       onChange(e)
                     }}
-                    type="url"
-                    placeholder="write url of image"
+                    type='url'
+                    placeholder='write url of image'
                   />
                 )}
               />
             </label>
-            <div className="w-full flex flex-col sm:flex-row gap-3 justify-center">
-              <div className="w-full">
-                <label className="font-semibold">
-                  Title <span className="text-thirdBlue">* </span>
+            <div className='w-full flex flex-col sm:flex-row gap-3 justify-center'>
+              <div className='w-full'>
+                <label className='font-semibold'>
+                  Title <span className='text-thirdBlue'>* </span>
                   {errors.title?.type === 'required' && (
-                    <span className="text-red-500 text-sm font-medium">
+                    <span className='text-red-500 text-sm font-medium'>
                       {errors.title.message}
                     </span>
                   )}
                   <input
-                    className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 "
+                    className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
                     {...register('title', {
                       required: {
                         value: true,
                         message: 'title is required',
                       },
                     })}
-                    type="text"
-                    placeholder="Write a title"
+                    type='text'
+                    placeholder='Write a title'
                   />
                 </label>
-                <label className="font-semibold">
-                  Description <span className="text-thirdBlue">* </span>
+                <label className='font-semibold'>
+                  Description <span className='text-thirdBlue'>* </span>
                   {errors.description?.type && (
-                    <span className="text-red-500 text-sm font-medium">
+                    <span className='text-red-500 text-sm font-medium'>
                       {errors.description.message}
                     </span>
                   )}
                   <textarea
-                    className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue overflow-hidden resize-none"
+                    className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue overflow-hidden resize-none'
                     {...register('description', {
                       required: {
                         value: true,
@@ -131,54 +131,54 @@ const New = (): JSX.Element => {
                     })}
                     rows={3}
                     data-min-rows={3}
-                    id="description"
-                    placeholder="Write a description"
+                    id='description'
+                    placeholder='Write a description'
                   />
                 </label>
               </div>
               {fileImage && (
                 <img
-                  className="m-auto rounded-lg mt-2 w-1/2 shadow-lg"
+                  className='m-auto rounded-lg mt-2 w-1/2 shadow-lg'
                   src={fileImage}
                 />
               )}
             </div>
-            <label className="font-semibold">
-              Book in google drive <span className="text-thirdBlue">* </span>
+            <label className='font-semibold'>
+              Book in google drive <span className='text-thirdBlue'>* </span>
               {errors.book?.type === 'required' && (
-                <span className="text-red-500 text-sm font-medium">
+                <span className='text-red-500 text-sm font-medium'>
                   {errors.book.message}
                 </span>
               )}
               <input
-                className="block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200"
+                className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'
                 {...register('book', {
                   required: {
                     value: true,
                     message: 'This field is required to google drive',
                   },
                 })}
-                type="text"
-                placeholder="drive.google.com/example"
+                type='text'
+                placeholder='drive.google.com/example'
               />
             </label>
-            <div className="w-full grid grid-cols-2 sm:grid-cols-3 justify-evenly gap-2">
+            <div className='w-full grid grid-cols-2 sm:grid-cols-3 justify-evenly gap-2'>
               {categorys.map((category: string, index: number) => (
-                <label key={index} className="font-medium flex items-center">
+                <label key={index} className='font-medium flex items-center'>
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     value={category}
-                    className="accent-sky-600 mr-1 h-4 w-4"
+                    className='accent-sky-600 mr-1 h-4 w-4'
                     {...register('tags')}
                   />
                   {category}
                 </label>
               ))}
             </div>
-            <label className="text-textGray text-base">
-              <span className="text-thirdBlue">*</span> fields required
+            <label className='text-textGray text-base'>
+              <span className='text-thirdBlue'>*</span> fields required
             </label>
-            <button className="bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200">
+            <button className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'>
               submit
             </button>
           </form>

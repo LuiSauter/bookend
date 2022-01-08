@@ -38,7 +38,7 @@ const Name = () => {
   return loading ? (
     <span>Loading...</span>
   ) : (
-    <span className="text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex">
+    <span className='text-xs whitespace-nowrap w-full text-textWhite px-2 hidden md:flex'>
       {data?.findUser?.me.name ? data?.findUser?.me.name : <span>sign in</span>}
     </span>
   )

@@ -36,8 +36,8 @@ const CarruselWhoToFollow = () => {
         <span>Loading...</span>
       ) : (
         <ul
-          id="custom-scrollbar"
-          className="flex flex-row snap-x snap-mandatory overflow-x-auto gap-12 relative"
+          id='custom-scrollbar'
+          className='flex flex-row snap-x snap-mandatory overflow-x-auto gap-12 relative'
         >
           {allUser.length !== 0 &&
             allUser.map(
@@ -45,21 +45,21 @@ const CarruselWhoToFollow = () => {
                 session?.user?.email !== user.email && (
                   <li
                     key={index}
-                    className="bg-secondary shrink-0 flex flex-col w-64 gap-4 snap-always snap-center rounded-xl p-4 mb-2"
+                    className='bg-secondary shrink-0 flex flex-col w-64 gap-4 snap-always snap-center rounded-xl p-4 mb-2'
                   >
-                    <figure className="m-0 rounded-full w-28 mx-auto overflow-hidden">
+                    <figure className='m-0 rounded-full w-28 mx-auto overflow-hidden'>
                       <img
                         src={user.photo}
                         alt={user.name}
-                        className="w-full h-full"
+                        className='w-full h-full'
                       />
                     </figure>
-                    <div className="grid place-content-center">
-                      <h3 className="flex flex-row items-center justify-center">
+                    <div className='grid place-content-center'>
+                      <h3 className='flex flex-row items-center justify-center'>
                         {user.name}
                         {user.verified && icons.checkVeriFied}
                       </h3>
-                      <span className="text-center text-slate-500 text-sm">
+                      <span className='text-center text-slate-500 text-sm'>
                         @{user.username}
                       </span>
                     </div>

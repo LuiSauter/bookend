@@ -16,7 +16,7 @@ export const Nav = ({ children, visible, path, name, unique }: Props) => {
     router.pathname === path ? 'hidden md:flex font-bold' : 'hidden'
   return (
     <Link href={path || ''}>
-      <a className="cursor-pointer w-full md:w-max sm:mx-2 transition-colors">
+      <a className='cursor-pointer w-full md:w-max sm:mx-2 transition-colors'>
         <div
           title={name}
           className={`${visible} ${

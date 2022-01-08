@@ -13,5 +13,5 @@ export const categorys = [
   'Future',
   'Elements',
   'Cosmology',
-  'Science'
+  'Science',
 ]

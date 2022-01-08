@@ -23,7 +23,7 @@ class MyDocument extends Document {
   }
   render(): ReactElement {
     return (
-      <Html className="bg-primary">
+      <Html className='bg-primary'>
         <Head>
           {/* <script
             async
@@ -41,7 +41,7 @@ class MyDocument extends Document {
           /> */}
           {/* <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> */}
         </Head>
-        <body className="bg-primary">
+        <body className='bg-primary'>
           <Main />
           <NextScript />
         </body>

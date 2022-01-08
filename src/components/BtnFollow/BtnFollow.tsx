@@ -8,7 +8,7 @@ import { FOLLOW_USER, UNFOLLOW_USER } from 'src/users/graphql-mutations'
 import { FIND_PROFILE, FIND_USER } from 'src/users/graphql-queries'
 
 interface Props {
-  user: string | undefined;
+  user: string | undefined
 }
 
 const BtnFollow = ({user}:Props) => {
@@ -72,7 +72,7 @@ const BtnFollow = ({user}:Props) => {
             event.stopPropagation()
             handleClickButtonFollow(user)
           }}
-          className="bg-blue-400 hover:bg-thirdBlue text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
+          className='bg-blue-400 hover:bg-thirdBlue text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative'
         >
           Follow
         </button>
@@ -82,7 +82,7 @@ const BtnFollow = ({user}:Props) => {
             event.stopPropagation()
             handleClickButtonUnFollow(user)
           }}
-          className="bg-transparent border border-textGray  hover:bg-red-500 hover:border-red-500 transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative"
+          className='bg-transparent border border-textGray  hover:bg-red-500 hover:border-red-500 transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative'
         >
           Unfollow
         </button>
