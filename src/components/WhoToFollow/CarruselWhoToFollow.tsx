@@ -1,9 +1,11 @@
-import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useQuery } from '@apollo/client'
 import { ALL_USERS } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons/index'
 import BtnFollow from '../BtnFollow/BtnFollow'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 interface IUser {
   email: string;
   name: string;
@@ -17,6 +19,7 @@ const CarruselWhoToFollow = () => {
   const { data: session } = useSession()
   const { data, loading } = useQuery(ALL_USERS)
   const [allUser, setAllUsers] = useState<IUser[]>([] as IUser[])
+  const router = useRouter()
 
   useEffect(() => {
     let cleanup = true
@@ -45,7 +48,11 @@ const CarruselWhoToFollow = () => {
                 session?.user?.email !== user.email && (
                   <li
                     key={index}
-                    className='bg-secondary shrink-0 flex flex-col w-64 gap-4 snap-always snap-center rounded-xl p-4 mb-2'
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      router.push(`/${user.username}`)
+                    }}
+                    className='bg-secondary hover:bg-secondaryLigth shrink-0 flex flex-col w-64 gap-4 snap-always snap-center rounded-xl p-4 mb-2 cursor-pointer'
                   >
                     <figure className='m-0 rounded-full w-28 mx-auto overflow-hidden'>
                       <img
@@ -54,15 +61,17 @@ const CarruselWhoToFollow = () => {
                         className='w-full h-full'
                       />
                     </figure>
-                    <div className='grid place-content-center'>
-                      <h3 className='flex flex-row items-center justify-center'>
-                        {user.name}
-                        {user.verified && icons.checkVeriFied}
-                      </h3>
-                      <span className='text-center text-slate-500 text-sm'>
-                        @{user.username}
-                      </span>
-                    </div>
+                    <Link href={`/${user.username}`}>
+                      <a className='grid place-content-center'>
+                        <h3 className='flex flex-row items-center justify-center'>
+                          {user.name}
+                          {user.verified && icons.checkVeriFied}
+                        </h3>
+                        <span className='text-center text-slate-500 text-sm'>
+                          @{user.username}
+                        </span>
+                      </a>
+                    </Link>
                     <BtnFollow user={user.user} />
                   </li>
                 )

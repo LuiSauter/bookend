@@ -59,7 +59,7 @@ const AllPosts = () => {
     <>
       <section className='w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4'>
         {allPosts.length > 6 && (
-          <div className='odd:row-start-4 col-span-2 sm:col-span-3'>
+          <div className='odd:row-start-4 col-span-2 sm:col-span-3 2xl:col-span-4'>
             <CarruselWhoToFollow />
           </div>
         )}
