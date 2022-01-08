@@ -26,28 +26,28 @@ const UserOfModal = () => {
     handleToggleModal()
   }
   return loading ? (
-    <span className="flex w-full justify-center transition-all">
+    <span className='flex w-full justify-center transition-all'>
       Loading...
     </span>
   ) : (
     <Link href={`/${data?.findUser?.me.username}`}>
       <a
         onClick={handleModalOut}
-        className="w-full hover:bg-secondaryLigth transition-all rounded-md py-1 px-4 flex items-center justify-center"
+        className='w-full hover:bg-secondaryLigth transition-all rounded-md py-1 px-4 flex items-center justify-center'
       >
         <img
           src={
             session?.user?.image ? session?.user?.image : '/default-user.webp'
           }
-          className="w-8 rounded-full md:w-12 mr-4"
+          className='w-8 rounded-full md:w-12 mr-4'
           alt={data?.findUser?.me.name}
         />
-        <div className="flex flex-col">
+        <div className='flex flex-col'>
           <h2>{data?.findUser?.me.name}</h2>
-          <span className="text-sm text-gray-400">
+          <span className='text-sm text-gray-400'>
             @{data?.findUser?.me.username}
           </span>
-          <span className="text-sm text-textGray">See your profile</span>
+          <span className='text-sm text-textGray'>See your profile</span>
         </div>
       </a>
     </Link>
