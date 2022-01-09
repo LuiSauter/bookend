@@ -13,8 +13,8 @@ const AllPosts = () => {
 
   const externalRef = useRef(null)
 
-  const { data: allPostData, loading, fetchMore } = useQuery(ALL_POSTS, {
-    variables: { pageSize: 6, skipValue: 0 },
+  const { data: allPostData, loading, fetchMore,  } = useQuery(ALL_POSTS, {
+    variables: { pageSize: INITIAL_PAGE, skipValue: 0 },
     ssr: true,
   })
 
@@ -32,18 +32,18 @@ const AllPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      console.log(allPostData?.allPosts?.length, postsCount?.postCount)
+      if (page === INITIAL_PAGE) return
       if (
         allPostData?.allPosts !== undefined &&
-        allPostData?.allPosts?.length >= postsCount?.postCount
-      )
-        return
-      fetchMore({ variables: { pageSize: page, skipValue: 0 } })
+        allPostData?.allPosts?.length <= postsCount?.postCount
+      ) {
+        fetchMore({ variables: { pageSize: page, skipValue: 0 } })
+      }
     }
     return () => {
       cleanup = false
     }
-  }, [page])
+  }, [page, allPostData?.allPosts])
 
   useEffect(() => {
     let cleanup = true
@@ -82,7 +82,9 @@ const AllPosts = () => {
         ))}
         {loading && <span>LOADING....</span>}
       </section>
-      <div id='visor' className='relative' ref={externalRef} />
+      {allPostData?.allPosts?.length < postsCount?.postCount && (
+        <div id='visor' className='relative' ref={externalRef} />
+      )}
     </>
   )
 }
