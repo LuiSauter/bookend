@@ -5,7 +5,7 @@ import WhoToFollow from 'src/components/WhoToFollow/WhoToFollow'
 import { LoadingPage } from './LoadingPage'
 import { NavBar } from 'src/components/Nav/NavBar'
 import Footer from 'src/components/Footer'
-import ClientOnly from 'src/components/ClientOnly'
+// import ClientOnly from 'src/components/ClientOnly'
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -29,9 +29,9 @@ export const Layout = ({ children }: Props) => {
           xl:flex flex-col h-[90vh] snap-proximity snap-y overflow-y-auto pb-4 pr-3'
           id='custom-scrollbar'
         >
-          <ClientOnly>
-            <CardProfile />
-          </ClientOnly>
+          {/* <ClientOnly> */}
+          <CardProfile />
+          {/* </ClientOnly> */}
           <article className='w-full snap-center shrink-0 bg-secondary rounded-xl overflow-auto'>
             <h2 className='text-lg font-bold px-4 py-2'>Categorys</h2>
             <hr className='border-textGray opacity-30' />
@@ -46,9 +46,9 @@ export const Layout = ({ children }: Props) => {
         </main>
         <section className='hidden w-full max-w-aside min-w-minAside sticky top-16  md:flex flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4'>
           <article className='w-full bg-secondary rounded-xl p-3 xl:p-4'>
-            <ClientOnly>
-              <WhoToFollow />
-            </ClientOnly>
+            {/* <ClientOnly> */}
+            <WhoToFollow />
+            {/* </ClientOnly> */}
           </article>
           <Footer />
         </section>

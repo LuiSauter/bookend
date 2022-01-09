@@ -3,29 +3,27 @@ import React from 'react'
 import 'tailwindcss/tailwind.css'
 import 'src/layouts/custom-scrollbar.css'
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-} from '@apollo/client'
+import { ApolloProvider } from '@apollo/client'
+import { getApolloClient } from 'src/data/apollo'
 import { SessionProvider } from 'next-auth/react'
 import { Layout } from 'src/layouts/Layout'
 import { LoginStateProvider } from 'src/context/login/LoginStateProvider'
 import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 
-const client = new ApolloClient({
-  connectToDevTools: true,
-  cache: new InMemoryCache(),
-  link: new HttpLink({
-    uri: '/api/graphql',
-  }),
-})
+// const client = new ApolloClient({
+//   connectToDevTools: true,
+//   cache: new InMemoryCache(),
+//   link: new HttpLink({
+//     uri: '/api/graphql',
+//   }),
+// })
 
 function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps): JSX.Element {
+  const client = getApolloClient()
+
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>

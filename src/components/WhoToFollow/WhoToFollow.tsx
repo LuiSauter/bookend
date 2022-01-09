@@ -1,21 +1,20 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
-import { useToggleUser } from 'src/hooks/useToggleUser'
 import { ALL_USERS } from 'src/users/graphql-queries'
 import FollowItem from './FollowItem'
-import * as icons from 'src/assets/icons/index'
-import { signIn } from 'next-auth/react'
 interface IUser {
-  email: string;
-  name: string;
-  photo: string;
-  username: string;
-  user: string;
-  verified: boolean;
+  email: string
+  name: string
+  photo: string
+  username: string
+  user: string
+  verified: boolean
 }
 
 const WhoToFollow = () => {
-  const { data, loading } = useQuery(ALL_USERS)
+  const { data, loading } = useQuery(ALL_USERS, {
+    ssr: true,
+  })
   const [allUser, setAllUsers] = useState<IUser[]>([] as IUser[])
   useEffect(() => {
     let cleanup = true
