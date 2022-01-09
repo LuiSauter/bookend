@@ -16,9 +16,9 @@ const Home = (): JSX.Element => {
       <ClientOnly>
         <IsNewProfile />
       </ClientOnly>
-      <ClientOnly>
-        <AllPosts />
-      </ClientOnly>
+      {/* <ClientOnly> */}
+      <AllPosts />
+      {/* </ClientOnly> */}
       <footer className='w-full py-4 mb-2 sm:mb-0 flex justify-center lg:hidden'>
         <Footer />
       </footer>

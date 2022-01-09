@@ -7,9 +7,24 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document'
+import { getApolloClient } from 'src/data/apollo'
 
 class MyDocument extends Document {
+  constructor(props: any) {
+    super(props)
+
+    /**
+     * Attach apolloState to the "global" __NEXT_DATA__ so we can populate the ApolloClient cache
+     */
+    const { __NEXT_DATA__, apolloState } = props
+    __NEXT_DATA__.apolloState = apolloState
+  }
   static async getInitialProps(ctx: DocumentContext) {
+    console.clear()
+    const apolloClient = getApolloClient(true)
+    const apolloState = apolloClient.extract()
+
+
     const originalRenderPage = ctx.renderPage
     ctx.renderPage = () =>
       originalRenderPage({
@@ -19,7 +34,7 @@ class MyDocument extends Document {
         enhanceComponent: (Component) => Component,
       })
     const initialProps = await Document.getInitialProps(ctx)
-    return { ...initialProps }
+    return { ...initialProps, apolloState }
   }
   render(): ReactElement {
     return (

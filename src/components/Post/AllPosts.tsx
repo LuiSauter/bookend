@@ -9,16 +9,16 @@ import CarruselWhoToFollow from '../WhoToFollow/CarruselWhoToFollow'
 const INITIAL_PAGE = 6
 
 const AllPosts = () => {
-  const [allPosts, setAllPosts] = useState<Post[]>([])
   const [page, setPage] = useState(INITIAL_PAGE)
 
   const externalRef = useRef(null)
 
-  const { data: allPostData, loading } = useQuery(ALL_POSTS, {
-    variables: { pageSize: page, skipValue: 0 },
+  const { data: allPostData, loading, fetchMore } = useQuery(ALL_POSTS, {
+    variables: { pageSize: 6, skipValue: 0 },
+    ssr: true,
   })
 
-  const { data: postsCount } = useQuery(POSTS_COUNT)
+  const { data: postsCount } = useQuery(POSTS_COUNT, { ssr: true })
 
   const { isNearScreen } = useNearScreen({
     externalRef: loading ? null : externalRef,
@@ -32,6 +32,22 @@ const AllPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
+      console.log(allPostData?.allPosts?.length, postsCount?.postCount)
+      if (
+        allPostData?.allPosts !== undefined &&
+        allPostData?.allPosts?.length >= postsCount?.postCount
+      )
+        return
+      fetchMore({ variables: { pageSize: page, skipValue: 0 } })
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [page])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
       if (page > postsCount?.postCount) return
       if (isNearScreen) throttleHandleNextPage()
     }
@@ -40,30 +56,15 @@ const AllPosts = () => {
     }
   }, [isNearScreen, throttleHandleNextPage])
 
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      allPostData?.allPosts?.map((p: Post) => {
-        const isMatch = allPosts.some((itemPost) => itemPost.id === p.id)
-        if (!isMatch) {
-          setAllPosts((prevPost) => [...prevPost, p])
-        }
-      })
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [allPostData?.allPosts])
-
   return (
     <>
       <section className='w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4'>
-        {allPosts.length > 6 && (
+        {allPostData?.allPosts.length > 6 && (
           <div className='odd:row-start-4 col-span-2 sm:col-span-3 2xl:col-span-4'>
             <CarruselWhoToFollow />
           </div>
         )}
-        {allPosts.map((post: Post) => (
+        {allPostData?.allPosts.map((post: Post) => (
           <Link href={`/books/${post.id}`} key={post.id}>
             <a>
               <PostItem

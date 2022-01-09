@@ -1,22 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { FIND_PROFILE, FIND_USER } from 'src/users/graphql-queries'
-import { useLazyQuery, useMutation } from '@apollo/client'
-import { FOLLOW_USER, UNFOLLOW_USER } from 'src/users/graphql-mutations'
-import { useProfileId } from 'src/hooks/useProfileId'
 import { checkVeriFied } from 'src/assets/icons'
-import { useToggleUser } from 'src/hooks/useToggleUser'
 import BtnFollow from '../BtnFollow/BtnFollow'
 
 interface Props {
-  email: string;
-  name: string;
-  photo: string;
-  user: string;
-  username: string;
-  verified: boolean;
+  email: string
+  name: string
+  photo: string
+  user: string
+  username: string
+  verified: boolean
 }
 
 const FollowItem = ({

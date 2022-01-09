@@ -12,8 +12,10 @@ const MyPosts = () => {
   const { username } = router.query
   const [allPosts, setAllPosts] = useState<Post[]>([] as Post[])
   const [page, setPage] = useState(INITIAL_PAGE)
-  const [getProfile, { error, data, loading }] = useLazyQuery(FIND_PROFILE)
-  const { data: postsCount } = useQuery(POSTS_COUNT)
+  const [getProfile, { data, loading }] = useLazyQuery(FIND_PROFILE, {
+    ssr: true,
+  })
+  const { data: postsCount } = useQuery(POSTS_COUNT, { ssr: true })
   const [getAllPosts, { data: findAllPosts, loading: loadingByPost }] =
     useLazyQuery(ALL_POSTS)
 
@@ -53,7 +55,6 @@ const MyPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      console.log(data?.findProfile?.me.user)
       data?.findProfile?.post.length !== 0 &&
         data?.findProfile?.me.user &&
         getAllPosts({

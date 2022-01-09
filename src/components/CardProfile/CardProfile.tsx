@@ -9,7 +9,7 @@ import { checkVeriFied } from 'src/assets/icons'
 const CardProfile = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [getUser, { data, loading }] = useLazyQuery(FIND_USER)
+  const [getUser, { data, loading }] = useLazyQuery(FIND_USER, { ssr: true })
   useEffect(() => {
     let cleanup = true
     if (cleanup) {

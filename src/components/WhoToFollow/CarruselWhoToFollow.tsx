@@ -17,7 +17,7 @@ interface IUser {
 
 const CarruselWhoToFollow = () => {
   const { data: session } = useSession()
-  const { data, loading } = useQuery(ALL_USERS)
+  const { data, loading } = useQuery(ALL_USERS, { ssr: true })
   const [allUser, setAllUsers] = useState<IUser[]>([] as IUser[])
   const router = useRouter()
 
