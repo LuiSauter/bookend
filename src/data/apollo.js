@@ -24,6 +24,16 @@ export function getApolloClient(forceNew) {
                   return merged
                 },
               },
+              allPostsByUser: {
+                keyArgs: [],
+                merge(existing, incoming, { args: { skipValue = 0 } }) {
+                  const merged = existing ? existing.slice(0) : []
+                  for (let i = 0; i < incoming.length; ++i) {
+                    merged[skipValue + i] = incoming[i]
+                  }
+                  return merged
+                },
+              },
             },
           },
         },

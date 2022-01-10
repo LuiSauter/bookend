@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const ALL_POSTS = gql`
-  query allPostsByPagination($pageSize: Int!, $skipValue: Int!, $user: String) {
-    allPosts(pageSize: $pageSize, skipValue: $skipValue, user: $user) {
+  query allPostsByPagination($pageSize: Int!, $skipValue: Int!) {
+    allPosts(pageSize: $pageSize, skipValue: $skipValue) {
       bookUrl
       comments
       description
@@ -13,6 +13,28 @@ export const ALL_POSTS = gql`
       user
       likes
     }
+  }
+`
+
+export const ALL_POST_BY_USER = gql`
+  query allPostsByUserPagination($pageSize: Int!, $skipValue: Int!, $user: String!) {
+    allPostsByUser(pageSize: $pageSize, skipValue: $skipValue, user: $user) {
+      bookUrl
+      comments
+      description
+      id
+      image
+      tags
+      title
+      user
+      likes
+    }
+  }
+`
+
+export const ALL_POST_BY_USER_COUNT = gql`
+  query allPostUserCount($user: String!) {
+    allPostUserCount(user: $user)
   }
 `
 
