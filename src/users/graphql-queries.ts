@@ -35,6 +35,7 @@ export const FIND_USER = gql`
       location
       website
       post
+      liked
       me {
         name
         photo

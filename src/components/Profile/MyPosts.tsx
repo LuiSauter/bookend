@@ -6,6 +6,7 @@ import useNearScreen from 'src/hooks/useNearScreen'
 import { ALL_POSTS } from 'src/post/graphql-queries'
 import { FIND_PROFILE } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons'
+import BtnLike from '../BtnFollow/BtnLike'
 const INITIAL_PAGE = 6
 const MyPosts = () => {
   const router = useRouter()
@@ -102,7 +103,8 @@ const MyPosts = () => {
   return (
     <>
       <section className='flex flex-col gap-4 w-full min-h-[90vh]'>
-        {data?.findProfile.post !== undefined && data?.findProfile.post.length !== 0 &&
+        {data?.findProfile.post !== undefined &&
+          data?.findProfile.post.length !== 0 &&
           findAllPosts?.allPosts.map((post: Post) => (
             <article
               key={post.id}
@@ -117,7 +119,7 @@ const MyPosts = () => {
                   className='absolute inset-0 w-full h-full object-cover object-center z-[-1] rounded-xl'
                 />
               </div>
-              <figure className='m-0 aspect-[160/230] w-40 mx-auto lg:mx-0 rounded-xl overflow-hidden relative shadow-md shadow-black/30'>
+              <figure className='m-0 flex flex-shrink-0 aspect-[160/230] w-40 mx-auto lg:mx-0 rounded-xl overflow-hidden relative shadow-md shadow-black/30 xl:w-44 2xl:w-52'>
                 <img
                   src={post.image}
                   alt={post.title}
@@ -132,15 +134,7 @@ const MyPosts = () => {
                   {post.description ? post.description[1] : ''}
                 </p>
                 <div className='flex items-center flex-row flex-wrap gap-3 relative'>
-                  <div
-                    onClick={(e) => e.stopPropagation()}
-                    className='bg-secondary rounded-lg flex items-center gap-2 px-2 py-1 select-none cursor-auto'
-                  >
-                    <button className='hover:text-red-500 active:scale-125 active:-rotate-12 transition-all'>
-                      {icons.heart}
-                    </button>
-                    favoritos
-                  </div>
+                  <BtnLike id={post.id} likes={post.likes?.length} />
                   <Link href={post?.bookUrl || '/'}>
                     <a
                       className='flex items-center bg-secondary py-1 px-3 rounded-xl gap-3 hover:bg-thirdBlue hover:shadow-md hover:shadow-black-600/30 transition-colors'
@@ -157,7 +151,9 @@ const MyPosts = () => {
         {loadingByPost && <span>LOADING....</span>}
       </section>
       {/* Unmounted component controlled */}
-      {data?.findProfile.post !== undefined && data?.findProfile.post.length !== 0 && page <= data?.findProfile?.post.length && (
+      {data?.findProfile.post !== undefined &&
+        data?.findProfile.post.length !== 0 &&
+        page <= data?.findProfile?.post.length && (
         <div id='visor' className='relative w-full' ref={externalRef} />
       )}
     </>

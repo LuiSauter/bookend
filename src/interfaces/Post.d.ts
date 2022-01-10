@@ -7,4 +7,5 @@ interface Post {
   user?: string;
   tags?: string[];
   id?: string;
+  likes?: string[];
 }

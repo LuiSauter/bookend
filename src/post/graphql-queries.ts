@@ -11,6 +11,7 @@ export const ALL_POSTS = gql`
       tags
       title
       user
+      likes
     }
   }
 `
@@ -32,6 +33,7 @@ export const FINDONE_POST = gql`
       tags
       title
       user
+      likes
     }
   }
 `

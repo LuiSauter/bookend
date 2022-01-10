@@ -1,13 +1,14 @@
 import { Schema, models, model } from 'mongoose'
 
 interface IPost extends Document {
-  title: string;
-  description?: string[];
-  image: string;
-  bookUrl: string;
-  tags?: string[];
-  comments?: string;
-  user: string;
+  title: string
+  description?: string[]
+  image: string
+  bookUrl: string
+  tags?: string[]
+  comments?: string
+  user: string
+  likes?: string[]
 }
 
 const postSchema = new Schema<IPost>(
@@ -30,6 +31,7 @@ const postSchema = new Schema<IPost>(
       type: String,
       required: true,
     },
+    likes: [String]
   },
   { timestamps: true, versionKey: false }
 )
