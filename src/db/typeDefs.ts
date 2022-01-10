@@ -43,6 +43,7 @@ const typeDefinitions = gql`
     comments: [String]
     tags: [String]
     id: String!
+    likes: [String]
   }
 
   type Query {
@@ -77,6 +78,7 @@ const typeDefinitions = gql`
       tags: [String]
       email: String!
     ): String
+    likePost(id: String!, email: String!): String
     deletePost(id: String!, user: String!): String
     deleteUser(user: String!): String
   }

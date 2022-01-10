@@ -15,7 +15,7 @@
 
 /* Handle on hover */
 #custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #192734da;
+  background: #203141;
 }
 
 ::-webkit-scrollbar-track {
@@ -23,6 +23,7 @@
 }
 ::-webkit-scrollbar {
   width: 15px;
+  height: 8px;
 }
 ::-webkit-scrollbar-thumb {
   background: #192734;
