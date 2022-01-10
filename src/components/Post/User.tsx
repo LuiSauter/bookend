@@ -14,38 +14,34 @@ const User = ({ findUser }: Props) => {
   const router = useRouter()
 
   return (
-    <div
-      onClick={(event) => {
-        event.stopPropagation()
-        router.push(`/${findUser?.me.username}`)
-      }}
-      className='flex flex-row justify-center rounded-xl items-center relative mb-4'
-    >
-      <div className='bg-secondary hover:bg-secondaryLigth cursor-pointer shadow-lg shadow-primary/80 flex items-center rounded-xl px-8 py-3 gap-3'>
-        <figure className='w-9 h-9 rounded-full overflow-hidden'>
+    <div className='flex flex-row w-full justify-start rounded-xl items-center relative'>
+      <div className='w-full flex items-center rounded-xl'>
+        <figure
+          onClick={(event) => {
+            event.stopPropagation()
+            router.push(`/${findUser?.me.username}`)
+          }}
+          className='cursor-pointer w-12 h-12 rounded-full overflow-hidden mr-4'
+        >
           <img
-            className='w-full rounded-full'
+            className='w-full h-full rounded-full'
             src={findUser?.me.photo}
             alt={findUser?.me.name}
           />
         </figure>
-        <div className='flex justify-between items-center gap-4'>
-          <Link href={`/${findUser?.me.username}`}>
-            <a>
-              <p className='flex flex-row items-center'>
-                {findUser?.me.name}
-                {findUser?.me.verified && <span>{icons.checkVeriFied}</span>}
-              </p>
-              <span className='text-sm text-slate-400/90'>
-                @{findUser?.me.username}
-              </span>
-            </a>
-          </Link>
-          {session?.user?.email !== findUser?.me.email && (
-            <BtnFollow user={findUser?.me.user} />
-          )}
-        </div>
+        <Link href={`/${findUser?.me.username}`}>
+          <a className='flex flex-col gap-1  relative'>
+            <p className='flex flex-row items-center text-xl whitespace-nowrap inset-0'>
+              {findUser?.me.name}
+              {findUser?.me.verified && <span>{icons.checkVeriFied}</span>}
+            </p>
+            <span className='text-slate-400/90'>@{findUser?.me.username}</span>
+          </a>
+        </Link>
       </div>
+      {session?.user?.email !== findUser?.me.email && (
+        <BtnFollow user={findUser?.me.user} />
+      )}
     </div>
   )
 }

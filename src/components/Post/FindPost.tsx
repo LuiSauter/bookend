@@ -8,6 +8,7 @@ import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
 import { FINDONE_POST } from 'src/post/graphql-queries'
 import * as icons from 'src/assets/icons'
 import User from './User'
+import BtnLike from '../BtnFollow/BtnLike'
 interface Props {
   id: string | string[];
 }
@@ -52,15 +53,18 @@ const FindPost = ({ id }: Props) => {
       {loading ? (
         <span>Loading...</span>
       ) : (
-        <article className='w-full p-4 rounded-xl relative'>
-          <div className='flex items-center gap-4 relative z-[1]'>
+        <article className='w-full p-4 rounded-xl relative hover:bg-transparent active:bg-transparent'>
+          <div className='flex items-center justify-center w-full gap-4 relative z-[1]'>
             <button
-              className='rounded-full hover:bg-secondaryLigth flex h-9 w-9 items-center justify-center'
+              className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
               onClick={() => router.back()}
             >
               {icons.arrowLeft}
             </button>
-            <span className='text-xl font-semibold'>Book</span>
+            {/* <span className='text-xl font-semibold'>Book</span> */}
+            {findUser?.findUserById && (
+              <User findUser={findUser?.findUserById} />
+            )}
           </div>
           <figure className='absolute inset-0 z-[0] h-[70vh]'>
             <div className='bg-gradient-to-t from-primary via-primary/60 to-primary h-full w-full absolute inset-0' />
@@ -89,13 +93,11 @@ const FindPost = ({ id }: Props) => {
               <p className='text-slate-400'>{data?.findPost.description[0]}</p>
             </div>
           </div>
-          <div className='flex items-center flex-row flex-wrap gap-3 relative mb-4'>
-            <div className='bg-secondary shadow-lg shadow-primary/80 rounded-lg flex items-center gap-2 px-2 py-1 select-none'>
-              <button className='hover:text-red-500 active:scale-125 active:-rotate-12 transition-all'>
-                {icons.heart}
-              </button>
-              favoritos
-            </div>
+          <div className='flex  flex-row flex-wrap gap-3 relative mb-4'>
+            <BtnLike
+              likes={data?.findPost?.likes.length}
+              id={data?.findPost?.id}
+            />
             <Link href={data?.findPost?.bookUrl || '/'}>
               <a
                 className='flex items-center shadow-lg shadow-primary/80 bg-secondary py-2 px-4 rounded-xl gap-3 hover:bg-secondaryLigth hover:shadow-md hover:shadow-black-600/30'
@@ -105,7 +107,6 @@ const FindPost = ({ id }: Props) => {
               </a>
             </Link>
           </div>
-          {findUser?.findUserById && <User findUser={findUser?.findUserById} />}
           <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative'>
             {data?.findPost.tags.map((tag: string, index: number) => (
               <li

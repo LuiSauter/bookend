@@ -34,3 +34,9 @@ export const FIND_POST_BY_ID = gql`
     }
   }
 `
+
+export const LIKE_POST = gql`
+  mutation likePost($id: String!, $email: String!) {
+    likePost(id: $id, email: $email)
+  }
+`

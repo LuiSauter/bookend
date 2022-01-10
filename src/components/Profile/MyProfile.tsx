@@ -48,7 +48,7 @@ const MyProfile = ({ username }: Props) => {
         </div>
       )}
       <article className='w-full relative px-4'>
-        {data?.findProfile.me.email === session?.user?.email && (
+        {data?.findProfile !== undefined && data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
             className='border rounded-2xl px-2 py-1 mx-auto hover:bg-secondaryLigth z-40'

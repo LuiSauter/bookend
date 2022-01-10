@@ -4,7 +4,6 @@ import Post from './models/post'
 
 import jwt from 'jsonwebtoken'
 import config from 'src/config/config'
-import { UserInputError } from 'apollo-server-micro'
 interface IUser {
   email: string;
   name: string;
@@ -142,13 +141,13 @@ const resolvers = {
         const filter = { email }
         const update = { $push: { following: user } }
         await Profile.findOneAndUpdate(filter, update)
-        await Profile.findOne({ email })
+        // await Profile.findOne({ email })
       }
       if (!filterYourUSer) {
         const filter = { user }
         const update = { $push: { followers: findUser.user } }
         await Profile.findOneAndUpdate(filter, update)
-        await Profile.findOne({ user })
+        // await Profile.findOne({ user })
         return 'Follow'
       }
       return null
@@ -174,6 +173,52 @@ const resolvers = {
         new: true,
       })
       return 'unFollow'
+    },
+    likePost: async (root: any, args: any) => {
+      const { email, id } = args
+
+      const findUser = await Profile.findOne({ email })
+      const filterUser = findUser.liked.some(
+        (userString: string) => userString === id
+      )
+
+      const findPost = await Post.findOne({ _id: id })
+      const isLiked = findPost.likes.some(
+        (userId: string) => userId === findUser.user
+      )
+      if (filterUser) {
+        const filterUser = { email }
+        const newlikes = findUser.liked.filter(
+          (postId: string) => postId !== id
+        )
+        await Profile.findOneAndUpdate(
+          filterUser,
+          { liked: newlikes },
+          { new: true }
+        )
+        const filterPost = { _id: id }
+        const newlikesUser = findPost.likes.filter(
+          (userId: string) => userId !== findUser.user
+        )
+        await Post.findOneAndUpdate(
+          filterPost,
+          { likes: newlikesUser },
+          { new: true }
+        )
+        return 'dislike'
+      }
+      if (findUser) {
+        const filter = { email }
+        const update = { $push: { liked: id } }
+        await Profile.findOneAndUpdate(filter, update)
+      }
+      if (!isLiked) {
+        const filter = { _id: id }
+        const update = { $push: { likes: findUser.user } }
+        await Post.findOneAndUpdate(filter, update)
+        return 'Like'
+      }
+      return null
     },
     addPost: async (root: any, args: any) => {
       const { bookUrl, email } = args
