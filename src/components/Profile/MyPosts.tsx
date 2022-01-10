@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import useNearScreen from 'src/hooks/useNearScreen'
-import { ALL_POSTS } from 'src/post/graphql-queries'
+import { ALL_POST_BY_USER, ALL_POST_BY_USER_COUNT } from 'src/post/graphql-queries'
 import { FIND_PROFILE } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons'
 import BtnLike from '../BtnFollow/BtnLike'
@@ -18,7 +18,11 @@ const MyPosts = () => {
   const [
     getAllPosts,
     { data: findAllPosts, loading: loadingByPost, fetchMore },
-  ] = useLazyQuery(ALL_POSTS)
+  ] = useLazyQuery(ALL_POST_BY_USER)
+
+  const [getPostsUserCount, { data: allPostUserCount }] = useLazyQuery(ALL_POST_BY_USER_COUNT, {
+    ssr: true,
+  })
 
   const externalRef = useRef(null)
   const { isNearScreen } = useNearScreen({
@@ -40,16 +44,16 @@ const MyPosts = () => {
     if (cleanup) {
       if (
         data?.findProfile?.post !== undefined &&
-        page <= data?.findProfile?.post.length
+        findAllPosts?.allPostsByUser.length <= allPostUserCount?.allPostUserCount
       ) {
-        data?.findProfile?.me.user &&
-          fetchMore({
-            variables: {
-              pageSize: page,
-              skipValue: 0,
-              user: data?.findProfile?.me.user,
-            },
-          })
+        console.log(page, 'kajaja', data?.findProfile?.me.user)
+        fetchMore({
+          variables: {
+            pageSize: page,
+            skipValue: 0,
+            user: data?.findProfile?.me.user,
+          },
+        })
       }
     }
     return () => {
@@ -60,8 +64,9 @@ const MyPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (page >= data?.findProfile?.post.length) return
-      if (isNearScreen) throttleHandleNextPage()
+      if (page > allPostUserCount?.allPostUserCount) {
+        setPage(allPostUserCount?.allPostUserCount)
+      } else if (isNearScreen) throttleHandleNextPage()
     }
     return () => {
       cleanup = false
@@ -85,7 +90,8 @@ const MyPosts = () => {
         data?.findProfile.post.length !== undefined &&
         data?.findProfile.post.length !== 0
       ) {
-        data?.findProfile?.me.user &&
+        if (data?.findProfile?.me.user) {
+          getPostsUserCount({ variables: { user: data?.findProfile?.me.user } })
           getAllPosts({
             variables: {
               pageSize: INITIAL_PAGE,
@@ -93,6 +99,7 @@ const MyPosts = () => {
               user: data?.findProfile?.me.user,
             },
           })
+        }
       }
     }
     return () => {
@@ -100,12 +107,14 @@ const MyPosts = () => {
     }
   }, [data?.findProfile?.me.user])
 
+  console.log(findAllPosts?.allPostsByUser.length, allPostUserCount?.allPostUserCount, page)
+
   return (
     <>
       <section className='flex flex-col gap-4 w-full min-h-[90vh]'>
         {data?.findProfile.post !== undefined &&
           data?.findProfile.post.length !== 0 &&
-          findAllPosts?.allPosts.map((post: Post) => (
+          findAllPosts?.allPostsByUser.map((post: Post) => (
             <article
               key={post.id}
               className='lg:bg-secondary rounded-xl flex flex-col justify-center p-4 gap-4 lg:flex-row relative lg:hover:bg-secondaryLigth transition-colors hover:brightness-100 cursor-pointer'
@@ -151,9 +160,8 @@ const MyPosts = () => {
         {loadingByPost && <span>LOADING....</span>}
       </section>
       {/* Unmounted component controlled */}
-      {data?.findProfile.post !== undefined &&
-        data?.findProfile.post.length !== 0 &&
-        page <= data?.findProfile?.post.length && (
+      {findAllPosts?.allPostsByUser.length <
+        allPostUserCount?.allPostUserCount && (
         <div id='visor' className='relative w-full' ref={externalRef} />
       )}
     </>

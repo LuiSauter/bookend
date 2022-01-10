@@ -53,7 +53,9 @@ const typeDefinitions = gql`
     findUserById(user: String!): Profile
     findProfile(username: String!): Profile!
     allUsers: [User]!
-    allPosts(pageSize: Int!, skipValue: Int!, user: String): [Post]
+    allPosts(pageSize: Int!, skipValue: Int!): [Post]
+    allPostsByUser(pageSize: Int!, skipValue: Int!, user: String!): [Post]
+    allPostUserCount(user: String!): Int!
     findPost(id: String!): Post
   }
 
