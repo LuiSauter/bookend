@@ -21,17 +21,17 @@ const User = ({ findUser }: Props) => {
             event.stopPropagation()
             router.push(`/${findUser?.me.username}`)
           }}
-          className='cursor-pointer w-12 h-12 rounded-full overflow-hidden mr-4'
+          className='cursor-pointer w-10 h-10 rounded-full overflow-hidden mr-4'
         >
           <img
             className='w-full h-full rounded-full'
-            src={findUser?.me.photo}
+            src={findUser?.me.photo || '/default-user.webp'}
             alt={findUser?.me.name}
           />
         </figure>
         <Link href={`/${findUser?.me.username}`}>
-          <a className='flex flex-col gap-1  relative'>
-            <p className='flex flex-row items-center text-xl whitespace-nowrap inset-0'>
+          <a className='flex flex-col relative'>
+            <p className='flex flex-row items-center text-lg whitespace-nowrap inset-0'>
               {findUser?.me.name}
               {findUser?.me.verified && <span>{icons.checkVeriFied}</span>}
             </p>

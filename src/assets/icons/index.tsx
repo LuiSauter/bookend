@@ -3,7 +3,7 @@ import React from 'react'
 export const home = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    className='h-6 w-6 md:h-5 md:w-5 md:mx-2'
+    className='h-6 w-6 md:mx-2'
     fill='none'
     viewBox='1 0 22 24'
     stroke='currentColor'
@@ -20,7 +20,7 @@ export const home = (
 export const homeCurrent = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    className='h-6 w-6 md:h-5 md:w-5 md:mx-1'
+    className='h-6 w-6 md:mx-1'
     viewBox='0 0 20 20'
     fill='currentColor'
     stroke='currentColor'
@@ -31,7 +31,7 @@ export const homeCurrent = (
 
 export const book = (<svg
   xmlns='http://www.w3.org/2000/svg'
-  className='h-6 w-6 md:h-5 md:w-5 md:mx-2'
+  className='h-6 w-6 md:mx-2'
   fill='none'
   viewBox='1 0 22 24'
   stroke='currentColor'
@@ -57,7 +57,7 @@ export const bookCurrent = (
 
 export const notification = (<svg
   xmlns='http://www.w3.org/2000/svg'
-  className='h-6 w-6 md:h-5 md:w-5 md:mx-2'
+  className='h-6 w-6 md:mx-2'
   fill='none'
   viewBox='1 0 22 24'
   stroke='currentColor'
@@ -76,7 +76,7 @@ export const notificationCurrent = (<svg xmlns='http://www.w3.org/2000/svg' clas
 export const message = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    className='h-6 w-6 md:h-5 md:w-5 md:mx-2'
+    className='h-6 w-6 md:mx-2'
     fill='none'
     viewBox='1 -1 22 24'
     stroke='currentColor'
@@ -172,6 +172,23 @@ export const arrowLeft = (
       strokeLinejoin='round'
       strokeWidth='2'
       d='M10 19l-7-7m0 0l7-7m-7 7h18'
+    />
+  </svg>
+)
+
+export const chevronDown = (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    className='h-5 w-5 hidden md:block'
+    fill='none'
+    viewBox='0 0 24 24'
+    stroke='currentColor'
+  >
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      strokeWidth={2}
+      d='M19 9l-7 7-7-7'
     />
   </svg>
 )
