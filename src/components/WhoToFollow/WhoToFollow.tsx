@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
-import { getApolloClient } from 'src/data/apollo'
 import { ALL_USERS } from 'src/users/graphql-queries'
 import FollowItem from './FollowItem'
 interface IUser {

@@ -22,7 +22,7 @@ const FollowItem = ({
   username,
   verified,
 }: Props) => {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const router = useRouter()
 
   const handleClickLi = (data: string) => {

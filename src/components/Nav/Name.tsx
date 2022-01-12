@@ -9,7 +9,7 @@ import * as icons from 'src/assets/icons'
 const Name = () => {
   const { data: session, status } = useSession()
   const { setProfileId, profile } = useProfileId()
-  const [getUserByProfileId, { data, loading }] = useLazyQuery(FIND_USER)
+  const [getUserByProfileId, { data }] = useLazyQuery(FIND_USER)
 
   useEffect(() => {
     let cleanup = true
