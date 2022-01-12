@@ -1,6 +1,17 @@
 <div id="top"></div>
 <!-- PROJECT SHIELDS -->
 
+
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://bookendd.vercel.app/">
+    <img src="/public/images/bookend-logo.png" alt="nextjs" width="120" height="100">
+  </a>
+  <h3 align="center">Bookend</h3>
+  
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -10,14 +21,6 @@
 
 
 
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://bookendd.vercel.app/">
-    <img src="/public/images/bookend-logo.png" alt="nextjs" width="120" height="100">
-  </a>
-
-  <h3 align="center">Bookend</h3>
 
   <p align="center">
 Bookend is a web application to share books and it was thanks to the idea that arose when I was looking to carry out fullstack development practices<br />
@@ -29,7 +32,7 @@ Bookend is a web application to share books and it was thanks to the idea that a
   </p>
 </div>
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nextjs-logo.svg/207px-Nextjs-logo.svg.png" alt="nextjs" width="120" height="100">
+<!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nextjs-logo.svg/207px-Nextjs-logo.svg.png" alt="nextjs" width="120" height="100"> -->
 
 <!-- TABLE OF CONTENTS -->
 <!-- <details>
