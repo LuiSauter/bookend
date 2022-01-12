@@ -83,7 +83,10 @@ const resolvers = {
     },
   },
   Mutation: {
-    signin: async (root: any, args: any) => {
+    signin: async (
+      root: undefined,
+      args: { email: string; name: string; image: string }
+    ) => {
       const { email, name, image } = args
       const userFind = await User.findOne({ email })
       if (!userFind) {

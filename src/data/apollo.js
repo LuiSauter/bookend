@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 
 const isServer = typeof window === 'undefined'
 const windowApolloState = !isServer && window.__NEXT_DATA__.apolloState
@@ -38,7 +38,9 @@ export function getApolloClient(forceNew) {
           },
         },
       }).restore(windowApolloState || {}),
-      uri: '/api/graphql',
+      link: new HttpLink({
+        uri: '/api/graphql',
+      }),
     })
   }
   return CLIENT

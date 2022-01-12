@@ -9,6 +9,7 @@ import { FINDONE_POST } from 'src/post/graphql-queries'
 import * as icons from 'src/assets/icons'
 import User from './User'
 import BtnLike from '../BtnFollow/BtnLike'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 interface Props {
   id: string | string[];
 }
@@ -50,75 +51,84 @@ const FindPost = ({ id }: Props) => {
           Bookend | {data?.findPost.title ? data?.findPost.title : 'Loading'}
         </title>
       </Head>
-      {loading ? (
-        <span>Loading...</span>
-      ) : (
-        <article className='w-full p-4 rounded-xl relative hover:bg-transparent active:bg-transparent'>
-          <div className='flex items-center justify-center w-full gap-4 relative z-[1]'>
-            <button
-              className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
-              onClick={() => router.back()}
-            >
-              {icons.arrowLeft}
-            </button>
-            {/* <span className='text-xl font-semibold'>Book</span> */}
-            {findUser?.findUserById && (
-              <User findUser={findUser?.findUserById} />
-            )}
-          </div>
-          <figure className='absolute inset-0 z-[0] h-[70vh]'>
-            <div className='bg-gradient-to-t from-primary via-primary/60 to-primary h-full w-full absolute inset-0' />
-            <img
-              className='w-full h-full object-cover object-center z-[0]'
-              src={data?.findPost.image}
-              alt={data?.findPost.title}
-            />
-          </figure>
-          <div className='flex flex-col my-4 gap-4 justify-start relative lg:flex-row'>
-            <header className='flex flex-col items-center gap-4'>
-              <figure className='m-0 rounded-lg relative overflow-hidden aspect-[160/230] w-44'>
-                <img
-                  className='w-full h-full absolute inset-0 rounded-lg object-cover object-center'
-                  src={data?.findPost.image}
-                  alt={data?.findPost.title}
-                />
-              </figure>
-            </header>
-            <div className='w-full flex flex-col gap-4 justify-center'>
-              <h1 className='text-2xl font-bold'>{data?.findPost.title}</h1>
-              <p>
-                <span className='text-slate-500 font-medium'>Autor:</span>{' '}
-                {data?.findPost.description[1]}
-              </p>
-              <p className='text-slate-400'>{data?.findPost.description[0]}</p>
+      <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
+        <div className='flex items-center py-1 pr-2 bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
+          {loading ? (
+            <LoadingIcon />
+          ) : (
+            <>
+              <button
+                className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+                onClick={() => router.back()}
+              >
+                {icons.arrowLeft}
+              </button>
+              {findUser?.findUserById && (
+                <User findUser={findUser?.findUserById} />
+              )}
+            </>
+          )}
+        </div>
+        {loading ? (
+          <LoadingIcon />
+        ) : (
+          <div className='px-4'>
+            <figure className='absolute inset-0 z-[0] h-[70vh]'>
+              <div className='bg-gradient-to-t from-primary via-primary/60 to-primary h-full w-full absolute inset-0' />
+              <img
+                className='w-full h-full object-cover object-center z-[0]'
+                src={data?.findPost.image}
+                alt={data?.findPost.title}
+              />
+            </figure>
+            <div className='flex flex-col my-4 gap-4 justify-start relative lg:flex-row'>
+              <header className='flex flex-col items-center gap-4'>
+                <figure className='m-0 rounded-lg relative overflow-hidden aspect-[160/230] w-44'>
+                  <img
+                    className='w-full h-full absolute inset-0 rounded-lg object-cover object-center'
+                    src={data?.findPost.image}
+                    alt={data?.findPost.title}
+                  />
+                </figure>
+              </header>
+              <div className='w-full flex flex-col gap-4 justify-center'>
+                <h1 className='text-2xl font-bold'>{data?.findPost.title}</h1>
+                <p>
+                  <span className='text-slate-500 font-medium'>Autor:</span>{' '}
+                  {data?.findPost.description[1]}
+                </p>
+                <p className='text-slate-400'>
+                  {data?.findPost.description[0]}
+                </p>
+              </div>
             </div>
+            <div className='flex  flex-row flex-wrap gap-3 relative mb-4'>
+              <BtnLike
+                likes={data?.findPost?.likes.length}
+                id={data?.findPost?.id}
+              />
+              <Link href={data?.findPost?.bookUrl || '/'}>
+                <a
+                  className='flex items-center shadow-lg shadow-primary/80 bg-secondary py-2 px-4 rounded-xl gap-3 hover:bg-secondaryLigth hover:shadow-md hover:shadow-black-600/30'
+                  target='_blank'
+                >
+                  <span>{icons.googDrive}</span>Google drive PDF
+                </a>
+              </Link>
+            </div>
+            <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative'>
+              {data?.findPost.tags.map((tag: string, index: number) => (
+                <li
+                  className='bg-secondary rounded-md px-3 hover:bg-slate-700 text-slate-400'
+                  key={index}
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className='flex  flex-row flex-wrap gap-3 relative mb-4'>
-            <BtnLike
-              likes={data?.findPost?.likes.length}
-              id={data?.findPost?.id}
-            />
-            <Link href={data?.findPost?.bookUrl || '/'}>
-              <a
-                className='flex items-center shadow-lg shadow-primary/80 bg-secondary py-2 px-4 rounded-xl gap-3 hover:bg-secondaryLigth hover:shadow-md hover:shadow-black-600/30'
-                target='_blank'
-              >
-                <span>{icons.googDrive}</span>Google drive PDF
-              </a>
-            </Link>
-          </div>
-          <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative'>
-            {data?.findPost.tags.map((tag: string, index: number) => (
-              <li
-                className='bg-secondary rounded-md px-3 hover:bg-slate-700 text-slate-400'
-                key={index}
-              >
-                {tag}
-              </li>
-            ))}
-          </ul>
-        </article>
-      )}
+        )}
+      </article>
     </>
   )
 }

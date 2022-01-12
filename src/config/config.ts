@@ -1,7 +1,7 @@
 export default {
   MONGO_DATABASE: process.env.MONGODB_URI || '',
   MONGO_DATABASE_TEST: process.env.MONGODB_URI_TEST || '',
-  jwtSecret: process.env.JWT_SECRET || 'tokentest',
+  jwtSecret: process.env.JWT_SECRET || '',
   connectionURI: process.env.CONNECTION_URI || '',
   clientGoogle: process.env.GOOGLE_CLIENT || '',
   clientGoogleSecret: process.env.GOOGLE_CLIENT_SECRET || '',

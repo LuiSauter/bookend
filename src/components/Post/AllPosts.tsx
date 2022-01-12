@@ -6,14 +6,16 @@ import Link from 'next/link'
 import useNearScreen from 'src/hooks/useNearScreen'
 import PostItem from './PostItem'
 import CarruselWhoToFollow from '../WhoToFollow/CarruselWhoToFollow'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import { useToggleUser } from 'src/hooks/useToggleUser'
 const INITIAL_PAGE = 6
 
 const AllPosts = () => {
-  const [page, setPage] = useState(INITIAL_PAGE)
-
+  const [loadingIcon, setLoadingIcon] = useState(true)
+  const { page, handleCountPage } = useToggleUser()
   const externalRef = useRef(null)
 
-  const { data: allPostData, loading, fetchMore,  } = useQuery(ALL_POSTS, {
+  const { data: allPostData, loading, fetchMore } = useQuery(ALL_POSTS, {
     variables: { pageSize: INITIAL_PAGE, skipValue: 0 },
     ssr: true,
   })
@@ -26,8 +28,8 @@ const AllPosts = () => {
   })
 
   const throttleHandleNextPage = useCallback(() => {
-    setPage((prevPage) => prevPage + INITIAL_PAGE)
-  }, [setPage])
+    handleCountPage()
+  }, [])
 
   useEffect(() => {
     let cleanup = true
@@ -48,13 +50,21 @@ const AllPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (page > postsCount?.postCount) return
-      if (isNearScreen) throttleHandleNextPage()
+      console.log(
+        page,
+        allPostData?.allPosts?.length,
+        postsCount?.postCount,
+        loadingIcon
+      )
+      if (page >= postsCount?.postCount) {
+        return setLoadingIcon(false)
+      }
+      isNearScreen && throttleHandleNextPage()
     }
     return () => {
       cleanup = false
     }
-  }, [isNearScreen, throttleHandleNextPage])
+  }, [isNearScreen, throttleHandleNextPage, allPostData?.allPosts])
 
   return (
     <>
@@ -80,7 +90,11 @@ const AllPosts = () => {
             </a>
           </Link>
         ))}
-        {loading && <span>LOADING....</span>}
+        {loadingIcon && (
+          <div className='col-span-2 sm:col-span-3'>
+            <LoadingIcon />
+          </div>
+        )}
       </section>
       {allPostData?.allPosts?.length < postsCount?.postCount && (
         <div id='visor' className='relative' ref={externalRef} />
