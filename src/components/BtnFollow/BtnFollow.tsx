@@ -60,9 +60,9 @@ const BtnFollow = ({user}:Props) => {
     getUnFollow({ variables: { user: data, email: session?.user?.email } })
   }
 
-  const isMatch = dataUser?.findUser?.following.some(
-    (userId: string) => userId === user
-  )
+  const isMatch =
+    status === 'authenticated' &&
+    dataUser?.findUser?.following.some((userId: string) => userId === user)
 
   return (
     <>

@@ -1,9 +1,9 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { LIKE_POST } from 'src/post/graphql-mutations'
 import * as icons from 'src/assets/icons'
 import { useSession } from 'next-auth/react'
-import { FIND_PROFILE, FIND_USER } from 'src/users/graphql-queries'
+import { FIND_USER } from 'src/users/graphql-queries'
 import { FINDONE_POST } from 'src/post/graphql-queries'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 
@@ -50,12 +50,21 @@ const BtnLike = ({ id, likes }: Props) => {
     <div
       onClick={(e) => {
         e.stopPropagation()
-        handleLike(id)
       }}
       title='Favoritos'
-      className='bg-secondary shadow-lg shadow-primary/80 rounded-lg flex items-center gap-2 px-4 py-1 select-none'
+      className='cursor-default flex items-center gap-2 px-4 py-1 select-none'
     >
-      <button className={`${!isMatch ? 'text-inherit' : 'text-red-500 drop-shadow-[5px_0px_0px_rgba(239,68,68,0.4)]'} hover:text-red-500 active:scale-125 active:-rotate-12 transition-all active:ring-0`}>
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          handleLike(id)
+        }}
+        className={`${
+          !isMatch
+            ? 'text-inherit'
+            : 'text-red-500 drop-shadow-[5px_0px_0px_rgba(239,68,68,0.4)]'
+        } hover:text-red-500 active:scale-125 active:-rotate-12 transition-all active:ring-0`}
+      >
         {!isMatch ? icons.heart : icons.heartFill}
       </button>
       <span>{likes}</span>

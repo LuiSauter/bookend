@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 
 const CardProfile = () => {
   const { data: session, status } = useSession()
@@ -29,7 +30,9 @@ const CardProfile = () => {
         router.asPath !== `/${data?.findUser?.me.username}` && (
         <article className='bg-secondary w-full rounded-xl flex flex-col snap-start shrink-0 gap-1 mb-4 items-center relative'>
           {loading ? (
-            'loading...'
+            <div className='py-4'>
+              <LoadingIcon />
+            </div>
           ) : (
             <>
               <header className='m-0 w-full relative'>
@@ -41,7 +44,7 @@ const CardProfile = () => {
                 alt={data?.findUser?.me.name || 'bookend'}
               />
               {loading ? (
-                <span>Loading...</span>
+                <LoadingIcon />
               ) : (
                 <div className='text-center mb-3 px-4'>
                   <h2 className='text-lg font-bold p-0 m-0 flex items-center justify-center gap-1'>

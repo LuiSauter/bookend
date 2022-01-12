@@ -6,12 +6,8 @@ import * as icons from 'src/assets/icons'
 const LoginModal = () => {
   const { handleLoginOpen } = useToggleUser()
 
-  const handleSignInWithGoogle = async () => {
-    return await signIn('google', { redirect: false })
-  }
-  const handleSignInWithGitHub = async () => {
-    return await signIn('github', { redirect: false })
-  }
+  const handleSignInWithGoogle = () => signIn('google')
+  const handleSignInWithGitHub = () => signIn('github')
 
   return (
     <div className='w-full fixed bg-black/40 backdrop-blur-sm inset-0 transition-all overflow-hidden z-[10000]'>

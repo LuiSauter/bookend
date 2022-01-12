@@ -7,11 +7,13 @@ import { ALL_POST_BY_USER, ALL_POST_BY_USER_COUNT } from 'src/post/graphql-queri
 import { FIND_PROFILE } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons'
 import BtnLike from '../BtnFollow/BtnLike'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 const INITIAL_PAGE = 6
 const MyPosts = () => {
   const router = useRouter()
   const { username } = router.query
   const [page, setPage] = useState(INITIAL_PAGE)
+  const [loadingIcon, setLoadingIcon] = useState(true)
   const [getProfile, { data }] = useLazyQuery(FIND_PROFILE, {
     ssr: true,
   })
@@ -46,7 +48,6 @@ const MyPosts = () => {
         data?.findProfile?.post !== undefined &&
         findAllPosts?.allPostsByUser.length <= allPostUserCount?.allPostUserCount
       ) {
-        console.log(page, 'kajaja', data?.findProfile?.me.user)
         fetchMore({
           variables: {
             pageSize: page,
@@ -64,14 +65,16 @@ const MyPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (page > allPostUserCount?.allPostUserCount) {
+      if (page >= allPostUserCount?.allPostUserCount) {
         setPage(allPostUserCount?.allPostUserCount)
+        setLoadingIcon(false)
       } else if (isNearScreen) throttleHandleNextPage()
     }
     return () => {
       cleanup = false
     }
-  }, [isNearScreen, throttleHandleNextPage])
+
+  }, [isNearScreen, throttleHandleNextPage, allPostUserCount])
 
   useEffect(() => {
     let cleanup = true
@@ -86,6 +89,12 @@ const MyPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
+      if (
+        data?.findProfile.post !== undefined &&
+        data?.findProfile.post.length === 0
+      )
+        setLoadingIcon(false)
+      else setLoadingIcon(true)
       if (
         data?.findProfile.post.length !== undefined &&
         data?.findProfile.post.length !== 0
@@ -105,13 +114,12 @@ const MyPosts = () => {
     return () => {
       cleanup = false
     }
-  }, [data?.findProfile?.me.user])
+  }, [data?.findProfile])
 
-  console.log(findAllPosts?.allPostsByUser.length, allPostUserCount?.allPostUserCount, page)
 
   return (
     <>
-      <section className='flex flex-col gap-4 w-full min-h-[90vh]'>
+      <section className='flex flex-col gap-4 w-full min-h-[90vh] mb-4 sm:mb-0'>
         {data?.findProfile.post !== undefined &&
           data?.findProfile.post.length !== 0 &&
           findAllPosts?.allPostsByUser.map((post: Post) => (
@@ -157,10 +165,14 @@ const MyPosts = () => {
               </div>
             </article>
           ))}
-        {loadingByPost && <span>LOADING....</span>}
+        {loadingIcon && (
+          <div className='col-span-2 sm:col-span-3'>
+            <LoadingIcon />
+          </div>
+        )}
       </section>
       {/* Unmounted component controlled */}
-      {findAllPosts?.allPostsByUser.length <
+      {findAllPosts?.allPostsByUser.length <=
         allPostUserCount?.allPostUserCount && (
         <div id='visor' className='relative w-full' ref={externalRef} />
       )}
