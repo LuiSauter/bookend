@@ -22,7 +22,7 @@ const FollowItem = ({
   username,
   verified,
 }: Props) => {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const router = useRouter()
 
   const handleClickLi = (data: string) => {
@@ -36,7 +36,7 @@ const FollowItem = ({
           className='flex justify-center items-center w-full relative p-2 rounded-xl hover:bg-secondaryLigth transition-colors cursor-pointer'
           onClick={() => handleClickLi(username)}
         >
-          <img src={photo} alt={name} className='w-11 h-11 rounded-full mr-3' />
+          <img src={photo || '/default-user.webp'} alt={name} className='w-11 h-11 rounded-full mr-3' />
           <div className='flex flex-row w-full justify-between items-center relative'>
             <Link href={`/${username}`}>
               <a className='flex flex-col overflow-hidden w-full'>

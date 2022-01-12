@@ -7,12 +7,13 @@ import Name from './Name'
 import UserOfModal from './UserOfModal'
 
 export const PhotoUser = () => {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const { dropdownOpen, handleToggleModal, handleLoginOpen } = useToggleUser()
 
   const handleSignOut = async () => {
     localStorage.removeItem('profileId')
-    return await signOut({ redirect: true })
+    await signOut({ redirect: false })
+    // return router.push(data.url)
   }
 
   const handleModalOut = () => {
@@ -23,25 +24,12 @@ export const PhotoUser = () => {
     <>
       <div
         onClick={handleModalOut}
-        className='hidden relative items-center justify-center h-12 sm:h-12 sm:min-h-nav sm:w-12 transition-colors sm:flex sm:hover:bg-secondaryHover sm:rounded-full md:w-max md:h-12 md:hover:bg-transparent cursor-pointer active focus:bg-red-600'
+        className='hidden relative items-center overflow-hidden justify-center h-12 sm:h-12 sm:min-h-nav sm:w-12 md:ml-[5vw] transition-colors sm:flex sm:hover:bg-secondaryHover sm:rounded-full md:w-max md:h-12 md:hover:bg-transparent cursor-pointer md:my-auto'
         id='show-menu'
       >
-        <figure className='bg-secondary hover:bg-secondaryLigth overflow-hidden sm:h-auto md:w-full md:rounded-3xl md:h-8 md:flex md:items-center rounded-full'>
-          <ClientOnly>
-            <img
-              className='w-8 rounded-full md:w-6 md:ml-1'
-              src={
-                session?.user?.image
-                  ? session?.user?.image
-                  : '/default-user.webp'
-              }
-              alt={session?.user?.name ? session?.user?.name : ''}
-            />
-          </ClientOnly>
-          <ClientOnly>
-            <Name />
-          </ClientOnly>
-        </figure>
+        <ClientOnly>
+          <Name />
+        </ClientOnly>
       </div>
       {dropdownOpen && (
         <>
@@ -49,7 +37,7 @@ export const PhotoUser = () => {
             className='bg-secondary transition-colors rounded-xl absolute shadow-2xl shadow-blue-500/30 border border-secondaryLigth w-max sm:h-min
             flex bottom-12 left-1 flex-col z-50 p-4 justify-center
             sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
-            md:top-12 md:left-auto'
+            md:top-12 md:ml-auto md:right-4'
           >
             {status === 'authenticated' ? (
               <ClientOnly>

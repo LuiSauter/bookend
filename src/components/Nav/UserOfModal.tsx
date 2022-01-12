@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 
 const UserOfModal = () => {
   const { data: session, status } = useSession()
@@ -26,9 +27,7 @@ const UserOfModal = () => {
     handleToggleModal()
   }
   return loading ? (
-    <span className='flex w-full justify-center transition-all'>
-      Loading...
-    </span>
+    <LoadingIcon />
   ) : (
     <Link href={`/${data?.findUser?.me.username}`}>
       <a

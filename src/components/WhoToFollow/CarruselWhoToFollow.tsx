@@ -6,6 +6,7 @@ import * as icons from 'src/assets/icons/index'
 import BtnFollow from '../BtnFollow/BtnFollow'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 interface IUser {
   email: string;
   name: string;
@@ -36,7 +37,7 @@ const CarruselWhoToFollow = () => {
   return (
     <>
       {loading ? (
-        <span>Loading...</span>
+        <LoadingIcon />
       ) : (
         <ul
           id='custom-scrollbar'
@@ -56,7 +57,7 @@ const CarruselWhoToFollow = () => {
                   >
                     <figure className='m-0 rounded-full w-28 mx-auto overflow-hidden'>
                       <img
-                        src={user.photo}
+                        src={user.photo || '/default-user.webp'}
                         alt={user.name}
                         className='w-full h-full'
                       />

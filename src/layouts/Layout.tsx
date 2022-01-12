@@ -22,7 +22,7 @@ export const Layout = ({ children }: Props) => {
     >
       <NavBar />
       <div
-        className='flex flex-row items-start justify-center w-full gap-4 sm:mt-4 xl:gap-6 md:px-4 lg:px-6 2xl:px-8
+        className='flex flex-row items-start justify-center w-full gap-4 sm:mt-4 md:mt-2 xl:gap-6 md:px-4 lg:px-6 2xl:px-8
         2xl:gap-6 2xl:justify-between'
       >
         <section
@@ -33,7 +33,7 @@ export const Layout = ({ children }: Props) => {
           <ClientOnly>
             <CardProfile />
           </ClientOnly>
-          <article className='w-full snap-center shrink-0 bg-secondary rounded-xl overflow-auto'>
+          <article className='w-full snap-normal shrink-0 bg-secondary rounded-xl overflow-auto'>
             <h2 className='text-lg font-bold px-4 py-2'>Categorys</h2>
             <hr className='border-textGray opacity-30' />
             <Category />

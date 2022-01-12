@@ -1,5 +1,4 @@
 import React from 'react'
-import * as icons from 'src/assets/icons'
 
 const Books = () => {
   return (

@@ -16,12 +16,12 @@ const PostItem = ({ image, title, description }: Post) => {
         <div
           className={`${
             hoverInfo ? 'opacity-100' : 'opacity-0'
-          } absolute transition-all z-[1] cursor-pointer w-full bg-black/40 h-full`}
+          } absolute transition-all inset-0 z-[1] cursor-pointer w-full bg-black/40 h-full`}
         >
           <div
             className={`${
               hoverInfo ? 'scale-150' : 'scale-0'
-            } absolute transition-all z-[1] top-[50%] left-[40%] text-teal-50`}
+            } grid place-content-center place-items-center h-full w-full transition-all z-[1] text-teal-50`}
           >
             {icons.book}
           </div>
@@ -37,7 +37,6 @@ const PostItem = ({ image, title, description }: Post) => {
         <Modal title={title} description={description} hoverInfo={hoverInfo} />
       )}
     </article>
-    // auto 160 / 242
   )
 }
 

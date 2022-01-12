@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { ALL_USERS } from 'src/users/graphql-queries'
 import FollowItem from './FollowItem'
 interface IUser {
@@ -28,11 +29,10 @@ const WhoToFollow = () => {
     }
   }, [data?.allUsers])
 
-
   return (
     <>
       {loading ? (
-        <span>Loading...</span>
+        <LoadingIcon />
       ) : (
         <ul className='flex w-full flex-col overflow-x-auto relative overflow-hidden'>
           {allUser.length !== 0 &&

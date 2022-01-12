@@ -1,12 +1,14 @@
 import React, { createContext, useState } from 'react'
 
 interface IToggleContext {
-  dropdownOpen: boolean;
-  handleToggleModal: () => void;
-  loginOpen: boolean;
-  handleLoginOpen: () => void;
-  editProfile: boolean;
-  handleEditProfile: () => void;
+  dropdownOpen: boolean
+  handleToggleModal: () => void
+  loginOpen: boolean
+  handleLoginOpen: () => void
+  editProfile: boolean
+  handleEditProfile: () => void
+  page: number
+  handleCountPage: () => void
 }
 
 interface Props {
@@ -17,19 +19,17 @@ export const ToggleContext = createContext<IToggleContext>(
   {} as IToggleContext
 )
 
+const INITIAL_PAGE = 6
 export const ToggleStateProvider = ({ children }: Props) => {
   const [dropdownOpen, setToggleDropdown] = useState(false)
   const [loginOpen, setToggleLogin] = useState(false)
   const [editProfile, setEditProfile] = useState<boolean>(false)
-  const handleToggleModal = () => {
-    setToggleDropdown(!dropdownOpen)
-  }
-  const handleLoginOpen = () => {
-    setToggleLogin(!loginOpen)
-  }
-  const handleEditProfile = () => {
-    setEditProfile(!editProfile)
-  }
+  const [page, setPage] = useState(INITIAL_PAGE)
+
+  const handleToggleModal = () => setToggleDropdown(!dropdownOpen)
+  const handleLoginOpen = () => setToggleLogin(!loginOpen)
+  const handleEditProfile = () => setEditProfile(!editProfile)
+  const handleCountPage = () => setPage((prevPage) => prevPage + INITIAL_PAGE)
   return (
     <ToggleContext.Provider
       value={{
@@ -39,6 +39,8 @@ export const ToggleStateProvider = ({ children }: Props) => {
         handleLoginOpen,
         editProfile,
         handleEditProfile,
+        page,
+        handleCountPage
       }}
     >
       {children}

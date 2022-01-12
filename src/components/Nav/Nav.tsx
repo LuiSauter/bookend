@@ -31,7 +31,7 @@ export const Nav = ({ children, visible, path, name, unique }: Props) => {
         >
           {children}
           <h2
-            className={`${isPathName} font-medium text-sm md:pr-2 select-none`}
+            className={`${isPathName} font-medium md:pr-2 select-none`}
           >
             {name}
           </h2>
