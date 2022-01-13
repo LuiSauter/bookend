@@ -36,6 +36,24 @@ const MyProfile = ({ username }: Props) => {
   }
   return (
     <>
+      <div className='flex bg-primary/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:hidden z-[60] pl-2 sm:pl-0'>
+        <button
+          className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+          onClick={() => router.back()}
+        >
+          {icons.arrowLeft}
+        </button>
+        {data?.findProfile !== undefined &&
+            data?.findProfile.me.email === session?.user?.email && (
+          <button
+            onClick={handleEditProfile}
+            className='border rounded-2xl px-2 py-1 hover:bg-secondaryLigth z-40'
+          >
+                Edit Profile
+          </button>
+        )}
+        <span className='text-lg md:hidden'>{data?.findProfile?.me.name}</span>
+      </div>
       {editProfile && (
         <div className='fixed inset-0 h-screen w-full z-50 overflow-hidden'>
           <div className=' bg-primary/5 backdrop-blur-sm w-full h-screen z-50' />
@@ -47,15 +65,7 @@ const MyProfile = ({ username }: Props) => {
           </div>
         </div>
       )}
-      <article className='w-full relative px-4'>
-        {data?.findProfile !== undefined && data?.findProfile.me.email === session?.user?.email && (
-          <button
-            onClick={handleEditProfile}
-            className='border rounded-2xl px-2 py-1 mx-auto hover:bg-secondaryLigth z-40'
-          >
-            Edit Profile
-          </button>
-        )}
+      <article className='w-full relative px-4 pt-14 md:pt-6'>
         <figure className='mx-auto relative mt-6 z-auto sm:mt-11 md:mt-16 w-28 sm:w-full rounded-full border-4 border-secondary max-w-maxPhotoProfile overflow-hidden'>
           {loading ? (
             <img

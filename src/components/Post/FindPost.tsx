@@ -52,13 +52,13 @@ const FindPost = ({ id }: Props) => {
         </title>
       </Head>
       <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
-        <div className='flex items-center py-1 pr-2 bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
+        <div className='flex items-center py-2 pr-2 bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
           {loading ? (
             <LoadingIcon />
           ) : (
             <>
               <button
-                className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+                className='rounded-full ml-2 sm:ml-0 hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
                 onClick={() => router.back()}
               >
                 {icons.arrowLeft}
@@ -93,11 +93,11 @@ const FindPost = ({ id }: Props) => {
               </header>
               <div className='w-full flex flex-col gap-4 justify-center'>
                 <h1 className='text-2xl font-bold'>{data?.findPost.title}</h1>
-                <p>
-                  <span className='text-slate-500 font-medium'>Autor:</span>{' '}
+                <p className='text-thirdBlue font-medium'>
+                  <span className='text-slate-50 font-medium'>Autor:</span>{' '}
                   {data?.findPost.description[1]}
                 </p>
-                <p className='text-slate-400'>
+                <p>
                   {data?.findPost.description[0]}
                 </p>
               </div>

@@ -9,6 +9,8 @@ interface IToggleContext {
   handleEditProfile: () => void
   page: number
   handleCountPage: () => void
+  showOptions: boolean
+  handleOptions: () => void
 }
 
 interface Props {
@@ -25,11 +27,13 @@ export const ToggleStateProvider = ({ children }: Props) => {
   const [loginOpen, setToggleLogin] = useState(false)
   const [editProfile, setEditProfile] = useState<boolean>(false)
   const [page, setPage] = useState(INITIAL_PAGE)
+  const [showOptions, setShowOptions] = useState(false)
 
   const handleToggleModal = () => setToggleDropdown(!dropdownOpen)
   const handleLoginOpen = () => setToggleLogin(!loginOpen)
   const handleEditProfile = () => setEditProfile(!editProfile)
   const handleCountPage = () => setPage((prevPage) => prevPage + INITIAL_PAGE)
+  const handleOptions = () => setShowOptions(!showOptions)
   return (
     <ToggleContext.Provider
       value={{
@@ -40,7 +44,9 @@ export const ToggleStateProvider = ({ children }: Props) => {
         editProfile,
         handleEditProfile,
         page,
-        handleCountPage
+        handleCountPage,
+        showOptions,
+        handleOptions,
       }}
     >
       {children}

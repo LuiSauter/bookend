@@ -12,6 +12,8 @@ export const useToggleUser = () => {
     handleEditProfile,
     page,
     handleCountPage,
+    showOptions,
+    handleOptions,
   } = useContext(ToggleContext)
   return {
     dropdownOpen,
@@ -22,5 +24,7 @@ export const useToggleUser = () => {
     handleEditProfile,
     page,
     handleCountPage,
+    showOptions,
+    handleOptions,
   }
 }

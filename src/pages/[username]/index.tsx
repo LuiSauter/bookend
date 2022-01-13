@@ -17,20 +17,20 @@ const Profile = () => {
       </Head>
       <>
         <section
-          className='relative w-full h-full rounded-xl py-4 mx-auto
+          className='w-full h-full rounded-xl py-4 mx-auto
             sm:min-w-minPost'
         >
           <header className='m-0 w-full z-0'>
-            <div className='bg-backgroundImageFronPage absolute top-0 w-full h-32 sm:h-36 md:h-44 rounded-lg'></div>
+            <div className='bg-backgroundImageFronPage absolute top-12 md:top-0 w-full h-32 sm:h-36 md:h-44 rounded-lg'></div>
           </header>
           <ClientOnly>
             <MyProfile username={username} />
           </ClientOnly>
           <hr className='border-secondaryLigth/40 rounded-xl w-[90%] mx-auto mt-4 mb' />
+          <ClientOnly>
+            <MyPosts />
+          </ClientOnly>
         </section>
-        <ClientOnly>
-          <MyPosts />
-        </ClientOnly>
       </>
     </>
   )
