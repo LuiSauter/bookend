@@ -50,12 +50,6 @@ const AllPosts = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      console.log(
-        page,
-        allPostData?.allPosts?.length,
-        postsCount?.postCount,
-        loadingIcon
-      )
       if (page >= postsCount?.postCount) {
         return setLoadingIcon(false)
       }
