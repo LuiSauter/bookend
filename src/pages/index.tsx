@@ -6,6 +6,7 @@ import Footer from 'src/components/Footer'
 import AllPosts from 'src/components/Post/AllPosts'
 import ClientOnly from 'src/components/ClientOnly'
 import IsNewProfile from 'src/components/ProfileForm/IsNewProfile'
+import SearchBook from 'src/components/SearchBook'
 
 const Home = (): JSX.Element => {
   return (
@@ -16,6 +17,9 @@ const Home = (): JSX.Element => {
       <ClientOnly>
         <IsNewProfile />
       </ClientOnly>
+      <section className='pt-4 px-4 sm:pb-4 sm:pt-0 sm:px-2'>
+        <SearchBook />
+      </section>
       <ClientOnly>
         <AllPosts />
       </ClientOnly>
