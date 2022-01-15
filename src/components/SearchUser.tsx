@@ -71,36 +71,3 @@ const SearchUser = () => {
 }
 
 export default SearchUser
-
-
-const users = [
-  {
-    name: 'Luis',
-    age: 20,
-  },
-  {
-    name: 'luis gabriel',
-    age: 5,
-  },
-  {
-    name: 'Luis Gabriel',
-    age: 15,
-  },
-  {
-    name: 'juanito',
-    age: 22,
-  },
-  {
-    name: 'Alba',
-    age: 30,
-  },
-  {
-    name: 'alva luis',
-    age: 19,
-  },
-]
-
-// for (const {name} of users) {
-//   const data = /gabriel/i.test(name)
-//   if (data) console.log(name)
-// }
