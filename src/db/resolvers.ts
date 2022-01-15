@@ -3,7 +3,9 @@ import Profile from './models/profile'
 import Post from './models/post'
 
 import jwt from 'jsonwebtoken'
+import escapeStringRegexp from 'escape-string-regexp'
 import config from 'src/config/config'
+
 interface IUser {
   email: string;
   name: string;
@@ -25,7 +27,7 @@ const resolvers = {
   Query: {
     userCount: () => User.collection.countDocuments(),
     postCount: () => Post.collection.countDocuments(),
-    findUser: async (root: any, args: any) => {
+    findUser: async (root: undefined, args: { email: string }) => {
       const { email } = args
       if (email) {
         return await Profile.findOne({ email })
@@ -33,19 +35,45 @@ const resolvers = {
         return null
       }
     },
-    findUserById: async (root: any, args: any) => {
+    findUserById: async (root: undefined, args: { user: string }) => {
       const { user } = args
       return await Profile.findOne({ user })
     },
-    findProfile: async (root: any, args: any) => {
+    findProfile: async (root: undefined, args: any) => {
       const { username } = args
       const isfindProfile = await Profile.findOne({ username: username })
       return isfindProfile
     },
-    allUsers: async () => {
-      return await Profile.find({})
+    searchUsers: async (root: undefined, args: any) => {
+      const { name } = args
+      if (name) {
+        const search = escapeStringRegexp(name)
+        const result = await Profile.find({
+          name: { $regex: '.*' + search + '.*', $options: 'i' },
+          function(err: any, response: any) {
+            if (err) console.error(err)
+            return response
+          },
+        })
+        if (result.length === 0) {
+          return await Profile.find({
+            username: { $regex: '.*' + search + '.*', $options: 'i' },
+            function(err: any, response: any) {
+              if (err) console.error(err)
+              return response
+            },
+          })
+        }
+        return result
+      }
     },
-    allPosts: async (root: any, args: any) => {
+    allUsers: async () => {
+      return await Profile.find({}).sort({ createdAt: 'desc' })
+    },
+    allPosts: async (
+      root: undefined,
+      args: { pageSize: number; skipValue: number }
+    ) => {
       const { pageSize, skipValue } = args
       const findPost = await Post.find({})
         .sort({ createdAt: 'desc' })
@@ -53,7 +81,10 @@ const resolvers = {
         .skip(skipValue)
       return findPost
     },
-    allPostsByUser: async (root: any, args: any) => {
+    allPostsByUser: async (
+      root: undefined,
+      args: { pageSize: number; skipValue: number; user: string }
+    ) => {
       const { pageSize, skipValue, user } = args
       const findPost = await Post.find({ user })
         .sort({ createdAt: 'desc' })
@@ -61,7 +92,7 @@ const resolvers = {
         .skip(skipValue)
       return findPost
     },
-    allPostUserCount: async (root: any, args: any) => {
+    allPostUserCount: async (root: undefined, args: { user: string }) => {
       const { user } = args
       return await Post.find({ user }).countDocuments()
     },
@@ -117,7 +148,7 @@ const resolvers = {
         return userFind
       }
     },
-    updateProfile: async (root: any, args: any) => {
+    updateProfile: async (root: undefined, args: any) => {
       const { profile } = args
       const findProfile = await Profile.findById(profile)
       if (findProfile) {
@@ -133,7 +164,7 @@ const resolvers = {
         return null
       }
     },
-    follow: async (root: any, args: any) => {
+    follow: async (root: undefined, args: { email: string; user: any }) => {
       const { email, user } = args
       const findUser = await Profile.findOne({ email })
       const filterUser = findUser.following.some(
@@ -159,7 +190,10 @@ const resolvers = {
       }
       return null
     },
-    unFollow: async (root: any, args: any) => {
+    unFollow: async (
+      root: undefined,
+      args: { email: string; user: string }
+    ) => {
       const { email, user } = args
       const findUser = await Profile.findOne({ email })
       const findTheUser = await Profile.findOne({ user })
@@ -181,7 +215,7 @@ const resolvers = {
       })
       return 'unFollow'
     },
-    likePost: async (root: any, args: any) => {
+    likePost: async (root: undefined, args: { email: string; id: any }) => {
       const { email, id } = args
 
       const findUser = await Profile.findOne({ email })
@@ -227,7 +261,10 @@ const resolvers = {
       }
       return null
     },
-    addPost: async (root: any, args: any) => {
+    addPost: async (
+      root: undefined,
+      args: { bookUrl: string; email: string }
+    ) => {
       const { bookUrl, email } = args
       const userEmail = { email }
       const findUser = await Profile.findOne(userEmail)
@@ -243,7 +280,7 @@ const resolvers = {
         return null
       }
     },
-    deletePost: async (root: any, args: any) => {
+    deletePost: async (root: undefined, args: { id: string; user: string }) => {
       const { id, user } = args
       const filter = { user }
       const findUser = await Profile.findOne(filter)
@@ -261,7 +298,7 @@ const resolvers = {
       }
       return null
     },
-    deleteUser: async (root: any, args: any) => {
+    deleteUser: async (root: undefined, args: { user: string }) => {
       const { user } = args
       await User.findByIdAndDelete(user)
       await Profile.findOneAndDelete({ user })

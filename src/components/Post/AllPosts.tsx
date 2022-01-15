@@ -60,10 +60,12 @@ const AllPosts = () => {
     }
   }, [isNearScreen, throttleHandleNextPage, allPostData?.allPosts])
 
+  // console.log(Math.round(Math.random() * (30 - 6) + 6))
+
   return (
     <>
       <section className='w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4'>
-        {allPostData?.allPosts.length > 6 && (
+        {allPostData?.allPosts.length > (Math.random() * (10 - 6) + 6) && (
           <div className='odd:row-start-4 col-span-2 sm:col-span-3 2xl:col-span-4'>
             <CarruselWhoToFollow />
           </div>
@@ -85,7 +87,7 @@ const AllPosts = () => {
           </Link>
         ))}
         {loadingIcon && (
-          <div className='col-span-2 sm:col-span-3'>
+          <div className='col-span-2 sm:col-span-3 mt-4'>
             <LoadingIcon />
           </div>
         )}
