@@ -17,6 +17,7 @@
     "apollo-server-micro": "^3.5.0",
     "bcrypt": "^5.0.1",
     "cssnano": "^5.0.14",
+    "escape-string-regexp": "^5.0.0",
     "graphql": "^16.1.0",
     "intersection-observer": "^0.12.0",
     "jsonwebtoken": "^8.5.1",

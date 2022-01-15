@@ -6,6 +6,7 @@ import { LoadingPage } from './LoadingPage'
 import { NavBar } from 'src/components/Nav/NavBar'
 import Footer from 'src/components/Footer'
 import ClientOnly from 'src/components/ClientOnly'
+import SearchUser from 'src/components/SearchUser'
 // import ClientOnly from 'src/components/ClientOnly'
 
 interface Props {
@@ -26,8 +27,8 @@ export const Layout = ({ children }: Props) => {
         2xl:gap-6 2xl:justify-between'
       >
         <section
-          className='hidden min-w-[270px] sticky top-16 scrollbar:bg-transparent
-          xl:flex flex-col h-[90vh] snap-proximity snap-y overflow-y-auto pb-4 pr-3'
+          className='hidden min-w-[270px] sticky top-16
+          xl:flex flex-col h-[90vh] snap-proximity snap-y overflow-y-auto pb-4 pr-1'
           id='custom-scrollbar'
         >
           <ClientOnly>
@@ -45,11 +46,12 @@ export const Layout = ({ children }: Props) => {
         >
           {children ? children : <LoadingPage />}
         </main>
-        <section className='hidden w-full max-w-aside min-w-minAside sticky top-16  md:flex flex-col lg:max-w-maxAside xl:mr-0 lg:gap-4'>
+        <section className='hidden w-full max-w-aside min-w-minAside sticky top-16  md:flex flex-col lg:max-w-maxAside xl:mr-0 gap-4'>
+          <SearchUser />
           <article className='w-full bg-secondary rounded-xl p-3 xl:p-4'>
-            {/* <ClientOnly> */}
-            <WhoToFollow />
-            {/* </ClientOnly> */}
+            <ClientOnly>
+              <WhoToFollow />
+            </ClientOnly>
           </article>
           <Footer />
         </section>
