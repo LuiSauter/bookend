@@ -12,13 +12,10 @@ interface Props {
   username: string | string[] | undefined;
 }
 
-const errorMessage =
-  'Cannot return null for non-nullable field Query.findProfile.'
-
 const MyProfile = ({ username }: Props) => {
   const { data: session } = useSession()
-  const [getProfile, { error, data, loading }] = useLazyQuery(FIND_PROFILE)
   const router = useRouter()
+  const [getProfile, { data, loading }] = useLazyQuery(FIND_PROFILE)
   const { handleEditProfile, editProfile } = useToggleUser()
 
   useEffect(() => {
@@ -31,9 +28,10 @@ const MyProfile = ({ username }: Props) => {
     }
   }, [username])
 
-  if (error?.message === errorMessage || data === null) {
-    router.push('/404')
+  if (data?.findProfile === null) {
+    router.push('/')
   }
+
   return (
     <>
       <div className='flex bg-primary/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:hidden z-[60] pl-2 sm:pl-0'>
@@ -43,13 +41,13 @@ const MyProfile = ({ username }: Props) => {
         >
           {icons.arrowLeft}
         </button>
-        {data?.findProfile !== undefined &&
-            data?.findProfile.me.email === session?.user?.email && (
+        {data?.findProfile &&
+          data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
             className='border rounded-2xl px-2 py-1 hover:bg-secondaryLigth z-40'
           >
-                Edit Profile
+              Edit Profile
           </button>
         )}
         <span className='text-lg md:hidden'>{data?.findProfile?.me.name}</span>
