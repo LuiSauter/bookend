@@ -19,12 +19,12 @@ export const Layout = ({ children }: Props) => {
       className=' bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
       selection:text-cyan-900
       sm:flex-row sm:justify-center
-      md:flex-col md:justify-start'
+      md:flex-col md:justify-start scroll-smooth'
     >
       <NavBar />
       <div
         className='flex flex-row items-start justify-center w-full gap-4 sm:mt-4 md:mt-2 xl:gap-6 md:px-4 lg:px-6 2xl:px-8
-        2xl:gap-6 2xl:justify-between'
+        2xl:gap-6 2xl:justify-between scroll-smooth'
       >
         <section
           className='hidden min-w-[270px] sticky top-16
@@ -46,8 +46,10 @@ export const Layout = ({ children }: Props) => {
         >
           {children ? children : <LoadingPage />}
         </main>
-        <section className='hidden w-full max-w-aside min-w-minAside sticky top-16  md:flex flex-col lg:max-w-maxAside xl:mr-0 gap-4'>
-          <SearchUser />
+        <section className='hidden w-full max-w-aside min-w-minAside sticky z-[3] top-16 md:flex flex-col lg:max-w-maxAside xl:mr-0 gap-4'>
+          <ClientOnly>
+            <SearchUser />
+          </ClientOnly>
           <article className='w-full bg-secondary rounded-xl p-3 xl:p-4'>
             <ClientOnly>
               <WhoToFollow />

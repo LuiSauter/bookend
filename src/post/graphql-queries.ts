@@ -59,3 +59,16 @@ export const FINDONE_POST = gql`
     }
   }
 `
+export const SEARCH_POSTS = gql`
+  query searchPostByWords($words: String!) {
+    searchBooks(words: $words) {
+      image
+      comments
+      description
+      id
+      likes
+      title
+      user
+    }
+  }
+`

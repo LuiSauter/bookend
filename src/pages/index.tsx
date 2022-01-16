@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 
 import Footer from 'src/components/Footer'
@@ -17,8 +17,10 @@ const Home = (): JSX.Element => {
       <ClientOnly>
         <IsNewProfile />
       </ClientOnly>
-      <section className='pt-4 px-4 sm:pb-4 sm:pt-0 sm:px-2'>
-        <SearchBook />
+      <section className='px-4 sm:pb-4 sm:pt-0 sm:px-0 pt-4'>
+        <ClientOnly>
+          <SearchBook />
+        </ClientOnly>
       </section>
       <ClientOnly>
         <AllPosts />

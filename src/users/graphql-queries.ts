@@ -79,15 +79,12 @@ export const FIND_USER_BY_USER = gql`
 export const SEARCH_USERS = gql`
   query searchUsers($name: String!) {
     searchUsers(name: $name) {
-      id
-      me {
-        name
-        email
-        photo
-        user
-        username
-        verified
-      }
+      name
+      username
+      user
+      email
+      photo
+      verified
     }
   }
 `
