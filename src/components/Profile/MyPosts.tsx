@@ -60,7 +60,7 @@ const MyPosts = () => {
     return () => {
       cleanup = false
     }
-  }, [page, data?.findProfile?.me.user])
+  }, [page, data?.findProfile?.me.user, username])
 
   useEffect(() => {
     let cleanup = true

@@ -34,7 +34,7 @@ export const PhotoUser = () => {
       {dropdownOpen && (
         <>
           <div
-            className='bg-secondary transition-colors rounded-xl absolute shadow-2xl shadow-blue-500/30 border border-secondaryLigth w-max sm:h-min
+            className='bg-secondary transition-colors rounded-xl absolute shadow-2xl shadow-thirdBlue/30 border border-secondaryLigth w-max sm:h-min
             flex bottom-12 left-1 flex-col z-50 p-4 justify-center
             sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
             md:top-12 md:ml-auto md:right-4'
