@@ -12,8 +12,7 @@ export const PhotoUser = () => {
 
   const handleSignOut = async () => {
     localStorage.removeItem('profileId')
-    await signOut({ redirect: false })
-    // return router.push(data.url)
+    return await signOut()
   }
 
   const handleModalOut = () => {
