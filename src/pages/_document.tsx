@@ -38,7 +38,7 @@ class MyDocument extends Document {
   }
   render(): ReactElement {
     return (
-      <Html className='bg-primary'>
+      <Html className='bg-primary scroll-smooth'>
         <Head>
           {/* <script
             async

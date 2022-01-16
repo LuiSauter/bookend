@@ -67,6 +67,19 @@ const resolvers = {
         return result
       }
     },
+    searchBooks: async (root: undefined, args: any) => {
+      const { words } = args
+      if (words) {
+        const search = escapeStringRegexp(words)
+        return await Post.find({
+          title: { $regex: '.*' + search + '.*', $options: 'i' },
+          function(err: any, response: any) {
+            if (err) console.error(err)
+            return response
+          },
+        })
+      }
+    },
     allUsers: async () => {
       return await Profile.find({}).sort({ createdAt: 'desc' })
     },
