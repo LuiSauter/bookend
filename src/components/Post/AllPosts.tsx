@@ -60,8 +60,6 @@ const AllPosts = () => {
     }
   }, [isNearScreen, throttleHandleNextPage, allPostData?.allPosts])
 
-  // console.log(Math.round(Math.random() * (30 - 6) + 6))
-
   return (
     <>
       <section className='w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4'>

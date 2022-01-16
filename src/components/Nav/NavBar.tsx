@@ -36,7 +36,10 @@ export const NavBar = () => {
         md:py-0 md:mx-0 md:px-4 md:flex-row md:w-full md:h-14 md:justify-between md:overflow-visible
         lg:pr-6 2xl:px-8'
       >
-        <div className='hidden md:flex gap-3 justify-center md:items-center relative bg-transparent'>
+        <div
+          onClick={() => router.push('/')}
+          className='hidden md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity'
+        >
           <img
             className='w-8 h-auto ml-2'
             src='/images/bookend-logo.png'
@@ -67,10 +70,13 @@ export const NavBar = () => {
               alt='bookend logo'
             />
           </div>
-          <button onClick={() => {
-            router.push('/')
-            return window.document.getElementById('search-books')?.focus()
-          }} className='flex w-full h-full items-center mr-auto justify-center hover:bg-secondaryHover/70 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10'>
+          <button
+            onClick={() => {
+              router.push('/')
+              return window.document.getElementById('search-books')?.focus()
+            }}
+            className='flex w-full h-full items-center mr-auto justify-center hover:bg-secondaryHover/70 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10'
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-6 w-6'

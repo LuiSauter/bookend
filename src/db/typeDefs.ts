@@ -56,8 +56,8 @@ const typeDefinitions = gql`
     searchBooks(words: String!): [Post]
     allUsers: [User]!
     allPosts(pageSize: Int!, skipValue: Int!): [Post]
-    allPostsByUser(pageSize: Int!, skipValue: Int!, user: String!): [Post]
-    allPostUserCount(user: String!): Int!
+    allPostsByUsername(pageSize: Int!, skipValue: Int!, username: String!): [Post]
+    allPostUserCount(username: String!): Int!
     findPost(id: String!): Post
   }
 

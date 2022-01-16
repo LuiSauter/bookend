@@ -94,20 +94,26 @@ const resolvers = {
         .skip(skipValue)
       return findPost
     },
-    allPostsByUser: async (
+    allPostsByUsername: async (
       root: undefined,
-      args: { pageSize: number; skipValue: number; user: string }
+      args: { pageSize: number; skipValue: number; username: string }
     ) => {
-      const { pageSize, skipValue, user } = args
-      const findPost = await Post.find({ user })
-        .sort({ createdAt: 'desc' })
-        .limit(pageSize)
-        .skip(skipValue)
-      return findPost
+      const { pageSize, skipValue, username } = args
+      const userId = await Profile.findOne({ username })
+      if (userId) {
+        const findPost = await Post.find({ user: userId.user })
+          .sort({ createdAt: 'desc' })
+          .limit(pageSize)
+          .skip(skipValue)
+        return findPost
+      }
     },
-    allPostUserCount: async (root: undefined, args: { user: string }) => {
-      const { user } = args
-      return await Post.find({ user }).countDocuments()
+    allPostUserCount: async (root: undefined, args: { username: string }) => {
+      const { username } = args
+      const userId = await Profile.findOne({ username })
+      if (userId) {
+        return await Post.find({ user: userId.user }).countDocuments()
+      }
     },
     findPost: async (root: any, args: any) => {
       const { id } = args
@@ -301,7 +307,6 @@ const resolvers = {
         const postFitered = findUser.post.filter(
           (postId: string) => postId !== id
         )
-        console.log(postFitered)
         const update = { post: postFitered }
         await Post.findByIdAndDelete(id)
         await Profile.findOneAndUpdate(filter, update, {
