@@ -28,7 +28,7 @@ const Profile = () => {
           </ClientOnly>
           <hr className='border-secondaryLigth/40 rounded-xl w-[90%] mx-auto mt-4 mb' />
           <ClientOnly>
-            <MyPosts />
+            <MyPosts username={username} />
           </ClientOnly>
         </section>
       </>

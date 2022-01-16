@@ -4,29 +4,29 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import useNearScreen from 'src/hooks/useNearScreen'
 import { ALL_POST_BY_USER, ALL_POST_BY_USER_COUNT } from 'src/post/graphql-queries'
-import { FIND_PROFILE } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons'
 import BtnLike from '../BtnFollow/BtnLike'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 const INITIAL_PAGE = 6
-const MyPosts = () => {
-  const router = useRouter()
-  const { username } = router.query
+
+interface Props {
+  username: string | string[] | undefined;
+}
+const MyPosts = ({ username }: Props) => {
   const [page, setPage] = useState(INITIAL_PAGE)
   const [loadingIcon, setLoadingIcon] = useState(true)
-  const [getProfile, { data }] = useLazyQuery(FIND_PROFILE, {
-    ssr: true,
-  })
+  const externalRef = useRef(null)
+  const router = useRouter()
+
   const [
     getAllPosts,
-    { data: findAllPosts, loading: loadingByPost, fetchMore },
+    { data: findAllPosts, loading: loadingByPost, refetch, error },
   ] = useLazyQuery(ALL_POST_BY_USER)
+  const [getPostsUserCount, { data: allPostUserCount, error:errorCount }] = useLazyQuery(
+    ALL_POST_BY_USER_COUNT,
+    { ssr: true }
+  )
 
-  const [getPostsUserCount, { data: allPostUserCount }] = useLazyQuery(ALL_POST_BY_USER_COUNT, {
-    ssr: true,
-  })
-
-  const externalRef = useRef(null)
   const { isNearScreen } = useNearScreen({
     externalRef: loadingByPost ? null : externalRef,
     once: false,
@@ -38,91 +38,69 @@ const MyPosts = () => {
 
   useEffect(() => {
     let cleanup = true
-    if (data?.findProfile.post.length === 0) return
-    if (page === INITIAL_PAGE) {
-      cleanup = false
-      return
-    }
     if (cleanup) {
-      if (
-        data?.findProfile?.post !== undefined &&
-        findAllPosts?.allPostsByUser.length <= allPostUserCount?.allPostUserCount
-      ) {
-        fetchMore({
+      if (username) {
+        getAllPosts({
           variables: {
-            pageSize: page,
+            pageSize: INITIAL_PAGE,
             skipValue: 0,
-            user: data?.findProfile?.me.user,
+            username: username,
           },
         })
+        setPage(INITIAL_PAGE)
+        getPostsUserCount({ variables: { username: username } })
       }
     }
     return () => {
       cleanup = false
     }
-  }, [page, data?.findProfile?.me.user, username])
+  }, [username, setPage])
 
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (page >= allPostUserCount?.allPostUserCount) {
-        setPage(allPostUserCount?.allPostUserCount)
-        setLoadingIcon(false)
-      } else if (isNearScreen) throttleHandleNextPage()
-    }
-    return () => {
-      cleanup = false
-    }
-
-  }, [isNearScreen, throttleHandleNextPage, allPostUserCount])
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      username && getProfile({ variables: { username } })
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [username])
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (
-        data?.findProfile.post !== undefined &&
-        data?.findProfile.post.length === 0
-      )
-        setLoadingIcon(false)
-      else setLoadingIcon(true)
-      if (
-        data?.findProfile.post.length !== undefined &&
-        data?.findProfile.post.length !== 0
-      ) {
-        if (data?.findProfile?.me.user) {
-          getPostsUserCount({ variables: { user: data?.findProfile?.me.user } })
-          getAllPosts({
-            variables: {
-              pageSize: INITIAL_PAGE,
-              skipValue: 0,
-              user: data?.findProfile?.me.user,
-            },
-          })
+      if (allPostUserCount?.allPostUserCount === 0 || page === allPostUserCount?.allPostUserCount) {
+        return setLoadingIcon(false)
+      }
+      if (isNearScreen) {
+        if (page <= allPostUserCount?.allPostUserCount) {
+          return throttleHandleNextPage()
         }
+        return setLoadingIcon(false)
       }
     }
+
     return () => {
       cleanup = false
     }
-  }, [data?.findProfile])
+  }, [isNearScreen, throttleHandleNextPage, allPostUserCount, page])
 
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      if (page === INITIAL_PAGE) return
+      username &&
+        refetch({
+          pageSize: page,
+          skipValue: 0,
+          username: username,
+        })
+    }
+
+    return () => {
+      cleanup = false
+    }
+  }, [page])
+
+  if (findAllPosts?.allPostsByUsername === null || errorCount) {
+    router.replace('/')
+  }
 
   return (
     <>
-      <section className='flex flex-col gap-4 w-full min-h-[90vh] mb-4 sm:mb-0'>
-        {data?.findProfile.post !== undefined &&
-          data?.findProfile.post.length !== 0 &&
-          findAllPosts?.allPostsByUser.map((post: Post) => (
+      <section className='flex flex-col gap-4 w-full min-h-[30vh] mb-4 sm:mb-0'>
+        {findAllPosts?.allPostsByUsername !== null &&
+          findAllPosts?.allPostsByUsername.map((post: Post) => (
             <article
               key={post.id}
               className='lg:bg-secondary rounded-xl flex flex-col justify-center p-4 gap-4 lg:flex-row relative lg:hover:bg-secondaryLigth transition-colors hover:brightness-100 cursor-pointer'
@@ -166,13 +144,13 @@ const MyPosts = () => {
             </article>
           ))}
         {loadingIcon && (
-          <div className='col-span-2 sm:col-span-3'>
+          <div className='col-span-2 sm:col-span-3 py-4'>
             <LoadingIcon />
           </div>
         )}
       </section>
       {/* Unmounted component controlled */}
-      {findAllPosts?.allPostsByUser.length <=
+      {findAllPosts?.allPostsByUsername !== null && findAllPosts?.allPostsByUsername.length <
         allPostUserCount?.allPostUserCount && (
         <div id='visor' className='relative w-full' ref={externalRef} />
       )}
