@@ -31,7 +31,10 @@ const SearchBook = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('searhBook')
+    if (data?.searchBooks.length !== 0) {
+      router.push(`/books/${data?.searchBooks[0].id}`)
+      setWords(INITIAL_STATE)
+    }
   }
 
   return (
@@ -60,6 +63,7 @@ const SearchBook = () => {
               setShowResults(false)
               setWords(INITIAL_STATE)
             }}
+            type='button'
             className='hover:text-red-500 z-[60] px-4'
           >
             {icons.exit}
