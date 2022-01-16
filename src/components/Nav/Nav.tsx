@@ -27,7 +27,7 @@ export const Nav = ({ children, visible, path, name, unique }: Props) => {
               : 'hover:bg-secondaryHover/70'
           } items-center justify-center w-full h-11 transition-colors
         sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0
-        md:h-10 md:flex-shrink-0 md:w-12 md:rounded-full md:hover:rounded-3xl`}
+        md:h-10 md:flex-shrink-0 md:w-min md:rounded-full md:hover:rounded-3xl`}
         >
           {children}
           <h2
