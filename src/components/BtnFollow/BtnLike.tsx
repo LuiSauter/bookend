@@ -4,7 +4,7 @@ import { LIKE_POST } from 'src/post/graphql-mutations'
 import * as icons from 'src/assets/icons'
 import { useSession } from 'next-auth/react'
 import { FIND_USER } from 'src/users/graphql-queries'
-import { FINDONE_POST } from 'src/post/graphql-queries'
+import { ALL_POST_RANKING, FINDONE_POST } from 'src/post/graphql-queries'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 
 interface Props {
@@ -19,6 +19,7 @@ const BtnLike = ({ id, likes }: Props) => {
     refetchQueries: [
       { query: FINDONE_POST, variables: { id } },
       { query: FIND_USER, variables: { email: session?.user?.email } },
+      { query: ALL_POST_RANKING, variables: { pageSize: 6, skipValue: 0 } },
     ],
   })
   const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
