@@ -1,13 +1,13 @@
 import { useQuery } from '@apollo/client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { ALL_POSTS, POSTS_COUNT } from 'src/post/graphql-queries'
+import { ALL_POST_RANKING, POSTS_COUNT } from 'src/post/graphql-queries'
 import Link from 'next/link'
 
 import useNearScreen from 'src/hooks/useNearScreen'
-import PostItem from './PostItem'
 import CarruselWhoToFollow from '../WhoToFollow/CarruselWhoToFollow'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import AllPostItem from './AllPostItem'
 const INITIAL_PAGE = 6
 
 const AllPosts = () => {
@@ -15,7 +15,11 @@ const AllPosts = () => {
   const { page, handleCountPage } = useToggleUser()
   const externalRef = useRef(null)
 
-  const { data: allPostData, loading, fetchMore } = useQuery(ALL_POSTS, {
+  const {
+    data: allPostData,
+    loading,
+    fetchMore,
+  } = useQuery(ALL_POST_RANKING, {
     variables: { pageSize: INITIAL_PAGE, skipValue: 0 },
     ssr: true,
   })
@@ -36,8 +40,8 @@ const AllPosts = () => {
     if (cleanup) {
       if (page === INITIAL_PAGE) return
       if (
-        allPostData?.allPosts !== undefined &&
-        allPostData?.allPosts?.length <= postsCount?.postCount
+        allPostData?.allPostRanking !== undefined &&
+        allPostData?.allPostRanking?.length <= postsCount?.postCount
       ) {
         fetchMore({ variables: { pageSize: page, skipValue: 0 } })
       }
@@ -45,7 +49,7 @@ const AllPosts = () => {
     return () => {
       cleanup = false
     }
-  }, [page, allPostData?.allPosts])
+  }, [page, allPostData?.allPostRanking])
 
   useEffect(() => {
     let cleanup = true
@@ -58,20 +62,20 @@ const AllPosts = () => {
     return () => {
       cleanup = false
     }
-  }, [isNearScreen, throttleHandleNextPage, allPostData?.allPosts])
+  }, [isNearScreen, throttleHandleNextPage, allPostData?.allPostRanking])
 
   return (
     <>
       <section className='w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4'>
-        {allPostData?.allPosts.length > (Math.random() * (10 - 6) + 6) && (
+        {allPostData?.allPostRanking.length > (Math.random() * (10 - 6) + 6) && (
           <div className='odd:row-start-4 col-span-2 sm:col-span-3 2xl:col-span-4'>
             <CarruselWhoToFollow />
           </div>
         )}
-        {allPostData?.allPosts.map((post: Post) => (
+        {allPostData?.allPostRanking.map((post: Post) => (
           <Link href={`/books/${post.id}`} key={post.id}>
             <a>
-              <PostItem
+              <AllPostItem
                 bookUrl={post.bookUrl}
                 comments={post.comments}
                 description={post.description}
@@ -90,7 +94,7 @@ const AllPosts = () => {
           </div>
         )}
       </section>
-      {allPostData?.allPosts?.length < postsCount?.postCount && (
+      {allPostData?.allPostRanking?.length < postsCount?.postCount && (
         <div id='visor' className='relative' ref={externalRef} />
       )}
     </>

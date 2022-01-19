@@ -9,6 +9,8 @@ interface IPost extends Document {
   comments?: string
   user: string
   likes?: string[]
+  likesCount: number
+  author?: string
 }
 
 const postSchema = new Schema<IPost>(
@@ -18,9 +20,7 @@ const postSchema = new Schema<IPost>(
       required: true,
     },
     description: [String],
-    image: {
-      type: String,
-    },
+    image: { type: String },
     bookUrl: {
       type: String,
       required: true,
@@ -31,7 +31,9 @@ const postSchema = new Schema<IPost>(
       type: String,
       required: true,
     },
-    likes: [String]
+    likes: [String],
+    likesCount: { type: Number },
+    author: { type: String },
   },
   { timestamps: true, versionKey: false }
 )

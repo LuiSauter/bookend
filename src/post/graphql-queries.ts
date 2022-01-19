@@ -12,6 +12,8 @@ export const ALL_POSTS = gql`
       title
       user
       likes
+      createdAt
+      author
     }
   }
 `
@@ -67,6 +69,23 @@ export const SEARCH_POSTS = gql`
       description
       id
       likes
+      title
+      user
+    }
+  }
+`
+
+export const ALL_POST_RANKING = gql`
+  query ($pageSize: Int!, $skipValue: Int!) {
+    allPostRanking(pageSize: $pageSize, skipValue: $skipValue) {
+      bookUrl
+      comments
+      description
+      id
+      image
+      likes
+      likesCount
+      tags
       title
       user
     }
