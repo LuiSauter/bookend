@@ -84,6 +84,7 @@ const AllPosts = () => {
                 tags={post.tags}
                 title={post.title}
                 user={post.user}
+                createdAt={post.createdAt}
               />
             </a>
           </Link>
