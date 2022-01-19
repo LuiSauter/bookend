@@ -5,6 +5,7 @@ import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
 import { useLazyQuery } from '@apollo/client'
 import * as icons from 'src/assets/icons'
 import { useRouter } from 'next/router'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 
 type Props = Post
 
@@ -61,32 +62,38 @@ const PostItem = ({
         />
       </figure>
       <div className='w-full mt-3 xl:mt-4'>
-        <Link href={`/${findUser?.findUserById.me.username}`}>
-          <a
-            onClick={(event) => {
-              event.stopPropagation()
-            }}
-            className='flex items-center flex-row flex-wrap'
-          >
-            <header className='font-bold flex items-center whitespace-nowrap'>
-              <h3 className='hover:underline'>{findUser?.findUserById.me.name}</h3>
-              {findUser?.findUserById.me.verified && (
-                <span>{icons.checkVeriFied}</span>
-              )}
-            </header>
-            <span className='text-slate-400 whitespace-nowrap no-underline'>
-              @{findUser?.findUserById.me.username} ·{' '}
-              <time title={dateLong.toString()}>{timeago}</time>
-            </span>
-          </a>
-        </Link>
+        {findUser?.findUserById ? (
+          <Link href={`/${findUser?.findUserById.me.username}`}>
+            <a
+              onClick={(event) => {
+                event.stopPropagation()
+              }}
+              className='flex items-center flex-row flex-wrap'
+            >
+              <header className='font-bold flex items-center whitespace-nowrap'>
+                <h3 className='hover:underline'>
+                  {findUser?.findUserById.me.name}
+                </h3>
+                {findUser?.findUserById.me.verified && (
+                  <span>{icons.checkVeriFied}</span>
+                )}
+              </header>
+              <span className='text-slate-400 whitespace-nowrap no-underline'>
+                @{findUser?.findUserById.me.username} ·{' '}
+                <time title={dateLong.toString()}>{timeago}</time>
+              </span>
+            </a>
+          </Link>
+        ) : (
+          <span>Loading...</span>
+        )}
         <div>
           <h4 className='text-lg text-thirdBlue'>
             {title} - {author}author...
           </h4>
           <p>{description}</p>
         </div>
-        {image && (
+        {image ? (
           <div className='w-full flex mt-4'>
             <figure className='max-h-[500px] rounded-xl overflow-hidden relative bg-red-500'>
               <img
@@ -95,6 +102,10 @@ const PostItem = ({
                 alt={title}
               />
             </figure>
+          </div>
+        ) : (
+          <div className='pt-4'>
+            <LoadingIcon />
           </div>
         )}
         <div className='mb-3 xl:mb-4'></div>
