@@ -39,7 +39,7 @@ const Name = () => {
 
   if (status === 'unauthenticated' && !session) {
     return (
-      <figure className='overflow-hidden sm:h-auto md:w-full md:h-8 md:flex md:items-center hover:opacity-80'>
+      <figure className='overflow-hidden sm:h-auto md:w-full md:h-8 md:flex flex-shrink-0 md:items-center hover:opacity-80'>
         <img
           className='w-8 h-8 rounded-full md:w-7 md:h-7'
           src='/default-user.webp'
@@ -54,7 +54,7 @@ const Name = () => {
     <LoadingIcon />
   ) : (
     <>
-      <figure className='overflow-hidden sm:h-auto md:w-full md:h-8 md:flex md:items-center hover:opacity-80'>
+      <figure className='overflow-hidden sm:h-auto md:w-full md:h-8 md:flex flex-shrink-0 md:items-center hover:opacity-80'>
         <img
           className='w-8 h-8 rounded-full md:w-7 md:h-7'
           src={data?.findUser?.me.photo || '/default-user.webp'}
