@@ -71,8 +71,8 @@ const SearchUser = () => {
       </form>
       {searhUser.length !== 0 && showSearchResults && (
         <>
-          <div className='absolute top-12 -right-1 bg-secondary/80 rounded-xl w-[120%] overflow-y-auto z-[80] shadow-3xl shadow-thirdBlue/30'>
-            <ul className='bg-primary rounded-xl overflow-hidden max-h-[60vh] overflow-y-auto z-[80]'>
+          <div className='absolute top-32 -right-2 bg-secondary/80 rounded-xl w-[115%] overflow-y-auto z-[80] shadow-3xl shadow-thirdBlue/30'>
+            <ul className='bg-primary rounded-xl overflow-hidden max-h-[65vh] overflow-y-auto z-[80]'>
               {data?.searchUsers.length !== 0 && loading ? (
                 <span className='w-full px-1 overflow-y-hidden'>
                   <LoadingIcon />
