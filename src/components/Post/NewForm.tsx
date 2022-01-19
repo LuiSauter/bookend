@@ -7,7 +7,7 @@ import { useMutation } from '@apollo/client'
 import { ADD_POST } from 'src/post/graphql-mutations'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { ALL_POSTS } from 'src/post/graphql-queries'
+import { ALL_POSTS, ALL_POST_RANKING } from 'src/post/graphql-queries'
 
 if (typeof window !== 'undefined') {
   const description = document.getElementById('description') || null
@@ -27,6 +27,7 @@ const NewForm = (): JSX.Element => {
   const [newPostWithBook] = useMutation(ADD_POST, {
     refetchQueries: [
       { query: ALL_POSTS, variables: { pageSize: 3, skipValue: 0 } },
+      { query: ALL_POST_RANKING, variables: { pageSize: 6, skipValue: 0 } },
     ],
   })
 
@@ -43,6 +44,7 @@ const NewForm = (): JSX.Element => {
         bookUrl: data.book,
         image: data.img,
         tags: [...data.tags],
+        author: data.author,
       },
     })
     return router.push('/')
@@ -83,7 +85,7 @@ const NewForm = (): JSX.Element => {
         />
       </label>
       <div className='w-full flex flex-col sm:flex-row gap-3 justify-center'>
-        <div className='w-full'>
+        <div className='w-full flex flex-col gap-2'>
           <label className='font-semibold'>
             Title <span className='text-thirdBlue'>* </span>
             {errors.title?.type === 'required' && (
@@ -118,14 +120,33 @@ const NewForm = (): JSX.Element => {
                   message: 'Description is required',
                 },
                 maxLength: {
-                  value: 190,
-                  message: '180 is max length',
+                  value: 350,
+                  message: '350 is max length',
                 },
               })}
-              rows={3}
-              data-min-rows={3}
+              rows={4}
+              data-min-rows={4}
               id='description'
               placeholder='Write a description'
+            />
+          </label>
+          <label className='font-semibold'>
+            Author <span className='text-thirdBlue'>* </span>
+            {errors.author?.type === 'required' && (
+              <span className='text-red-500 text-sm font-medium'>
+                {errors.author.message}
+              </span>
+            )}
+            <input
+              className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+              {...register('author', {
+                required: {
+                  value: true,
+                  message: 'Author is required',
+                },
+              })}
+              type='text'
+              placeholder='Write an author name'
             />
           </label>
         </div>
