@@ -2,8 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 
 import Footer from 'src/components/Footer'
-
-import AllPosts from 'src/components/Post/AllPosts'
+import Posts from 'src/components/Post'
 import ClientOnly from 'src/components/ClientOnly'
 import IsNewProfile from 'src/components/ProfileForm/IsNewProfile'
 import SearchBook from 'src/components/SearchBook'
@@ -23,7 +22,7 @@ const Home = (): JSX.Element => {
         </ClientOnly>
       </section>
       <ClientOnly>
-        <AllPosts />
+        <Posts />
       </ClientOnly>
       <footer className='w-full py-4 mb-2 sm:mb-0 flex justify-center lg:hidden'>
         <Footer />
