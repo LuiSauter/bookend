@@ -1,41 +1,104 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
+import Link from 'next/link'
+import useTimeAgo from 'src/hooks/useTimeAgo'
+import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
+import { useLazyQuery } from '@apollo/client'
 import * as icons from 'src/assets/icons'
-import Modal from './Modal'
+import { useRouter } from 'next/router'
 
-const PostItem = ({ image, title, description }: Post) => {
-  const [hoverInfo, setHoverInfo] = useState(false)
+type Props = Post
+
+const PostItem = ({
+  bookUrl,
+  createdAt,
+  image,
+  title,
+  comments,
+  description,
+  id,
+  likes,
+  tags,
+  user,
+  author
+}: Props) => {
+  const date = Number(createdAt)
+  const dateLong = new Date(date)
+  const timeago = useTimeAgo(date)
+  const router = useRouter()
+  const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      if (user) {
+        getUserById({ variables: { user: user } })
+      }
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [user])
+
   return (
     <article
-      className='w-full flex flex-col gap-2 transition-all text-slate-300 relative cursor-pointer hover:text-thirdBlue rounded-xl'
-      onMouseEnter={() => setHoverInfo(true)}
-      onMouseLeave={() => {
-        setHoverInfo(false)
-      }}
+      key={id}
+      className='w-full flex flex-row px-4 sm:bg-secondary sm:hover:bg-secondaryLigth cursor-pointer transition-colors rounded-xl xl:px-6'
+      onClick={() => router.push(`/books/${id}`)}
     >
-      <figure className='relative m-0 overflow-hidden w-full h-full bg-red-500 aspect-[160/230] rounded-xl '>
-        <div
-          className={`${
-            hoverInfo ? 'opacity-100' : 'opacity-0'
-          } absolute transition-all inset-0 z-[1] cursor-pointer w-full bg-black/40 h-full`}
-        >
-          <div
-            className={`${
-              hoverInfo ? 'scale-150' : 'scale-0'
-            } grid place-content-center place-items-center h-full w-full transition-all z-[1] text-teal-50`}
-          >
-            {icons.book}
-          </div>
-        </div>
+      <figure className='flex items-start my-4 flex-shrink-0 mr-3'>
         <img
-          className='object-cover h-full w-full absolute object-center rounded-lg'
-          src={image}
+          className='h-12 w-12 sm:w-14 sm:h-14 rounded-full'
+          src={
+            findUser?.findUserById
+              ? findUser?.findUserById.me.photo
+              : '/default-user.webp'
+          }
+          onClick={(event) => {
+            event.stopPropagation()
+            router.push(`/${findUser?.findUserById.me.username}`)
+          }}
           alt={title}
         />
       </figure>
-      <h2 className='text-sm text-center'>{title}</h2>
-      {hoverInfo && ( //translate-x-1/3
-        <Modal title={title} description={description} hoverInfo={hoverInfo} />
-      )}
+      <div className='w-full mt-3 xl:mt-4'>
+        <Link href={`/${findUser?.findUserById.me.username}`}>
+          <a
+            onClick={(event) => {
+              event.stopPropagation()
+            }}
+            className='flex items-center flex-row flex-wrap'
+          >
+            <header className='font-bold flex items-center whitespace-nowrap'>
+              <h3 className='hover:underline'>{findUser?.findUserById.me.name}</h3>
+              {findUser?.findUserById.me.verified && (
+                <span>{icons.checkVeriFied}</span>
+              )}
+            </header>
+            <span className='text-slate-400 whitespace-nowrap no-underline'>
+              @{findUser?.findUserById.me.username} ·{' '}
+              <time title={dateLong.toString()}>{timeago}</time>
+            </span>
+          </a>
+        </Link>
+        <div>
+          <h4 className='text-lg text-thirdBlue'>
+            {title} - {author}author...
+          </h4>
+          <p>{description}</p>
+        </div>
+        {image && (
+          <div className='w-full flex mt-4'>
+            <figure className='max-h-[500px] rounded-xl overflow-hidden relative bg-red-500'>
+              <img
+                className='h-full w-full object-cover rounded-xl object-top'
+                src={image}
+                alt={title}
+              />
+            </figure>
+          </div>
+        )}
+        <div className='mb-3 xl:mb-4'></div>
+      </div>
     </article>
   )
 }

@@ -39,12 +39,12 @@ const resolvers = {
       const { user } = args
       return await Profile.findOne({ user })
     },
-    findProfile: async (root: undefined, args: any) => {
+    findProfile: async (root: undefined, args: { username: string }) => {
       const { username } = args
       const isfindProfile = await Profile.findOne({ username: username })
       return isfindProfile
     },
-    searchUsers: async (root: undefined, args: any) => {
+    searchUsers: async (root: undefined, args: { name: string }) => {
       const { name } = args
       if (name) {
         const search = escapeStringRegexp(name)
@@ -88,11 +88,20 @@ const resolvers = {
       args: { pageSize: number; skipValue: number }
     ) => {
       const { pageSize, skipValue } = args
-      const findPost = await Post.find({})
+      return await Post.find({})
         .sort({ createdAt: 'desc' })
         .limit(pageSize)
         .skip(skipValue)
-      return findPost
+    },
+    allPostRanking: async (
+      root: undefined,
+      args: { pageSize: number; skipValue: number }
+    ) => {
+      const { pageSize, skipValue } = args
+      return await Post.find({})
+        .sort({ likesCount: -1, updatedAt: 'desc' })
+        .limit(pageSize)
+        .skip(skipValue)
     },
     allPostsByUsername: async (
       root: undefined,
@@ -236,7 +245,6 @@ const resolvers = {
     },
     likePost: async (root: undefined, args: { email: string; id: any }) => {
       const { email, id } = args
-
       const findUser = await Profile.findOne({ email })
       const filterUser = findUser.liked.some(
         (userString: string) => userString === id
@@ -246,6 +254,7 @@ const resolvers = {
       const isLiked = findPost.likes.some(
         (userId: string) => userId === findUser.user
       )
+
       if (filterUser) {
         const filterUser = { email }
         const newlikes = findUser.liked.filter(
@@ -262,11 +271,12 @@ const resolvers = {
         )
         await Post.findOneAndUpdate(
           filterPost,
-          { likes: newlikesUser },
+          { likes: newlikesUser, likesCount: newlikesUser.length },
           { new: true }
         )
         return 'dislike'
       }
+
       if (findUser) {
         const filter = { email }
         const update = { $push: { liked: id } }
@@ -274,7 +284,10 @@ const resolvers = {
       }
       if (!isLiked) {
         const filter = { _id: id }
-        const update = { $push: { likes: findUser.user } }
+        const update = {
+          $push: { likes: findUser.user },
+          $set: { likesCount: findPost.likes.length + 1 },
+        }
         await Post.findOneAndUpdate(filter, update)
         return 'Like'
       }

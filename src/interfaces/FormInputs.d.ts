@@ -4,4 +4,5 @@ interface FormInputs {
   img: file;
   book: string;
   tags: string[];
+  author: string;
 }

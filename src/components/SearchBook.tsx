@@ -41,7 +41,7 @@ const SearchBook = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className='focus-within:bg-secondary focus-within:text-thirdBlue transition-colors rounded-2xl w-full h-full z-[60] flex'
+        className='focus-within:bg-secondary focus-within:text-thirdBlue transition-colors rounded-2xl w-full h-full z-[60] flex sm:mt-4 md:mt-0'
       >
         <label
           onClick={() => setShowResults(true)}

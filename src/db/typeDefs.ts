@@ -44,6 +44,9 @@ const typeDefinitions = gql`
     tags: [String]
     id: String!
     likes: [String]
+    likesCount: Int
+    createdAt: String
+    author: String
   }
 
   type Query {
@@ -56,7 +59,12 @@ const typeDefinitions = gql`
     searchBooks(words: String!): [Post]
     allUsers: [User]!
     allPosts(pageSize: Int!, skipValue: Int!): [Post]
-    allPostsByUsername(pageSize: Int!, skipValue: Int!, username: String!): [Post]
+    allPostRanking(pageSize: Int!, skipValue: Int!): [Post]
+    allPostsByUsername(
+      pageSize: Int!
+      skipValue: Int!
+      username: String!
+    ): [Post]
     allPostUserCount(username: String!): Int!
     findPost(id: String!): Post
   }
