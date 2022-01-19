@@ -7,6 +7,9 @@ import { NavBar } from 'src/components/Nav/NavBar'
 import Footer from 'src/components/Footer'
 import ClientOnly from 'src/components/ClientOnly'
 import SearchUser from 'src/components/SearchUser'
+import { PhotoUser } from 'src/components/Nav/PhotoUser'
+import { useRouter } from 'next/router'
+import * as icons from 'src/assets/icons'
 // import ClientOnly from 'src/components/ClientOnly'
 
 interface Props {
@@ -14,6 +17,7 @@ interface Props {
 }
 
 export const Layout = ({ children }: Props) => {
+  const router = useRouter()
   return (
     <div
       className=' bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
@@ -21,32 +25,62 @@ export const Layout = ({ children }: Props) => {
       sm:flex-row sm:justify-center
       md:flex-col md:justify-start scroll-smooth'
     >
-      <NavBar />
       <div
-        className='flex flex-row items-start justify-center w-full gap-4 sm:mt-4 md:mt-2 xl:gap-6 md:px-4 lg:px-6 2xl:px-8
-        2xl:gap-6 2xl:justify-between scroll-smooth'
+        className='flex flex-row items-start justify-center w-full gap-4 xl:gap-6 md:px-4 lg:px-6 2xl:px-8
+        2xl:gap-6 xl:justify-center scroll-smooth'
       >
         <section
-          className='hidden min-w-[270px] sticky top-16
-          xl:flex flex-col h-[90vh] snap-proximity snap-y overflow-y-auto pb-4 pr-1'
-          id='custom-scrollbar'
+          className='hidden min-w-[270px] max-w-maxAside sticky top-0
+          xl:flex flex-col h-[100vh] snap-proximity snap-y overflow-y-auto overflow-x-hidden'
         >
-          <ClientOnly>
-            <CardProfile />
-          </ClientOnly>
-          <article className='w-full snap-normal shrink-0 bg-secondary rounded-xl overflow-auto'>
-            <h2 className='text-lg font-bold px-4 py-2'>Categorys</h2>
-            <hr className='border-textGray opacity-30' />
-            <Category />
-          </article>
+          <div
+            onClick={() => router.push('/')}
+            className='hidden md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 py-4'
+          >
+            <img
+              className='w-8 h-auto ml-2'
+              src='/images/bookend-logo.png'
+              alt='bookend'
+            />
+            <h1 className='text-xl font-medium font-mono hidden lg:block'>
+              Bookend
+            </h1>
+            {router.query.username && (
+              <button
+                className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+                onClick={() => router.back()}
+              >
+                {icons.arrowLeft}
+              </button>
+            )}
+          </div>
+          <div
+            className='
+            xl:flex flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-1'
+            id='custom-scrollbar'
+          >
+            <ClientOnly>
+              <CardProfile />
+            </ClientOnly>
+            <article className='w-full snap-normal shrink-0 bg-secondary rounded-xl overflow-auto'>
+              <h2 className='text-lg font-bold px-4 py-2'>Categorys</h2>
+              <hr className='border-textGray opacity-30' />
+              <Category />
+            </article>
+          </div>
         </section>
+
         <main
           className='w-full pb-8 sm:px-0 gap-4
-          sm:pr-4 md:pr-0 xl:mx-auto 2xl:m-0 relative'
+          sm:pr-4 md:pr-0 2xl:m-0 relative max-w-[700px] sm:flex md:flex-col'
         >
-          {children ? children : <LoadingPage />}
+          <NavBar />
+          <div className='flex flex-col relative w-full'>
+            {children ? children : <LoadingPage />}
+          </div>
         </main>
-        <section className='hidden w-full max-w-aside min-w-minAside sticky z-[3] top-16 md:flex flex-col lg:max-w-maxAside xl:mr-0 gap-4'>
+        <section className='hidden w-full min-w-minAside sticky z-[3] top-0 md:flex flex-col max-w-maxAside xl:mr-0 gap-4'>
+          <PhotoUser />
           <ClientOnly>
             <SearchUser />
           </ClientOnly>

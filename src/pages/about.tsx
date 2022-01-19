@@ -38,17 +38,26 @@ const about: NextPage = () => {
               passport-jwt, postcss, tailwindcss
             </p>
           </div>
-          <div className='flex flex-col gap-2 relative'>
-            <p className='text-textGray relative w-full'>
-              <Link href='https://github.com/LuiSauter/bookend'>
-                <a
-                  className='flex flex-row items-center hover:underline'
-                  target='_blank'
-                >
-                  {icons.github} GitHub
-                </a>
-              </Link>
-            </p>
+          <div className='flex text-textGray flex-row gap-2 relative'>
+            <Link href='https://github.com/LuiSauter/bookend'>
+              <a
+                className='flex flex-row items-center hover:border-b border-b border-transparent border-dashed hover:border-textGray'
+                target='_blank'
+              >
+                {icons.github} GitHub
+              </a>
+            </Link>
+            <Link href='https://sauterdev.vercel.app'>
+              <a
+                className='flex flex-row gap-1 items-center hover:border-b border-b border-transparent border-dashed hover:border-textGray'
+                target='_blank'
+              >
+                Created by
+                <span className='text-thirdBlue'>
+                  Luis Gabriel Janco Alvarez
+                </span>
+              </a>
+            </Link>
           </div>
         </article>
       </section>
