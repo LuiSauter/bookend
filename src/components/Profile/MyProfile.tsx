@@ -34,9 +34,9 @@ const MyProfile = ({ username }: Props) => {
 
   return (
     <>
-      <div className='flex bg-primary/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:hidden z-[60] pl-2 sm:pl-0'>
+      <div className='flex bg-primary/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:mt-0 md:bg-transparent md:backdrop-blur-none md:absolute md:top-0 z-10 pl-2 sm:pl-0'>
         <button
-          className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+          className='rounded-full md:hidden hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
           onClick={() => router.back()}
         >
           {icons.arrowLeft}
@@ -45,7 +45,7 @@ const MyProfile = ({ username }: Props) => {
           data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
-            className='border rounded-2xl px-2 py-1 hover:bg-secondaryLigth z-40'
+            className='border rounded-2xl px-2 py-1 hover:bg-secondaryLigth'
           >
               Edit Profile
           </button>
@@ -53,9 +53,9 @@ const MyProfile = ({ username }: Props) => {
         <span className='text-lg md:hidden'>{data?.findProfile?.me.name}</span>
       </div>
       {editProfile && (
-        <div className='fixed inset-0 h-screen w-full z-50 overflow-hidden'>
-          <div className=' bg-primary/5 backdrop-blur-sm w-full h-screen z-50' />
-          <div className='absolute inset-0 h-screen sm:h-[90vh] w-full sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] bg-secondary m-auto overflow-auto z-50 sm:rounded-xl px-0'>
+        <div className='fixed inset-0 h-screen w-full z-[90] overflow-hidden'>
+          <div className=' bg-primary/5 backdrop-blur-sm w-full h-screen z-50 overflow-hidden' />
+          <div className='absolute inset-0 h-screen sm:h-[90vh] w-full sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] bg-secondary m-auto overflow-y-auto z-50 sm:rounded-xl px-0'>
             <ProfileForm
               profileData={data?.findProfile}
               onClick={handleEditProfile}
@@ -64,7 +64,7 @@ const MyProfile = ({ username }: Props) => {
         </div>
       )}
       <article className='w-full relative px-4 pt-14 md:pt-6'>
-        <figure className='mx-auto relative mt-6 z-auto sm:mt-11 md:mt-16 w-28 sm:w-full rounded-full border-4 border-secondary max-w-maxPhotoProfile overflow-hidden'>
+        <figure className='mx-auto relative mt-6 z-auto sm:mt-11 md:mt-14 w-28 sm:w-full rounded-full border-4 border-secondary max-w-maxPhotoProfile overflow-hidden'>
           {loading ? (
             <img
               className='w-full rounded-full h-full z-auto relative'

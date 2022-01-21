@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import * as icons from 'src/assets/icons'
 
 interface Props {
   comments?: number | undefined
@@ -7,13 +6,17 @@ interface Props {
   textColor?: string
   title?: string
   children: JSX.Element | JSX.Element[]
+  onClick?: () => void
 }
 
-const BtnComment = ({ comments, bgColor, textColor, children, title }: Props) => {
+const BtnComment = ({ comments, bgColor, textColor, children, title, onClick }: Props) => {
   const [showHover, setShowHover] = useState(false)
   return (
     <div
-      onClick={(event) => event.stopPropagation()}
+      onClick={(event) => {
+        event.stopPropagation()
+        onClick && onClick()
+      }}
       className={`flex items-center gap-1 ${textColor} contrast-125`}
       onMouseEnter={() => setShowHover(true)}
       onMouseLeave={() => setShowHover(false)}

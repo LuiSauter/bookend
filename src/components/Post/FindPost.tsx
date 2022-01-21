@@ -8,8 +8,9 @@ import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
 import { FINDONE_POST } from 'src/post/graphql-queries'
 import * as icons from 'src/assets/icons'
 import User from './User'
-import BtnLike from '../Button/BtnLike'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import MultipleButtons from 'src/components/Button'
+
 interface Props {
   id: string | string[];
 }
@@ -97,16 +98,16 @@ const FindPost = ({ id }: Props) => {
                   <span className='text-slate-50 font-medium'>Autor:</span>{' '}
                   {data?.findPost.description[1]}
                 </p>
-                <p>
-                  {data?.findPost.description[0]}
-                </p>
+                <p>{data?.findPost.description[0]}</p>
               </div>
             </div>
-            <div className='flex  flex-row flex-wrap gap-3 relative mb-4'>
-              <BtnLike
-                likes={data?.findPost?.likes.length}
-                id={data?.findPost?.id}
-              />
+            <MultipleButtons
+              comments={data?.findPost?.comments.length}
+              id={data?.findPost?.id}
+              likes={data?.findPost?.likes.length}
+              bookDownload={data?.findPost?.bookUrl}
+            />
+            <div className='flex mt-3 flex-row flex-wrap gap-3 relative mb-4'>
               <Link href={data?.findPost?.bookUrl || '/'}>
                 <a
                   className='flex items-center shadow-lg shadow-primary/80 bg-secondary py-2 px-4 rounded-xl gap-3 hover:bg-secondaryLigth hover:shadow-md hover:shadow-black-600/30'

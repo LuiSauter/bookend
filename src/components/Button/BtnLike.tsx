@@ -53,7 +53,7 @@ const BtnLike = ({ id, likes }: Props) => {
       onClick={(e) => {
         e.stopPropagation()
       }}
-      title='Favoritos'
+      title='Likes'
       className='hover:text-red-500 contrast-125 cursor-default flex items-center gap-1 select-none'
       onMouseEnter={() => setShowHover(true)}
       onMouseLeave={() => setShowHover(false)}
@@ -65,7 +65,7 @@ const BtnLike = ({ id, likes }: Props) => {
         }}
         className={`
           ${!isMatch ? 'text-inherit' : 'text-red-500'}
-          ${showHover ? 'bg-red-500/10' : 'bg-transparent'}
+          ${showHover ? 'bg-red-500/20' : 'bg-transparent'}
           hover:text-red-500 rounded-full h-9 w-9 grid place-content-center place-items-center active:scale-125 active:-rotate-12 transition-all active:ring-0`}
       >
         {!isMatch ? icons.heart : icons.heartFill}

@@ -6,8 +6,7 @@ import { useLazyQuery } from '@apollo/client'
 import * as icons from 'src/assets/icons'
 import { useRouter } from 'next/router'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
-import BtnLike from 'src/components/Button/BtnLike'
-import BtnComment from '../Button/BtnComment'
+import MultipleButtons from 'src/components/Button'
 
 type Props = Post
 
@@ -110,30 +109,13 @@ const PostItem = ({
             <LoadingIcon />
           </div>
         )}
-        <div className='flex sm:w-[85%] my-2 justify-between text-slate-400'>
-          <BtnComment
-            bgColor={'bg-thirdBlue/10'}
-            textColor={'hover:text-thirdBlue'}
+        <div className='sm:w-[85%] my-2'>
+          <MultipleButtons
             comments={comments?.length}
-            title={'comments'}
-          >
-            {icons.message}
-          </BtnComment>
-          <BtnLike id={id} likes={likes?.length} />
-          <BtnComment
-            bgColor={'bg-teal-500/10'}
-            textColor={'hover:text-teal-500'}
-            title={'share'}
-          >
-            {icons.share}
-          </BtnComment>
-          <BtnComment
-            bgColor={'bg-yellow-500/10'}
-            textColor={'hover:text-yellow-500'}
-            title={'download'}
-          >
-            {icons.download}
-          </BtnComment>
+            id={id}
+            likes={likes?.length}
+            bookDownload={bookUrl}
+          />
         </div>
       </div>
     </article>
