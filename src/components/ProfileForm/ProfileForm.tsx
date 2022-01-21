@@ -56,7 +56,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
 
   return (
     //lg:w-4/5 xl:w-full sm:min-w-minForm
-    <section className='mx-auto sm:w-full rounded-xl 2xl:bg-secondary'>
+    <section className='mx-auto sm:w-full rounded-xl 2xl:bg-secondary overflow-y-auto'>
       <header className='pl-4 pt-4 flex'>
         <button
           className='mr-4 hover:bg-secondaryLigth rounded-full w-9 h-9 flex items-center justify-center'
@@ -68,7 +68,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
       </header>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-4 w-full h-full sm:w-11/12 m-auto p-4'
+        className='flex flex-col gap-4 w-full h-full sm:w-11/12 m-auto p-4 pt-2'
       >
         <div className='flex items-center justify-center m-auto w-full'>
           <figure className='m-0 rounded-full overflow-hidden h-full mr-5'>
