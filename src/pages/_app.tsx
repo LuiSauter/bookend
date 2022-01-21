@@ -9,6 +9,8 @@ import { SessionProvider } from 'next-auth/react'
 import { Layout } from 'src/layouts/Layout'
 import { LoginStateProvider } from 'src/context/login/LoginStateProvider'
 import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // const client = new ApolloClient({
 //   connectToDevTools: true,
@@ -31,6 +33,20 @@ function MyApp({
           <ToggleStateProvider>
             <Layout>
               <Component {...pageProps} />
+              <ToastContainer
+                position='top-right'
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                toastClassName={() =>
+                  'flex bg-secondary relative rounded-xl p-3 overflow-hidden text-white cursor-pointer shadow-3xl shadow-thirdBlue/10 mb-4'
+                }
+              />
             </Layout>
           </ToggleStateProvider>
         </LoginStateProvider>

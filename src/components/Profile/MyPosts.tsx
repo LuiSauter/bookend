@@ -1,12 +1,10 @@
 import { useLazyQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
 import useNearScreen from 'src/hooks/useNearScreen'
 import { ALL_POST_BY_USER, ALL_POST_BY_USER_COUNT } from 'src/post/graphql-queries'
-import * as icons from 'src/assets/icons'
-import BtnLike from '../Button/BtnLike'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import MultipleButtons from 'src/components/Button'
 const INITIAL_PAGE = 6
 
 interface Props {
@@ -119,25 +117,19 @@ const MyPosts = ({ username }: Props) => {
                   className='w-full h-full absolute inset-0'
                 />
               </figure>
-              <div className='relative w-full lg:w-[80%] flex flex-col gap-4 justify-evenly'>
+              <div className='relative w-full lg:w-[80%] flex flex-col gap-4 justify-between'>
                 <h3 className='text-xl font-bold'>{post.title}</h3>
                 <span>{post.description ? post.description[0] : ''}</span>
                 <p className=''>
                   <span className='text-slate-500 font-medium'>Autor: </span>
                   {post.description ? post.description[1] : ''}
                 </p>
-                <div className='flex items-center flex-row flex-wrap gap-3 relative'>
-                  <BtnLike id={post.id} likes={post.likes?.length} />
-                  <Link href={post?.bookUrl || '/'}>
-                    <a
-                      className='flex items-center bg-secondary py-1 px-3 rounded-xl gap-3 hover:bg-thirdBlue hover:shadow-md hover:shadow-black-600/30 transition-colors'
-                      target='_blank'
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span>{icons.googDrive}</span>Google drive PDF
-                    </a>
-                  </Link>
-                </div>
+                <MultipleButtons
+                  comments={post.comments?.length}
+                  id={post?.id}
+                  likes={post.likes?.length}
+                  bookDownload={post.bookUrl}
+                />
               </div>
             </article>
           ))}
@@ -148,8 +140,9 @@ const MyPosts = ({ username }: Props) => {
         )}
       </section>
       {/* Unmounted component controlled */}
-      {findAllPosts?.allPostsByUsername !== null && findAllPosts?.allPostsByUsername.length <
-        allPostUserCount?.allPostUserCount && (
+      {findAllPosts?.allPostsByUsername !== null &&
+        findAllPosts?.allPostsByUsername.length <
+          allPostUserCount?.allPostUserCount && (
         <div id='visor' className='relative w-full' ref={externalRef} />
       )}
     </>

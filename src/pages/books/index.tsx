@@ -9,9 +9,7 @@ const Books = () => {
       <Head>
         <title>Bookend | Books</title>
       </Head>
-      <section className='text-red-500 grid place-content-center place-items-center'>
-        <h1>Welcome to store books not available</h1>
-      </section>
+      <h1 className='text-xl font-bold py-4'>Books Ranking</h1>
       <ClientOnly>
         <AllPosts />
       </ClientOnly>
