@@ -10,7 +10,6 @@ import SearchUser from 'src/components/SearchUser'
 import { PhotoUser } from 'src/components/Nav/PhotoUser'
 import { useRouter } from 'next/router'
 import * as icons from 'src/assets/icons'
-// import ClientOnly from 'src/components/ClientOnly'
 
 interface Props {
   children: JSX.Element | JSX.Element[];
