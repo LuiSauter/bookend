@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import * as icons from 'src/assets/icons'
-import BtnFollow from '../BtnFollow/BtnFollow'
+import BtnFollow from '../Button/BtnFollow'
 import { useRouter } from 'next/router'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 

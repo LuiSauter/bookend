@@ -8,7 +8,7 @@ import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
 import { FINDONE_POST } from 'src/post/graphql-queries'
 import * as icons from 'src/assets/icons'
 import User from './User'
-import BtnLike from '../BtnFollow/BtnLike'
+import BtnLike from '../Button/BtnLike'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 interface Props {
   id: string | string[];
