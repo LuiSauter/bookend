@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
-import BtnFollow from '../BtnFollow/BtnFollow'
+import BtnFollow from '../Button/BtnFollow'
 
 interface Props {
   email: string

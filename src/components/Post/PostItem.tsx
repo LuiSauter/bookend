@@ -6,6 +6,8 @@ import { useLazyQuery } from '@apollo/client'
 import * as icons from 'src/assets/icons'
 import { useRouter } from 'next/router'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import BtnLike from 'src/components/Button/BtnLike'
+import BtnComment from '../Button/BtnComment'
 
 type Props = Post
 
@@ -50,7 +52,7 @@ const PostItem = ({
         <img
           className='h-12 w-12 sm:w-14 sm:h-14 rounded-full'
           src={
-            findUser?.findUserById
+            findUser?.findUserById.me.photo
               ? findUser?.findUserById.me.photo
               : '/default-user.webp'
           }
@@ -58,7 +60,7 @@ const PostItem = ({
             event.stopPropagation()
             router.push(`/${findUser?.findUserById.me.username}`)
           }}
-          alt={title}
+          alt={findUser?.findUserById.me.username}
         />
       </figure>
       <div className='w-full mt-3 xl:mt-4'>
@@ -70,7 +72,7 @@ const PostItem = ({
               }}
               className='flex items-center flex-row flex-wrap'
             >
-              <header className='font-bold flex items-center whitespace-nowrap'>
+              <header className='font-bold flex items-center whitespace-nowrap mr-1'>
                 <h3 className='hover:underline'>
                   {findUser?.findUserById.me.name}
                 </h3>
@@ -78,7 +80,7 @@ const PostItem = ({
                   <span>{icons.checkVeriFied}</span>
                 )}
               </header>
-              <span className='text-slate-400 whitespace-nowrap no-underline'>
+              <span className='text-slate-400 text-[15px] whitespace-nowrap no-underline'>
                 @{findUser?.findUserById.me.username} ·{' '}
                 <time title={dateLong.toString()}>{timeago}</time>
               </span>
@@ -88,10 +90,10 @@ const PostItem = ({
           <span>Loading...</span>
         )}
         <div>
-          <h4 className='text-lg text-thirdBlue'>
+          <h4 className='text-base text-thirdBlue'>
             {title} - {author}author...
           </h4>
-          <p>{description}</p>
+          <p className='text-[15px]'>{description}</p>
         </div>
         {image ? (
           <div className='w-full flex mt-4'>
@@ -108,7 +110,31 @@ const PostItem = ({
             <LoadingIcon />
           </div>
         )}
-        <div className='mb-3 xl:mb-4'></div>
+        <div className='flex sm:w-[85%] my-2 justify-between text-slate-400'>
+          <BtnComment
+            bgColor={'bg-thirdBlue/10'}
+            textColor={'hover:text-thirdBlue'}
+            comments={comments?.length}
+            title={'comments'}
+          >
+            {icons.message}
+          </BtnComment>
+          <BtnLike id={id} likes={likes?.length} />
+          <BtnComment
+            bgColor={'bg-teal-500/10'}
+            textColor={'hover:text-teal-500'}
+            title={'share'}
+          >
+            {icons.share}
+          </BtnComment>
+          <BtnComment
+            bgColor={'bg-yellow-500/10'}
+            textColor={'hover:text-yellow-500'}
+            title={'download'}
+          >
+            {icons.download}
+          </BtnComment>
+        </div>
       </div>
     </article>
   )

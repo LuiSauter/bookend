@@ -5,7 +5,7 @@ import Link from 'next/link'
 import useNearScreen from 'src/hooks/useNearScreen'
 import { ALL_POST_BY_USER, ALL_POST_BY_USER_COUNT } from 'src/post/graphql-queries'
 import * as icons from 'src/assets/icons'
-import BtnLike from '../BtnFollow/BtnLike'
+import BtnLike from '../Button/BtnLike'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 const INITIAL_PAGE = 6
 
@@ -18,10 +18,8 @@ const MyPosts = ({ username }: Props) => {
   const externalRef = useRef(null)
   const router = useRouter()
 
-  const [
-    getAllPosts,
-    { data: findAllPosts, loading: loadingByPost, refetch, error },
-  ] = useLazyQuery(ALL_POST_BY_USER)
+  const [getAllPosts, { data: findAllPosts, loading: loadingByPost, refetch }] =
+    useLazyQuery(ALL_POST_BY_USER)
   const [getPostsUserCount, { data: allPostUserCount, error:errorCount }] = useLazyQuery(
     ALL_POST_BY_USER_COUNT,
     { ssr: true }

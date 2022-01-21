@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LIKE_POST } from 'src/post/graphql-mutations'
 import * as icons from 'src/assets/icons'
 import { useSession } from 'next-auth/react'
@@ -14,6 +14,7 @@ interface Props {
 
 const BtnLike = ({ id, likes }: Props) => {
   const { data: session, status } = useSession()
+  const [showHover, setShowHover] = useState(false)
   const {handleLoginOpen} = useToggleUser()
   const [getLike] = useMutation(LIKE_POST, {
     refetchQueries: [
@@ -53,22 +54,29 @@ const BtnLike = ({ id, likes }: Props) => {
         e.stopPropagation()
       }}
       title='Favoritos'
-      className='cursor-default flex items-center gap-2 px-4 py-1 select-none'
+      className='hover:text-red-500 contrast-125 cursor-default flex items-center gap-1 select-none'
+      onMouseEnter={() => setShowHover(true)}
+      onMouseLeave={() => setShowHover(false)}
     >
       <button
         onClick={(e) => {
           e.stopPropagation()
           handleLike(id)
         }}
-        className={`${
-          !isMatch
-            ? 'text-inherit'
-            : 'text-red-500 drop-shadow-[5px_0px_0px_rgba(239,68,68,0.4)]'
-        } hover:text-red-500 active:scale-125 active:-rotate-12 transition-all active:ring-0`}
+        className={`
+          ${!isMatch ? 'text-inherit' : 'text-red-500'}
+          ${showHover ? 'bg-red-500/10' : 'bg-transparent'}
+          hover:text-red-500 rounded-full h-9 w-9 grid place-content-center place-items-center active:scale-125 active:-rotate-12 transition-all active:ring-0`}
       >
         {!isMatch ? icons.heart : icons.heartFill}
       </button>
-      <span>{likes}</span>
+      <span
+        className={`transition-all ${
+          !isMatch ? 'text-inherit' : 'text-red-500'
+        }`}
+      >
+        {likes}
+      </span>
     </div>
   )
 }
