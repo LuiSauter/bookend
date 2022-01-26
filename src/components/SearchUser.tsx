@@ -2,14 +2,12 @@ import { useLazyQuery } from '@apollo/client'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import * as icons from 'src/assets/icons'
 import { SEARCH_USERS } from 'src/users/graphql-queries'
-import BtnFollow from './Button/BtnFollow'
-import Link from 'next/link'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import UsersItem from './SearchResults/UsersItem'
 const INITIAL_STATE = ''
 
-interface IUser {
+export interface IUser {
   email: string
   name: string
   photo: string
@@ -19,7 +17,6 @@ interface IUser {
 }
 
 const SearchUser = () => {
-  const {data:session} = useSession()
   const router = useRouter()
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [searhUser, setSearhUser] = useState<string>(INITIAL_STATE)
@@ -27,7 +24,7 @@ const SearchUser = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (data?.searchUsers.length !== 0) {
+    if (data?.searchUsers.length !== 0 && searhUser.length !== 0) {
       router.push(`/${data?.searchUsers[0].username}`)
       setSearhUser(INITIAL_STATE)
     }
@@ -79,42 +76,15 @@ const SearchUser = () => {
                 </span>
               ) : (
                 data?.searchUsers.map((userFind: IUser, index: number) => (
-                  <li
-                    className='p-4 hover:bg-secondary transition-colors flex z-[1] cursor-pointer'
-                    onClick={() => {
-                      router.push(`/${userFind.username}`)
-                      setShowSearchResults(false)
-                    }}
+                  <UsersItem
                     key={index}
-                  >
-                    <img
-                      src={userFind.photo || '/default-user.webp'}
-                      alt={userFind.name}
-                      className='w-11 h-11 rounded-full mr-3'
-                    />
-                    <div className='flex flex-row w-full justify-between items-center relative'>
-                      <Link href={`/${userFind.username}`}>
-                        <a className='flex flex-col overflow-hidden w-full'>
-                          <h3 className='hover:underline font-semibold text-sm flex items-center'>
-                            {userFind.name}
-                            <span title='Verified account'>
-                              {userFind.verified && icons.checkVeriFied}
-                            </span>
-                          </h3>
-                          <span className='text-textGray text-sm'>
-                            @{userFind.username}
-                          </span>
-                        </a>
-                      </Link>
-                      {session?.user?.email === userFind.email ? (
-                        <span className='text-sm whitespace-nowrap text-thirdBlue hover:text-thirdBlue/80'>
-                          see profile
-                        </span>
-                      ) : (
-                        <BtnFollow user={userFind.user} />
-                      )}
-                    </div>
-                  </li>
+                    photo={userFind.photo}
+                    username={userFind.username}
+                    name={userFind.name}
+                    verified={userFind.verified}
+                    email={userFind.email}
+                    user={userFind.user}
+                  />
                 ))
               )}
             </ul>
