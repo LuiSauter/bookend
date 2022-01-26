@@ -4,7 +4,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import * as icons from 'src/assets/icons'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { SEARCH_POSTS } from 'src/post/graphql-queries'
-import Link from 'next/link'
+import BooksItem from './SearchResults/BooksItem'
 
 const INITIAL_STATE = ''
 
@@ -31,8 +31,9 @@ const SearchBook = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (data?.searchBooks.length !== 0) {
-      router.push(`/search/${words}`)
+    if (words.length !== 0) {
+      localStorage.setItem('lastSearch', words)
+      router.push(`/search/${words}/books`)
       setWords(INITIAL_STATE)
     }
   }
@@ -80,47 +81,13 @@ const SearchBook = () => {
                 </span>
               ) : (
                 data?.searchBooks.map((book: Post, index: number) => (
-                  <li
+                  <BooksItem
                     key={index}
-                    onClick={() => {
-                      router.push(`/books/${book.id}`)
-                      setShowResults(false)
-                    }}
-                    className='flex flex-row p-4 hover:bg-secondary gap-4'
-                  >
-                    <img
-                      className='aspect-book w-20 h-full my-auto rounded-lg shadow-lg sm:w-32 md:w-24'
-                      src={book.image}
-                      alt={book.title}
-                    />
-                    <Link href={`/books/${book.id}`}>
-                      <a className='flex flex-col overflow-hidden w-full justify-evenly gap-1'>
-                        <div className='hover:underline font-semibold text-sm flex flex-col'>
-                          <h2 className='text-xl font-semibold'>
-                            {book.title}
-                          </h2>
-                        </div>
-                        <p className='text-thirdBlue text-sm'>
-                          <span className='text-slate-300'>Autor: </span>
-                          {book.description && book.description[1]}
-                        </p>
-                        <div className='text-slate-200 text-[15px] overflow-hidden sm:overflow-y-auto'>
-                          {book.description &&
-                            book.description[0].length > 160 && (
-                            <p>
-                              {book.description[0].substring(0, 150)}
-                              <span className='font-semibold'>
-                                  ...Ver más
-                              </span>
-                            </p>
-                          )}
-                          {book.description &&
-                            book.description[0].length < 160 &&
-                            book.description[0]}
-                        </div>
-                      </a>
-                    </Link>
-                  </li>
+                    id={book.id}
+                    description={book.description}
+                    title={book.title}
+                    image={book.image}
+                  />
                 ))
               )}
             </ul>

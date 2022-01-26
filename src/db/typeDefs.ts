@@ -89,6 +89,7 @@ const typeDefinitions = gql`
       bookUrl: String!
       tags: [String]
       email: String!
+      author: String
     ): String
     likePost(id: String!, email: String!): String
     deletePost(id: String!, user: String!): String

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
-import onExpandableTextareaInput from 'src/config/textarea'
 import { categorys } from 'src/assets/data/category'
 import { useMutation } from '@apollo/client'
 import { ADD_POST } from 'src/post/graphql-mutations'
@@ -9,19 +8,13 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { ALL_POSTS, ALL_POST_RANKING } from 'src/post/graphql-queries'
 
-if (typeof window !== 'undefined') {
-  const description = document.getElementById('description') || null
-  description?.addEventListener('input', onExpandableTextareaInput)
-}
-
 const NewForm = (): JSX.Element => {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    control,
-  } = useForm<FormInputs>()
+  const el = document.getElementById('box-editable')
+  const { register, formState: { errors }, handleSubmit, control} = useForm<FormInputs>()
   const [fileImage, setFileImage] = useState<string | any>('')
+  const [errorMessage, setErrorMessage] = useState(false)
+  const [btnDisabled, setBtnDisabled] = useState(false)
+
   const { data: session } = useSession()
   const router = useRouter()
   const [newPostWithBook] = useMutation(ADD_POST, {
@@ -34,12 +27,14 @@ const NewForm = (): JSX.Element => {
   const handleChangeFile = (data: string) => {
     return setFileImage(data)
   }
+
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    const hasLength = data.description.split('\n')
+    const elDescription = document.getElementById('box-editable')
+    const hasDescription = elDescription?.innerText.split('\n')
     newPostWithBook({
       variables: {
         title: data.title,
-        description: hasLength,
+        description: hasDescription,
         email: session?.user?.email,
         bookUrl: data.book,
         image: data.img,
@@ -47,8 +42,20 @@ const NewForm = (): JSX.Element => {
         author: data.author,
       },
     })
+    setBtnDisabled(true)
     return router.push('/')
   }
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      if (el?.textContent?.length === 0) {
+        setErrorMessage(true)
+      } else {
+        el?.textContent && el?.textContent?.length > 0 && setErrorMessage(false)
+      }
+    }
+  }, [el?.textContent])
+
 
   return (
     <form
@@ -107,28 +114,12 @@ const NewForm = (): JSX.Element => {
           </label>
           <label className='font-semibold'>
             Description <span className='text-thirdBlue'>* </span>
-            {errors.description?.type && (
+            {errorMessage && (
               <span className='text-red-500 text-sm font-medium'>
-                {errors.description.message}
+                Description is required
               </span>
             )}
-            <textarea
-              className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue overflow-hidden resize-none'
-              {...register('description', {
-                required: {
-                  value: true,
-                  message: 'Description is required',
-                },
-                maxLength: {
-                  value: 350,
-                  message: '350 is max length',
-                },
-              })}
-              rows={4}
-              data-min-rows={4}
-              id='description'
-              placeholder='Write a description'
-            />
+            <span role='textbox' id='box-editable' contentEditable />
           </label>
           <label className='font-semibold'>
             Author <span className='text-thirdBlue'>* </span>
@@ -192,7 +183,7 @@ const NewForm = (): JSX.Element => {
       <label className='text-textGray text-base'>
         <span className='text-thirdBlue'>*</span> fields required
       </label>
-      <button className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'>
+      <button disabled={btnDisabled} className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200 disabled:opacity-50'>
         submit
       </button>
     </form>

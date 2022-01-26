@@ -36,7 +36,7 @@ export const NavBar = () => {
         md:py-0 md:mx-0 md:px-4 md:flex-row md:w-full md:h-14 md:justify-center md:overflow-visible
         2xl:px-8'
       >
-        <div className='flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min overflow-hidden'>
+        <div className='flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min overflow-y-auto overflow-x-hidden'>
           <div
             className='flex w-full md:hidden sm:flex-shrink-0 items-center justify-center h-11 transition-colors sm:h-12
               sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4
@@ -54,7 +54,7 @@ export const NavBar = () => {
               router.push('/')
               return window.document.getElementById('search-books')?.focus()
             }}
-            className='flex sm:flex-shrink-0 w-full h-full items-center mr-auto justify-center hover:bg-slate-300/20 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10'
+            className='flex sm:flex-shrink-0 w-full h-full items-center mr-auto justify-center hover:bg-slate-300/20 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10 transition-all'
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -84,6 +84,16 @@ export const NavBar = () => {
           </Nav>
           <Nav
             visible={'flex md:w-min'}
+            path={'/books/new'}
+            name={'New'}
+            unique={true}
+          >
+            {router.pathname === '/books/new'
+              ? icons.newBookCurrent
+              : icons.newBook}
+          </Nav>
+          <Nav
+            visible={'flex md:w-min'}
             path={'/notifications'}
             name={'Notifications'}
             unique={true}
@@ -91,16 +101,6 @@ export const NavBar = () => {
             {router.pathname === '/notifications'
               ? icons.notificationCurrent
               : icons.notification}
-          </Nav>
-          <Nav
-            visible={'flex md:w-min'}
-            path={'/message'}
-            name={'Message'}
-            unique={true}
-          >
-            {router.pathname === '/message'
-              ? icons.messageCurrent
-              : icons.message}
           </Nav>
         </div>
         <div className='mt-4 sm:mr-3 sm:flex md:hidden'>

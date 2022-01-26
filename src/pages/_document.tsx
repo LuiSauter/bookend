@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // server rendering styeld-components :)
 import React, { ReactElement } from 'react'
 import Document, {

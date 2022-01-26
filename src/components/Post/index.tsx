@@ -4,7 +4,7 @@ import { ALL_POSTS, POSTS_COUNT } from 'src/post/graphql-queries'
 
 import useNearScreen from 'src/hooks/useNearScreen'
 import PostItem from './PostItem'
-import CarruselWhoToFollow from '../WhoToFollow/CarruselWhoToFollow'
+// import CarruselWhoToFollow from '../WhoToFollow/CarruselWhoToFollow'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 const INITIAL_PAGE = 3
