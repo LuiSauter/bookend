@@ -8,6 +8,7 @@ export const ADD_POST = gql`
     $bookUrl: String!
     $image: String
     $tags: [String]
+    $author: String
   ) {
     addPost(
       title: $title
@@ -16,6 +17,7 @@ export const ADD_POST = gql`
       bookUrl: $bookUrl
       image: $image
       tags: $tags
+      author: $author
     )
   }
 `
