@@ -15,6 +15,8 @@ interface Props {
 const BtnLike = ({ id, likes }: Props) => {
   const { data: session, status } = useSession()
   const [showHover, setShowHover] = useState(false)
+  const [btnDisabled, setBtnDisable] = useState(false)
+
   const {handleLoginOpen} = useToggleUser()
   const [getLike] = useMutation(LIKE_POST, {
     refetchQueries: [
@@ -40,6 +42,8 @@ const BtnLike = ({ id, likes }: Props) => {
 
   const handleLike = (id: string | undefined) => {
     if (status === 'unauthenticated') handleLoginOpen()
+    setBtnDisable(true)
+    setShowHover(false)
     status === 'authenticated' &&
       getLike({ variables: { id: id, email: session?.user?.email } })
   }
@@ -55,10 +59,14 @@ const BtnLike = ({ id, likes }: Props) => {
       }}
       title='Likes'
       className='hover:text-red-500 contrast-125 cursor-default flex items-center gap-1 select-none'
-      onMouseEnter={() => setShowHover(true)}
+      onMouseEnter={() => {
+        setShowHover(true)
+        setBtnDisable(false)
+      }}
       onMouseLeave={() => setShowHover(false)}
     >
       <button
+        disabled={btnDisabled}
         onClick={(e) => {
           e.stopPropagation()
           handleLike(id)
