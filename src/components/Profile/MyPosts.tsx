@@ -65,6 +65,13 @@ const MyPosts = ({ username }: Props) => {
         return setLoadingIcon(false)
       }
     }
+    if (
+      findAllPosts?.allPostsByUsername &&
+      findAllPosts?.allPostsByUsername.length ===
+      allPostUserCount?.allPostUserCount
+    ) {
+      setLoadingIcon(false)
+    }
 
     return () => {
       cleanup = false

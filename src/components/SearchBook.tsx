@@ -32,7 +32,7 @@ const SearchBook = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (data?.searchBooks.length !== 0) {
-      router.push(`/books/${data?.searchBooks[0].id}`)
+      router.push(`/search/${words}`)
       setWords(INITIAL_STATE)
     }
   }
