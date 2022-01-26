@@ -3,7 +3,6 @@ import Link from 'next/link'
 import BtnComment from './BtnComment'
 import * as icons from 'src/assets/icons'
 import BtnLike from './BtnLike'
-import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
 type Props = {
@@ -24,7 +23,6 @@ const index = ({ comments, id, likes, bookDownload }: Props) => {
       draggable: true,
       progress: undefined,
       theme: 'dark',
-      // bodyClassName: 'bg-secondary text-white',
     })
     return await navigator.clipboard.writeText(copyLink)
   }

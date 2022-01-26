@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from '@apollo/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -8,8 +9,8 @@ import { useToggleUser } from 'src/hooks/useToggleUser'
 import { UPDATE_PROFILE } from 'src/users/graphql-mutations'
 import { ALL_USERS } from 'src/users/graphql-queries'
 interface Props {
-  profileData: Profile | any;
-  onClick?: () => void;
+  profileData: Profile | any
+  onClick?: () => void
 }
 
 const ProfileForm = ({ profileData, onClick }: Props) => {
