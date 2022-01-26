@@ -1,14 +1,16 @@
 import React from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import ClientOnly from 'src/components/ClientOnly'
+
+import { LoadingPage } from './LoadingPage'
+import { PhotoUser } from 'src/components/Nav/PhotoUser'
+import { NavBar } from 'src/components/Nav/NavBar'
 import CardProfile from 'src/components/CardProfile/CardProfile'
 import Category from 'src/components/Category/Category'
 import WhoToFollow from 'src/components/WhoToFollow/WhoToFollow'
-import { LoadingPage } from './LoadingPage'
-import { NavBar } from 'src/components/Nav/NavBar'
 import Footer from 'src/components/Footer'
-import ClientOnly from 'src/components/ClientOnly'
 import SearchUser from 'src/components/SearchUser'
-import { PhotoUser } from 'src/components/Nav/PhotoUser'
-import { useRouter } from 'next/router'
 import * as icons from 'src/assets/icons'
 
 interface Props {
@@ -32,27 +34,26 @@ export const Layout = ({ children }: Props) => {
           className='hidden min-w-[270px] max-w-maxAside sticky top-0
           xl:flex flex-col gap-4 h-[100vh] snap-proximity snap-y overflow-y-auto overflow-x-hidden'
         >
-          <div
-            onClick={() => router.push('/')}
-            className='hidden md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 py-4'
-          >
-            <img
-              className='w-8 h-auto ml-2'
-              src='/images/bookend-logo.png'
-              alt='bookend'
-            />
-            <h1 className='text-xl font-medium font-mono hidden lg:block'>
-              Bookend
-            </h1>
-            {router.query.username && (
-              <button
-                className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
-                onClick={() => router.back()}
-              >
-                {icons.arrowLeft}
-              </button>
-            )}
-          </div>
+          <Link href='/'>
+            <a className='hidden md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 py-4'>
+              <img
+                className='w-8 h-auto ml-2'
+                src='/images/bookend-logo.png'
+                alt='bookend'
+              />
+              <h1 className='text-xl font-medium font-mono hidden lg:block'>
+                Bookend
+              </h1>
+              {router.query.username && (
+                <button
+                  className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+                  onClick={() => router.back()}
+                >
+                  {icons.arrowLeft}
+                </button>
+              )}
+            </a>
+          </Link>
           <div
             className='xl:flex flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-1'
             id='custom-scrollbar'
