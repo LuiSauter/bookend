@@ -1,0 +1,20 @@
+#box-editable {
+  display: block;
+  width: 100%;
+  background-color: #202e3a;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.5rem;
+  outline: none;
+  margin-top: 0.5rem;
+  font-weight: 400;
+}
+
+#box-editable:focus {
+  outline: 4px solid #2a5495;
+}
+
+#box-editable[contenteditable]:empty::before {
+  content: "Write a description";
+  color: #87909c;
+  font-weight: 400;
+}
