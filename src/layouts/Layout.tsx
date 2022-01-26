@@ -30,7 +30,7 @@ export const Layout = ({ children }: Props) => {
       >
         <section
           className='hidden min-w-[270px] max-w-maxAside sticky top-0
-          xl:flex flex-col h-[100vh] snap-proximity snap-y overflow-y-auto overflow-x-hidden'
+          xl:flex flex-col gap-4 h-[100vh] snap-proximity snap-y overflow-y-auto overflow-x-hidden'
         >
           <div
             onClick={() => router.push('/')}
@@ -54,8 +54,7 @@ export const Layout = ({ children }: Props) => {
             )}
           </div>
           <div
-            className='
-            xl:flex flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-1'
+            className='xl:flex flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-1'
             id='custom-scrollbar'
           >
             <ClientOnly>
