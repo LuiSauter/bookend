@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
 interface Props {
-  title: string;
-  description: string[] | undefined;
-  hoverInfo: boolean;
+  title: string
+  description: string[] | undefined
+  hoverInfo: boolean
+  author: string | undefined
 }
 
-const Modal = ({ description, title, hoverInfo }: Props) => {
+const Modal = ({ description, title, hoverInfo, author }: Props) => {
   const [hoverModal, setHoverModal] = useState(false)
   useEffect(() => {
     let cleanup = true
@@ -20,6 +21,7 @@ const Modal = ({ description, title, hoverInfo }: Props) => {
       cleanup = false
     }
   }, [hoverInfo])
+
   return (
     <div
       className={`${
@@ -29,12 +31,10 @@ const Modal = ({ description, title, hoverInfo }: Props) => {
       <div className='bg-secondaryHover/70 backdrop-blur-md w-full h-full absolute inset-0 rounded-xl'></div>
       <span className='font-semibold z-10 text-teal-50'>{title}</span>
       <div className='text-sm flex flex-col leading-relaxed z-10 gap-y-1'>
-        <span className='text-slate-400'>{description && description[0]}</span>
+        <span className='text-slate-400'>{description}</span>
         <p>
           <span className='font-semibold text-teal-50'>Autor: </span>
-          <span className='text-thirdBlue'>
-            {description && description[1]}
-          </span>
+          <span className='text-thirdBlue'>{author}</span>
         </p>
       </div>
     </div>
