@@ -11,7 +11,10 @@ const Home = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>Bookend 📚 | Libros Gratis ✨, Física, Universo 🌌, investigaciones científicas 🚀 y semi red social</title>
+        <title>
+          Bookend 📚 | Libros Gratis ✨, Física, Universo 🌌, investigaciones
+          científicas 🚀 y semi red social
+        </title>
       </Head>
       <ClientOnly>
         <IsNewProfile />

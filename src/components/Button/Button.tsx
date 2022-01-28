@@ -1,9 +1,9 @@
 import React from 'react'
 
 interface Props {
-  children: JSX.Element | string;
-  color: string;
-  onClick: () => void;
+  children: JSX.Element | string
+  color: string
+  onClick?: () => void
 }
 
 export default function Button({ children, color, onClick }: Props) {

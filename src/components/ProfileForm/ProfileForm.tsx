@@ -56,7 +56,6 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
   }
 
   return (
-    //lg:w-4/5 xl:w-full sm:min-w-minForm
     <section className='mx-auto sm:w-full rounded-xl 2xl:bg-secondary overflow-y-auto'>
       <header className='pl-4 pt-4 flex'>
         <button

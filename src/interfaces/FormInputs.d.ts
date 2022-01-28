@@ -1,8 +1,8 @@
 interface FormInputs {
   title: string;
   description: string;
-  img: file;
-  book: string;
+  image: string;
+  bookUrl: string;
   tags: string[];
   author: string;
 }

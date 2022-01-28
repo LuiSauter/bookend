@@ -4,16 +4,15 @@ import { useSession } from 'next-auth/react'
 import * as icons from 'src/assets/icons'
 import BtnFollow from '../Button/BtnFollow'
 import { useRouter } from 'next/router'
-import { useToggleUser } from 'src/hooks/useToggleUser'
 
 interface Props {
   findUser: Profile
+  toggleOptionsOn?: () => void
 }
 
-const User = ({ findUser }: Props) => {
+const User = ({ findUser, toggleOptionsOn }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
-  const { handleOptions } = useToggleUser()
 
   return (
     <div className='flex flex-row w-full justify-start rounded-xl items-center'>
@@ -45,7 +44,7 @@ const User = ({ findUser }: Props) => {
         <BtnFollow user={findUser?.me.user} />
       )}
       <button
-        onClick={handleOptions}
+        onClick={toggleOptionsOn}
         className='flex items-center justify-center w-10 h-10 flex-shrink-0 ml-4 hover:bg-secondaryLigth/50 rounded-full'
       >
         {icons.dotsHorizontal}

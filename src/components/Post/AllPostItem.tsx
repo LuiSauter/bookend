@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import * as icons from 'src/assets/icons'
 import Modal from './Modal'
 
-const AllPostItem = ({ image, title, description }: Post) => {
+const AllPostItem = ({ image, title, description, author }: Post) => {
   const [hoverInfo, setHoverInfo] = useState(false)
   return (
     <article
@@ -34,7 +34,7 @@ const AllPostItem = ({ image, title, description }: Post) => {
       </figure>
       <h2 className='text-sm text-center'>{title}</h2>
       {hoverInfo && ( //translate-x-1/3
-        <Modal title={title} description={description} hoverInfo={hoverInfo} />
+        <Modal title={title} description={description} author={author} hoverInfo={hoverInfo} />
       )}
     </article>
   )

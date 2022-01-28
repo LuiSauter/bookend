@@ -85,6 +85,8 @@ const AllPosts = () => {
                 title={post.title}
                 user={post.user}
                 createdAt={post.createdAt}
+                author={post.author}
+                likes={post.likes}
               />
             </a>
           </Link>

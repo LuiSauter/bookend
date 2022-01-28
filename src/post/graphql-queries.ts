@@ -30,6 +30,7 @@ export const ALL_POST_BY_USER = gql`
       title
       user
       likes
+      author
     }
   }
 `
@@ -58,6 +59,7 @@ export const FINDONE_POST = gql`
       title
       user
       likes
+      author
     }
   }
 `
@@ -71,6 +73,7 @@ export const SEARCH_POSTS = gql`
       likes
       title
       user
+      author
     }
   }
 `
@@ -88,6 +91,7 @@ export const ALL_POST_RANKING = gql`
       tags
       title
       user
+      author
     }
   }
 `
