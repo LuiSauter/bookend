@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 
@@ -10,12 +10,14 @@ import * as icons from 'src/assets/icons'
 import User from './User'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import MultipleButtons from 'src/components/Button'
+import PostOptions from '../Modal/PostOptions'
 
 interface Props {
   id: string | string[];
 }
 
 const FindPost = ({ id }: Props) => {
+  const [showOptions, setShowOptions] = useState(false)
   const [getPostById, { data, loading }] = useLazyQuery(FINDONE_POST)
   const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
   const router = useRouter()
@@ -45,6 +47,9 @@ const FindPost = ({ id }: Props) => {
     }
   }, [data?.findPost])
 
+  const toggleOptions = () => setShowOptions(false)
+  const toggleOptionsOn = () => setShowOptions(true)
+
   return (
     <>
       <Head>
@@ -52,6 +57,12 @@ const FindPost = ({ id }: Props) => {
           Bookend | {data?.findPost.title ? data?.findPost.title : 'Loading'}
         </title>
       </Head>
+      {showOptions && (
+        <PostOptions
+          id={data?.findPost.id}
+          toggleOptions={toggleOptions}
+        />
+      )}
       <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
         <div className='flex items-center py-2 pr-2 bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
           {loading ? (
@@ -65,7 +76,10 @@ const FindPost = ({ id }: Props) => {
                 {icons.arrowLeft}
               </button>
               {findUser?.findUserById && (
-                <User findUser={findUser?.findUserById} />
+                <User
+                  findUser={findUser?.findUserById}
+                  toggleOptionsOn={toggleOptionsOn}
+                />
               )}
             </>
           )}
@@ -96,9 +110,9 @@ const FindPost = ({ id }: Props) => {
                 <h1 className='text-2xl font-bold'>{data?.findPost.title}</h1>
                 <p className='text-thirdBlue font-medium'>
                   <span className='text-slate-50 font-medium'>Autor:</span>{' '}
-                  {data?.findPost.description[1]}
+                  {data?.findPost.author}
                 </p>
-                <p>{data?.findPost.description[0]}</p>
+                <p>{data?.findPost.description}</p>
               </div>
             </div>
             <MultipleButtons

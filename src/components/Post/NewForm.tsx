@@ -1,22 +1,40 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import { categorys } from 'src/assets/data/category'
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { ADD_POST } from 'src/post/graphql-mutations'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { ALL_POSTS, ALL_POST_RANKING } from 'src/post/graphql-queries'
+import { ALL_POSTS, ALL_POST_RANKING, FINDONE_POST } from 'src/post/graphql-queries'
 
-const NewForm = (): JSX.Element => {
-  const el = document.getElementById('box-editable')
-  const { register, formState: { errors }, handleSubmit, control} = useForm<FormInputs>()
+interface Props {
+  id?: string | string[] | undefined
+}
+
+const NewForm = ({ id }: Props): JSX.Element => {
+  const [getPost, { data }] = useLazyQuery(FINDONE_POST)
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    control,
+  } = useForm({
+    defaultValues: {
+      image: data?.findPost.image ? data?.findPost.image : '',
+      title: data?.findPost.title,
+      author: data?.findPost.author,
+      bookUrl: data?.findPost.bookUrl,
+      tags: data?.findPost.tags,
+    },
+  })
   const [fileImage, setFileImage] = useState<string | any>('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [btnDisabled, setBtnDisabled] = useState(false)
-
+  const [textDescription, setTextDescription] = useState('')
   const { data: session } = useSession()
   const router = useRouter()
+  const descriptionRef: any = useRef(null)
+
   const [newPostWithBook] = useMutation(ADD_POST, {
     refetchQueries: [
       { query: ALL_POSTS, variables: { pageSize: 3, skipValue: 0 } },
@@ -24,11 +42,11 @@ const NewForm = (): JSX.Element => {
     ],
   })
 
-  const handleChangeFile = (data: string) => {
-    return setFileImage(data)
+  const handleChangeFile = (img: string) => {
+    return setFileImage(img)
   }
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+  const onSubmit = (data: FormInputs) => {
     const elDescription = document.getElementById('box-editable')
     const hasDescription = elDescription?.innerText.split('\n')
     newPostWithBook({
@@ -36,8 +54,8 @@ const NewForm = (): JSX.Element => {
         title: data.title,
         description: hasDescription,
         email: session?.user?.email,
-        bookUrl: data.book,
-        image: data.img,
+        bookUrl: data.bookUrl,
+        image: data.image,
         tags: [...data.tags],
         author: data.author,
       },
@@ -48,14 +66,41 @@ const NewForm = (): JSX.Element => {
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      if (el?.textContent?.length === 0) {
+      if (textDescription.length === 0) {
         setErrorMessage(true)
       } else {
-        el?.textContent && el?.textContent?.length > 0 && setErrorMessage(false)
+        textDescription.length > 0 && setErrorMessage(false)
       }
     }
-  }, [el?.textContent])
+  }, [data?.findPost, textDescription])
 
+  useEffect(() => {
+    if (data?.findPost.description) {
+      if (data?.findPost.image) {
+        setFileImage(data?.findPost.image)
+      }
+      descriptionRef.current.innerHTML = data?.findPost.description.map(
+        (descrp: string, index: number) => `<div key=${index}>${descrp}</div>`
+      ).join('\n')
+      setTextDescription(data?.findPost.description)
+    }
+  }, [data?.findPost.description])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      id && getPost({ variables: { id: id } })
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [id])
+
+  const handleElementEditable = (e: ChangeEvent<HTMLInputElement>) => {
+    setTextDescription(e.target.innerText)
+  }
+
+  console.log(data?.findPost.tags)
 
   return (
     <form
@@ -63,15 +108,15 @@ const NewForm = (): JSX.Element => {
       className='flex flex-col gap-4 w-full'
     >
       <label className='font-semibold'>
-        Add an image <span className='text-thirdBlue'>* </span>
-        {errors.img?.type === 'required' && (
+        Add an image url <span className='text-thirdBlue'>* </span>
+        {errors.image?.type === 'required' && (
           <span className='text-red-500 text-sm font-medium'>
-            {errors.img.message}
+            {errors.image.message}
           </span>
         )}
         <Controller
           control={control}
-          name='img'
+          name='image'
           rules={{
             required: {
               value: true,
@@ -85,6 +130,7 @@ const NewForm = (): JSX.Element => {
                 handleChangeFile(e.target.value)
                 onChange(e)
               }}
+              defaultValue={data?.findPost.image ? data?.findPost.image : ''}
               type='url'
               placeholder='write url of image'
             />
@@ -108,6 +154,7 @@ const NewForm = (): JSX.Element => {
                   message: 'title is required',
                 },
               })}
+              defaultValue={data?.findPost.title ? data?.findPost.title : ''}
               type='text'
               placeholder='Write a title'
             />
@@ -119,7 +166,12 @@ const NewForm = (): JSX.Element => {
                 Description is required
               </span>
             )}
-            <span role='textbox' id='box-editable' contentEditable />
+            <div
+              id='box-editable'
+              contentEditable='true'
+              onInput={handleElementEditable}
+              ref={descriptionRef}
+            />
           </label>
           <label className='font-semibold'>
             Author <span className='text-thirdBlue'>* </span>
@@ -136,6 +188,7 @@ const NewForm = (): JSX.Element => {
                   message: 'Author is required',
                 },
               })}
+              defaultValue={data?.findPost.author ? data?.findPost.author : ''}
               type='text'
               placeholder='Write an author name'
             />
@@ -150,19 +203,20 @@ const NewForm = (): JSX.Element => {
       </div>
       <label className='font-semibold'>
         Book in google drive <span className='text-thirdBlue'>* </span>
-        {errors.book?.type === 'required' && (
+        {errors.bookUrl?.type === 'required' && (
           <span className='text-red-500 text-sm font-medium'>
-            {errors.book.message}
+            {errors.bookUrl.message}
           </span>
         )}
         <input
           className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'
-          {...register('book', {
+          {...register('bookUrl', {
             required: {
               value: true,
               message: 'This field is required to google drive',
             },
           })}
+          defaultValue={data?.findPost.bookUrl ? data?.findPost.bookUrl : ''}
           type='text'
           placeholder='drive.google.com/example'
         />
@@ -183,7 +237,10 @@ const NewForm = (): JSX.Element => {
       <label className='text-textGray text-base'>
         <span className='text-thirdBlue'>*</span> fields required
       </label>
-      <button disabled={btnDisabled} className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200 disabled:opacity-50'>
+      <button
+        disabled={btnDisabled}
+        className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200 disabled:opacity-50'
+      >
         submit
       </button>
     </form>
