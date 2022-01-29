@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import * as icons from 'src/assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import ProfileForm from '../ProfileForm/ProfileForm'
+import BtnFollow from '../Button/BtnFollow'
 
 interface Props {
   username: string | string[] | undefined;
@@ -81,12 +82,13 @@ const MyProfile = ({ username }: Props) => {
         </figure>
       </article>
       <div className='px-4'>
-        <h2 className='text-lg mt-2 font-bold flex items-center justify-start gap-1'>
-          {data?.findProfile?.me.name}
-          {data?.findProfile?.verified && (
-            <span title='Verified account'>{icons.checkVeriFied}</span>
-          )}
-        </h2>
+        <div className='text-lg mt-4 font-bold flex items-center justify-start gap-4'>
+          <h2 className='flex items-center'>{data?.findProfile?.me.name}
+            {data?.findProfile?.verified && (
+              <span title='Verified account'>{icons.checkVeriFied}</span>
+            )}</h2>
+          {data?.findProfile.me.email !== session?.user?.email && <BtnFollow user={data?.findProfile?.me.user} />}
+        </div>
         <span className='text-textGray text-base'>
           @{data?.findProfile?.me.username}
         </span>

@@ -48,11 +48,7 @@ const PostItem = ({
 
   return (
     <>
-      {showOptions && (
-        <PostOptions
-          id={id}
-          toggleOptions={toggleOptions} />
-      )}
+      {showOptions && <PostOptions id={id} toggleOptions={toggleOptions} />}
       <article
         key={id}
         className='w-full flex flex-row px-4 sm:bg-secondary sm:hover:bg-secondaryLigth cursor-pointer transition-colors rounded-xl xl:px-6'
@@ -105,7 +101,7 @@ const PostItem = ({
                 e.stopPropagation()
                 setShowOptions(true)
               }}
-              className='flex items-center justify-center w-10 h-10 flex-shrink-0 ml-4 hover:bg-textGray/20 rounded-full'
+              className='flex items-center text-slate-400 justify-center w-10 h-10 flex-shrink-0 ml-4 hover:bg-textGray/20 rounded-full'
             >
               {icons.dotsHorizontal}
             </button>
@@ -114,7 +110,13 @@ const PostItem = ({
             <h4 className='text-base text-thirdBlue'>
               {title} - {author}
             </h4>
-            <p className='text-[15px]'>{description}</p>
+            <p className='text-[15px]'>
+              {description?.map((d: string, index: number) => (
+                <span className='block' key={index}>
+                  {d}
+                </span>
+              ))}
+            </p>
           </div>
           {image ? (
             <div className='w-full flex mt-4'>
