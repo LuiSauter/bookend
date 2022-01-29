@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import * as icons from 'src/assets/icons'
 
 const UserOfModal = () => {
   const { data: session, status } = useSession()
@@ -42,7 +43,14 @@ const UserOfModal = () => {
           alt={data?.findUser?.me.name}
         />
         <div className='flex flex-col'>
-          <h2>{data?.findUser?.me.name}</h2>
+          <h2 className='flex items-center whitespace-nowrap'>
+            {data?.findUser?.me.name}
+            {data?.findUser?.verified && (
+              <span title='Verified account' className='scale-90'>
+                {icons.checkVeriFied}
+              </span>
+            )}
+          </h2>
           <span className='text-sm text-gray-400'>
             @{data?.findUser?.me.username}
           </span>
