@@ -246,36 +246,11 @@ const resolvers = {
     likePost: async (root: undefined, args: { email: string; id: any }) => {
       const { email, id } = args
       const findUser = await Profile.findOne({ email })
-      const filterUser = findUser.liked.some(
-        (userString: string) => userString === id
-      )
 
       const findPost = await Post.findOne({ _id: id })
       const isLiked = findPost.likes.some(
         (userId: string) => userId === findUser.user
       )
-
-      if (filterUser) {
-        const filterUser = { email }
-        const newlikes = findUser.liked.filter(
-          (postId: string) => postId !== id
-        )
-        await Profile.findOneAndUpdate(
-          filterUser,
-          { liked: newlikes },
-          { new: true }
-        )
-        const filterPost = { _id: id }
-        const newlikesUser = findPost.likes.filter(
-          (userId: string) => userId !== findUser.user
-        )
-        await Post.findOneAndUpdate(
-          filterPost,
-          { likes: newlikesUser, likesCount: newlikesUser.length },
-          { new: true }
-        )
-        return 'dislike'
-      }
 
       if (findUser) {
         const filter = { email }
@@ -293,9 +268,38 @@ const resolvers = {
       }
       return null
     },
+    disLikePost: async (root: undefined, args: { email: string; id: any }) => {
+      const { email, id } = args
+      const findUser = await Profile.findOne({ email })
+      const filterUser = findUser.liked.some(
+        (userString: string) => userString === id
+      )
+      if (filterUser) {
+        const filterUser = { email }
+        const newlikes = findUser.liked.filter(
+          (postId: string) => postId !== id
+        )
+        await Profile.findOneAndUpdate(
+          filterUser,
+          { liked: newlikes },
+          { new: true }
+        )
+        const findPost = await Post.findOne({ _id: id })
+        const filterPost = { _id: id }
+        const newlikesUser = findPost.likes.filter(
+          (userId: string) => userId !== findUser.user
+        )
+        await Post.findOneAndUpdate(
+          filterPost,
+          { likes: newlikesUser, likesCount: newlikesUser.length },
+          { new: true }
+        )
+        return 'dislike'
+      }
+    },
     addPost: async (
       root: undefined,
-      args: { bookUrl: string; email: string }
+      args: any
     ) => {
       const { bookUrl, email } = args
       const userEmail = { email }
@@ -309,7 +313,8 @@ const resolvers = {
         await post.save()
         return 'new Post'
       } else {
-        return null
+        await Post.findOneAndUpdate({ bookUrl }, args)
+        return 'update Post'
       }
     },
     deletePost: async (root: undefined, args: { id: string; user: string }) => {
@@ -333,7 +338,6 @@ const resolvers = {
       const { user } = args
       await User.findByIdAndDelete(user)
       await Profile.findOneAndDelete({ user })
-      // const findPost = Post.findByIdAndDelete(user)
       return 'delete successfully'
     },
   },

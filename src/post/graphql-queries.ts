@@ -31,6 +31,7 @@ export const ALL_POST_BY_USER = gql`
       user
       likes
       author
+      createdAt
     }
   }
 `
