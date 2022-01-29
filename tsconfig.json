@@ -21,7 +21,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/auth/[[...path]].jsx",
-    "src/data/apollo.js", "src/config/textarea.js"
-],
+    "src/data/apollo.js"
+  ],
   "exclude": ["node_modules"]
 }

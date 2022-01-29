@@ -11,7 +11,7 @@ interface Props {
   user: string | undefined
 }
 
-const BtnFollow = ({user}:Props) => {
+const BtnFollow = ({ user }: Props) => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const { profile } = useProfileId()
@@ -72,7 +72,7 @@ const BtnFollow = ({user}:Props) => {
             event.stopPropagation()
             handleClickButtonFollow(user)
           }}
-          className='bg-blue-400 hover:bg-thirdBlue text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative'
+          className='active:bg-thirdBlue/70 bg-thirdBlue hover:bg-thirdBlue/90 text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative'
         >
           Follow
         </button>

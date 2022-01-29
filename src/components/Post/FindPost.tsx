@@ -58,10 +58,7 @@ const FindPost = ({ id }: Props) => {
         </title>
       </Head>
       {showOptions && (
-        <PostOptions
-          id={data?.findPost.id}
-          toggleOptions={toggleOptions}
-        />
+        <PostOptions id={data?.findPost.id} toggleOptions={toggleOptions} />
       )}
       <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
         <div className='flex items-center py-2 pr-2 bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
@@ -112,7 +109,15 @@ const FindPost = ({ id }: Props) => {
                   <span className='text-slate-50 font-medium'>Autor:</span>{' '}
                   {data?.findPost.author}
                 </p>
-                <p>{data?.findPost.description}</p>
+                <p>
+                  {data?.findPost.description?.map(
+                    (d: string, index: number) => (
+                      <span className='block' key={index}>
+                        {d}
+                      </span>
+                    )
+                  )}
+                </p>
               </div>
             </div>
             <MultipleButtons

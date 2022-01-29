@@ -56,6 +56,8 @@ class MyDocument extends Document {
             }}
           /> */}
           {/* <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> */}
+          <meta name='description' content='Bookend es una aplicación web para compartir libros de ciencia, programación, física, universo, cuantica, espacio.' />
+          <meta name='twitter:card' content='sumary' />
         </Head>
         <body className='bg-primary'>
           <Main />

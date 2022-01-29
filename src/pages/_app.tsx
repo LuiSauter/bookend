@@ -45,7 +45,7 @@ function MyApp({
                 draggable
                 pauseOnHover
                 toastClassName={() =>
-                  'flex bg-secondary relative rounded-xl p-3 overflow-hidden text-white cursor-pointer shadow-3xl shadow-thirdBlue/10 mb-4'
+                  'flex bg-secondary relative rounded-xl p-3 overflow-hidden text-white cursor-pointer shadow-3xl shadow-thirdBlue/10 m-4'
                 }
               />
             </Layout>

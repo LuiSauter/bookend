@@ -60,8 +60,11 @@ const Name = () => {
           src={data?.findUser?.me.photo || '/default-user.webp'}
           alt={data?.findUser?.me.name}
         />
-        <span className='ml-2 text-sm whitespace-nowrap w-full text-textWhite hidden md:flex'>
+        <span className='ml-2 text-sm whitespace-nowrap w-full text-textWhite hidden md:flex items-center'>
           {data?.findUser?.me.name}
+          {data?.findUser?.verified && (
+            <span title='Verified account' className='scale-90'>{icons.checkVeriFied}</span>
+          )}
           {icons.chevronDown}
         </span>
       </figure>
