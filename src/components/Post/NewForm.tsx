@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { toast } from 'react-toastify'
 import { categorys } from 'src/assets/data/category'
-
 interface Props {
   id?: string | string[] | undefined
 }
@@ -48,7 +47,6 @@ const NewForm = ({ id }: Props): JSX.Element => {
       session?.user?.email &&
         getUserByEmail({ variables: { email: session?.user?.email } })
     }
-
     return () => {
       cleanup = false
     }
@@ -76,7 +74,6 @@ const NewForm = ({ id }: Props): JSX.Element => {
           bookUrl: data?.findPost.bookUrl,
           tags: data?.findPost.tags,
         })
-
         if (data?.findPost.image) {
           setFileImage(data?.findPost.image)
         }

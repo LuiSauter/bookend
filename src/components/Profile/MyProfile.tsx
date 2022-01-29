@@ -8,7 +8,6 @@ import * as icons from 'src/assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import ProfileForm from '../ProfileForm/ProfileForm'
 import BtnFollow from '../Button/BtnFollow'
-import Button from '../Button/Button'
 
 interface Props {
   username: string | string[] | undefined;

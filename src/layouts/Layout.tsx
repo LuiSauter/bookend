@@ -31,11 +31,11 @@ export const Layout = ({ children }: Props) => {
         2xl:gap-6 xl:justify-center scroll-smooth'
       >
         <section
-          className='hidden min-w-[270px] max-w-maxAside sticky top-0
+          className='hidden min-w-[270px] max-w-[310px] sticky top-0
           xl:flex flex-col gap-4 h-[100vh] snap-proximity snap-y overflow-y-auto overflow-x-hidden'
         >
           <Link href='/'>
-            <a className='hidden md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 py-4'>
+            <a className='hidden w-full md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 py-4'>
               <img
                 className='w-8 h-auto ml-2'
                 src='/images/bookend-logo.png'
@@ -55,7 +55,7 @@ export const Layout = ({ children }: Props) => {
             </a>
           </Link>
           <div
-            className='xl:flex flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-1'
+            className='xl:flex w-full flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-1'
             id='custom-scrollbar'
           >
             <ClientOnly>
@@ -70,14 +70,14 @@ export const Layout = ({ children }: Props) => {
         </section>
         <main
           className='w-full pb-8 sm:px-0 gap-4
-          sm:pr-4 md:pr-0 2xl:m-0 relative max-w-[700px] sm:flex md:flex-col'
+          sm:pr-4 md:pr-0 2xl:m-0 relative max-w-[670px] sm:flex md:flex-col'
         >
           <NavBar />
           <div className='flex flex-col relative w-full'>
             {children ? children : <LoadingPage />}
           </div>
         </main>
-        <section className='hidden w-full min-w-minAside sticky z-[3] top-0 md:flex flex-col max-w-maxAside xl:mr-0 gap-4'>
+        <section className='hidden w-full min-w-minAside sticky z-[3] top-0 md:flex flex-col max-w-[310px] xl:mr-0 gap-4'>
           <PhotoUser />
           <ClientOnly>
             <SearchUser />
@@ -92,4 +92,4 @@ export const Layout = ({ children }: Props) => {
       </div>
     </div>
   )
-} //2xl:max-w-maxPost2xl
+}
