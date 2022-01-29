@@ -5,10 +5,13 @@ import { checkVeriFied } from 'src/assets/icons'
 import ClientOnly from '../ClientOnly'
 import Name from './Name'
 import UserOfModal from './UserOfModal'
+import Button from '../Button/Button'
+import { useRouter } from 'next/router'
 
 export const PhotoUser = () => {
   const { status } = useSession()
   const { dropdownOpen, handleToggleModal, handleLoginOpen } = useToggleUser()
+  const router = useRouter()
 
   const handleSignOut = async () => {
     localStorage.removeItem('profileId')
@@ -34,7 +37,7 @@ export const PhotoUser = () => {
         <>
           <div
             className='bg-secondary transition-colors rounded-xl absolute shadow-2xl shadow-thirdBlue/30 border border-secondaryLigth w-max sm:h-min
-            flex bottom-12 left-1 flex-col z-50 p-4 justify-center
+            flex bottom-12 left-4 flex-col z-50 p-4 justify-center
             sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
             md:top-12 md:ml-auto md:right-4'
           >
@@ -47,16 +50,22 @@ export const PhotoUser = () => {
                 Sign In
               </span>
             )}
-            <button className='w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto'>
-              Send feedback
-            </button>
+            <Button
+              onClick={() => router.push('https://twitter.com/sauterdev')}
+              color={'hover:bg-secondaryLigth'}
+            >
+              Report bug
+            </Button>
             <button className='w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto'>
               Settings
             </button>
-            <button className='w-full hover:bg-secondaryLigth flex items-center justify-center rounded-md py-1 px-4 cursor-auto'>
-              request verification{' '}
+            <Button
+              onClick={() => router.push('https://twitter.com/sauterdev')}
+              color={'hover:bg-secondaryLigth'}
+            >
+              <>request verification</>
               <span className='text-textGray ml-1'>{checkVeriFied}</span>
-            </button>
+            </Button>
             <hr className='border-secondaryLigth rounded-xl my-3' />
             {status === 'authenticated' ? (
               <button

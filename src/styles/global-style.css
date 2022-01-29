@@ -1,3 +1,8 @@
+body {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+}
+
 #box-editable {
   display: block;
   width: 100%;
@@ -17,4 +22,9 @@
   content: "Write a description";
   color: #87909c;
   font-weight: 400;
+}
+
+#btn-animation:active {
+  transition: 0.4rem;
+  filter: drop-shadow(0px 0px 10px rgba(255, 53, 53, 0.705)) drop-shadow(0px 0px 20px rgba(255, 53, 53, 0.705)) ;
 }

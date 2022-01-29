@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
-import { LIKE_POST } from 'src/post/graphql-mutations'
+import { DISLIKE_POST, LIKE_POST } from 'src/post/graphql-mutations'
 import * as icons from 'src/assets/icons'
 import { useSession } from 'next-auth/react'
 import { FIND_USER } from 'src/users/graphql-queries'
@@ -15,10 +15,17 @@ interface Props {
 const BtnLike = ({ id, likes }: Props) => {
   const { data: session, status } = useSession()
   const [showHover, setShowHover] = useState(false)
-  const [btnDisabled, setBtnDisable] = useState(false)
+  const [like, setLike] = useState(false)
 
   const {handleLoginOpen} = useToggleUser()
   const [getLike] = useMutation(LIKE_POST, {
+    refetchQueries: [
+      { query: FINDONE_POST, variables: { id } },
+      { query: FIND_USER, variables: { email: session?.user?.email } },
+      { query: ALL_POST_RANKING, variables: { pageSize: 6, skipValue: 0 } },
+    ],
+  })
+  const [getDisLike] = useMutation(DISLIKE_POST, {
     refetchQueries: [
       { query: FINDONE_POST, variables: { id } },
       { query: FIND_USER, variables: { email: session?.user?.email } },
@@ -40,17 +47,30 @@ const BtnLike = ({ id, likes }: Props) => {
     }
   }, [status === 'authenticated'])
 
-  const handleLike = (id: string | undefined) => {
-    if (status === 'unauthenticated') handleLoginOpen()
-    setBtnDisable(true)
-    setShowHover(false)
-    status === 'authenticated' &&
-      getLike({ variables: { id: id, email: session?.user?.email } })
-  }
-
   const isMatch = dataUser?.findUser.liked.some(
     (postId: string) => postId === id
   )
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup && isMatch) {
+      isMatch ? setLike(true) : setLike(false)
+    }
+
+    return () => {
+      cleanup = false
+    }
+  }, [isMatch])
+
+  const handleLike = (id: string | undefined) => {
+    if (status === 'unauthenticated') handleLoginOpen()
+    status === 'authenticated' && getLike({ variables: { id: id, email: session?.user?.email } })
+  }
+
+  const handleDisLike = (id: string | undefined) => {
+    if (status === 'unauthenticated') handleLoginOpen()
+    getDisLike({ variables: { id: id, email: session?.user?.email } })
+  }
 
   return (
     <div
@@ -61,26 +81,26 @@ const BtnLike = ({ id, likes }: Props) => {
       className='hover:text-red-500 contrast-125 cursor-default flex items-center gap-1 select-none'
       onMouseEnter={() => {
         setShowHover(true)
-        setBtnDisable(false)
       }}
       onMouseLeave={() => setShowHover(false)}
     >
       <button
-        disabled={btnDisabled}
         onClick={(e) => {
           e.stopPropagation()
-          handleLike(id)
+          !like ? handleLike(id) : handleDisLike(id)
+          !like ? setLike(true) : setLike(false)
         }}
+        id='btn-animation'
         className={`
-          ${!isMatch ? 'text-inherit' : 'text-red-500'}
-          ${showHover ? 'bg-red-500/20' : 'bg-transparent'}
-          hover:text-red-500 rounded-full h-9 w-9 grid place-content-center place-items-center active:scale-125 active:-rotate-12 transition-all active:ring-0`}
+          ${!like ? 'text-inherit' : 'text-red-500'}
+          ${showHover ? 'bg-red-500/10' : 'bg-transparent'}
+          hover:text-red-500 rounded-full h-9 w-9 grid place-content-center place-items-center transition-[0.4s]`}
       >
-        {!isMatch ? icons.heart : icons.heartFill}
+        {!like ? icons.heart : icons.heartFill}
       </button>
       <span
         className={`transition-all ${
-          !isMatch ? 'text-inherit' : 'text-red-500'
+          !like ? 'text-inherit' : 'text-red-500'
         }`}
       >
         {likes}
