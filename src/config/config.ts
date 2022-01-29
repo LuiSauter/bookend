@@ -7,4 +7,5 @@ export default {
   clientGoogleSecret: process.env.GOOGLE_CLIENT_SECRET || '',
   clientGitHub: process.env.GITHUB_CLIENT || '',
   clientGitHubSecret: process.env.GITHUB_CLIENT_SECRET || '',
+  wtfThisIsASecretWord: process.env.WTF_SECRET_WORD
 }

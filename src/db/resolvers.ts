@@ -1,10 +1,10 @@
 import User from './models/user'
 import Profile from './models/profile'
 import Post from './models/post'
+import config from 'src/config/config'
 
 import jwt from 'jsonwebtoken'
 import escapeStringRegexp from 'escape-string-regexp'
-import config from 'src/config/config'
 
 interface IUser {
   email: string;
@@ -297,10 +297,7 @@ const resolvers = {
         return 'dislike'
       }
     },
-    addPost: async (
-      root: undefined,
-      args: any
-    ) => {
+    addPost: async (root: undefined, args: any) => {
       const { bookUrl, email } = args
       const userEmail = { email }
       const findUser = await Profile.findOne(userEmail)
@@ -339,6 +336,18 @@ const resolvers = {
       await User.findByIdAndDelete(user)
       await Profile.findOneAndDelete({ user })
       return 'delete successfully'
+    },
+    giveVerification: async (
+      root: undefined,
+      args: { user: string; verification: any, wordSecret: string }
+    ) => {
+      const { user, verification, wordSecret } = args
+      if (wordSecret === config.wtfThisIsASecretWord && verification) {
+        const filter = { user: user }
+        const update = { verified: verification }
+        await Profile.findOneAndUpdate(filter, update, { new: true })
+        return 'Verified successfully'
+      }
     },
   },
 }

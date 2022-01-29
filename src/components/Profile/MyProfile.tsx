@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useLazyQuery } from '@apollo/client'
@@ -8,6 +8,7 @@ import * as icons from 'src/assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import ProfileForm from '../ProfileForm/ProfileForm'
 import BtnFollow from '../Button/BtnFollow'
+import Button from '../Button/Button'
 
 interface Props {
   username: string | string[] | undefined;
@@ -16,6 +17,7 @@ interface Props {
 const MyProfile = ({ username }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
+  const [showTokenId, setShowTokenId] = useState({show: false, copy: false})
   const [getProfile, { data, loading }] = useLazyQuery(FIND_PROFILE)
   const { handleEditProfile, editProfile } = useToggleUser()
 
@@ -83,11 +85,15 @@ const MyProfile = ({ username }: Props) => {
       </article>
       <div className='px-4'>
         <div className='text-lg mt-4 font-bold flex items-center justify-start gap-4'>
-          <h2 className='flex items-center'>{data?.findProfile?.me.name}
+          <h2 className='flex items-center'>
+            {data?.findProfile?.me.name}
             {data?.findProfile?.verified && (
               <span title='Verified account'>{icons.checkVeriFied}</span>
-            )}</h2>
-          {data?.findProfile.me.email !== session?.user?.email && <BtnFollow user={data?.findProfile?.me.user} />}
+            )}
+          </h2>
+          {data?.findProfile.me.email !== session?.user?.email && (
+            <BtnFollow user={data?.findProfile?.me.user} />
+          )}
         </div>
         <span className='text-textGray text-base'>
           @{data?.findProfile?.me.username}
@@ -99,12 +105,38 @@ const MyProfile = ({ username }: Props) => {
           )}
           {data?.findProfile?.website && (
             <Link href={`https://${data?.findProfile?.website}`}>
-              <a target='_blank' className='text-thirdBlue hover:underline'>
+              <a
+                target='_blank'
+                className='text-thirdBlue hover:underline mr-4'
+              >
                 {data?.findProfile?.website}
               </a>
             </Link>
           )}
         </div>
+        {data?.findProfile.me.email === session?.user?.email && (
+          <button
+            className='text-textGray'
+            onClick={() => setShowTokenId({ show: true, copy: false })}
+          >
+            {!showTokenId.show ? (
+              'see token-id'
+            ) : (
+              <span
+                onClick={async (e) => {
+                  e.stopPropagation()
+                  setShowTokenId({ show: true, copy: true })
+                  return await navigator.clipboard.writeText(
+                    data?.findProfile?.me.user
+                  )
+                }}
+                className={showTokenId.copy ? 'text-green-500' : ''}
+              >
+                {data?.findProfile?.me.user}
+              </span>
+            )}
+          </button>
+        )}
         <div className='flex flex-row justify-start mt-3'>
           <Link href='#'>
             <a className='flex flex-row items-center justify-center mr-7 hover:bg-secondaryLigth rounded-xl px-2'>

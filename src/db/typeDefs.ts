@@ -95,6 +95,7 @@ const typeDefinitions = gql`
     disLikePost(id: String!, email: String!): String
     deletePost(id: String!, user: String!): String
     deleteUser(user: String!): String
+    giveVerification(user: String!, verification: Boolean, wordSecret: String!): String
   }
 `
 
