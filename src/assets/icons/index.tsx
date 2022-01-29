@@ -287,6 +287,7 @@ export const heart = (
     fill='none'
     viewBox='0 0 24 24'
     stroke='currentColor'
+    id='svg-animation'
   >
     <path
       strokeLinecap='round'
