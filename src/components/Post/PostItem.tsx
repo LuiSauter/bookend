@@ -30,7 +30,6 @@ const PostItem = ({
   const timeago = useTimeAgo(date)
   const router = useRouter()
   const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
-  // const { handleOptions, showOptions } = useToggleUser()
 
   useEffect(() => {
     let cleanup = true
@@ -84,7 +83,7 @@ const PostItem = ({
                       {findUser?.findUserById.me.name}
                     </h3>
                     {findUser?.findUserById.me.verified && (
-                      <span>{icons.checkVeriFied}</span>
+                      <span title='Verified account'>{icons.checkVeriFied}</span>
                     )}
                   </header>
                   <span className='text-slate-400 text-[15px] whitespace-nowrap no-underline'>

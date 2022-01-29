@@ -34,7 +34,7 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
           <a className='flex flex-col relative'>
             <p className='flex flex-row items-center text-lg whitespace-nowrap inset-0'>
               {findUser?.me.name}
-              {findUser?.me.verified && <span>{icons.checkVeriFied}</span>}
+              {findUser?.me.verified && <span title='Verified account'>{icons.checkVeriFied}</span>}
             </p>
             <span className='text-slate-400/90'>@{findUser?.me.username}</span>
           </a>
