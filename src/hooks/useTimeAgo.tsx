@@ -51,6 +51,7 @@ export default function useTimeAgo (timestamp: number): string {
 
   const rtf = new Intl.RelativeTimeFormat('es', { style: 'short' })
   const rdtf = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'short' })
+  const rdtfOldYear = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'short', year: 'numeric' })
 
   const value = Number(timeago?.value)
   const unit = String(timeago?.unit)
@@ -69,8 +70,14 @@ export default function useTimeAgo (timestamp: number): string {
         return rtf.format(value, 'hour').split('hace')[1]
       } else if (unit === 'day') {
         return rtf.format(value, 'day').split('hace')[1]
-      } else if (unit === 'week') {
-        return rdtf.format(value)
+      } else if (unit) {
+        const dayformat = new Date(timestamp)
+        const currentDay = new Date()
+        if (dayformat.getFullYear() === currentDay.getFullYear()) {
+          return rdtf.format(timestamp)
+        } else {
+          return rdtfOldYear.format(timestamp)
+        }
       }
     }
   }
