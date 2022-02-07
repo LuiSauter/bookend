@@ -7,7 +7,7 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import BooksItem from 'src/components/SearchResults/BooksItem'
 import UsersItem from 'src/components/SearchResults/UsersItem'
 import { IUser } from 'src/components/SearchUser'
-import { SEARCH_POSTS } from 'src/post/graphql-queries'
+import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
 import { SEARCH_USERS } from 'src/users/graphql-queries'
 
 const SearchWord = () => {
@@ -18,6 +18,8 @@ const SearchWord = () => {
   const [getSearchBooks, { data, loading }] = useLazyQuery(SEARCH_POSTS)
   const [getSearchUser, { data: searchUser, loading: userLoading }] =
     useLazyQuery(SEARCH_USERS)
+  const [getSearchBooksByAuthor, { data: dataBooksAuthor }] = useLazyQuery(SEARCH_POSTS_AUTHOR)
+
 
   useEffect(() => {
     let cleanup = true
@@ -25,6 +27,7 @@ const SearchWord = () => {
       if (words.length !== 0) {
         if (router.query.tag === 'books') {
           getSearchBooks({ variables: { words: words } })
+          getSearchBooksByAuthor({ variables: { words: words } })
           setShowResults({ books: true, users: false })
         }
         if (router.query.tag === 'users') {
@@ -153,19 +156,35 @@ const SearchWord = () => {
                 <LoadingIcon />
               </span>
             ) : (
-              data?.searchBooks.map((book: Post, index: number) => (
-                <BooksItem
-                  key={index}
-                  id={book.id}
-                  description={book.description}
-                  title={book.title}
-                  image={book.image}
-                />
-              ))
+              <>
+                {data?.searchBooks.map((book: Post, index: number) => (
+                  <BooksItem
+                    key={index}
+                    id={book.id}
+                    description={book.description}
+                    title={book.title}
+                    image={book.image}
+                    author={book.author}
+                  />
+                ))}
+                {dataBooksAuthor?.searchBooksAuthor.map(
+                  (book: Post, index: number) => (
+                    <BooksItem
+                      key={index}
+                      id={book.id}
+                      description={book.description}
+                      title={book.title}
+                      image={book.image}
+                      author={book.author}
+                    />
+                  )
+                )}
+              </>
             )}
-            {data?.searchBooks.length === 0 && (
+            {data?.searchBooks.length === 0 &&
+              dataBooksAuthor?.searchBooksAuthor.length === 0 && (
               <span className='px-3 py-4 inline-block w-full text-center'>
-                Lo sentimos, no pudimos encontrar ningún resultado
+                  Lo sentimos, no pudimos encontrar ningún resultado
               </span>
             )}
           </ul>

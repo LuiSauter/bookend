@@ -7,9 +7,10 @@ type Props = {
   image: string | undefined
   title: string | undefined
   description: string[] | undefined
+  author: string | undefined
 }
 
-const BooksItem = ({ description, id, image, title }: Props) => {
+const BooksItem = ({ description, id, image, title, author }: Props) => {
   const router = useRouter()
   return (
     <li
@@ -31,16 +32,16 @@ const BooksItem = ({ description, id, image, title }: Props) => {
           </div>
           <p className='text-thirdBlue text-sm'>
             <span className='text-slate-300'>Autor: </span>
-            {description && description[1]}
+            {author}
           </p>
           <div className='text-slate-200 text-[15px] overflow-hidden sm:overflow-y-auto'>
-            {description && description[0].length > 160 && (
+            {description && description.length > 160 && (
               <p>
-                {description[0].substring(0, 150)}
+                {description.toString().substring(0, 150)}
                 <span className='font-semibold'>...Ver más</span>
               </p>
             )}
-            {description && description[0].length < 160 && description[0]}
+            {description && description.length < 160 && description}
           </div>
         </a>
       </Link>
