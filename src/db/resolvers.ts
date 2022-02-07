@@ -80,6 +80,19 @@ const resolvers = {
         })
       }
     },
+    searchBooksAuthor: async (root: undefined, args: any) => {
+      const { words } = args
+      if (words) {
+        const search = escapeStringRegexp(words)
+        return await Post.find({
+          author: { $regex: '.*' + search + '.*', $options: 'i' },
+          function(err: any, response: any) {
+            if (err) console.error(err)
+            return response
+          },
+        })
+      }
+    },
     allUsers: async () => {
       return await Profile.find({}).sort({ createdAt: 'desc' })
     },
@@ -339,7 +352,7 @@ const resolvers = {
     },
     giveVerification: async (
       root: undefined,
-      args: { user: string; verification: any, wordSecret: string }
+      args: { user: string; verification: any; wordSecret: string }
     ) => {
       const { user, verification, wordSecret } = args
       if (wordSecret === config.wtfThisIsASecretWord && verification) {

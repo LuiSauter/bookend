@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import * as icons from 'src/assets/icons'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
-import { SEARCH_POSTS } from 'src/post/graphql-queries'
+import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
 import BooksItem from './SearchResults/BooksItem'
 
 const INITIAL_STATE = ''
@@ -12,12 +12,16 @@ const SearchBook = () => {
   const [showResults, setShowResults] = useState<boolean>(false)
   const [words, setWords] = useState(INITIAL_STATE)
   const [getSearchBooks, { data, loading }] = useLazyQuery(SEARCH_POSTS)
+  const [getSearchBooksByAuthor, { data: dataBooksAuthor }] = useLazyQuery(SEARCH_POSTS_AUTHOR)
   const router = useRouter()
 
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      words && getSearchBooks({ variables: { words: words } })
+      if (words) {
+        getSearchBooks({ variables: { words: words } })
+        getSearchBooksByAuthor({ variables: { words: words } })
+      }
     }
     return () => {
       cleanup = false
@@ -80,15 +84,30 @@ const SearchBook = () => {
                   <LoadingIcon />
                 </span>
               ) : (
-                data?.searchBooks.map((book: Post, index: number) => (
-                  <BooksItem
-                    key={index}
-                    id={book.id}
-                    description={book.description}
-                    title={book.title}
-                    image={book.image}
-                  />
-                ))
+                <>
+                  {data?.searchBooks.map((book: Post, index: number) => (
+                    <BooksItem
+                      key={index}
+                      id={book.id}
+                      description={book.description}
+                      title={book.title}
+                      image={book.image}
+                      author={book.author}
+                    />
+                  ))}
+                  {dataBooksAuthor?.searchBooksAuthor.map(
+                    (book: Post, index: number) => (
+                      <BooksItem
+                        key={index}
+                        id={book.id}
+                        description={book.description}
+                        title={book.title}
+                        image={book.image}
+                        author={book.author}
+                      />
+                    )
+                  )}
+                </>
               )}
             </ul>
           </div>

@@ -78,6 +78,21 @@ export const SEARCH_POSTS = gql`
     }
   }
 `
+// searchBooksAuthor
+export const SEARCH_POSTS_AUTHOR = gql`
+  query searchBooksByAuthor($words: String!) {
+    searchBooksAuthor(words: $words) {
+      image
+      comments
+      description
+      id
+      likes
+      title
+      user
+      author
+    }
+  }
+`
 
 export const ALL_POST_RANKING = gql`
   query ($pageSize: Int!, $skipValue: Int!) {
