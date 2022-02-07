@@ -57,6 +57,7 @@ const typeDefinitions = gql`
     findProfile(username: String, name: String): Profile
     searchUsers(name: String!): [User]
     searchBooks(words: String!): [Post]
+    searchBooksAuthor(words: String!): [Post]
     allUsers: [User]!
     allPosts(pageSize: Int!, skipValue: Int!): [Post]
     allPostRanking(pageSize: Int!, skipValue: Int!): [Post]
