@@ -1,3 +1,5 @@
+import Vibrant from 'node-vibrant'
+
 import User from './models/user'
 import Profile from './models/profile'
 import Post from './models/post'
@@ -5,6 +7,7 @@ import config from 'src/config/config'
 
 import jwt from 'jsonwebtoken'
 import escapeStringRegexp from 'escape-string-regexp'
+
 
 interface IUser {
   email: string;
@@ -21,6 +24,11 @@ interface User {
 
 function createToken(user: IUser) {
   return jwt.sign({ id: user._id, email: user.email }, config.jwtSecret)
+}
+
+const getDominantColor = async (image: string) => {
+  const palette = await Vibrant.from(image).getPalette()
+  return palette.Vibrant?.rgb
 }
 
 const resolvers = {
@@ -140,6 +148,14 @@ const resolvers = {
     findPost: async (root: any, args: any) => {
       const { id } = args
       return await Post.findById(id)
+    },
+    getColors: async (root: any, args: { image: string }) => {
+      const { image } = args
+      if (image) {
+        const data = await getDominantColor(image)
+        return data?.join()
+      }
+      return 'holis'
     },
   },
   Profile: {
