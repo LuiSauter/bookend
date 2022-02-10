@@ -28,7 +28,7 @@ function createToken(user: IUser) {
 
 const getDominantColor = async (image: string) => {
   const palette = await Vibrant.from(image).getPalette()
-  return palette.Vibrant?.rgb
+  return palette
 }
 
 const resolvers = {
@@ -153,9 +153,22 @@ const resolvers = {
       const { image } = args
       if (image) {
         const data = await getDominantColor(image)
-        return data?.join()
+        const newArray = Object.entries(data)
+        const currentArray: any[] = []
+        newArray.map((data) => {
+          const population = data[1]?.population
+          return currentArray.push(population)
+        })
+        const maxPopulation = Math.max(...currentArray)
+        let dominantColor
+        newArray.map((max) => {
+          if (max[1]?.population === maxPopulation) {
+            dominantColor = max[1]?.rgb.join()
+            return dominantColor
+          }
+        })
+        return dominantColor ? dominantColor : null
       }
-      return 'holis'
     },
   },
   Profile: {
