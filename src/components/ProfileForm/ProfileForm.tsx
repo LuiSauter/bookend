@@ -57,9 +57,9 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
 
   return (
     <section className='mx-auto sm:w-full rounded-xl 2xl:bg-secondary overflow-y-auto'>
-      <header className='pl-4 pt-4 flex'>
+      <header className='pl-4 pt-4 flex items-center'>
         <button
-          className='mr-4 hover:bg-secondaryLigth rounded-full w-9 h-9 flex items-center justify-center'
+          className='mr-4 dark:hover:bg-secondaryLigth hover:bg-sky-200 rounded-full w-9 h-9 flex items-center justify-center'
           onClick={onClick}
         >
           {arrowLeft}
@@ -91,7 +91,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
                 </span>
               )}
               <input
-                className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25'
+                className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25'
                 {...register('name', {
                   required: {
                     value: true,
@@ -110,7 +110,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
                 </span>
               )}
               <input
-                className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+                className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
                 {...register('username', {
                   required: {
                     value: true,
@@ -131,7 +131,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
             </span>
           )}
           <input
-            className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+            className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
             {...register('description', {
               required: {
                 value: true,
@@ -174,7 +174,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
           <label className='font-semibold mr-4 w-full'>
             Website
             <input
-              className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+              className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
               {...register('website')}
               type='text'
               placeholder='example.com'
@@ -183,7 +183,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
           <label className='font-semibold w-full'>
             Location
             <input
-              className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+              className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
               {...register('location')}
               type='text'
               placeholder='Tokio, Japón'
@@ -193,7 +193,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         <label className='text-textGray text-base'>
           <span className='text-thirdBlue'>*</span> fields required
         </label>
-        <button className='bg-blue-500 text-lg font-semibold py-1 rounded-md hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'>
+        <button className='bg-blue-500 text-white text-lg font-semibold py-1 rounded-md hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'>
           Save your profile
         </button>
       </form>

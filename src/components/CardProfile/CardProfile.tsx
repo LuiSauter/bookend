@@ -28,7 +28,7 @@ const CardProfile = () => {
     <>
       {status === 'authenticated' &&
         router.asPath !== `/${data?.findUser?.me.username}` && (
-        <article className='bg-secondary w-full rounded-xl flex flex-col snap-start shrink-0 gap-1 mb-4 items-center relative'>
+        <article className='dark:bg-secondary bg-slate-200 w-full rounded-xl flex flex-col snap-start shrink-0 mb-4 items-center relative'>
           {loading ? (
             <div className='py-4'>
               <LoadingIcon />
@@ -59,7 +59,7 @@ const CardProfile = () => {
                   <p className='text-sm'>{data?.findUser?.description}</p>
                 </div>
               )}
-              <div className='flex flex-row w-full justify-center border-t border-b border-textGray py-3'>
+              <div className='flex flex-row w-full justify-center border-t border-b border-textGray/50 py-3'>
                 <Link href='#'>
                   <a className='flex flex-col items-center justify-center w-full'>
                     <span className='font-bold'>
@@ -68,7 +68,7 @@ const CardProfile = () => {
                     <span className='text-textGray text-sm'>Following</span>
                   </a>
                 </Link>
-                <span className='border-l border-textGray'></span>
+                <span className='border-l border-textGray/50'></span>
                 <Link href='#'>
                   <a className='flex flex-col items-center justify-center w-full'>
                     <span className='font-bold'>
@@ -79,7 +79,7 @@ const CardProfile = () => {
                 </Link>
               </div>
               <Link href={`/${data?.findUser?.me.username}`}>
-                <a className='text-sm text-center text-thirdBlue font-medium py-2 hover:bg-secondaryLigth w-full rounded-b-xl'>
+                <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-secondaryLigth hover:bg-sky-200 w-full rounded-b-xl'>
                     My Profile
                 </a>
               </Link>

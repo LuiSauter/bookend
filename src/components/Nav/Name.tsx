@@ -60,7 +60,7 @@ const Name = () => {
           src={data?.findUser?.me.photo || '/default-user.webp'}
           alt={data?.findUser?.me.name}
         />
-        <span className='ml-2 text-sm whitespace-nowrap w-full text-textWhite hidden md:flex items-center'>
+        <span className='ml-2 text-sm whitespace-nowrap w-full dark:text-textWhite hidden md:flex items-center'>
           {data?.findUser?.me.name}
           {data?.findUser?.verified && (
             <span title='Verified account' className='scale-90'>{icons.checkVeriFied}</span>
@@ -70,16 +70,6 @@ const Name = () => {
       </figure>
     </>
   )
-
-  // return loading ? (
-  //   <div className='hidden md:block scale-75 relative'>
-  //     <LoadingIcon />
-  //   </div>
-  // ) : (
-  //   <span className='ml-2 whitespace-nowrap w-full text-textWhite hidden md:flex'>
-  //     {data?.findUser?.me.name}
-  //   </span>
-  // )
 }
 
 export default Name

@@ -146,7 +146,7 @@ const NewForm = ({ id }: Props): JSX.Element => {
         <label className='font-semibold'>
           Add an image url <span className='text-thirdBlue'>* </span>
           <input
-            className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+            className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
             onChange={(e) => {
               handleChangeFile(e.target.value)
             }}
@@ -166,7 +166,7 @@ const NewForm = ({ id }: Props): JSX.Element => {
                 </span>
               )}
               <input
-                className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+                className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
                 {...register('title', {
                   required: {
                     value: true,
@@ -187,6 +187,7 @@ const NewForm = ({ id }: Props): JSX.Element => {
               )}
               <div
                 id='box-editable'
+                className='dark:bg-secondaryLigth bg-sky-200/80'
                 contentEditable='true'
                 onInput={handleElementEditable}
                 ref={descriptionRef}
@@ -200,7 +201,7 @@ const NewForm = ({ id }: Props): JSX.Element => {
                 </span>
               )}
               <input
-                className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+                className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
                 {...register('author', {
                   required: {
                     value: true,
@@ -228,7 +229,7 @@ const NewForm = ({ id }: Props): JSX.Element => {
             </span>
           )}
           <input
-            className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'
+            className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'
             {...register('bookUrl', {
               required: {
                 value: true,

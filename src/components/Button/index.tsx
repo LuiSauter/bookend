@@ -28,7 +28,7 @@ const index = ({ comments, id, likes, bookDownload }: Props) => {
   }
 
   return (
-    <div className='flex w-full justify-between text-slate-400'>
+    <div className='flex w-full justify-between dark:text-slate-400 text-slate-600'>
       <BtnComment
         bgColor={'bg-teal-500/10'}
         textColor={'hover:text-teal-500'}

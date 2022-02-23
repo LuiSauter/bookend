@@ -18,7 +18,7 @@ const BooksItem = ({ description, id, image, title, author }: Props) => {
         router.push(`/books/${id}`)
         // setShowResults(false)
       }}
-      className='flex flex-row p-4 hover:bg-secondary gap-4'
+      className='flex flex-row p-4 dark:hover:bg-secondary hover:bg-sky-200 gap-4'
     >
       <img
         className='aspect-book w-20 h-full my-auto rounded-lg shadow-lg sm:w-32 md:w-24'
@@ -31,10 +31,10 @@ const BooksItem = ({ description, id, image, title, author }: Props) => {
             <h2 className='text-xl font-semibold'>{title}</h2>
           </div>
           <p className='text-thirdBlue text-sm'>
-            <span className='text-slate-300'>Autor: </span>
+            <span className='dark:text-slate-300 text-black'>Autor: </span>
             {author}
           </p>
-          <div className='text-slate-200 text-[15px] overflow-hidden sm:overflow-y-auto'>
+          <div className='dark:text-slate-200 text-[15px] overflow-hidden sm:overflow-y-auto'>
             {description && description.length > 160 && (
               <p>
                 {description.toString().substring(0, 150)}

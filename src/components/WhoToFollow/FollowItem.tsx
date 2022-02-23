@@ -33,7 +33,7 @@ const FollowItem = ({
     <>
       {session?.user?.email !== email && (
         <li
-          className='flex justify-center items-center w-full relative p-2 rounded-xl hover:bg-secondaryLigth transition-colors cursor-pointer'
+          className='flex justify-center items-center w-full relative p-2 rounded-xl dark:hover:bg-secondaryLigth hover:bg-sky-200 transition-colors cursor-pointer'
           onClick={() => handleClickLi(username)}
         >
           <img src={photo || '/default-user.webp'} alt={name} className='w-11 h-11 rounded-full mr-3' />

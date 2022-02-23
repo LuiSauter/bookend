@@ -54,12 +54,12 @@ const SearchUser = () => {
       <form onSubmit={handleSubmit} className='w-full h-full z-[80]'>
         <label
           onClick={() => setShowSearchResults(true)}
-          className='bg-secondary focus-within:bg-primary focus-within:text-thirdBlue focus-within:ring-2 ring-thirdBlue flex items-center gap-2 px-4 py-2 rounded-2xl transition-colors z-[80]'
+          className='dark:bg-secondary bg-slate-200 dark:focus-within:bg-primary focus-within:bg-sky-200 focus-within:text-thirdBlue focus-within:ring-2 ring-thirdBlue flex items-center gap-2 px-4 py-2 rounded-2xl transition-colors z-[80]'
         >
           <span className='opacity-50'>{icons.searchIcon}</span>
           <input
             onChange={handleChange}
-            className='bg-transparent outline-none w-full text-white'
+            className='bg-transparent outline-none w-full dark:text-white'
             type='text'
             placeholder='Search users'
             value={searhUser}
@@ -68,8 +68,8 @@ const SearchUser = () => {
       </form>
       {searhUser.length !== 0 && showSearchResults && (
         <>
-          <div className='absolute top-32 -right-2 bg-secondary/80 rounded-xl w-[115%] overflow-y-auto z-[80] shadow-3xl shadow-thirdBlue/30'>
-            <ul className='bg-primary rounded-xl overflow-hidden max-h-[65vh] overflow-y-auto z-[80]'>
+          <div className='absolute top-32 -right-2 dark:bg-secondary/80 rounded-xl w-[115%] overflow-y-auto z-[80] shadow-3xl dark:shadow-thirdBlue/30 shadow-thirdBlue/70'>
+            <ul className='dark:bg-primary bg-slate-200 rounded-xl overflow-hidden max-h-[65vh] overflow-y-auto z-[80]'>
               {data?.searchUsers.length !== 0 && loading ? (
                 <span className='w-full px-1 overflow-y-hidden'>
                   <LoadingIcon />

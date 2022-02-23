@@ -45,7 +45,7 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
       )}
       <button
         onClick={toggleOptionsOn}
-        className='flex items-center justify-center w-10 h-10 flex-shrink-0 ml-4 hover:bg-secondaryLigth/50 rounded-full'
+        className='flex items-center justify-center w-10 h-10 flex-shrink-0 ml-4 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 rounded-full'
       >
         {icons.dotsHorizontal}
       </button>

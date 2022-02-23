@@ -32,7 +32,7 @@ const AllPostItem = ({ image, title, description, author }: Post) => {
           alt={title}
         />
       </figure>
-      <h2 className='text-sm text-center'>{title}</h2>
+      <h2 className='text-sm text-center dark:text-thirdBlue text-black'>{title}</h2>
       {hoverInfo && ( //translate-x-1/3
         <Modal title={title} description={description} author={author} hoverInfo={hoverInfo} />
       )}

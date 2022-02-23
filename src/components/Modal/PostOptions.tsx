@@ -32,23 +32,23 @@ const PostOptions = ({ id, toggleOptions }: Props) => {
 
   return (
     <div className='fixed inset-0 w-full h-full grid place-content-center place-items-center z-[80]'>
-      <div className='bg-secondary rounded-xl p-8 gap-2 flex flex-col w-[80vw] h-min z-[90] transition-all sm:w-80'>
+      <div className='dark:bg-secondary bg-sky-100 rounded-xl p-8 gap-2 flex flex-col w-[80vw] h-min z-[90] transition-all sm:w-80'>
         <Button
           onClick={() => console.log('button not available')}
-          color={'hover:bg-secondaryLigth'}
+          color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
         >
           Report
         </Button>
         <Button
           onClick={() => console.log('button not available')}
-          color={'hover:bg-secondaryLigth'}
+          color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
         >
           Share
         </Button>
         {data?.findUser.verified && isMatch && (
           <Button
             onClick={() => router.push(`/books/new/${id}`)}
-            color={'hover:bg-secondaryLigth'}
+            color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
           >
             Edit
           </Button>
@@ -59,7 +59,7 @@ const PostOptions = ({ id, toggleOptions }: Props) => {
       </div>
       <div
         onClick={toggleOptions}
-        className='fixed top-0 left-0 right-0 bg-black/40 transition-all h-screen w-full z-[80]'
+        className='fixed top-0 left-0 right-0 bg-black/50 transition-all h-screen w-full z-[80]'
       />
     </div>
   )

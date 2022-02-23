@@ -14,14 +14,14 @@ import SearchUser from 'src/components/SearchUser'
 import * as icons from 'src/assets/icons'
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[]
 }
 
 export const Layout = ({ children }: Props) => {
   const router = useRouter()
   return (
     <div
-      className=' bg-primary text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
+      className=' dark:bg-primary bg-white dark:text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
       selection:text-cyan-900
       sm:flex-row sm:justify-center
       md:flex-col md:justify-start scroll-smooth'
@@ -46,7 +46,7 @@ export const Layout = ({ children }: Props) => {
               </h1>
               {router.query.username && (
                 <button
-                  className='rounded-full hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+                  className='rounded-full dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
                   onClick={() => router.back()}
                 >
                   {icons.arrowLeft}
@@ -61,7 +61,7 @@ export const Layout = ({ children }: Props) => {
             <ClientOnly>
               <CardProfile />
             </ClientOnly>
-            <article className='w-full snap-normal shrink-0 bg-secondary rounded-xl overflow-auto'>
+            <article className='w-full snap-normal shrink-0 dark:bg-secondary bg-slate-200 rounded-xl overflow-auto'>
               <h2 className='text-lg font-bold px-4 py-2'>Categorys</h2>
               <hr className='border-textGray opacity-30' />
               <Category />
@@ -82,7 +82,7 @@ export const Layout = ({ children }: Props) => {
           <ClientOnly>
             <SearchUser />
           </ClientOnly>
-          <article className='w-full bg-secondary rounded-xl p-3 xl:p-4'>
+          <article className='w-full dark:bg-secondary bg-slate-200 rounded-xl p-3 xl:p-4'>
             <ClientOnly>
               <WhoToFollow />
             </ClientOnly>

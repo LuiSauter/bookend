@@ -36,9 +36,9 @@ const MyProfile = ({ username }: Props) => {
 
   return (
     <>
-      <div className='flex bg-primary/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:mt-0 md:bg-transparent md:backdrop-blur-none md:absolute md:top-0 z-10 pl-2 sm:pl-0'>
+      <div className='flex dark:bg-primary/80 bg-slate-200/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:mt-0 md:bg-transparent md:backdrop-blur-none md:absolute md:top-0 z-10 pl-2 sm:pl-0'>
         <button
-          className='rounded-full md:hidden hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+          className='rounded-full md:hidden dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
           onClick={() => router.back()}
         >
           {icons.arrowLeft}
@@ -47,7 +47,7 @@ const MyProfile = ({ username }: Props) => {
           data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
-            className='border rounded-2xl px-2 py-1 hover:bg-secondaryLigth'
+            className='border rounded-2xl px-2 py-1 dark:hover:bg-secondaryLigth hover:bg-sky-200'
           >
               Edit Profile
           </button>
@@ -56,8 +56,8 @@ const MyProfile = ({ username }: Props) => {
       </div>
       {editProfile && (
         <div className='fixed inset-0 h-screen w-full z-[90] overflow-hidden'>
-          <div className=' bg-primary/5 backdrop-blur-sm w-full h-screen z-50 overflow-hidden' />
-          <div className='absolute inset-0 h-screen sm:h-[90vh] w-full sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] bg-secondary m-auto overflow-y-auto z-50 sm:rounded-xl px-0'>
+          <div className='dark:bg-primary/5 bg-black/50 backdrop-blur-sm w-full h-screen z-50 overflow-hidden' />
+          <div className='absolute inset-0 h-screen sm:h-[90vh] w-full sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] dark:bg-secondary bg-slate-200 m-auto overflow-y-auto z-50 sm:rounded-xl px-0'>
             <ProfileForm
               profileData={data?.findProfile}
               onClick={handleEditProfile}
@@ -66,7 +66,7 @@ const MyProfile = ({ username }: Props) => {
         </div>
       )}
       <article className='w-full relative px-4 pt-14 md:pt-6'>
-        <figure className='mx-auto relative mt-6 z-auto sm:mt-11 md:mt-14 w-28 sm:w-full rounded-full border-4 border-secondary max-w-maxPhotoProfile overflow-hidden'>
+        <figure className='mx-auto relative mt-6 z-auto sm:mt-11 md:mt-14 w-28 sm:w-full rounded-full border-4 dark:border-secondary border-slate-300 max-w-maxPhotoProfile overflow-hidden'>
           {loading ? (
             <img
               className='w-full rounded-full h-full z-auto relative'
@@ -136,9 +136,9 @@ const MyProfile = ({ username }: Props) => {
             )}
           </button>
         )}
-        <div className='flex flex-row justify-start mt-3'>
+        <div className='flex flex-row justify-start my-3'>
           <Link href='#'>
-            <a className='flex flex-row items-center justify-center mr-7 hover:bg-secondaryLigth rounded-xl px-2'>
+            <a className='flex flex-row items-center justify-center mr-7 dark:hover:bg-secondaryLigth hover:bg-sky-200 rounded-xl px-2'>
               <span className='font-bold mr-1'>
                 {data?.findProfile?.following.length}
               </span>
@@ -146,7 +146,7 @@ const MyProfile = ({ username }: Props) => {
             </a>
           </Link>
           <Link href='#'>
-            <a className='flex flex-row items-center justify-center hover:bg-secondaryLigth rounded-xl px-2'>
+            <a className='flex flex-row items-center justify-center dark:hover:bg-secondaryLigth hover:bg-sky-200 rounded-xl px-2'>
               <span className='font-bold mr-1'>
                 {data?.findProfile?.followers.length}
               </span>

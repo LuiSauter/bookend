@@ -92,11 +92,11 @@ const SearchWord = () => {
           onSubmit={handleSubmitSearch}
           className='h-full z-[60] flex gap-4 sm:mt-4 md:mt-0 m-3 flex-col'
         >
-          <label className='focus-within:bg-secondary focus-within:text-thirdBlue transition-colors rounded-2xl flex items-center gap-2 px-4 py-2 z-[60] w-full'>
+          <label className='dark:focus-within:bg-secondary focus-within:bg-sky-200 focus-within:text-thirdBlue transition-colors rounded-2xl flex items-center gap-2 px-4 py-2 z-[60] w-full'>
             <span className='opacity-50 z-[60]'>{icons.searchIcon}</span>
             <input
               type='text'
-              className='bg-transparent outline-none w-full text-white z-[60]'
+              className='bg-transparent outline-none w-full dark:text-white z-[60]'
               placeholder='Search in Bookend'
               onChange={handleChangeWords}
               value={words}
@@ -112,7 +112,7 @@ const SearchWord = () => {
               className={`${
                 router.query.tag === 'books'
                   ? 'border-thirdBlue bg-thirdBlue'
-                  : 'hover:opacity-80'
+                  : 'hover:opacity-80 border-slate-400'
               } border rounded-lg px-3`}
             >
               Books
@@ -126,7 +126,7 @@ const SearchWord = () => {
               className={`${
                 router.query.tag === 'users'
                   ? 'border-thirdBlue bg-thirdBlue'
-                  : 'hover:opacity-80'
+                  : 'hover:opacity-80 border-slate-400'
               } border rounded-lg px-3`}
             >
               Users
@@ -190,7 +190,7 @@ const SearchWord = () => {
           </ul>
         )}
         {words.length !== 0 && showResults.users && (
-          <ul className='bg-primary overflow-hidden'>
+          <ul className='dark:bg-primary overflow-hidden'>
             {searchUser?.searchUsers.length !== 0 && userLoading ? (
               <span className='w-full px-1'>
                 <LoadingIcon />

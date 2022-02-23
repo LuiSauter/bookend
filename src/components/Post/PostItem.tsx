@@ -50,7 +50,7 @@ const PostItem = ({
       {showOptions && <PostOptions id={id} toggleOptions={toggleOptions} />}
       <article
         key={id}
-        className='w-full flex flex-row px-4 sm:bg-secondary sm:hover:bg-secondaryLigth cursor-pointer transition-colors rounded-xl xl:px-6'
+        className='w-full flex flex-row px-4 dark:sm:bg-secondary bg-slate-200 dark:bg-primary dark:sm:hover:bg-secondaryLigth hover:bg-sky-200/70 cursor-pointer transition-colors rounded-xl xl:px-6'
         onClick={() => router.push(`/books/${id}`)}
       >
         <figure className='flex items-start my-4 flex-shrink-0 mr-3'>
@@ -83,7 +83,9 @@ const PostItem = ({
                       {findUser?.findUserById.me.name}
                     </h3>
                     {findUser?.findUserById.me.verified && (
-                      <span title='Verified account'>{icons.checkVeriFied}</span>
+                      <span title='Verified account'>
+                        {icons.checkVeriFied}
+                      </span>
                     )}
                   </header>
                   <span className='text-slate-400 text-[15px] whitespace-nowrap no-underline'>
@@ -100,7 +102,7 @@ const PostItem = ({
                 e.stopPropagation()
                 setShowOptions(true)
               }}
-              className='flex items-center text-slate-400 justify-center w-10 h-10 flex-shrink-0 ml-4 hover:bg-textGray/20 rounded-full'
+              className='flex items-center text-slate-400 justify-center w-10 h-10 flex-shrink-0 ml-4 dark:hover:bg-textGray/20 hover:bg-slate-300/70 rounded-full'
             >
               {icons.dotsHorizontal}
             </button>
@@ -109,7 +111,7 @@ const PostItem = ({
             <h4 className='text-base text-thirdBlue'>
               {title} - {author}
             </h4>
-            <p className='text-[15px]'>
+            <p className='text-[15px] text-black dark:text-textWhite'>
               {description?.map((d: string, index: number) => (
                 <span className='block' key={index}>
                   {d}
@@ -119,7 +121,7 @@ const PostItem = ({
           </div>
           {image ? (
             <div className='w-full flex mt-4'>
-              <figure className='max-h-[500px] rounded-xl overflow-hidden relative bg-red-500'>
+              <figure className='max-h-[440px] rounded-xl overflow-hidden relative bg-red-500'>
                 <img
                   className='h-full w-full object-cover rounded-xl object-top'
                   src={image}

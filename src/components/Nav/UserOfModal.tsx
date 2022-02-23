@@ -33,7 +33,7 @@ const UserOfModal = () => {
     <Link href={`/${data?.findUser?.me.username}`}>
       <a
         onClick={handleModalOut}
-        className='w-full hover:bg-secondaryLigth transition-all rounded-md py-1 px-4 flex items-center justify-center'
+        className='w-full dark:hover:bg-secondaryLigth hover:bg-sky-200 transition-all rounded-md py-1 px-4 flex items-center justify-center'
       >
         <img
           src={
