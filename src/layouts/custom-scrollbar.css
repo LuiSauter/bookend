@@ -9,13 +9,13 @@
 
 /* Handle */
 #custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #192734;
+  background: #192734aa;
   border-radius: 1rem;
 }
 
 /* Handle on hover */
 #custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #203141;
+  background: #203141aa;
 }
 
 ::-webkit-scrollbar-track {
@@ -26,5 +26,5 @@
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #192734;
+  background: #192734aa;
 }
