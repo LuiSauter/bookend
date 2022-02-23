@@ -87,6 +87,7 @@ const BtnLike = ({ id, likes }: Props) => {
       <button
         onClick={(e) => {
           e.stopPropagation()
+          if (status === 'unauthenticated') return handleLoginOpen()
           !like ? handleLike(id) : handleDisLike(id)
           !like ? setLike(true) : setLike(false)
         }}
