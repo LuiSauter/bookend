@@ -1,5 +1,5 @@
 import type { AppProps, } from 'next/app'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import 'tailwindcss/tailwind.css'
 import 'src/layouts/custom-scrollbar.css'
 import 'src/styles/global-style.css'
@@ -12,6 +12,7 @@ import { LoginStateProvider } from 'src/context/login/LoginContext'
 import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { LoadingPage } from 'src/layouts/LoadingPage'
 
 // const client = new ApolloClient({
 //   connectToDevTools: true,
@@ -21,13 +22,41 @@ import 'react-toastify/dist/ReactToastify.css'
 //   }),
 // })
 
+const waitFor = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms))
+
+const currentTheme =
+  typeof window !== 'undefined' && window.localStorage.getItem('theme')
+
+if (currentTheme === 'dark') {
+  document.documentElement.classList.add('dark')
+}
+
 function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps): JSX.Element {
+  const [loading, setLoading] = useState(true)
   const client = getApolloClient()
 
-  return (
+  const getLoading = useCallback(async () => {
+    await waitFor(300)
+    setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      getLoading()
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [])
+
+  return loading ? (
+    <LoadingPage />
+  ) : (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
         <LoginStateProvider>
