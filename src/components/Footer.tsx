@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
       <div className='flex flex-row flex-wrap text-sm px-4 gap-4'>
-        <Link href='/about'>
+        <Link href='/settings/about'>
           <a className='text-textGray hover:underline'>About</a>
         </Link>
         <Link href='https://github.com/LuiSauter/bookend'>
