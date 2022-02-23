@@ -61,13 +61,13 @@ const FindPost = ({ id }: Props) => {
         <PostOptions id={data?.findPost.id} toggleOptions={toggleOptions} />
       )}
       <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
-        <div className='flex items-center py-2 pr-2 bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
+        <div className='flex items-center py-2 pr-2 dark:bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
           {loading ? (
             <LoadingIcon />
           ) : (
             <>
               <button
-                className='rounded-full ml-2 sm:ml-0 hover:bg-secondaryLigth/50 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+                className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
                 onClick={() => router.back()}
               >
                 {icons.arrowLeft}
@@ -86,7 +86,9 @@ const FindPost = ({ id }: Props) => {
         ) : (
           <div className='px-4'>
             <figure className='absolute inset-0 z-[0] h-[70vh]'>
-              <div className='bg-gradient-to-t from-primary via-primary/60 to-primary h-full w-full absolute inset-0' />
+              <div className='bg-gradient-to-t dark:from-primary dark:via-primary/60 dark:to-primary
+              from-slate-100 via-slate-50 to-slate-100
+              h-full w-full absolute inset-0' />
               <img
                 className='w-full h-full object-cover object-center z-[0]'
                 src={data?.findPost.image}
@@ -106,7 +108,7 @@ const FindPost = ({ id }: Props) => {
               <div className='w-full flex flex-col gap-4 justify-center'>
                 <h1 className='text-2xl font-bold'>{data?.findPost.title}</h1>
                 <p className='text-thirdBlue font-medium'>
-                  <span className='text-slate-50 font-medium'>Autor:</span>{' '}
+                  <span className='dark:text-slate-50 text-black/80 font-medium'>Autor:</span>{' '}
                   {data?.findPost.author}
                 </p>
                 <p>
@@ -126,20 +128,10 @@ const FindPost = ({ id }: Props) => {
               likes={data?.findPost?.likes.length}
               bookDownload={data?.findPost?.bookUrl}
             />
-            <div className='flex mt-3 flex-row flex-wrap gap-3 relative mb-4'>
-              <Link href={data?.findPost?.bookUrl || '/'}>
-                <a
-                  className='flex items-center shadow-lg shadow-primary/80 bg-secondary py-2 px-4 rounded-xl gap-3 hover:bg-secondaryLigth hover:shadow-md hover:shadow-black-600/30'
-                  target='_blank'
-                >
-                  <span>{icons.googDrive}</span>Google drive PDF
-                </a>
-              </Link>
-            </div>
-            <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative'>
+            <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-4'>
               {data?.findPost.tags.map((tag: string, index: number) => (
                 <li
-                  className='bg-secondary rounded-md px-3 hover:bg-slate-700 text-slate-400'
+                  className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200 text-slate-400'
                   key={index}
                 >
                   {tag}
