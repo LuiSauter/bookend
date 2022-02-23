@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// server rendering styeld-components :)
 import React, { ReactElement } from 'react'
 import Document, {
   DocumentContext,
@@ -13,10 +12,6 @@ import { getApolloClient } from 'src/data/apollo'
 class MyDocument extends Document {
   constructor(props: any) {
     super(props)
-
-    /**
-     * Attach apolloState to the "global" __NEXT_DATA__ so we can populate the ApolloClient cache
-     */
     const { __NEXT_DATA__, apolloState } = props
     __NEXT_DATA__.apolloState = apolloState
   }
@@ -25,13 +20,10 @@ class MyDocument extends Document {
     const apolloClient = getApolloClient(true)
     const apolloState = apolloClient.extract()
 
-
     const originalRenderPage = ctx.renderPage
     ctx.renderPage = () =>
       originalRenderPage({
-        // useful for wrapping the whole react tree
         enhanceApp: (App) => App,
-        // useful for wrapping in a per-page basis
         enhanceComponent: (Component) => Component,
       })
     const initialProps = await Document.getInitialProps(ctx)
@@ -39,7 +31,7 @@ class MyDocument extends Document {
   }
   render(): ReactElement {
     return (
-      <Html className='bg-primary scroll-smooth'>
+      <Html className='dark:bg-primary scroll-smooth'>
         <Head>
           {/* <script
             async
@@ -59,7 +51,7 @@ class MyDocument extends Document {
           <meta name='description' content='Bookend es una aplicación web para compartir libros de ciencia, programación, física, universo, cuantica, espacio.' />
           <meta name='twitter:card' content='sumary' />
         </Head>
-        <body className='bg-primary'>
+        <body className='dark:bg-primary'>
           <Main />
           <NextScript />
         </body>
