@@ -9,7 +9,7 @@ const Books = () => {
       <Head>
         <title>Bookend | Books</title>
       </Head>
-      <h1 className='text-xl font-bold py-4'>Books Ranking</h1>
+      <h1 className='text-2xl font-bold px-4 pt-4 sm:py-4 sm:px-0'>Libros populares</h1>
       <ClientOnly>
         <AllPosts />
       </ClientOnly>

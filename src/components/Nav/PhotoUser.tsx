@@ -26,7 +26,7 @@ export const PhotoUser = () => {
     <>
       <div
         onClick={handleModalOut}
-        className='hidden relative items-center overflow-hidden justify-center h-12 sm:min-h-nav md:mx-auto transition-colors sm:flex flex-shrink-0 sm:hover:bg-secondaryHover sm:w-12 sm:rounded-full md:w-max md:h-14 md:hover:bg-transparent cursor-pointer md:my-auto'
+        className='hidden relative items-center overflow-hidden justify-center h-12 sm:min-h-nav md:mx-auto transition-colors sm:flex flex-shrink-0 dark:sm:hover:bg-secondaryHover dark:md:hover:bg-transparent sm:bg-sky-200/75 sm:hover:bg-sky-200 md:bg-transparent sm:w-12 sm:rounded-full md:w-max md:h-14 md:hover:bg-transparent cursor-pointer md:my-auto'
         id='show-menu'
       >
         <ClientOnly>
@@ -36,7 +36,7 @@ export const PhotoUser = () => {
       {dropdownOpen && (
         <>
           <div
-            className='bg-secondary transition-colors rounded-xl absolute shadow-2xl shadow-thirdBlue/30 border border-secondaryLigth w-max sm:h-min
+            className='dark:bg-secondary bg-slate-200 transition-colors rounded-xl absolute shadow-2xl shadow-thirdBlue/30 border dark:border-secondaryLigth  w-max sm:h-min
             flex bottom-12 left-4 flex-col z-50 p-4 justify-center
             sm:top-auto sm:flex sm:flex-col sm:z-50 sm:bottom-16 sm:-right-auto sm:py-4 sm:px-4
             md:top-12 md:ml-auto md:right-4'
@@ -47,32 +47,38 @@ export const PhotoUser = () => {
               </ClientOnly>
             ) : (
               <span className='w-full rounded-md py-3 px-4 text-center text-slate-500'>
-                Sign In
+                Iniciar sesión
               </span>
             )}
             <Button
               onClick={() => router.push('https://twitter.com/sauterdev')}
-              color={'hover:bg-secondaryLigth'}
+              color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
             >
-              Report bug
+              Reportar un bug
             </Button>
-            <button className='w-full hover:bg-secondaryLigth rounded-md py-1 px-4 cursor-auto'>
-              Settings
-            </button>
+            <Button
+              onClick={() => {
+                router.push('/settings')
+                handleModalOut()
+              }}
+              color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
+            >
+              <>Ajustes</>
+            </Button>
             <Button
               onClick={() => router.push('https://twitter.com/sauterdev')}
-              color={'hover:bg-secondaryLigth'}
+              color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
             >
-              <>request verification</>
+              <>Solicitar verificación</>
               <span className='text-textGray ml-1'>{checkVeriFied}</span>
             </Button>
-            <hr className='border-secondaryLigth rounded-xl my-3' />
+            <hr className='dark:border-secondaryLigth border-slate-300 rounded-xl my-3' />
             {status === 'authenticated' ? (
               <button
                 className='w-full hover:bg-red-500 rounded-md py-1 px-3 bg-red-400'
                 onClick={handleSignOut}
               >
-                Sign out
+                Cerrar sesión
               </button>
             ) : (
               <button
@@ -82,14 +88,14 @@ export const PhotoUser = () => {
                   handleLoginOpen()
                 }}
               >
-                Sign in
+                Iniciar session
               </button>
             )}
           </div>
           <div
             x-show='dropdownOpen'
             onClick={handleToggleModal}
-            className='fixed bottom-0 left-0 right-0 h-screen sm:w-[97vw] md:w-full sm:inset-0 overflow-hidden z-10'
+            className='fixed bottom-0 -left-5 md:left-0 right-0 h-screen sm:w-[95vw] md:w-full overflow-hidden z-40'
           ></div>
         </>
       )}
