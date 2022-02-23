@@ -253,7 +253,7 @@ export const searchIcon = (
 export const checkVeriFied = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    className='h-6 w-6'
+    className='h-6 w-6 dark:text-white text-thirdBlue'
     viewBox='0 0 20 20'
     fill='currentColor'
   >
@@ -423,6 +423,21 @@ export const message = (
       strokeLinejoin='round'
       strokeWidth={2}
       d='M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z'
+    />
+  </svg>
+)
+
+export const arrowRight = (
+  <svg
+    stroke='currentColor'
+    fill='currentColor'
+    className='h-5 w-5'
+    viewBox='0 0 1024 1024'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path
+      d='M765.7 486.8 314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z'
+      stroke='none'
     />
   </svg>
 )
