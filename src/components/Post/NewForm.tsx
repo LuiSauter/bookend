@@ -278,7 +278,7 @@ const NewForm = ({ id }: Props): JSX.Element => {
         </label>
         <button
           disabled={btnDisabled}
-          className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200 disabled:opacity-50'
+          className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200 disabled:opacity-50 text-white'
         >
           submit
         </button>
