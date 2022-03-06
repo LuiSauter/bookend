@@ -49,7 +49,7 @@ const PostItem = ({
       {showOptions && <PostOptions id={id} toggleOptions={toggleOptions} />}
       <article
         key={id}
-        className='w-full flex flex-row px-4 dark:sm:bg-secondary hover:bg-slate-200 sm:bg-slate-200 sm:hover:bg-sky-200/70 dark:bg-primary dark:sm:hover:bg-secondaryLigth border border-textGray/10 cursor-pointer transition-colors rounded-xl xl:px-6'
+        className='w-full flex flex-row px-4 dark:sm:bg-secondary hover:bg-slate-200 sm:bg-slate-200 sm:hover:bg-sky-200/70 dark:bg-primary dark:sm:hover:bg-secondaryLigth border border-textGray/10 cursor-pointer transition-colors sm:rounded-xl xl:px-6'
         onClick={() => router.push(`/books/${id}`)}
       >
         <figure className='flex items-start my-4 flex-shrink-0 mr-3'>
