@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import Link from 'next/link'
 import { useLazyQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
@@ -24,8 +24,9 @@ const CardProfile = () => {
       cleanup = false
     }
   }, [status === 'authenticated'])
+
   return (
-    <>
+    <Fragment>
       {status === 'authenticated' &&
         router.asPath !== `/${data?.findUser?.me.username}` && (
         <article className='dark:bg-secondary bg-slate-200 w-full rounded-xl flex flex-col snap-start shrink-0 mb-4 items-center relative'>
@@ -87,8 +88,9 @@ const CardProfile = () => {
           )}
         </article>
       )}
-    </>
+    </Fragment>
   )
+
 }
 
 export default CardProfile

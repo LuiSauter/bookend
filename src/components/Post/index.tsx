@@ -4,7 +4,6 @@ import { ALL_POSTS, POSTS_COUNT } from 'src/post/graphql-queries'
 
 import useNearScreen from 'src/hooks/useNearScreen'
 import PostItem from './PostItem'
-// import CarruselWhoToFollow from '../WhoToFollow/CarruselWhoToFollow'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 const INITIAL_PAGE = 3
@@ -65,10 +64,6 @@ const index = () => {
   return (
     <>
       <section className='w-full min-h-screen flex flex-col gap-4 xl:gap-6'>
-        {/* {allPostData?.allPosts.length > 1 && (
-          <article className='first:'>            <CarruselWhoToFollow />
-          </article>
-        )} */}
         {allPostData?.allPosts.map((post: Post) => (
           <PostItem
             key={post.id}

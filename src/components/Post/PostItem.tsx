@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 import useTimeAgo from 'src/hooks/useTimeAgo'
 import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
@@ -20,14 +20,13 @@ const PostItem = ({
   description,
   id,
   likes,
-  tags,
   user,
-  author
+  author,
 }: Props) => {
   const [showOptions, setShowOptions] = useState(false)
   const date = Number(createdAt)
   const dateLong = new Date(date)
-  const timeago = useTimeAgo(date)
+  const { timeago } = useTimeAgo(date)
   const router = useRouter()
   const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
 
@@ -46,7 +45,7 @@ const PostItem = ({
   const toggleOptions = () => setShowOptions(false)
 
   return (
-    <>
+    <Fragment>
       {showOptions && <PostOptions id={id} toggleOptions={toggleOptions} />}
       <article
         key={id}
@@ -111,12 +110,13 @@ const PostItem = ({
             <h4 className='text-base text-thirdBlue'>
               {title} - {author}
             </h4>
-            <p className='text-[15px] text-black dark:text-textWhite'>
-              {description?.map((d: string, index: number) => (
-                <span className='block' key={index}>
-                  {d}
-                </span>
-              ))}
+            <p className='text-[16px] text-black dark:text-textWhite'>
+              {description && description.join('\n').length < 350
+                ? description
+                : `${
+                  description &&
+                    description.join('\n').toString().substring(0, 350)
+                }...`}
             </p>
           </div>
           {image ? (
@@ -144,7 +144,7 @@ const PostItem = ({
           </div>
         </div>
       </article>
-    </>
+    </Fragment>
   )
 }
 
