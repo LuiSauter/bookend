@@ -4,6 +4,7 @@ import BtnComment from './BtnComment'
 import * as icons from 'src/assets/icons'
 import BtnLike from './BtnLike'
 import { toast } from 'react-toastify'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 type Props = {
   comments: number | undefined
@@ -13,9 +14,10 @@ type Props = {
 }
 
 const index = ({ comments, id, likes, bookDownload }: Props) => {
+  const translate = useTranslate()
   const handleClick = async () => {
     const copyLink = `https://bookendd.vercel.app/books/${id}`
-    toast.success('copied link!', {
+    toast.success(translate.home.copy, {
       position: 'top-right',
       hideProgressBar: false,
       closeOnClick: true,
