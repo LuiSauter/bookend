@@ -61,6 +61,7 @@ export const FINDONE_POST = gql`
       user
       likes
       author
+      createdAt
     }
   }
 `
