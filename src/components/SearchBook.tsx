@@ -46,40 +46,41 @@ const SearchBook = () => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className='dark:focus-within:bg-secondary focus-within:bg-sky-200 focus-within:text-thirdBlue transition-colors rounded-2xl w-full h-full z-[60] flex sm:mt-4 md:mt-0'
-      >
-        <label
-          onClick={() => setShowResults(true)}
-          className='flex items-center gap-2 px-4 py-2 z-[60] w-full'
+      <div className='h-10' />
+      <div className='dark:focus-within:bg-primary focus-within:ring-2 ring-thirdBlue focus-within:bg-slate-200 absolute top-2 md:top-0 w-[95%] left-auto sm:w-[98%] z-[60] rounded-bl-xl rounded-2xl sm:left-[4px]'>
+        <form
+          onSubmit={handleSubmit}
+          className='focus-within:text-thirdBlue transition-colors rounded-t-2xl w-full h-full z-[60] flex md:mt-0'
         >
-          <span className='opacity-50 z-[60]'>{icons.searchIcon}</span>
-          <input
-            className='bg-transparent outline-none w-full dark:text-white z-[60]'
-            type='text'
-            placeholder={translate.home.searchBook.placeholder}
-            id='search-books'
-            onChange={handleChangeWords}
-            value={words}
-          />
-        </label>
-        {words.length !== 0 && (
-          <button
-            onClick={() => {
-              setShowResults(false)
-              setWords(INITIAL_STATE)
-            }}
-            type='button'
-            className='hover:text-red-500 z-[60] px-4'
+          <label
+            onClick={() => setShowResults(true)}
+            className='flex items-center gap-2 px-4 py-2 z-[60] w-full'
           >
-            {icons.exit}
-          </button>
-        )}
-      </form>
-      {words.length !== 0 && showResults && (
-        <>
-          <div className='absolute top-auto w-[90%] left-[5%] sm:w-[90%] sm:left-[5%] z-[60] rounded-bl-xl shadow-xl rounded-br-xl shadow-thirdBlue/30'>
+            <span className='opacity-50 z-[60]'>{icons.searchIcon}</span>
+            <input
+              className='bg-transparent outline-none w-full dark:text-white z-[60]'
+              type='text'
+              placeholder={translate.home.searchBook.placeholder}
+              id='search-books'
+              onChange={handleChangeWords}
+              value={words}
+            />
+          </label>
+          {words.length !== 0 && (
+            <button
+              onClick={() => {
+                setShowResults(false)
+                setWords(INITIAL_STATE)
+              }}
+              type='button'
+              className='hover:text-red-500 z-[60] px-4'
+            >
+              {icons.exit}
+            </button>
+          )}
+        </form>
+        {words.length !== 0 && showResults && (
+          <>
             <ul className='dark:bg-primary bg-slate-200 rounded-bl-xl rounded-br-xl overflow-hidden max-h-[70vh] overflow-y-auto'>
               {data?.searchBooks.length !== 0 && loading ? (
                 <span className='w-full px-1 overflow-y-hidden'>
@@ -112,13 +113,13 @@ const SearchBook = () => {
                 </>
               )}
             </ul>
-          </div>
-          <div
-            onClick={() => setShowResults(false)}
-            className='h-screen w-full fixed top-0 left-0 z-50'
-          />
-        </>
-      )}
+            <div
+              onClick={() => setShowResults(false)}
+              className='h-screen w-full fixed top-0 left-0 z-[-1]'
+            />
+          </>
+        )}
+      </div>
     </>
   )
 }
