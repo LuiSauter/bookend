@@ -18,12 +18,14 @@ const About: NextPage = () => {
       <section className='w-full p-4 rounded-xl'>
         <div className='flex flex-row items-center'>
           <button
-            className='rounded-full -ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+            className='rounded-full -ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
             onClick={() => router.back()}
           >
             {icons.arrowLeft}
           </button>
-          <h1 className='text-2xl font-bold ml-2'>{translate.about.name} Bookend</h1>
+          <h1 translate='no' className='text-2xl font-bold ml-2'>
+            {translate.about.name} Bookend
+          </h1>
         </div>
         <article className='flex flex-col gap-6 mt-4'>
           <div className='flex flex-col gap-2'>

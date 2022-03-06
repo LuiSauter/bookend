@@ -36,7 +36,7 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
               {findUser?.me.name}
               {findUser?.me.verified && <span title='Verified account'>{icons.checkVeriFied}</span>}
             </p>
-            <span className='text-slate-400/90'>@{findUser?.me.username}</span>
+            <span translate='no' className='text-slate-400/90'>@{findUser?.me.username}</span>
           </a>
         </Link>
       </div>
@@ -45,7 +45,7 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
       )}
       <button
         onClick={toggleOptionsOn}
-        className='flex items-center justify-center w-10 h-10 flex-shrink-0 ml-4 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 rounded-full'
+        className='flex items-center justify-center w-10 h-10 flex-shrink-0 ml-4 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 rounded-full'
       >
         {icons.dotsHorizontal}
       </button>

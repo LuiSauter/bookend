@@ -53,7 +53,7 @@ const CarruselWhoToFollow = () => {
                       event.stopPropagation()
                       router.push(`/${user.username}`)
                     }}
-                    className='dark:bg-secondary bg-slate-200 dark:hover:bg-secondaryLigth hover:bg-sky-200 shrink-0 flex flex-col w-56 gap-4 snap-always snap-center rounded-xl p-4 mb-2 cursor-pointer'
+                    className='dark:bg-secondary bg-slate-200 dark:hover:bg-secondaryLigth hover:bg-sky-200/70 shrink-0 flex flex-col w-56 gap-4 snap-always snap-center rounded-xl p-4 mb-2 cursor-pointer'
                   >
                     <figure className='m-0 rounded-full w-20 mx-auto overflow-hidden'>
                       <img
@@ -68,7 +68,7 @@ const CarruselWhoToFollow = () => {
                           {user.name}
                           {user.verified && icons.checkVeriFied}
                         </h3>
-                        <span className='text-center text-slate-500 text-sm'>
+                        <span translate='no' className='text-center text-slate-500 text-sm'>
                           @{user.username}
                         </span>
                       </a>

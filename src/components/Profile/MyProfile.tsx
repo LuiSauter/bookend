@@ -40,7 +40,7 @@ const MyProfile = ({ username }: Props) => {
     <>
       <div className='flex dark:bg-primary/80 bg-slate-200/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:mt-0 md:bg-transparent md:backdrop-blur-none md:absolute md:top-0 z-10 pl-2 sm:pl-0'>
         <button
-          className='rounded-full md:hidden dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+          className='rounded-full md:hidden dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
           onClick={() => router.back()}
         >
           {icons.arrowLeft}
@@ -49,7 +49,7 @@ const MyProfile = ({ username }: Props) => {
           data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
-            className='border rounded-2xl px-2 py-1 dark:hover:bg-secondaryLigth hover:bg-sky-200'
+            className='border rounded-2xl px-2 py-1 dark:hover:bg-secondaryLigth hover:bg-sky-200/70'
           >
             {translate.profile.edit}
           </button>
@@ -96,7 +96,7 @@ const MyProfile = ({ username }: Props) => {
             <BtnFollow user={data?.findProfile?.me.user} />
           )}
         </div>
-        <span className='text-textGray text-base'>
+        <span translate='no' className='text-textGray text-base'>
           @{data?.findProfile?.me.username}
         </span>
         <p className='my-3'>{data?.findProfile?.description}</p>
@@ -140,7 +140,7 @@ const MyProfile = ({ username }: Props) => {
         )}
         <div className='flex flex-row justify-start my-3'>
           <Link href='#'>
-            <a className='flex flex-row items-center justify-center mr-7 dark:hover:bg-secondaryLigth hover:bg-sky-200 rounded-xl px-2'>
+            <a className='flex flex-row items-center justify-center mr-7 dark:hover:bg-secondaryLigth hover:bg-sky-200/70 rounded-xl px-2'>
               <span className='font-bold mr-1'>
                 {data?.findProfile?.following.length}
               </span>
@@ -150,7 +150,7 @@ const MyProfile = ({ username }: Props) => {
             </a>
           </Link>
           <Link href='#'>
-            <a className='flex flex-row items-center justify-center dark:hover:bg-secondaryLigth hover:bg-sky-200 rounded-xl px-2'>
+            <a className='flex flex-row items-center justify-center dark:hover:bg-secondaryLigth hover:bg-sky-200/70 rounded-xl px-2'>
               <span className='font-bold mr-1'>
                 {data?.findProfile?.followers.length}
               </span>

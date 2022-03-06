@@ -49,12 +49,12 @@ const PostItem = ({
       {showOptions && <PostOptions id={id} toggleOptions={toggleOptions} />}
       <article
         key={id}
-        className='w-full flex flex-row px-4 dark:sm:bg-secondary hover:bg-slate-200 sm:bg-slate-200 sm:hover:bg-sky-200 dark:bg-primary dark:sm:hover:bg-secondaryLigth cursor-pointer transition-colors rounded-xl xl:px-6'
+        className='w-full flex flex-row px-4 dark:sm:bg-secondary hover:bg-slate-200 sm:bg-slate-200 sm:hover:bg-sky-200/70 dark:bg-primary dark:sm:hover:bg-secondaryLigth border border-textGray/10 cursor-pointer transition-colors rounded-xl xl:px-6'
         onClick={() => router.push(`/books/${id}`)}
       >
         <figure className='flex items-start my-4 flex-shrink-0 mr-3'>
           <img
-            className='h-12 w-12 sm:w-14 sm:h-14 rounded-full'
+            className='h-12 w-12 sm:w-12 sm:h-12 rounded-full'
             src={
               findUser?.findUserById.me.photo
                 ? findUser?.findUserById.me.photo
@@ -77,7 +77,7 @@ const PostItem = ({
                   }}
                   className='flex items-center flex-row flex-wrap'
                 >
-                  <header className='font-bold flex items-center whitespace-nowrap mr-1'>
+                  <header className='font-semibold text-base flex items-center whitespace-nowrap mr-1'>
                     <h3 className='hover:underline'>
                       {findUser?.findUserById.me.name}
                     </h3>
@@ -87,7 +87,7 @@ const PostItem = ({
                       </span>
                     )}
                   </header>
-                  <span className='text-slate-400 text-[15px] whitespace-nowrap no-underline'>
+                  <span translate='no' className='dark:text-slate-400 text-slate-500 text-[15px] whitespace-nowrap no-underline'>
                     @{findUser?.findUserById.me.username} ·{' '}
                     <time title={dateLong.toString()}>{timeago}</time>
                   </span>
@@ -121,7 +121,7 @@ const PostItem = ({
           </div>
           {image ? (
             <div className='w-full flex mt-4'>
-              <figure className='max-h-[440px] rounded-xl overflow-hidden relative bg-red-500'>
+              <figure className='max-h-[440px] rounded-xl overflow-hidden relative border border-textGray/50'>
                 <img
                   className='h-full w-full object-cover rounded-xl object-top'
                   src={image}

@@ -33,10 +33,14 @@ const FollowItem = ({
     <>
       {session?.user?.email !== email && (
         <li
-          className='flex justify-center items-center w-full relative p-2 rounded-xl dark:hover:bg-secondaryLigth hover:bg-sky-200 transition-colors cursor-pointer'
+          className='flex justify-center items-center w-full relative p-2 rounded-xl dark:hover:bg-secondaryLigth hover:bg-sky-200/70 transition-colors cursor-pointer'
           onClick={() => handleClickLi(username)}
         >
-          <img src={photo || '/default-user.webp'} alt={name} className='w-11 h-11 rounded-full mr-3' />
+          <img
+            src={photo || '/default-user.webp'}
+            alt={name}
+            className='w-11 h-11 rounded-full mr-3'
+          />
           <div className='flex flex-row w-full justify-between items-center relative'>
             <Link href={`/${username}`}>
               <a className='flex flex-col overflow-hidden w-full'>
@@ -46,7 +50,9 @@ const FollowItem = ({
                     {verified && checkVeriFied}
                   </span>
                 </h3>
-                <span className='text-textGray text-sm'>@{username}</span>
+                <span translate='no' className='text-textGray text-sm'>
+                  @{username}
+                </span>
               </a>
             </Link>
             <BtnFollow user={user} />

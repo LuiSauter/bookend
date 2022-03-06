@@ -14,16 +14,22 @@ type Props = {
   user: string | undefined
 }
 
-const UsersItem = ({ photo, username, name, verified, email, user }: Props) => {
+const UsersItem = ({
+  photo,
+  username,
+  name,
+  verified,
+  email,
+  user,
+}: Props) => {
   const router = useRouter()
   const { data: session } = useSession()
 
   return (
     <li
-      className='p-4 dark:hover:bg-secondary hover:bg-sky-200 transition-colors flex z-[1] cursor-pointer'
+      className='p-4 dark:hover:bg-secondary hover:bg-sky-200/70 transition-colors flex z-[1] cursor-pointer'
       onClick={() => {
         router.push(`/${username}`)
-        // setShowSearchResults(false)
       }}
     >
       <img
@@ -40,7 +46,7 @@ const UsersItem = ({ photo, username, name, verified, email, user }: Props) => {
                 {verified && icons.checkVeriFied}
               </span>
             </h3>
-            <span className='text-textGray text-sm'>@{username}</span>
+            <span translate='no' className='text-textGray text-sm'>@{username}</span>
           </a>
         </Link>
         {session?.user?.email === email ? (
