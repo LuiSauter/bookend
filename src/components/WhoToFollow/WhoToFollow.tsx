@@ -32,7 +32,9 @@ const WhoToFollow = () => {
   return (
     <>
       {loading ? (
-        <LoadingIcon />
+        <div className='py-2'>
+          <LoadingIcon />
+        </div>
       ) : (
         <ul className='flex w-full flex-col overflow-x-auto relative overflow-hidden'>
           {allUser.length !== 0 &&
