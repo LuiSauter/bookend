@@ -13,20 +13,16 @@ import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { LoadingPage } from 'src/layouts/LoadingPage'
+import { languageStorage, themeStorage } from 'src/config/constants'
 
-// const client = new ApolloClient({
-//   connectToDevTools: true,
-//   cache: new InMemoryCache(),
-//   link: new HttpLink({
-//     uri: '/api/graphql',
-//   }),
-// })
+const currentLanguageStorage =
+  typeof window !== 'undefined' && window.localStorage.getItem(languageStorage)
 
 const waitFor = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms))
 
 const currentTheme =
-  typeof window !== 'undefined' && window.localStorage.getItem('theme')
+  typeof window !== 'undefined' && window.localStorage.getItem(themeStorage)
 
 if (currentTheme === 'dark') {
   document.documentElement.classList.add('dark')
@@ -46,13 +42,23 @@ function MyApp({
 
   useEffect(() => {
     let cleanup = true
-    if (cleanup) {
-      getLoading()
-    }
+    if (cleanup) getLoading()
     return () => {
       cleanup = false
     }
   }, [])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      typeof window !== 'undefined' &&
+        currentLanguageStorage === null &&
+        window.localStorage.setItem(languageStorage, 'es')
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [currentLanguageStorage])
 
   return loading ? (
     <LoadingPage />
