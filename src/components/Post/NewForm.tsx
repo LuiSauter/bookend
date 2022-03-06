@@ -8,15 +8,16 @@ import { useRouter } from 'next/router'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { toast } from 'react-toastify'
 import { categorys } from 'src/assets/data/category'
+import { useTranslate } from 'src/hooks/useTranslate'
 interface Props {
   id?: string | string[] | undefined
 }
-const NewForm = ({ id }: Props): JSX.Element => {
+const NewForm = ({ id = '' }: Props): JSX.Element => {
   const [getPost, { data }] = useLazyQuery(FINDONE_POST)
   const [fileImage, setFileImage] = useState<string | any>('')
-  const [errorMessage, setErrorMessage] = useState(false)
   const [btnDisabled, setBtnDisabled] = useState(false)
   const [textDescription, setTextDescription] = useState('')
+  const translate = useTranslate()
   const { data: session, status } = useSession()
   const router = useRouter()
   const descriptionRef: any = useRef(null)
@@ -55,11 +56,9 @@ const NewForm = ({ id }: Props): JSX.Element => {
   useEffect(() => {
     if (typeof window !== undefined) {
       if (textDescription.length === 0) {
-        setErrorMessage(true)
         setBtnDisabled(true)
       } else {
         setBtnDisabled(false)
-        textDescription.length > 0 && setErrorMessage(false)
       }
     }
   }, [data?.findPost, textDescription])
@@ -143,86 +142,78 @@ const NewForm = ({ id }: Props): JSX.Element => {
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col gap-4 w-full'
       >
-        <label className='font-semibold'>
-          Add an image url <span className='text-thirdBlue'>* </span>
-          <input
-            className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
-            onChange={(e) => {
-              handleChangeFile(e.target.value)
-            }}
-            value={fileImage}
-            type='url'
-            placeholder='write url of image'
-            required
-          />
-        </label>
-        <div className='w-full flex flex-col sm:flex-row gap-3 justify-center'>
-          <div className='w-full flex flex-col gap-2'>
-            <label className='font-semibold'>
-              Title <span className='text-thirdBlue'>* </span>
-              {errors.title?.type === 'required' && (
-                <span className='text-red-500 text-sm font-medium'>
-                  {errors.title.message}
-                </span>
-              )}
-              <input
-                className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
-                {...register('title', {
-                  required: {
-                    value: true,
-                    message: 'title is required',
-                  },
-                })}
-                defaultValue={formState.title}
-                type='text'
-                placeholder='Write a title'
-              />
-            </label>
-            <label className='font-semibold'>
-              Description <span className='text-thirdBlue'>* </span>
-              {errorMessage && (
-                <span className='text-red-500 text-sm font-medium'>
-                  Description is required
-                </span>
-              )}
-              <div
-                id='box-editable'
-                className='dark:bg-secondaryLigth bg-sky-200/80'
-                contentEditable='true'
-                onInput={handleElementEditable}
-                ref={descriptionRef}
-              />
-            </label>
-            <label className='font-semibold'>
-              Author <span className='text-thirdBlue'>* </span>
-              {errors.author?.type === 'required' && (
-                <span className='text-red-500 text-sm font-medium'>
-                  {errors.author.message}
-                </span>
-              )}
-              <input
-                className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
-                {...register('author', {
-                  required: {
-                    value: true,
-                    message: 'Author is required',
-                  },
-                })}
-                defaultValue={formState.author}
-                type='text'
-                placeholder='Write an author name'
-              />
-            </label>
-          </div>
-          {fileImage && (
-            <img
-              className='m-auto rounded-lg mt-2 w-1/2 shadow-lg'
-              src={fileImage || ''}
+        <div className='w-full flex flex-col gap-3 justify-center'>
+          <label className='font-semibold'>
+            {translate.post.title} <span className='text-thirdBlue'>* </span>
+            {errors.title?.type === 'required' && (
+              <span className='text-red-500 text-sm font-medium'>
+                {errors.title.message}
+              </span>
+            )}
+            <input
+              className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+              {...register('title', {
+                required: {
+                  value: true,
+                  message: translate.post.required,
+                },
+              })}
+              defaultValue={formState.title}
+              type='text'
+              placeholder={
+                translate.post.title === 'Título'
+                  ? `Escriba un ${translate.post.title}`
+                  : `Write a ${translate.post.title}`
+              }
             />
-          )}
+          </label>
+          <label className='font-semibold'>
+            {translate.post.Description}{' '}
+            <span className='text-thirdBlue'>* </span>
+            {textDescription.length === 0 && (
+              <span className='text-red-500 text-sm font-medium'>
+                {translate.post.required}
+              </span>
+            )}
+            <div
+              id={
+                translate.post.Description === 'Descripción'
+                  ? 'box-editable-es'
+                  : 'box-editable-en'
+              }
+              className='dark:bg-secondaryLigth bg-sky-200/80'
+              contentEditable='true'
+              onInput={handleElementEditable}
+              ref={descriptionRef}
+            />
+          </label>
+          <label className='font-semibold'>
+            {translate.post.Author} <span className='text-thirdBlue'>* </span>
+            {errors.author?.type === 'required' && (
+              <span className='text-red-500 text-sm font-medium'>
+                {errors.author.message}
+              </span>
+            )}
+            <input
+              className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+              {...register('author', {
+                required: {
+                  value: true,
+                  message: `${translate.post.Author} ${translate.post.required}`,
+                },
+              })}
+              defaultValue={formState.author}
+              type='text'
+              placeholder={
+                translate.post.Author === 'Autor'
+                  ? 'Escriba un autor'
+                  : 'Write an author name'
+              }
+            />
+          </label>
         </div>
         <label className='font-semibold'>
-          Book in google drive <span className='text-thirdBlue'>* </span>
+          {translate.post.urlBook} <span className='text-thirdBlue'>* </span>
           {errors.bookUrl?.type === 'required' && (
             <span className='text-red-500 text-sm font-medium'>
               {errors.bookUrl.message}
@@ -233,7 +224,7 @@ const NewForm = ({ id }: Props): JSX.Element => {
             {...register('bookUrl', {
               required: {
                 value: true,
-                message: 'This field is required to google drive',
+                message: `${translate.post.urlBook} ${translate.post.required}`,
               },
             })}
             defaultValue={formState.bookUrl}
@@ -241,6 +232,34 @@ const NewForm = ({ id }: Props): JSX.Element => {
             placeholder='drive.google.com/example'
           />
         </label>
+        <label className='font-semibold'>
+          {translate.post.urlImage} <span className='text-thirdBlue'>* </span>
+          {fileImage.length === 0 && (
+            <span className='text-red-500 text-sm font-medium'>
+              {translate.post.required}
+            </span>
+          )}
+          <input
+            className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
+            onChange={(e) => {
+              handleChangeFile(e.target.value)
+            }}
+            value={fileImage}
+            type='url'
+            placeholder={
+              translate.post.urlImage === 'Url de la imagen'
+                ? 'Escriba la url de la imagen'
+                : 'Write url of image'
+            }
+            required
+          />
+        </label>
+        {fileImage && (
+          <img
+            className='m-auto rounded-lg mt-2 w-1/2 shadow-lg'
+            src={fileImage || ''}
+          />
+        )}
         <div className='w-full grid grid-cols-2 sm:grid-cols-3 justify-evenly gap-2'>
           {data?.findPost &&
             categorys.map((category, index: number) => {
@@ -274,13 +293,14 @@ const NewForm = ({ id }: Props): JSX.Element => {
             ))}
         </div>
         <label className='text-textGray text-base'>
-          <span className='text-thirdBlue'>*</span> fields required
+          <span className='text-thirdBlue'>*</span>{' '}
+          {translate.home.fieldRequired}
         </label>
         <button
           disabled={btnDisabled}
           className='bg-blue-500 py-1 rounded-md mb-2 hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200 disabled:opacity-50 text-white'
         >
-          submit
+          {id !== '' ? translate.post.update : translate.post.submit}
         </button>
       </form>
     </>
