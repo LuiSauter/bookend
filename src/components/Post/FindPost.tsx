@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
+import React, { Fragment, useEffect, useState } from 'react'
 import Head from 'next/head'
 
 import { useLazyQuery } from '@apollo/client'
@@ -11,6 +10,7 @@ import User from './User'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import MultipleButtons from 'src/components/Button'
 import PostOptions from '../Modal/PostOptions'
+import useTimeAgo from 'src/hooks/useTimeAgo'
 
 interface Props {
   id: string | string[];
@@ -20,15 +20,15 @@ const FindPost = ({ id }: Props) => {
   const [showOptions, setShowOptions] = useState(false)
   const [getPostById, { data, loading }] = useLazyQuery(FINDONE_POST)
   const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
+
+  const date = Number(data?.findPost ? data?.findPost.createdAt : 0)
+  const { hourAndMinute } = useTimeAgo(date)
   const router = useRouter()
 
   useEffect(() => {
     const cleanup = true
     if (cleanup) {
-      id &&
-        getPostById({
-          variables: { id: id },
-        })
+      id && getPostById({ variables: { id: id } })
     }
     return () => {
       cleanup
@@ -38,9 +38,7 @@ const FindPost = ({ id }: Props) => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (data?.findPost.user) {
-        getUserById({ variables: { user: data?.findPost?.user } })
-      }
+      if (data?.findPost.user) getUserById({ variables: { user: data?.findPost?.user } })
     }
     return () => {
       cleanup = false
@@ -51,84 +49,62 @@ const FindPost = ({ id }: Props) => {
   const toggleOptionsOn = () => setShowOptions(true)
 
   return (
-    <>
+    <Fragment>
       <Head>
-        <title>
-          Bookend | {data?.findPost.title ? data?.findPost.title : 'Loading'}
-        </title>
+        <title>Bookend | {loading ? 'Loading' : data?.findPost.title}</title>
       </Head>
       {showOptions && (
         <PostOptions id={data?.findPost.id} toggleOptions={toggleOptions} />
       )}
-      <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
-        <div className='flex items-center py-2 pr-2 dark:bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-12'>
-          {loading ? (
-            <LoadingIcon />
-          ) : (
-            <>
-              <button
-                className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
-                onClick={() => router.back()}
-              >
-                {icons.arrowLeft}
-              </button>
-              {findUser?.findUserById && (
-                <User
-                  findUser={findUser?.findUserById}
-                  toggleOptionsOn={toggleOptionsOn}
-                />
-              )}
-            </>
-          )}
-        </div>
-        {loading ? (
+      {loading ? (
+        <div className='flex justify-center items-center h-[90vh]'>
           <LoadingIcon />
-        ) : (
+        </div>
+      ) : (
+        <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
+          <div className='flex items-center py-1 pr-2 dark:bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-0 md:static'>
+            <button
+              className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+              onClick={() => router.back()}
+            >
+              {icons.arrowLeft}
+            </button>
+            {findUser?.findUserById && (
+              <User
+                findUser={findUser?.findUserById}
+                toggleOptionsOn={toggleOptionsOn}
+              />
+            )}
+          </div>
           <div className='px-4'>
-            <figure className='absolute inset-0 z-[0] h-[70vh]'>
-              <div className='bg-gradient-to-t dark:from-primary dark:via-primary/60 dark:to-primary
-              from-slate-100 via-slate-50 to-slate-100
-              h-full w-full absolute inset-0' />
+            <h1 className='text-2xl font-semibold text-thirdBlue'>
+              {data?.findPost.title}
+              <span> | {data?.findPost.author}</span>
+            </h1>
+            <div className='w-full flex flex-col gap-4 justify-center'>
+              <p>
+                {data?.findPost.description?.map((d: string, index: number) => (
+                  <span className='block mt-3 text-xl' key={index}>
+                    {d}
+                  </span>
+                ))}
+              </p>
+            </div>
+            <figure className='my-3 rounded-lg relative overflow-hidden aspect-[160/230] w-full border border-textGray/50'>
               <img
-                className='w-full h-full object-cover object-center z-[0]'
+                className='w-full h-full absolute inset-0 rounded-lg object-cover object-center'
                 src={data?.findPost.image}
                 alt={data?.findPost.title}
               />
             </figure>
-            <div className='flex flex-col my-4 gap-4 justify-start relative lg:flex-row'>
-              <header className='flex flex-col items-center gap-4'>
-                <figure className='m-0 rounded-lg relative overflow-hidden aspect-[160/230] w-44'>
-                  <img
-                    className='w-full h-full absolute inset-0 rounded-lg object-cover object-center'
-                    src={data?.findPost.image}
-                    alt={data?.findPost.title}
-                  />
-                </figure>
-              </header>
-              <div className='w-full flex flex-col gap-4 justify-center'>
-                <h1 className='text-2xl font-bold'>{data?.findPost.title}</h1>
-                <p className='text-thirdBlue font-medium'>
-                  <span className='dark:text-slate-50 text-black/80 font-medium'>Autor:</span>{' '}
-                  {data?.findPost.author}
-                </p>
-                <p>
-                  {data?.findPost.description?.map(
-                    (d: string, index: number) => (
-                      <span className='block' key={index}>
-                        {d}
-                      </span>
-                    )
-                  )}
-                </p>
-              </div>
-            </div>
+            <span className='dark:text-slate-400 flex border-b pb-2 dark:border-slate-400/30 mb-2'>{hourAndMinute}</span>
             <MultipleButtons
               comments={data?.findPost?.comments.length}
               id={data?.findPost?.id}
               likes={data?.findPost?.likes.length}
               bookDownload={data?.findPost?.bookUrl}
             />
-            <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-4'>
+            <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-2'>
               {data?.findPost.tags.map((tag: string, index: number) => (
                 <li
                   className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200 text-slate-400'
@@ -139,9 +115,9 @@ const FindPost = ({ id }: Props) => {
               ))}
             </ul>
           </div>
-        )}
-      </article>
-    </>
+        </article>
+      )}
+    </Fragment>
   )
 }
 

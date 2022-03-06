@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import * as icons from 'src/assets/icons'
+import BtnLike from '../Button/BtnLike'
 import Modal from './Modal'
 
-const AllPostItem = ({ image, title, description, author }: Post) => {
+const AllPostItem = ({ image, title, description, author, id, likes }: Post) => {
   const [hoverInfo, setHoverInfo] = useState(false)
   return (
     <article
@@ -32,9 +33,17 @@ const AllPostItem = ({ image, title, description, author }: Post) => {
           alt={title}
         />
       </figure>
-      <h2 className='text-sm text-center dark:text-thirdBlue text-black'>{title}</h2>
-      {hoverInfo && ( //translate-x-1/3
-        <Modal title={title} description={description} author={author} hoverInfo={hoverInfo} />
+      <div className='flex flex-row justify-between items-center transform scale-90'>
+        <h2 className='dark:text-thirdBlue text-black'>{title}</h2>
+        <BtnLike id={id} likes={likes?.length} />
+      </div>
+      {hoverInfo && (
+        <Modal
+          title={title}
+          description={description}
+          author={author}
+          hoverInfo={hoverInfo}
+        />
       )}
     </article>
   )

@@ -78,7 +78,7 @@ const BtnLike = ({ id, likes }: Props) => {
         e.stopPropagation()
       }}
       title='Likes'
-      className='hover:text-red-500 contrast-125 cursor-default flex items-center gap-1 select-none'
+      className='hover:text-red-500 text-slate-500 contrast-125 cursor-default flex items-center gap-1 select-none'
       onMouseEnter={() => {
         setShowHover(true)
       }}
@@ -93,15 +93,15 @@ const BtnLike = ({ id, likes }: Props) => {
         }}
         id='btn-animation'
         className={`
-          ${!like ? 'text-inherit' : 'text-red-500'}
+          ${!like ? 'dark:text-inherit text-inherit' : 'text-red-500'}
           ${showHover ? 'bg-red-500/10' : 'bg-transparent'}
           hover:text-red-500 rounded-full h-9 w-9 grid place-content-center place-items-center transition-[0.4s]`}
       >
         {!like ? icons.heart : icons.heartFill}
       </button>
       <span
-        className={`transition-all ${
-          !like ? 'text-inherit' : 'text-red-500'
+        className={`transition-all font-semibold ${
+          !like ? 'dark:text-inherit text-inherit' : 'text-red-500'
         }`}
       >
         {likes}
