@@ -6,22 +6,13 @@ import * as icons from '../../assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import ClientOnly from '../ClientOnly'
 import LoginModal from '../LoginModal'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 export const NavBar = () => {
-  // const router = useRouter()
   const router = useRouter()
-  // const [darkMode, setDarkMode] = useState(false)
-  // const handleClick = () => {
-  //   document.documentElement.classList.toggle('dark')
-  //   setDarkMode(!darkMode)
-  // }
-  // const text = !darkMode ? 'dark mode' : 'light mode'
-
-  // const handleSignOut = async () => {
-  //   const data = await signOut({ redirect: false, callbackUrl: '/' })
-  //   return router.replace(data?.url)
   const { handleToggleModal } = useToggleUser()
   const { loginOpen } = useToggleUser()
+  const translate = useTranslate()
 
   return (
     <>
@@ -40,7 +31,7 @@ export const NavBar = () => {
           <div
             className='flex w-full md:hidden sm:flex-shrink-0 items-center justify-center h-11 transition-colors sm:h-12
               sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4
-              md:mt-0 md:h-12 md:w-12 md:hover:rounded-3xl dark:hover:bg-secondaryHover hover:bg-sky-200'
+              md:mt-0 md:h-12 md:w-12 md:hover:rounded-3xl dark:hover:bg-secondaryHover hover:bg-sky-200/70'
             onClick={handleToggleModal}
           >
             <img
@@ -54,7 +45,7 @@ export const NavBar = () => {
               router.push('/')
               return window.document.getElementById('search-books')?.focus()
             }}
-            className='flex sm:flex-shrink-0 w-full h-full items-center mr-auto justify-center dark:hover:bg-slate-300/20 hover:bg-sky-200 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10 transition-all'
+            className='flex sm:flex-shrink-0 w-full h-full items-center mr-auto justify-center dark:hover:bg-slate-300/20 hover:bg-sky-200/70 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10 transition-all'
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -71,13 +62,18 @@ export const NavBar = () => {
               />
             </svg>
           </button>
-          <Nav visible={'flex md:w-min'} path={'/'} name={'Home'} unique={true}>
+          <Nav
+            visible={'flex md:w-min'}
+            path={'/'}
+            name={translate.nav.home}
+            unique={true}
+          >
             {router.pathname === '/' ? icons.homeCurrent : icons.home}
           </Nav>
           <Nav
             visible={'flex md:w-min'}
             path={'/books'}
-            name={'Books'}
+            name={translate.nav.book}
             unique={true}
           >
             {router.pathname === '/books' ? icons.bookCurrent : icons.book}
@@ -85,7 +81,7 @@ export const NavBar = () => {
           <Nav
             visible={'flex md:w-min'}
             path={'/books/new'}
-            name={'New'}
+            name={translate.nav.new}
             unique={true}
           >
             {router.pathname === '/books/new'

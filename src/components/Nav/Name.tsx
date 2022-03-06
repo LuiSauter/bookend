@@ -5,10 +5,12 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { FIND_USER } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 const Name = () => {
   const { data: session, status } = useSession()
   const { setProfileId, profile } = useProfileId()
+  const translate = useTranslate()
   const [getUserByProfileId, { data }] = useLazyQuery(FIND_USER)
 
   useEffect(() => {
@@ -45,7 +47,10 @@ const Name = () => {
           src='/default-user.webp'
           alt='bookend free books'
         />
-        <span className='hidden md:flex text-sm ml-2'>Sign In{icons.chevronDown}</span>
+        <span className='hidden md:flex text-sm ml-2'>
+          {translate.nav.login}
+          {icons.chevronDown}
+        </span>
       </figure>
     )
   }

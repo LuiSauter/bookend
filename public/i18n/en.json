@@ -16,10 +16,13 @@
     "saveChanges": "Save changes",
     "about": "About",
     "copy": "Copied",
+    "category": "Categories",
     "searchBook": {
       "placeholder": "Search in bookend",
       "author": "Author",
-      "showMore": "Show more."
+      "showMore": "Show more.",
+      "seeLess": "See lees",
+      "userPlaceholder": "Search users"
     },
     "postOptions": {
       "report": "Report a problem",
@@ -33,7 +36,8 @@
     "following": "Following",
     "followers": "Followers",
     "follow": "Follow",
-    "unfollow": "Unfollow"
+    "unfollow": "Unfollow",
+    "me": "My profile"
   },
   "post": {
     "update": "Update post",
@@ -47,14 +51,14 @@
     "required": "is required"
   },
   "book": {
-    "popular": "Libros populares",
+    "popular": "Popular books",
     "btnBook": "Books",
     "btnUser": "Users",
     "lastSearch": "Last search: ",
     "notFound": "Sorry, we couldn't find any results."
   },
   "about": {
-    "name": "Acerca de",
+    "name": "About",
     "h1": "What is Bookend?",
     "p1": "Bookend is a web application to share books and it was thanks to the idea that arose when I was looking to carry out fullstack development practices.",
     "h2": "Is this an original idea?",
@@ -72,7 +76,7 @@
     "activity": "Your activity in Bookend",
     "activityP": "Check the information about who you followed and what post you liked.",
     "about": "What is bookend? Is this an original idea? What technologies do we use?",
-    "report": "Report a problem",
+    "report": "Report a bug",
     "reportP": "Help us improve by reporting a bug or performance issues."
   },
   "display": {
@@ -80,5 +84,16 @@
     "h1": "Dark theme",
     "p1": "Mode your dark night screen. This makes it easier to look at the screen or read in low light and can help you fall asleep more easily.",
     "h2": "Language"
+  },
+  "nav": {
+    "login": "Log in",
+    "home": "Home",
+    "book": "Books",
+    "new": "New",
+    "logout": "Log out",
+    "verfication": "Request verification",
+    "showProfile": "See your profile",
+    "withGoogle": "With Google",
+    "withGitHub": "With GitHub"
   }
 }

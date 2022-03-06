@@ -16,10 +16,13 @@
     "saveChanges": "Guadar cambios",
     "about": "Acerca de",
     "copy": "Copiado",
+    "category": "Categorías",
     "searchBook": {
       "placeholder": "Buscar en bookend",
       "author": "Autor",
-      "showMore": "Ver más."
+      "showMore": "Ver más.",
+      "seeLess": "Ver menos",
+      "userPlaceholder": "Buscar usuarios"
     },
     "postOptions": {
       "report": "Reportar un problema",
@@ -33,7 +36,8 @@
     "following": "Siguiendo",
     "followers": "Seguidores",
     "follow": "Seguir",
-    "unfollow": "Dejar de seguir"
+    "unfollow": "Dejar de seguir",
+    "me": "Mi perfil"
   },
   "post": {
     "update": "Actualizar publicación",
@@ -72,7 +76,7 @@
     "activity": "Tu actividad en Bookend",
     "activityP": "Consulta la informacion sobre a quien seguiste y que post te gustaron.",
     "about": "Que es bookend?, Esta es una idea original?, que tecnologias usamos?",
-    "report": "Reportar un problema",
+    "report": "Reportar un bug",
     "reportP": "Ayudanos a mejorar reportando un bug o problemas de rendimiento."
   },
   "display": {
@@ -80,5 +84,16 @@
     "h1": "Tema oscuro",
     "p1": "Modo tu pantalla nocturna oscura. Esto hace que sea más fácil mirar la pantalla o leer con poca luz y puede ayudar a conciliar el sueño más fácilmente.",
     "h2": "Idioma"
+  },
+  "nav": {
+    "login": "Iniciar sesión",
+    "home": "Inicio",
+    "book": "Libros",
+    "new": "Agregar",
+    "logout": "Cerrar sesión",
+    "verfication": "Solicitar verificación",
+    "showProfile": "Ver tu perfil",
+    "withGoogle": "Con Google",
+    "withGitHub": "con GitHub"
   }
 }

@@ -5,8 +5,8 @@ import { SEARCH_USERS } from 'src/users/graphql-queries'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useRouter } from 'next/router'
 import UsersItem from './SearchResults/UsersItem'
+import { useTranslate } from 'src/hooks/useTranslate'
 const INITIAL_STATE = ''
-const placeholderSearchUser = 'Buscar usuarios'
 
 export interface IUser {
   email: string
@@ -21,6 +21,7 @@ const SearchUser = () => {
   const router = useRouter()
   const [showSearchResults, setShowSearchResults] = useState(false)
   const [searhUser, setSearhUser] = useState<string>(INITIAL_STATE)
+  const translate = useTranslate()
   const [getSearchUser, { data, loading }] = useLazyQuery(SEARCH_USERS)
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -51,27 +52,34 @@ const SearchUser = () => {
   }, [searhUser])
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className='w-full h-full z-[80]'>
-        <label
-          onClick={() => setShowSearchResults(true)}
-          className='dark:bg-secondary bg-slate-200 dark:focus-within:bg-primary focus-within:bg-sky-200 focus-within:text-thirdBlue focus-within:ring-2 ring-thirdBlue flex items-center gap-2 px-4 py-2 rounded-2xl transition-colors z-[80]'
-        >
-          <span className='opacity-50'>{icons.searchIcon}</span>
-          <input
-            onChange={handleChange}
-            className='bg-transparent outline-none w-full dark:text-white'
-            type='text'
-            placeholder={placeholderSearchUser}
-            value={searhUser}
-          />
-        </label>
-      </form>
-      {searhUser.length !== 0 && showSearchResults && (
-        <>
-          <div className='absolute top-32 -right-2 dark:bg-secondary/80 rounded-xl w-[115%] overflow-y-auto z-[80] shadow-3xl dark:shadow-thirdBlue/30 shadow-thirdBlue/70'>
-            <ul className='dark:bg-primary bg-slate-200 rounded-xl overflow-hidden max-h-[65vh] overflow-y-auto z-[80]'>
-              {data?.searchUsers.length !== 0 && loading ? (
+    <article className='mx-1 my-4 rounded-2xl h-full relative snap-start shrink-0'>
+      <div className='w-full h-10'></div>
+      <div className='absolute top-0 -right-0 dark:bg-transparent focus-within:ring-2 focus-within:ring-thirdBlue rounded-2xl w-[100%] overflow-y-auto z-[80] shadow-'>
+        <form onSubmit={handleSubmit} className='w-full h-full z-[80]'>
+          <label
+            onClick={() => setShowSearchResults(true)}
+            className='dark:bg-secondary/0 dark:focus-within:bg-primary focus-within:bg-slate-200 focus-within:text-thirdBlue focus-within:rounded-t-xl border-thirdBlue flex items-center gap-2 px-4 py-2 transition-colors z-[80]'
+          >
+            <span className='opacity-50 z-[80]'>{icons.searchIcon}</span>
+            <input
+              onChange={handleChange}
+              className='bg-transparent outline-none w-full dark:text-white z-[80]'
+              type='text'
+              placeholder={translate.home.searchBook.userPlaceholder}
+              value={searhUser}
+              autoFocus={showSearchResults}
+            />
+          </label>
+        </form>
+        {searhUser.length !== 0 &&
+          showSearchResults && (
+          <>
+            <ul className='dark:bg-primary bg-slate-200 overflow-hidden max-h-[65vh] overflow-y-auto z-[80]'>
+              {data?.searchUsers.length === 0 ? (
+                <span className='p-4 dark:hover:bg-secondary hover:bg-sky-200/70 transition-colors flex z-[1] cursor-pointer'>
+                  {translate.book.notFound}
+                </span>
+              ) : loading ? (
                 <span className='w-full px-1 overflow-y-hidden'>
                   <LoadingIcon />
                 </span>
@@ -89,14 +97,14 @@ const SearchUser = () => {
                 ))
               )}
             </ul>
-          </div>
-          <div
-            onClick={() => setShowSearchResults(false)}
-            className='h-screen w-full fixed top-0 left-0 z-[-1]'
-          />
-        </>
-      )}
-    </>
+            <div
+              onClick={() => setShowSearchResults(false)}
+              className='h-screen w-full fixed top-0 left-0 z-[-1]'
+            />
+          </>
+        )}
+      </div>
+    </article>
   )
 }
 

@@ -12,6 +12,7 @@ import WhoToFollow from 'src/components/WhoToFollow/WhoToFollow'
 import Footer from 'src/components/Footer'
 import SearchUser from 'src/components/SearchUser'
 import * as icons from 'src/assets/icons'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 interface Props {
   children: JSX.Element | JSX.Element[]
@@ -19,6 +20,7 @@ interface Props {
 
 export const Layout = ({ children }: Props) => {
   const router = useRouter()
+  const translate = useTranslate()
   return (
     <div
       className=' dark:bg-primary bg-white dark:text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
@@ -32,38 +34,45 @@ export const Layout = ({ children }: Props) => {
       >
         <section
           className='hidden min-w-[270px] max-w-[310px] sticky top-0
-          xl:flex flex-col gap-4 h-[100vh] snap-proximity snap-y overflow-y-auto overflow-x-hidden'
+          xl:flex flex-col gap-4 h-[100vh] snap-proximity snap-y overflow-y-auto overflow-x-hidden border-r-2 border-textGray/20'
         >
-          <Link href='/'>
-            <a className='hidden w-full md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 py-4'>
-              <img
-                className='w-8 h-auto ml-2'
-                src='/images/bookend-logo.png'
-                alt='bookend'
-              />
-              <h1 className='text-xl font-medium font-mono hidden lg:block'>
-                Bookend
-              </h1>
-              {router.query.username && (
-                <button
-                  className='rounded-full dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
-                  onClick={() => router.back()}
-                >
-                  {icons.arrowLeft}
-                </button>
-              )}
-            </a>
-          </Link>
           <div
-            className='xl:flex w-full flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-1'
+            className='xl:flex w-full flex-col snap-proximity snap-y overflow-y-auto pb-4 pr-3'
             id='custom-scrollbar'
           >
+            <Link href='/'>
+              <a className='hidden snap-start shrink-0 w-full md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 pt-4'>
+                <img
+                  className='w-8 h-auto'
+                  src='/images/bookend-logo.png'
+                  alt='bookend'
+                />
+                <h1
+                  translate='no'
+                  className='text-2xl font-medium font-mono hidden lg:block'
+                >
+                  Bookend
+                </h1>
+                {router.query.username && (
+                  <button
+                    className='rounded-full dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+                    onClick={() => router.back()}
+                  >
+                    {icons.arrowLeft}
+                  </button>
+                )}
+              </a>
+            </Link>
             <ClientOnly>
-              <CardProfile />
+              <article className='flex relative w-full justify-center snap-center shrink-0 pt-4'>
+                <CardProfile />
+              </article>
             </ClientOnly>
-            <article className='w-full snap-normal shrink-0 dark:bg-secondary bg-slate-200 rounded-xl overflow-auto'>
-              <h2 className='text-lg font-bold px-4 py-2'>Categorias</h2>
-              <hr className='border-textGray opacity-30' />
+            <article className='w-full snap-center shrink-0 dark:bg-secondary bg-slate-200 border border-textGray/10 rounded-xl overflow-auto'>
+              <h2 className='text-lg font-bold px-4 py-2'>
+                {translate.home.category}
+              </h2>
+              <hr className='border-textGray/10' />
               <Category />
             </article>
           </div>
@@ -77,17 +86,25 @@ export const Layout = ({ children }: Props) => {
             {children ? children : <LoadingPage />}
           </div>
         </main>
-        <section className='hidden w-full min-w-minAside sticky z-[3] top-0 md:flex flex-col max-w-[310px] xl:mr-0 gap-4'>
-          <PhotoUser />
-          <ClientOnly>
-            <SearchUser />
-          </ClientOnly>
-          <article className='w-full dark:bg-secondary bg-slate-200 rounded-xl p-3 xl:p-4'>
+        <section
+          className='xl:flex snap-proximity snap-y overflow-y-auto overflow-x-hidden
+        hidden h-screen w-full min-w-minAside sticky z-[70] top-0 md:flex flex-col max-w-[310px] xl:mr-0 gap-4 border-l-2 border-textGray/20 pl-4'
+        >
+          <div
+            className='xl:flex w-full flex-col snap-proximity snap-y overflow-y-auto pb-4'
+            id='custom-scrollbar-none'
+          >
+            <PhotoUser />
             <ClientOnly>
-              <WhoToFollow />
+              <SearchUser />
             </ClientOnly>
-          </article>
-          <Footer />
+            <article className='w-full snap-center shrink-0 dark:bg-secondary bg-slate-200 border border-textGray/10 rounded-xl p-2 xl:p-2'>
+              <ClientOnly>
+                <WhoToFollow />
+              </ClientOnly>
+            </article>
+            <Footer />
+          </div>
         </section>
       </div>
     </div>

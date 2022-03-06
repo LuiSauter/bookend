@@ -6,11 +6,14 @@ import { FIND_USER } from 'src/users/graphql-queries'
 import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 const CardProfile = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const translate = useTranslate()
   const [getUser, { data, loading }] = useLazyQuery(FIND_USER, { ssr: true })
+
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
@@ -29,9 +32,9 @@ const CardProfile = () => {
     <Fragment>
       {status === 'authenticated' &&
         router.asPath !== `/${data?.findUser?.me.username}` && (
-        <article className='dark:bg-secondary bg-slate-200 w-full rounded-xl flex flex-col snap-start shrink-0 mb-4 items-center relative'>
+        <article className='dark:bg-secondary bg-slate-200 border border-textGray/10 w-full rounded-xl flex flex-col shrink-0 mb-4 items-center justify-center relative'>
           {loading ? (
-            <div className='py-4'>
+            <div className='p-4 w-full h-full flex justify-center items-center'>
               <LoadingIcon />
             </div>
           ) : (
@@ -48,40 +51,44 @@ const CardProfile = () => {
                 <LoadingIcon />
               ) : (
                 <div className='text-center mb-3 px-4'>
-                  <h2 className='text-lg font-bold p-0 m-0 flex items-center justify-center gap-1'>
+                  <h2 className='text-lg font-bold p-0 m-0 flex items-center justify-center'>
                     {data?.findUser?.me.name}
                     {data?.findUser?.verified && (
                       <span title='Verified account'>{checkVeriFied}</span>
                     )}
                   </h2>
-                  <h3 className='text-textGray'>
+                  <h3 translate='no' className='text-textGray'>
                       @{data?.findUser?.me.username}
                   </h3>
                   <p className='text-sm'>{data?.findUser?.description}</p>
                 </div>
               )}
-              <div className='flex flex-row w-full justify-center border-t border-b border-textGray/50 py-3'>
+              <div className='flex flex-row w-full justify-center border-t border-b border-textGray/10 py-3'>
                 <Link href='#'>
                   <a className='flex flex-col items-center justify-center w-full'>
                     <span className='font-bold'>
                       {data?.findUser?.following.length}
                     </span>
-                    <span className='text-textGray text-sm'>Following</span>
+                    <span className='text-textGray text-sm'>
+                      {translate.profile.following}
+                    </span>
                   </a>
                 </Link>
-                <span className='border-l border-textGray/50'></span>
+                <span className='border-l border-textGray/10' />
                 <Link href='#'>
                   <a className='flex flex-col items-center justify-center w-full'>
                     <span className='font-bold'>
                       {data?.findUser?.followers.length}
                     </span>
-                    <span className='text-textGray text-sm'>Followers</span>
+                    <span className='text-textGray text-sm'>
+                      {translate.profile.followers}
+                    </span>
                   </a>
                 </Link>
               </div>
               <Link href={`/${data?.findUser?.me.username}`}>
-                <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-secondaryLigth hover:bg-sky-200 w-full rounded-b-xl'>
-                    My Profile
+                <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-secondaryLigth hover:bg-sky-200/70 w-full rounded-b-xl'>
+                  {translate.profile.me}
                 </a>
               </Link>
             </>

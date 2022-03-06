@@ -6,11 +6,13 @@ import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import * as icons from 'src/assets/icons'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 const UserOfModal = () => {
   const { data: session, status } = useSession()
   const { handleToggleModal } = useToggleUser()
   const [getUserByEmail, { data, loading }] = useLazyQuery(FIND_USER)
+  const translate = useTranslate()
 
   useEffect(() => {
     let cleanup = true
@@ -33,7 +35,7 @@ const UserOfModal = () => {
     <Link href={`/${data?.findUser?.me.username}`}>
       <a
         onClick={handleModalOut}
-        className='w-full dark:hover:bg-secondaryLigth hover:bg-sky-200 transition-all rounded-md py-1 px-4 flex items-center justify-center'
+        className='w-full dark:hover:bg-secondaryLigth hover:bg-sky-200/70 transition-all rounded-md py-1 px-4 flex items-center justify-center'
       >
         <img
           src={
@@ -51,10 +53,12 @@ const UserOfModal = () => {
               </span>
             )}
           </h2>
-          <span className='text-sm text-gray-400'>
+          <span translate='no' className='text-sm text-gray-400'>
             @{data?.findUser?.me.username}
           </span>
-          <span className='text-sm text-textGray'>See your profile</span>
+          <span className='text-sm text-textGray'>
+            {translate.nav.showProfile}
+          </span>
         </div>
       </a>
     </Link>
