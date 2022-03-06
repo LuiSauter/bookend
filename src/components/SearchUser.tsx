@@ -6,6 +6,7 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useRouter } from 'next/router'
 import UsersItem from './SearchResults/UsersItem'
 const INITIAL_STATE = ''
+const placeholderSearchUser = 'Buscar usuarios'
 
 export interface IUser {
   email: string
@@ -61,7 +62,7 @@ const SearchUser = () => {
             onChange={handleChange}
             className='bg-transparent outline-none w-full dark:text-white'
             type='text'
-            placeholder='Search users'
+            placeholder={placeholderSearchUser}
             value={searhUser}
           />
         </label>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import * as icons from 'src/assets/icons'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import { useTranslate } from 'src/hooks/useTranslate'
 import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
 import BooksItem from './SearchResults/BooksItem'
 
@@ -11,6 +12,7 @@ const INITIAL_STATE = ''
 const SearchBook = () => {
   const [showResults, setShowResults] = useState<boolean>(false)
   const [words, setWords] = useState(INITIAL_STATE)
+  const translate = useTranslate()
   const [getSearchBooks, { data, loading }] = useLazyQuery(SEARCH_POSTS)
   const [getSearchBooksByAuthor, { data: dataBooksAuthor }] = useLazyQuery(SEARCH_POSTS_AUTHOR)
   const router = useRouter()
@@ -56,7 +58,7 @@ const SearchBook = () => {
           <input
             className='bg-transparent outline-none w-full dark:text-white z-[60]'
             type='text'
-            placeholder='Search in Bookend'
+            placeholder={translate.home.searchBook.placeholder}
             id='search-books'
             onChange={handleChangeWords}
             value={words}

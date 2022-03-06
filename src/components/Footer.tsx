@@ -1,12 +1,16 @@
 import React from 'react'
 import Link from 'next/link'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 const Footer = () => {
+  const translate = useTranslate()
   return (
     <>
       <div className='flex flex-row flex-wrap text-sm px-4 gap-4'>
         <Link href='/settings/about'>
-          <a className='text-textGray hover:underline'>About</a>
+          <a className='text-textGray hover:underline'>
+            {translate.home.about}
+          </a>
         </Link>
         <Link href='https://github.com/LuiSauter/bookend'>
           <a className='text-textGray hover:underline' target='_blank'>

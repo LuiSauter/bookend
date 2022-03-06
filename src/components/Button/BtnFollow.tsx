@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import { useTranslate } from 'src/hooks/useTranslate'
 import { FOLLOW_USER, UNFOLLOW_USER } from 'src/users/graphql-mutations'
 import { FIND_PROFILE, FIND_USER } from 'src/users/graphql-queries'
 
@@ -16,6 +17,7 @@ const BtnFollow = ({ user }: Props) => {
   const router = useRouter()
   const { profile } = useProfileId()
   const { handleLoginOpen } = useToggleUser()
+  const translate = useTranslate()
   const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
 
   useEffect(() => {
@@ -74,7 +76,7 @@ const BtnFollow = ({ user }: Props) => {
           }}
           className='active:bg-thirdBlue/70 bg-thirdBlue hover:bg-thirdBlue/90 text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative'
         >
-          Follow
+          {translate.profile.follow}
         </button>
       ) : (
         <button
@@ -84,7 +86,7 @@ const BtnFollow = ({ user }: Props) => {
           }}
           className='bg-transparent border border-textGray  hover:bg-red-500 hover:border-red-500 transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative'
         >
-          Unfollow
+          {translate.profile.unfollow}
         </button>
       )}
     </>

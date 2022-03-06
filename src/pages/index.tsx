@@ -6,31 +6,15 @@ import Posts from 'src/components/Post'
 import ClientOnly from 'src/components/ClientOnly'
 import IsNewProfile from 'src/components/ProfileForm/IsNewProfile'
 import SearchBook from 'src/components/SearchBook'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 const Home = (): JSX.Element => {
-  // const text = 'Física esta en español'
-
-  // const removeDiacritics = (str: any) => {
-  //   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-  // }
-
-  // const normalizedContains = (haystack: any, needle: any) => {
-  //   const regExp = new RegExp(removeDiacritics(needle), 'gi')
-  //   return regExp.test(removeDiacritics(haystack))
-  // }
-
-  // const findMatchingFilms = (strToMatch:any, films:any) => {
-  //   return films.filter((filmTitle:any) => normalizedContains(filmTitle, strToMatch))
-  // }
-
-  // console.log(findMatchingFilms('fisica', Array(text)))
-
+  const translate = useTranslate()
   return (
     <>
       <Head>
         <title>
-          Bookend 📚 | Libros Gratis ✨, Física, Universo 🌌, investigaciones
-          científicas 🚀 y semi red social
+          Bookend 📚 | {translate.home.titleSEO}
         </title>
       </Head>
       <ClientOnly>

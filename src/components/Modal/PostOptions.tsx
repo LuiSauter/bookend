@@ -2,6 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
+import { useTranslate } from 'src/hooks/useTranslate'
 import { FIND_USER } from 'src/users/graphql-queries'
 import Button from '../Button/Button'
 
@@ -14,6 +15,7 @@ interface Props {
 const PostOptions = ({ id, toggleOptions }: Props) => {
   const router = useRouter()
   const { data: session } = useSession()
+  const translate = useTranslate()
   const [getUserByEmail, { data }] = useLazyQuery(FIND_USER)
 
   useEffect(() => {
@@ -37,24 +39,24 @@ const PostOptions = ({ id, toggleOptions }: Props) => {
           onClick={() => console.log('button not available')}
           color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
         >
-          Report
+          {translate.home.postOptions.report}
         </Button>
         <Button
           onClick={() => console.log('button not available')}
           color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
         >
-          Share
+          {translate.home.postOptions.share}
         </Button>
         {data?.findUser.verified && isMatch && (
           <Button
             onClick={() => router.push(`/books/new/${id}`)}
             color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
           >
-            Edit
+            {translate.home.postOptions.edit}
           </Button>
         )}
         <Button onClick={toggleOptions} color={'bg-red-400 hover:bg-red-500'}>
-          Cancel
+          {translate.home.postOptions.cancel}
         </Button>
       </div>
       <div

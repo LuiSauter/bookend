@@ -7,6 +7,7 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import BooksItem from 'src/components/SearchResults/BooksItem'
 import UsersItem from 'src/components/SearchResults/UsersItem'
 import { IUser } from 'src/components/SearchUser'
+import { useTranslate } from 'src/hooks/useTranslate'
 import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
 import { SEARCH_USERS } from 'src/users/graphql-queries'
 
@@ -15,6 +16,7 @@ const SearchWord = () => {
   const [showResults, setShowResults] = useState({ books: true, users: false })
   const [words, setWords] = useState<string>('')
   const [currentWord, setCurrentWord] = useState('')
+  const translate = useTranslate()
   const [getSearchBooks, { data, loading }] = useLazyQuery(SEARCH_POSTS)
   const [getSearchUser, { data: searchUser, loading: userLoading }] =
     useLazyQuery(SEARCH_USERS)
@@ -115,7 +117,7 @@ const SearchWord = () => {
                   : 'hover:opacity-80 border-slate-400'
               } border rounded-lg px-3`}
             >
-              Books
+              {translate.book.btnBook}
             </button>
             <button
               type='button'
@@ -129,7 +131,7 @@ const SearchWord = () => {
                   : 'hover:opacity-80 border-slate-400'
               } border rounded-lg px-3`}
             >
-              Users
+              {translate.book.btnUser}
             </button>
           </div>
         </form>
@@ -137,7 +139,7 @@ const SearchWord = () => {
       <section className='w-full h-full relative'>
         {words.length === 0 && (
           <div className='px-3 py-4 inline-block w-full'>
-            Last search:{' '}
+            {translate.book.lastSearch}
             <span
               className='text-thirdBlue cursor-pointer hover:underline'
               onClick={() => {
@@ -184,7 +186,7 @@ const SearchWord = () => {
             {data?.searchBooks.length === 0 &&
               dataBooksAuthor?.searchBooksAuthor.length === 0 && (
               <span className='px-3 py-4 inline-block w-full text-center'>
-                  Lo sentimos, no pudimos encontrar ningún resultado
+                {translate.book.notFound}
               </span>
             )}
           </ul>
@@ -210,7 +212,7 @@ const SearchWord = () => {
             )}
             {searchUser?.searchUsers.length === 0 && (
               <span className='px-3 py-4 inline-block w-full text-center'>
-                Lo sentimos, no pudimos encontrar ningún resultado
+                {translate.book.notFound}
               </span>
             )}
           </ul>

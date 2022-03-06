@@ -62,7 +62,7 @@ export const Layout = ({ children }: Props) => {
               <CardProfile />
             </ClientOnly>
             <article className='w-full snap-normal shrink-0 dark:bg-secondary bg-slate-200 rounded-xl overflow-auto'>
-              <h2 className='text-lg font-bold px-4 py-2'>Categorys</h2>
+              <h2 className='text-lg font-bold px-4 py-2'>Categorias</h2>
               <hr className='border-textGray opacity-30' />
               <Category />
             </article>

@@ -8,6 +8,7 @@ import * as icons from 'src/assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import ProfileForm from '../ProfileForm/ProfileForm'
 import BtnFollow from '../Button/BtnFollow'
+import { useTranslate } from 'src/hooks/useTranslate'
 
 interface Props {
   username: string | string[] | undefined;
@@ -17,6 +18,7 @@ const MyProfile = ({ username }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
   const [showTokenId, setShowTokenId] = useState({show: false, copy: false})
+  const translate = useTranslate()
   const [getProfile, { data, loading }] = useLazyQuery(FIND_PROFILE)
   const { handleEditProfile, editProfile } = useToggleUser()
 
@@ -49,7 +51,7 @@ const MyProfile = ({ username }: Props) => {
             onClick={handleEditProfile}
             className='border rounded-2xl px-2 py-1 dark:hover:bg-secondaryLigth hover:bg-sky-200'
           >
-              Edit Profile
+            {translate.profile.edit}
           </button>
         )}
         <span className='text-lg md:hidden'>{data?.findProfile?.me.name}</span>
@@ -142,7 +144,9 @@ const MyProfile = ({ username }: Props) => {
               <span className='font-bold mr-1'>
                 {data?.findProfile?.following.length}
               </span>
-              <span className='text-textGray text-sm'>Following</span>
+              <span className='text-textGray text-sm'>
+                {translate.profile.following}
+              </span>
             </a>
           </Link>
           <Link href='#'>
@@ -150,7 +154,9 @@ const MyProfile = ({ username }: Props) => {
               <span className='font-bold mr-1'>
                 {data?.findProfile?.followers.length}
               </span>
-              <span className='text-textGray text-sm'>Followers</span>
+              <span className='text-textGray text-sm'>
+                {translate.profile.followers}
+              </span>
             </a>
           </Link>
         </div>

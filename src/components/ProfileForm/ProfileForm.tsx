@@ -6,6 +6,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { arrowLeft } from 'src/assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import { useTranslate } from 'src/hooks/useTranslate'
 import { UPDATE_PROFILE } from 'src/users/graphql-mutations'
 import { ALL_USERS } from 'src/users/graphql-queries'
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 const ProfileForm = ({ profileData, onClick }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
+  const translate = useTranslate()
   const { handleEditProfile } = useToggleUser()
 
   const {
@@ -64,7 +66,9 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         >
           {arrowLeft}
         </button>
-        <h2 className='mb-1 text-lg font-semibold'>Edit your profile</h2>
+        <h2 className='mb-1 text-lg font-semibold'>
+          {translate.home.titleEditProfile}
+        </h2>
       </header>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -84,7 +88,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
           </figure>
           <div className='flex flex-col'>
             <label className='font-semibold w-full'>
-              Name <span className='text-thirdBlue'>* </span>
+              {translate.home.name} <span className='text-thirdBlue'>* </span>
               {errors.name?.type === 'required' && (
                 <span className='text-red-500 text-sm font-medium'>
                   {errors.name.message}
@@ -103,7 +107,8 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
               />
             </label>
             <label className='font-semibold w-full mt-4'>
-              Username <span className='text-thirdBlue'>* </span>
+              {translate.home.username}{' '}
+              <span className='text-thirdBlue'>* </span>
               {errors.username?.type === 'required' && (
                 <span className='text-red-500 text-sm font-medium'>
                   {errors.username.message}
@@ -124,7 +129,8 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
           </div>
         </div>
         <label className='font-semibold w-full'>
-          Description <span className='text-thirdBlue'>* </span>
+          {translate.home.description}{' '}
+          <span className='text-thirdBlue'>* </span>
           {errors.description?.type === 'required' && (
             <span className='text-red-500 text-sm font-medium'>
               {errors.description.message}
@@ -144,7 +150,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         </label>
         <div className='flex flex-col sm:flex-row gap-4 justify-center w-full items-center'>
           <label className='font-semibold w-full'>
-            Email <span className='text-thirdBlue'>* </span>
+            {translate.home.email} <span className='text-thirdBlue'>* </span>
             <input
               className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50'
               {...register('email', {
@@ -159,20 +165,20 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
             />
           </label>
           <label className='font-semibold w-full h-full pt-7 flex items-center rounded-md'>
-            Gender
+            {translate.home.gender}
             <select
               {...register('gender')}
               className='text-black rounded-md ml-4 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 p-1'
             >
-              <option value='female'>female</option>
-              <option value='male'>male</option>
-              <option value='other'>other</option>
+              <option value='female'>{translate.home.female}</option>
+              <option value='male'>{translate.home.male}</option>
+              <option value='other'>{translate.home.other}</option>
             </select>
           </label>
         </div>
         <div className='flex flex-row w-full'>
           <label className='font-semibold mr-4 w-full'>
-            Website
+            {translate.home.website}
             <input
               className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
               {...register('website')}
@@ -181,7 +187,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
             />
           </label>
           <label className='font-semibold w-full'>
-            Location
+            {translate.home.location}
             <input
               className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
               {...register('location')}
@@ -191,10 +197,11 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
           </label>
         </div>
         <label className='text-textGray text-base'>
-          <span className='text-thirdBlue'>*</span> fields required
+          <span className='text-thirdBlue'>*</span>{' '}
+          {translate.home.fieldRequired}
         </label>
         <button className='bg-blue-500 text-white text-lg font-semibold py-1 rounded-md hover:bg-thirdBlue focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'>
-          Save your profile
+          {translate.home.saveChanges}
         </button>
       </form>
     </section>
