@@ -1,0 +1,84 @@
+{
+  "home": {
+    "titleSEO": "Free books ✨, Physics, Universe 🌌, scientific research 🚀 and social networl",
+    "titleEditProfile": "Edit your profile",
+    "name": "Name",
+    "username": "Username",
+    "description": "Description",
+    "email": "Email",
+    "gender": "Gender",
+    "female": "woman",
+    "male": "man",
+    "other": "other",
+    "website": "Website",
+    "location": "Location",
+    "fieldRequired": "Field required",
+    "saveChanges": "Save changes",
+    "about": "About",
+    "copy": "Copied",
+    "searchBook": {
+      "placeholder": "Search in bookend",
+      "author": "Author",
+      "showMore": "Show more."
+    },
+    "postOptions": {
+      "report": "Report a problem",
+      "share": "Share",
+      "edit": "Edit post",
+      "cancel": "Cancel"
+    }
+  },
+  "profile": {
+    "edit": "Edit profile",
+    "following": "Following",
+    "followers": "Followers",
+    "follow": "Follow",
+    "unfollow": "Unfollow"
+  },
+  "post": {
+    "update": "Update post",
+    "add": "Add new post",
+    "urlImage": "Image url",
+    "title": "Title",
+    "Description": "Description",
+    "Author": "Author",
+    "urlBook": "Book url (google drive)",
+    "submit": "Submit",
+    "required": "is required"
+  },
+  "book": {
+    "popular": "Libros populares",
+    "btnBook": "Books",
+    "btnUser": "Users",
+    "lastSearch": "Last search: ",
+    "notFound": "Sorry, we couldn't find any results."
+  },
+  "about": {
+    "name": "Acerca de",
+    "h1": "What is Bookend?",
+    "p1": "Bookend is a web application to share books and it was thanks to the idea that arose when I was looking to carry out fullstack development practices.",
+    "h2": "Is this an original idea?",
+    "p2": "A social network service is born in one of the great social networks such as facebook, instagram, twitter and others.",
+    "h3": "Used technology",
+    "p3": "Typescript, nextJS, graphql with apollo client, apollo-server-micro, apollo-server, mongoose, mongodb, passport-jwt, postcss, tailwindcss",
+    "by": "Created by "
+  },
+  "setting": {
+    "name": "Settings",
+    "yourAccount": "Your account",
+    "yourAccountP": "View your account information and learn more about account deactivation options.",
+    "display": "Display and languages",
+    "displayP": "Manage the content in Bookend as you see it.",
+    "activity": "Your activity in Bookend",
+    "activityP": "Check the information about who you followed and what post you liked.",
+    "about": "What is bookend? Is this an original idea? What technologies do we use?",
+    "report": "Report a problem",
+    "reportP": "Help us improve by reporting a bug or performance issues."
+  },
+  "display": {
+    "title": "Display and languages",
+    "h1": "Dark theme",
+    "p1": "Mode your dark night screen. This makes it easier to look at the screen or read in low light and can help you fall asleep more easily.",
+    "h2": "Language"
+  }
+}

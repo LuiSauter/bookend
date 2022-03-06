@@ -1,0 +1,84 @@
+{
+  "home": {
+    "titleSEO": "Libros Gratis ✨, Física, Universo 🌌, investigaciones científicas 🚀 y semi red social",
+    "titleEditProfile": "Edite su perfil",
+    "name": "Nombre",
+    "username": "Nombre de usuario",
+    "description": "Descripción",
+    "email": "Correo electrónico",
+    "gender": "Género",
+    "female": "mujer",
+    "male": "hombre",
+    "other": "no quiero decir",
+    "website": "Sitio web",
+    "location": "Ubicación",
+    "fieldRequired": "Campos requeridos",
+    "saveChanges": "Guadar cambios",
+    "about": "Acerca de",
+    "copy": "Copiado",
+    "searchBook": {
+      "placeholder": "Buscar en bookend",
+      "author": "Autor",
+      "showMore": "Ver más."
+    },
+    "postOptions": {
+      "report": "Reportar un problema",
+      "share": "Compartir",
+      "edit": "Editar publicación",
+      "cancel": "Cancelar"
+    }
+  },
+  "profile": {
+    "edit": "Editar Perfil",
+    "following": "Siguiendo",
+    "followers": "Seguidores",
+    "follow": "Seguir",
+    "unfollow": "Dejar de seguir"
+  },
+  "post": {
+    "update": "Actualizar publicación",
+    "add": "Añadir nueva publicación",
+    "urlImage": "Url de la imagen",
+    "title": "Título",
+    "Description": "Descripción",
+    "Author": "Autor",
+    "urlBook": "Url del libro (google drive)",
+    "submit": "Publicar",
+    "required": "es requerido"
+  },
+  "book": {
+    "popular": "Libros populares",
+    "btnBook": "Libros",
+    "btnUser": "Usuarios",
+    "lastSearch": "Última busqueda: ",
+    "notFound": "Lo sentimos, no pudimos encontrar ningún resultado."
+  },
+  "about": {
+    "name": "Acerca de",
+    "h1": "¿Qué es Bookend?",
+    "p1": "Bookend es una aplicación web para compartir libros y fue gracias a la idea que surgió cuando buscaba realizar prácticas de desarrollo fullstack.",
+    "h2": "¿Es esta una idea original?",
+    "p2": "Nace un servicio de red social en una de las grandes redes sociales como lo son facebook, instagram, twitter y otras.",
+    "h3": "Tecnologías utilizadas",
+    "p3": "Typescript, nextJS, graphql with apollo client, apollo-server-micro, apollo-server, mongoose, mongodb, passport-jwt, postcss, tailwindcss.",
+    "by": "Creado por "
+  },
+  "setting": {
+    "name": "Ajustes",
+    "yourAccount": "Tu cuenta",
+    "yourAccountP": "Ve la informacion de tu cuenta y obtén más información acerca de las opciones de desactivación de la cuenta.",
+    "display": "Pantalla y idiomas",
+    "displayP": "Administra como vez el contenido en Bookend.",
+    "activity": "Tu actividad en Bookend",
+    "activityP": "Consulta la informacion sobre a quien seguiste y que post te gustaron.",
+    "about": "Que es bookend?, Esta es una idea original?, que tecnologias usamos?",
+    "report": "Reportar un problema",
+    "reportP": "Ayudanos a mejorar reportando un bug o problemas de rendimiento."
+  },
+  "display": {
+    "title": "Pantalla y idiomas",
+    "h1": "Tema oscuro",
+    "p1": "Modo tu pantalla nocturna oscura. Esto hace que sea más fácil mirar la pantalla o leer con poca luz y puede ayudar a conciliar el sueño más fácilmente.",
+    "h2": "Idioma"
+  }
+}

@@ -13,7 +13,7 @@ module.exports = {
         small: '.6rem',
       },
       colors: {
-        primary: '#06141D',
+        primary: '#15202b',
         secondary: '#192734',
         secondaryHover: '#1a252d',
         secondaryLigth: '#202e3a',
