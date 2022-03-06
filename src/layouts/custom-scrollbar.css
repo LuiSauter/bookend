@@ -1,21 +1,35 @@
 #custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
-
 /* Track */
 #custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
-
 /* Handle */
 #custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #192734aa;
-  border-radius: 1rem;
+  background: transparent;
+  /* border-radius: 2rem; */
 }
-
 /* Handle on hover */
 #custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #203141aa;
+  background: rgb(77 91 102 / 0.2 );
+}
+
+#custom-scrollbar-none::-webkit-scrollbar {
+  width: 0px;
+}
+/* Track */
+#custom-scrollbar-none::-webkit-scrollbar-track {
+  background: rgb(77 91 102 / 0.2);
+}
+/* Handle */
+#custom-scrollbar-none::-webkit-scrollbar-thumb {
+  background: rgb(77 91 102 / 0.2);
+  /* border-radius: 2rem; */
+}
+/* Handle on hover */
+#custom-scrollbar-none::-webkit-scrollbar-thumb:hover {
+  background: rgb(77 91 102 / 0.3 );
 }
 
 ::-webkit-scrollbar-track {
