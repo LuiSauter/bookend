@@ -49,6 +49,8 @@ const getDateDiffs = (timestamp) => {
 
 export default function useTimeAgo(timestamp) {
   const [timeago, setTimeago] = useState(() => getDateDiffs(timestamp))
+  const value = Number(timeago?.value)
+  const unit = String(timeago?.unit)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,10 +60,10 @@ export default function useTimeAgo(timestamp) {
     return () => clearInterval(interval)
   }, [timestamp])
 
-  const value = Number(timeago?.value)
-  const unit = String(timeago?.unit)
+  if (typeof value === 'undefined' && typeof unit === 'undefined') {
+    return { hourAndMinute: '1s', timeago: '1s' }
+  }
 
-  if (typeof value === 'undefined' && typeof unit === 'undefined') return ''
   for (const [unit, time] of DATE_UNITS) {
     const now = Date.now()
     const fe = (timestamp - now) / 1000
@@ -98,5 +100,5 @@ export default function useTimeAgo(timestamp) {
       }
     }
   }
-  return 1 + 'second'
+  return { hourAndMinute: '1s', timeago: '1s' }
 }
