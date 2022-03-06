@@ -78,7 +78,7 @@ const BtnLike = ({ id, likes }: Props) => {
         e.stopPropagation()
       }}
       title='Likes'
-      className='hover:text-red-500 text-slate-500 contrast-125 cursor-default flex items-center gap-1 select-none'
+      className='hover:text-red-500 contrast-125 cursor-default flex items-center gap-1 select-none'
       onMouseEnter={() => {
         setShowHover(true)
       }}

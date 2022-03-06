@@ -19,7 +19,7 @@ const BooksItem = ({ description, id, image, title, author }: Props) => {
       onClick={() => {
         router.push(`/books/${id}`)
       }}
-      className='flex flex-row p-4 dark:hover:bg-secondary hover:bg-sky-200 gap-4'
+      className='flex flex-row p-4 dark:hover:bg-secondary hover:bg-sky-200/70 gap-4'
     >
       <img
         className='aspect-book w-20 h-full my-auto rounded-lg shadow-lg sm:w-32 md:w-24'

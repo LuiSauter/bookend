@@ -61,7 +61,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
     <section className='mx-auto sm:w-full rounded-xl 2xl:bg-secondary overflow-y-auto'>
       <header className='pl-4 pt-4 flex items-center'>
         <button
-          className='mr-4 dark:hover:bg-secondaryLigth hover:bg-sky-200 rounded-full w-9 h-9 flex items-center justify-center'
+          className='mr-4 dark:hover:bg-secondaryLigth hover:bg-sky-200/70 rounded-full w-9 h-9 flex items-center justify-center'
           onClick={onClick}
         >
           {arrowLeft}

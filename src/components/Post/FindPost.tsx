@@ -64,7 +64,7 @@ const FindPost = ({ id }: Props) => {
         <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
           <div className='flex items-center py-1 pr-2 dark:bg-primary/50 backdrop-blur-sm justify-center w-full gap-4 sticky inset-0 z-[1] md:top-0 md:static'>
             <button
-              className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+              className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
               onClick={() => router.back()}
             >
               {icons.arrowLeft}
@@ -107,7 +107,7 @@ const FindPost = ({ id }: Props) => {
             <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-2'>
               {data?.findPost.tags.map((tag: string, index: number) => (
                 <li
-                  className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200 text-slate-400'
+                  className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200/70 text-slate-400'
                   key={index}
                 >
                   {tag}

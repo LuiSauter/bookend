@@ -37,20 +37,20 @@ const PostOptions = ({ id, toggleOptions }: Props) => {
       <div className='dark:bg-secondary bg-sky-100 rounded-xl p-8 gap-2 flex flex-col w-[80vw] h-min z-[90] transition-all sm:w-80'>
         <Button
           onClick={() => console.log('button not available')}
-          color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
+          color={'dark:hover:bg-secondaryLigth hover:bg-sky-200/70'}
         >
           {translate.home.postOptions.report}
         </Button>
         <Button
           onClick={() => console.log('button not available')}
-          color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
+          color={'dark:hover:bg-secondaryLigth hover:bg-sky-200/70'}
         >
           {translate.home.postOptions.share}
         </Button>
         {data?.findUser.verified && isMatch && (
           <Button
             onClick={() => router.push(`/books/new/${id}`)}
-            color={'dark:hover:bg-secondaryLigth hover:bg-sky-200'}
+            color={'dark:hover:bg-secondaryLigth hover:bg-sky-200/70'}
           >
             {translate.home.postOptions.edit}
           </Button>
