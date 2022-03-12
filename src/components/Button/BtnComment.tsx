@@ -17,7 +17,7 @@ const BtnComment = ({ comments, bgColor, textColor, children, title, onClick }: 
         event.stopPropagation()
         onClick && onClick()
       }}
-      className={`flex items-center gap-1 ${textColor} contrast-125`}
+      className={`flex items-center gap-1 ${textColor} contrast-125 font-semibold`}
       onMouseEnter={() => setShowHover(true)}
       onMouseLeave={() => setShowHover(false)}
       title={title}
@@ -29,7 +29,7 @@ const BtnComment = ({ comments, bgColor, textColor, children, title, onClick }: 
       >
         {children}
       </button>
-      {comments && <span className='transition-all'>{comments}</span>}
+      {comments && <span className='transition-all font-semibold'>{comments}</span>}
     </div>
   )
 }
