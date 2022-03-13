@@ -38,12 +38,12 @@ export const apolloServer = new ApolloServer({
 const startServer = apolloServer.start()
 
 export default cors(async (req, res) => {
-  const uriPermision = [enviroment.originURI_1, enviroment.originURI_2]
-  const isMatch = uriPermision.some((uri) => uri === req.headers.origin)
-  if (!isMatch) {
-    res.end()
-    return false
-  }
+  // const uriPermision = [enviroment.originURI_1, enviroment.originURI_2]
+  // const isMatch = uriPermision.some((uri) => uri === req.headers.origin)
+  // if (!isMatch) {
+  //   res.end()
+  //   return false
+  // }
   if (req.method === 'OPTIONS') {
     res.end()
     return false
