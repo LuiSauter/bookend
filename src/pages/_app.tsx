@@ -24,6 +24,11 @@ const waitFor = (ms: number) =>
 const currentTheme =
   typeof window !== 'undefined' && window.localStorage.getItem(themeStorage)
 
+if (currentTheme === null) {
+  document.documentElement.classList.add('dark')
+  window.localStorage.setItem(themeStorage, 'dark')
+}
+
 if (currentTheme === 'dark') {
   document.documentElement.classList.add('dark')
 }
