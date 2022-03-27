@@ -28,7 +28,7 @@ export const PhotoUser = () => {
     <>
       <div
         onClick={handleModalOut}
-        className='hidden snap-start relative items-center overflow-hidden justify-center h-12 sm:min-h-nav md:mx-auto transition-colors sm:flex flex-shrink-0 dark:sm:hover:bg-secondaryHover dark:md:hover:bg-transparent sm:bg-sky-200/75 sm:hover:bg-sky-200/70 md:bg-transparent sm:w-12 sm:rounded-full md:w-max md:h-14 md:hover:bg-transparent cursor-pointer md:my-auto'
+        className='hidden snap-start relative items-center overflow-hidden justify-center h-12 sm:min-h-nav md:mx-auto transition-colors sm:flex flex-shrink-0 dark:sm:hover:bg-secondaryHover dark:md:hover:bg-transparent sm:hover:bg-sky-200/70 md:bg-transparent sm:w-12 sm:rounded-full md:w-max md:h-14 md:hover:bg-transparent cursor-pointer md:my-auto'
         id='show-menu'
       >
         <ClientOnly>

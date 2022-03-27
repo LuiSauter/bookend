@@ -63,7 +63,7 @@ const index = () => {
 
   return (
     <>
-      <section className='w-full min-h-screen flex flex-col gap-4 xl:gap-6'>
+      <section className='w-full min-h-screen flex flex-col gap-4 xl:gap-4'>
         {allPostData?.allPosts.map((post: Post) => (
           <PostItem
             key={post.id}

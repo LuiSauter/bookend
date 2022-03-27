@@ -253,7 +253,7 @@ export const searchIcon = (
 export const checkVeriFied = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    className='h-6 w-6 dark:text-white text-thirdBlue'
+    className='h-5 w-5 dark:text-white text-thirdBlue'
     viewBox='0 0 20 20'
     fill='currentColor'
   >

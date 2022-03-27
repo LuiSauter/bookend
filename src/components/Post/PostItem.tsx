@@ -78,18 +78,22 @@ const PostItem = ({
                   className='flex items-center flex-row flex-wrap'
                 >
                   <header className='font-semibold text-base flex items-center whitespace-nowrap mr-1'>
-                    <h3 className='hover:underline'>
+                    <h3 className='hover:underline text-base'>
                       {findUser?.findUserById.me.name}
                     </h3>
                     {findUser?.findUserById.me.verified && (
-                      <span title='Verified account'>
+                      <span title='Verified account text-sm'>
                         {icons.checkVeriFied}
                       </span>
                     )}
                   </header>
-                  <span translate='no' className='dark:text-slate-400 text-slate-500 text-[15px] whitespace-nowrap no-underline'>
-                    @{findUser?.findUserById.me.username} ·{' '}
-                    <time title={dateLong.toString()}>{timeago}</time>
+                  <span
+                    translate='no'
+                    className='dark:text-slate-400 text-slate-500 text-[15px] whitespace-nowrap no-underline'
+                  >
+                    @
+                    {findUser?.findUserById.me.username}
+                    · <time title={dateLong.toString()}>{timeago}</time>
                   </span>
                 </a>
               </Link>
@@ -101,7 +105,7 @@ const PostItem = ({
                 e.stopPropagation()
                 setShowOptions(true)
               }}
-              className='flex items-center text-slate-400 justify-center w-10 h-10 flex-shrink-0 ml-4 dark:hover:bg-textGray/20 hover:bg-slate-300/70 rounded-full'
+              className='flex items-center text-slate-400 justify-center w-10 h-10 flex-shrink-0  dark:hover:bg-textGray/20 hover:bg-slate-300/70 rounded-full'
             >
               {icons.dotsHorizontal}
             </button>
@@ -110,7 +114,7 @@ const PostItem = ({
             <h4 className='text-base text-thirdBlue'>
               {title} - {author}
             </h4>
-            <p className='text-[16px] text-black dark:text-textWhite'>
+            <p className='text-[15px] text-black dark:text-textWhite/90'>
               {description && description.join('\n').length < 350
                 ? description
                 : `${

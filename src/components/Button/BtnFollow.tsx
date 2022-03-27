@@ -84,7 +84,7 @@ const BtnFollow = ({ user }: Props) => {
             event.stopPropagation()
             handleClickButtonUnFollow(user)
           }}
-          className='bg-transparent text-textGray hover:text-red-500 transition-colors text-xs rounded-2xl whitespace-nowrap'
+          className='bg-transparent text-textGray hover:text-red-500 border px-2 py-1 border-textGray hover:border-red-500 transition-colors text-xs rounded-2xl whitespace-nowrap'
         >
           {translate.profile.unfollow}
         </button>
