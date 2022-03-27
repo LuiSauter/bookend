@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
+import { useTranslate } from 'src/hooks/useTranslate'
 import { ALL_USERS } from 'src/users/graphql-queries'
 import FollowItem from './FollowItem'
 interface IUser {
@@ -17,6 +18,8 @@ const WhoToFollow = () => {
     ssr: true,
   })
   const [allUser, setAllUsers] = useState<IUser[]>([] as IUser[])
+  const translate = useTranslate()
+
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
@@ -49,6 +52,7 @@ const WhoToFollow = () => {
                 verified={user.verified}
               />
             ))}
+          <button className='text-center p-2 hover:text-textGray'>{translate.home.searchBook.showMore}</button>
         </ul>
       )}
     </>
