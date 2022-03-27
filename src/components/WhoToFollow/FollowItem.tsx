@@ -33,7 +33,7 @@ const FollowItem = ({
     <>
       {session?.user?.email !== email && (
         <li
-          className='flex justify-center items-center w-full relative p-2 rounded-xl dark:hover:bg-secondaryLigth hover:bg-sky-200/70 transition-colors cursor-pointer'
+          className='flex justify-center items-center w-full relative dark:hover:bg-secondaryLigth hover:bg-sky-200/70 transition-colors cursor-pointer py-2 px-4'
           onClick={() => handleClickLi(username)}
         >
           <img
@@ -44,8 +44,8 @@ const FollowItem = ({
           <div className='flex flex-row w-full justify-between items-center relative'>
             <Link href={`/${username}`}>
               <a className='flex flex-col overflow-hidden w-full'>
-                <h3 className='hover:underline font-semibold text-sm flex items-center'>
-                  {name}{' '}
+                <h3 title={name} className='hover:underline font-semibold text-sm flex items-center'>
+                  {name.length < 14 ? name : `${name.toString().substring(0, 14)}...`}
                   <span title='Verified account'>
                     {verified && checkVeriFied}
                   </span>
