@@ -167,7 +167,7 @@ _Use the package manager `yarn` to install the dependencies._
 [license-url]: https://github.com/LuiSauter/bookend/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/luis-gabriel-janco/
-[product-screenshot]: public/images/bookendd.webp
+[product-screenshot]: public/images/bookendd.vercel.app.webp
 
 
 ## Contributing
