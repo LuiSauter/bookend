@@ -67,7 +67,7 @@ const typeDefinitions = gql`
       username: String!
     ): [Post]
     allPostUserCount(username: String!): Int!
-    findPost(id: String!): Post
+    findPost(id: [String]): [Post]
     getColors(image: String!): String
   }
 

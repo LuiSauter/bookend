@@ -1,25 +1,24 @@
 import Vibrant from 'node-vibrant'
+import jwt from 'jsonwebtoken'
+import escapeStringRegexp from 'escape-string-regexp'
 
 import User from './models/user'
 import Profile from './models/profile'
 import Post from './models/post'
 import config from 'src/config/config'
 
-import jwt from 'jsonwebtoken'
-import escapeStringRegexp from 'escape-string-regexp'
-
 
 interface IUser {
-  email: string;
-  name: string;
-  _id?: string;
-  __v?: number;
+  email: string
+  name: string
+  _id?: string
+  __v?: number
 }
 interface User {
-  username: string;
-  name: string;
-  photo: string;
-  id: string;
+  username: string
+  name: string
+  photo: string
+  id: string
 }
 
 function createToken(user: IUser) {
@@ -146,8 +145,7 @@ const resolvers = {
       }
     },
     findPost: async (root: any, args: any) => {
-      const { id } = args
-      return await Post.findById(id)
+      return await Post.find({ _id: args.id })
     },
     getColors: async (root: any, args: { image: string }) => {
       const { image } = args
