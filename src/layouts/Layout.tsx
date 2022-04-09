@@ -79,7 +79,7 @@ export const Layout = ({ children }: Props) => {
         </section>
         <main
           className='w-full pb-8 sm:px-0 gap-4
-          sm:pr-4 md:pr-0 2xl:m-0 relative max-w-[600px] sm:flex md:flex-col'
+          sm:pr-4 md:pr-0 2xl:m-0 relative md:min-w-[430px] max-w-[600px] sm:flex md:flex-col'
         >
           <NavBar />
           <div className='flex flex-col relative w-full'>
