@@ -23,7 +23,7 @@ export const ADD_POST = gql`
 `
 
 export const FIND_POST_BY_ID = gql`
-  query findPostById($id: String!) {
+  query findPostById($id: [String]!) {
     findPost(id: $id) {
       bookUrl
       comments

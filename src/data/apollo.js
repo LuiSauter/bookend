@@ -5,11 +5,31 @@ const windowApolloState = !isServer && window.__NEXT_DATA__.apolloState
 
 let CLIENT
 
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'all',
+  },
+  mutate: {
+    errorPolicy: 'all',
+  },
+}
+
+function myFetchImplementation(url, options) {
+  options = options || {}
+  const { operationName } = JSON.parse(options.body)
+  return fetch(`${url}?opname=${operationName}`, options)
+}
+
 export function getApolloClient(forceNew) {
   if (!CLIENT || forceNew) {
     CLIENT = new ApolloClient({
       ssrMode: isServer,
-      connectToDevTools: true,
+      connectToDevTools: false,
       cache: new InMemoryCache({
         typePolicies: {
           Query: {
@@ -47,7 +67,9 @@ export function getApolloClient(forceNew) {
       }).restore(windowApolloState || {}),
       link: new HttpLink({
         uri: '/api/graphql',
+        fetch: myFetchImplementation,
       }),
+      defaultOptions: defaultOptions,
     })
   }
   return CLIENT
