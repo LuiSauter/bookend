@@ -21,14 +21,14 @@ const FindPost = ({ id }: Props) => {
   const [getPostById, { data, loading }] = useLazyQuery(FINDONE_POST)
   const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
 
-  const date = Number(data?.findPost ? data?.findPost.createdAt : 0)
+  const date = Number(data?.findPost ? data?.findPost[0].createdAt : 0)
   const { hourAndMinute } = useTimeAgo(date)
   const router = useRouter()
 
   useEffect(() => {
     const cleanup = true
     if (cleanup) {
-      id && getPostById({ variables: { id: id } })
+      id && getPostById({ variables: { id: [id] } })
     }
     return () => {
       cleanup
@@ -38,7 +38,8 @@ const FindPost = ({ id }: Props) => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (data?.findPost.user) getUserById({ variables: { user: data?.findPost?.user } })
+      if (data?.findPost[0].user)
+        getUserById({ variables: { user: data?.findPost[0].user } })
     }
     return () => {
       cleanup = false
@@ -51,10 +52,10 @@ const FindPost = ({ id }: Props) => {
   return (
     <Fragment>
       <Head>
-        <title>Bookend | {loading ? 'Loading' : data?.findPost.title}</title>
+        <title>Bookend | {loading ? 'Loading' : data?.findPost[0].title}</title>
       </Head>
       {showOptions && (
-        <PostOptions id={data?.findPost.id} toggleOptions={toggleOptions} />
+        <PostOptions id={data?.findPost[0].id} toggleOptions={toggleOptions} />
       )}
       {loading ? (
         <div className='flex justify-center items-center h-[90vh]'>
@@ -78,36 +79,38 @@ const FindPost = ({ id }: Props) => {
           </div>
           <div className='px-4'>
             <h1 className='text-2xl font-semibold text-thirdBlue'>
-              {data?.findPost.title}
-              <span> | {data?.findPost.author}</span>
+              {data?.findPost[0].title}
+              <span> | {data?.findPost[0].author}</span>
             </h1>
             <div className='w-full flex flex-col gap-4 justify-center'>
               <p>
-                {data?.findPost.description?.map((d: string, index: number) => (
-                  <span className='block mt-3 text-xl' key={index}>
-                    {d}
-                  </span>
-                ))}
+                {data?.findPost[0].description?.map(
+                  (d: string, index: number) => (
+                    <span className='block mt-3 text-xl' key={index}>
+                      {d}
+                    </span>
+                  )
+                )}
               </p>
             </div>
             <figure className='my-3 rounded-lg relative overflow-hidden aspect-[160/230] w-full border border-textGray/50'>
               <img
                 className='w-full h-full absolute inset-0 rounded-lg object-cover object-center'
-                src={data?.findPost.image}
-                alt={data?.findPost.title}
+                src={data?.findPost[0].image}
+                alt={data?.findPost[0].title}
               />
             </figure>
             <span className='dark:text-slate-400 flex border-b pb-2 dark:border-slate-400/30 mb-2'>
               {hourAndMinute}
             </span>
             <MultipleButtons
-              comments={data?.findPost?.comments.length}
-              id={data?.findPost?.id}
-              likes={data?.findPost?.likes.length}
-              bookDownload={data?.findPost?.bookUrl}
+              comments={data?.findPost[0]?.comments.length}
+              id={data?.findPost[0].id}
+              likes={data?.findPost[0].likes.length}
+              bookDownload={data?.findPost[0].bookUrl}
             />
             <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-2'>
-              {data?.findPost.tags.map((tag: string, index: number) => (
+              {data?.findPost[0].tags.map((tag: string, index: number) => (
                 <li
                   className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200/70 text-slate-400'
                   key={index}

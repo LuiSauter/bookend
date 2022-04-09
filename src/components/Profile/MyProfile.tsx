@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import { useLazyQuery } from '@apollo/client'
-import { FIND_PROFILE } from 'src/users/graphql-queries'
 import { useRouter } from 'next/router'
-import * as icons from 'src/assets/icons'
+import { useSession } from 'next-auth/react'
+
+import { FIND_PROFILE } from 'src/users/graphql-queries'
+import { useTranslate } from 'src/hooks/useTranslate'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import * as icons from 'src/assets/icons'
 import ProfileForm from '../ProfileForm/ProfileForm'
 import BtnFollow from '../Button/BtnFollow'
-import { useTranslate } from 'src/hooks/useTranslate'
 
 interface Props {
-  username: string | string[] | undefined;
+  username: string | string[] | undefined
 }
 
 const MyProfile = ({ username }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
-  const [showTokenId, setShowTokenId] = useState({show: false, copy: false})
+  const [showTokenId, setShowTokenId] = useState({ show: false, copy: false })
   const translate = useTranslate()
   const [getProfile, { data, loading }] = useLazyQuery(FIND_PROFILE)
   const { handleEditProfile, editProfile } = useToggleUser()

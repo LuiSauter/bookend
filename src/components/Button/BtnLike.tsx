@@ -17,17 +17,17 @@ const BtnLike = ({ id, likes }: Props) => {
   const [showHover, setShowHover] = useState(false)
   const [like, setLike] = useState(false)
 
-  const {handleLoginOpen} = useToggleUser()
+  const { handleLoginOpen } = useToggleUser()
   const [getLike] = useMutation(LIKE_POST, {
     refetchQueries: [
-      { query: FINDONE_POST, variables: { id } },
+      { query: FINDONE_POST, variables: { id: [id] } },
       { query: FIND_USER, variables: { email: session?.user?.email } },
       { query: ALL_POST_RANKING, variables: { pageSize: 6, skipValue: 0 } },
     ],
   })
   const [getDisLike] = useMutation(DISLIKE_POST, {
     refetchQueries: [
-      { query: FINDONE_POST, variables: { id } },
+      { query: FINDONE_POST, variables: { id: [id] } },
       { query: FIND_USER, variables: { email: session?.user?.email } },
       { query: ALL_POST_RANKING, variables: { pageSize: 6, skipValue: 0 } },
     ],
