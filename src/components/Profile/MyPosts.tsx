@@ -86,7 +86,6 @@ const MyPosts = ({ username }: Props) => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      console.log(userData?.findProfile.verified)
       userData?.findProfile.verified === false &&
         getLikedPost({ variables: { id: userData?.findProfile.liked } })
     }
