@@ -38,7 +38,8 @@
     "followers": "Followers",
     "follow": "Follow",
     "unfollow": "Unfollow",
-    "me": "My profile"
+    "me": "My profile",
+    "liked": "Likes"
   },
   "post": {
     "update": "Update post",

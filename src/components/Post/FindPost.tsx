@@ -67,7 +67,7 @@ const FindPost = ({ id }: Props) => {
         </div>
       ) : (
         <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
-          <div className='flex items-center py-1 pr-2 dark:bg-primary/80 bg-slate-200/80  backdrop-blur-md justify-center w-full gap-4 sticky inset-0 z-[1] md:top-0 md:static'>
+          <div className='flex items-center py-1 pr-2 dark:bg-primary/80 bg-white/80  backdrop-blur-md justify-center w-full gap-4 sticky inset-0 z-[1] md:top-0 md:static'>
             <button
               className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
               onClick={handleBack}
