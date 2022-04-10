@@ -40,6 +40,10 @@ function Settings() {
     },
   ]
 
+  const handleBack = () => {
+    history.length <= 2 ? router.push('/') : router.back()
+  }
+
   return (
     <>
       <Head>
@@ -48,7 +52,7 @@ function Settings() {
       <section>
         <header className='flex items-center py-4 px-2 md:pt-0'>
           <button
-            onClick={() => router.back()}
+            onClick={handleBack}
             className='rounded-full dark:hover:bg-secondaryLigth/80 hover:bg-sky-200/70 p-2'
           >
             {icons.arrowLeft}
@@ -61,15 +65,15 @@ function Settings() {
               key={setting.id}
               className={`${
                 setting.screen !== '' ? 'cursor-pointer' : 'cursor-default'
-              } flex flex-row justify-between items-center gap-4 dark:hover:bg-secondaryHover hover:bg-sky-200/70 px-4 py-2`}
+              } flex flex-row rounded-xl justify-between items-center gap-4 dark:hover:bg-secondaryHover hover:bg-sky-200/70 px-4 py-2`}
               onClick={() =>
                 setting.screen !== '' &&
                 router.push(`/settings/${setting.screen}`)
               }
             >
               <div className='flex flex-col'>
-                <h3 className='text-lg font-semibold'>{setting.title}</h3>
-                <p className='dark:text-slate-400 text-slate-500'>{setting.description}</p>
+                <h3 className='text-xl font-semibold'>{setting.title}</h3>
+                <p className='dark:text-slate-400 text-base text-slate-700'>{setting.description}</p>
               </div>
               <span className='dark:text-slate-400'>{icons.arrowRight}</span>
             </li>

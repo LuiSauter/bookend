@@ -21,6 +21,11 @@ interface Props {
 export const Layout = ({ children }: Props) => {
   const router = useRouter()
   const translate = useTranslate()
+
+  const handleBack = () => {
+    history.length <= 2 ? router.push('/') : router.back()
+  }
+
   return (
     <div
       className=' dark:bg-primary bg-white dark:text-textWhite min-h-screen md:w-full flex flex-col m-auto selection:bg-cyan-400
@@ -56,7 +61,7 @@ export const Layout = ({ children }: Props) => {
                 {router.query.username && (
                   <button
                     className='rounded-full dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
-                    onClick={() => router.back()}
+                    onClick={handleBack}
                   >
                     {icons.arrowLeft}
                   </button>
@@ -99,7 +104,9 @@ export const Layout = ({ children }: Props) => {
               <SearchUser />
             </ClientOnly>
             <article className='w-full snap-center shrink-0 dark:bg-secondary bg-slate-200 border border-textGray/10 rounded-xl'>
-              <h2 className='px-4 py-2 text-lg font-semibold'>{translate.home.whoToFollow}</h2>
+              <h2 className='px-4 py-2 text-lg font-semibold'>
+                {translate.home.whoToFollow}
+              </h2>
               <ClientOnly>
                 <WhoToFollow />
               </ClientOnly>
