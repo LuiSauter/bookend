@@ -44,6 +44,10 @@ const PostItem = ({
 
   const toggleOptions = () => setShowOptions(false)
 
+  const longDescription =
+    description &&
+    description.join('\n').toString().substring(0, 270).split('\n')
+
   return (
     <Fragment>
       {showOptions && <PostOptions id={id} toggleOptions={toggleOptions} />}
@@ -54,7 +58,7 @@ const PostItem = ({
       >
         <figure className='flex items-start my-4 flex-shrink-0 mr-3'>
           <img
-            className='h-12 w-12 sm:w-12 sm:h-12 rounded-full'
+            className='h-10 w-10 sm:w-12 sm:h-12 rounded-full'
             src={
               findUser?.findUserById.me.photo
                 ? findUser?.findUserById.me.photo
@@ -91,9 +95,8 @@ const PostItem = ({
                     translate='no'
                     className='dark:text-slate-400 text-slate-500 text-[15px] whitespace-nowrap no-underline'
                   >
-                    @
-                    {findUser?.findUserById.me.username}
-                    · <time title={dateLong.toString()}>{timeago}</time>
+                    @{findUser?.findUserById.me.username}·{' '}
+                    <time title={dateLong.toString()}>{timeago}</time>
                   </span>
                 </a>
               </Link>
@@ -114,14 +117,27 @@ const PostItem = ({
             <h4 className='text-base text-thirdBlue'>
               {title} - {author}
             </h4>
-            <p className='text-[15px] text-black dark:text-textWhite/90'>
-              {description && description.join('\n').length < 350
-                ? description
-                : `${
-                  description &&
-                    description.join('\n').toString().substring(0, 350)
-                }...`}
-            </p>
+            {description && (
+              <p className='text-[16px] text-black dark:text-textWhite/90'>
+                {description.join('\n').length < 270 ? (
+                  description.map((text, index: number) => (
+                    <span className='block mt-3 text-[16px]' key={index}>
+                      {text}
+                    </span>
+                  ))
+                ) : (
+                  <>
+                    {longDescription &&
+                      longDescription.map((text, index: number) => (
+                        <span className='block mt-3 text-[16px]' key={index}>
+                          {text}
+                          {index === longDescription.length - 1 && '...'}
+                        </span>
+                      ))}
+                  </>
+                )}
+              </p>
+            )}
           </div>
           {image ? (
             <div className='w-full flex mt-4'>
