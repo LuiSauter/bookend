@@ -78,7 +78,7 @@ const FindPost = ({ id }: Props) => {
             )}
           </div>
           <div className='px-4'>
-            <h1 className='text-2xl font-semibold text-thirdBlue'>
+            <h1 className='text-lg font-semibold text-thirdBlue'>
               {data?.findPost[0].title}
               <span> | {data?.findPost[0].author}</span>
             </h1>
@@ -86,7 +86,7 @@ const FindPost = ({ id }: Props) => {
               <p>
                 {data?.findPost[0].description?.map(
                   (d: string, index: number) => (
-                    <span className='block mt-3 text-xl' key={index}>
+                    <span className='block mt-3 text-lg' key={index}>
                       {d}
                     </span>
                   )
