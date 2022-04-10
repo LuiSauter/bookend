@@ -143,8 +143,8 @@ export const Google = (
     y='0px'
     viewBox='0 0 48 48'
     enableBackground='new 0 0 48 48'
-    height={24}
-    width={24}
+    height={21}
+    width={21}
     xmlns='http://www.w3.org/2000/svg'
     className='mr-2'
   >
@@ -173,8 +173,8 @@ export const github = (
     fill='currentColor'
     className='mr-2'
     strokeWidth={0}
-    height={21}
-    width={21}
+    height={20}
+    width={20}
     viewBox='0 0 16 16'
     xmlns='http://www.w3.org/2000/svg'
   >
@@ -219,9 +219,9 @@ export const chevronDown = (
 export const dotsHorizontal = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    className='h-6 w-6'
+    className='h-5 w-5'
     fill='currentColor'
-    viewBox='0 -1 24 24'
+    viewBox='0 0 24 24'
     stroke='currentColor'
   >
     <path
