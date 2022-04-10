@@ -1,8 +1,14 @@
 import React from 'react'
 
-export const LoadingIcon = () => {
+interface Props {
+  height?: string
+}
+
+export const LoadingIcon = ({ height }: Props) => {
   return (
-    <div className='w-full grid place-content-center place-items-center text-thirdBlue'>
+    <div
+      className={`w-full grid place-content-center place-items-center text-thirdBlue ${height}`}
+    >
       <svg
         className='animate-spin h-6 w-6 mr-1'
         xmlns='http://www.w3.org/2000/svg'

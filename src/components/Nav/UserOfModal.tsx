@@ -45,7 +45,7 @@ const UserOfModal = () => {
           alt={data?.findUser?.me.name}
         />
         <div className='flex flex-col'>
-          <h2 className='flex items-center whitespace-nowrap'>
+          <h2 className='flex items-center whitespace-nowrap font-medium'>
             {data?.findUser?.me.name}
             {data?.findUser?.verified && (
               <span title='Verified account' className='scale-90'>
@@ -53,10 +53,10 @@ const UserOfModal = () => {
               </span>
             )}
           </h2>
-          <span translate='no' className='text-sm text-gray-400'>
+          <span translate='no' className='text-sm dark:text-slate-400 text-slate-700'>
             @{data?.findUser?.me.username}
           </span>
-          <span className='text-sm text-textGray'>
+          <span className='text-sm dark:text-slate-400 text-slate-700'>
             {translate.nav.showProfile}
           </span>
         </div>

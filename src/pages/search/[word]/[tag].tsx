@@ -160,17 +160,7 @@ const SearchWord = () => {
             ) : (
               <>
                 {data?.searchBooks.map((book: Post, index: number) => (
-                  <BooksItem
-                    key={index}
-                    id={book.id}
-                    description={book.description}
-                    title={book.title}
-                    image={book.image}
-                    author={book.author}
-                  />
-                ))}
-                {dataBooksAuthor?.searchBooksAuthor.map(
-                  (book: Post, index: number) => (
+                  <div key={index} className='rounded-xl overflow-hidden'>
                     <BooksItem
                       key={index}
                       id={book.id}
@@ -179,6 +169,19 @@ const SearchWord = () => {
                       image={book.image}
                       author={book.author}
                     />
+                  </div>
+                ))}
+                {dataBooksAuthor?.searchBooksAuthor.map(
+                  (book: Post, index: number) => (
+                    <div key={index} className='rounded-xl overflow-hidden'>
+                      <BooksItem
+                        id={book.id}
+                        description={book.description}
+                        title={book.title}
+                        image={book.image}
+                        author={book.author}
+                      />
+                    </div>
                   )
                 )}
               </>
@@ -199,15 +202,17 @@ const SearchWord = () => {
               </span>
             ) : (
               searchUser?.searchUsers.map((userFind: IUser, index: number) => (
-                <UsersItem
-                  key={index}
-                  photo={userFind.photo}
-                  username={userFind.username}
-                  name={userFind.name}
-                  verified={userFind.verified}
-                  email={userFind.email}
-                  user={userFind.user}
-                />
+                <div key={index} className='rounded-xl overflow-hidden'>
+                  <UsersItem
+                    key={index}
+                    photo={userFind.photo}
+                    username={userFind.username}
+                    name={userFind.name}
+                    verified={userFind.verified}
+                    email={userFind.email}
+                    user={userFind.user}
+                  />
+                </div>
               ))
             )}
             {searchUser?.searchUsers.length === 0 && (

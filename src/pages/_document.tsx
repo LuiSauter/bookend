@@ -31,7 +31,7 @@ class MyDocument extends Document {
   }
   render(): ReactElement {
     return (
-      <Html className='dark:bg-primary scroll-smooth'>
+      <Html lang='es' className='dark:bg-primary scroll-smooth'>
         <Head>
           {/* <script
             async

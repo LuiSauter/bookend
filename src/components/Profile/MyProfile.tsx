@@ -37,12 +37,16 @@ const MyProfile = ({ username }: Props) => {
     router.push('/')
   }
 
+  const handleBack = () => {
+    history.length <= 2 ? router.push('/') : router.back()
+  }
+
   return (
     <>
       <div className='flex dark:bg-primary/80 bg-slate-200/80 backdrop-blur-md flex-row justify-start items-center gap-4 fixed top-0 py-2 w-full md:mt-0 md:bg-transparent md:backdrop-blur-none md:absolute md:top-0 z-10 pl-2 sm:pl-0'>
         <button
           className='rounded-full md:hidden dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
-          onClick={() => router.back()}
+          onClick={handleBack}
         >
           {icons.arrowLeft}
         </button>
@@ -50,7 +54,7 @@ const MyProfile = ({ username }: Props) => {
           data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
-            className='border rounded-2xl px-2 py-1 dark:hover:bg-secondaryLigth hover:bg-sky-200/70'
+            className='border-2 dark:border-slate-300 border-slate-400 dark:text-slate-400 text-slate-700 rounded-2xl px-2 py-1 dark:hover:bg-secondaryLigth hover:bg-sky-200/70'
           >
             {translate.profile.edit}
           </button>
@@ -97,11 +101,11 @@ const MyProfile = ({ username }: Props) => {
             <BtnFollow user={data?.findProfile?.me.user} />
           )}
         </div>
-        <span translate='no' className='text-textGray text-base'>
+        <span translate='no' className='dark:text-slate-400 text-slate-700 text-base'>
           @{data?.findProfile?.me.username}
         </span>
         <p className='my-3'>{data?.findProfile?.description}</p>
-        <div className='text-textGray flex flex-row flex-wrap'>
+        <div className='dark:text-slate-400 text-slate-700 flex flex-row flex-wrap'>
           {data?.findProfile?.location && (
             <span className='mr-4'>{data?.findProfile?.location}</span>
           )}
@@ -118,7 +122,7 @@ const MyProfile = ({ username }: Props) => {
         </div>
         {data?.findProfile.me.email === session?.user?.email && (
           <button
-            className='text-textGray'
+            className='dark:text-slate-400 text-slate-700'
             onClick={() => setShowTokenId({ show: true, copy: false })}
           >
             {!showTokenId.show ? (
@@ -145,7 +149,7 @@ const MyProfile = ({ username }: Props) => {
               <span className='font-bold mr-1'>
                 {data?.findProfile?.following.length}
               </span>
-              <span className='text-textGray text-sm'>
+              <span className='dark:text-slate-400 text-slate-700 text-sm'>
                 {translate.profile.following}
               </span>
             </a>
@@ -155,7 +159,7 @@ const MyProfile = ({ username }: Props) => {
               <span className='font-bold mr-1'>
                 {data?.findProfile?.followers.length}
               </span>
-              <span className='text-textGray text-sm'>
+              <span className='dark:text-slate-400 text-slate-700 text-sm'>
                 {translate.profile.followers}
               </span>
             </a>

@@ -49,6 +49,10 @@ const FindPost = ({ id }: Props) => {
   const toggleOptions = () => setShowOptions(false)
   const toggleOptionsOn = () => setShowOptions(true)
 
+  const handleBack = () => {
+    history.length <= 2 ? router.push('/') : router.back()
+  }
+
   return (
     <Fragment>
       <Head>
@@ -66,7 +70,7 @@ const FindPost = ({ id }: Props) => {
           <div className='flex items-center py-1 pr-2 dark:bg-primary/80 bg-slate-200/80  backdrop-blur-md justify-center w-full gap-4 sticky inset-0 z-[1] md:top-0 md:static'>
             <button
               className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
-              onClick={() => router.back()}
+              onClick={handleBack}
             >
               {icons.arrowLeft}
             </button>
@@ -100,7 +104,7 @@ const FindPost = ({ id }: Props) => {
                 alt={data?.findPost[0].title}
               />
             </figure>
-            <span className='dark:text-slate-400 flex border-b pb-2 dark:border-slate-400/30 mb-2'>
+            <span className='dark:text-slate-400 text-slate-700 flex border-b pb-2 dark:border-slate-400/30 mb-2'>
               {hourAndMinute}
             </span>
             <MultipleButtons
@@ -112,7 +116,7 @@ const FindPost = ({ id }: Props) => {
             <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-2'>
               {data?.findPost[0].tags.map((tag: string, index: number) => (
                 <li
-                  className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200/70 text-slate-400'
+                  className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200/70 dark:text-slate-400 text-slate-700'
                   key={index}
                 >
                   {tag}

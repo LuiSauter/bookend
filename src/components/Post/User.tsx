@@ -36,7 +36,7 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
               {findUser?.me.name}
               {findUser?.me.verified && <span title='Verified account'>{icons.checkVeriFied}</span>}
             </p>
-            <span translate='no' className='text-slate-400/90'>@{findUser?.me.username}</span>
+            <span translate='no' className='dark:text-slate-400 text-slate-700'>@{findUser?.me.username}</span>
           </a>
         </Link>
       </div>
