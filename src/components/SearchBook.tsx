@@ -84,7 +84,7 @@ const SearchBook = () => {
             <ul className='dark:bg-primary bg-slate-200 rounded-bl-xl rounded-br-xl overflow-hidden max-h-[70vh] overflow-y-auto'>
               {data?.searchBooks.length !== 0 && loading ? (
                 <span className='w-full px-1 overflow-y-hidden'>
-                  <LoadingIcon />
+                  <LoadingIcon height='h-full' />
                 </span>
               ) : (
                 <>
