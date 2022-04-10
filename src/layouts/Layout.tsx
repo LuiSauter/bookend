@@ -34,8 +34,8 @@ export const Layout = ({ children }: Props) => {
       md:flex-col md:justify-start scroll-smooth'
     >
       <div
-        className='flex flex-row items-start justify-center w-full gap-4 xl:gap-4 md:px-4 lg:px-4 2xl:px-4
-        2xl:gap-6 xl:justify-center scroll-smooth'
+        className='flex flex-row items-start justify-center w-full gap-0 xl:gap-0 md:px-4 lg:px-4 2xl:px-4
+        2xl:gap-0 xl:justify-center scroll-smooth'
       >
         <section
           className='hidden min-w-[310px] max-w-[330px] sticky top-0
@@ -93,7 +93,7 @@ export const Layout = ({ children }: Props) => {
         </main>
         <section
           className='xl:flex snap-proximity snap-y overflow-y-auto overflow-x-hidden
-        hidden h-screen w-full min-w-minAside sticky z-[70] top-0 md:flex flex-col max-w-[340px] xl:mr-0 gap-4 border-l-2 border-textGray/20 pl-4'
+        hidden h-screen w-full min-w-[200px] sticky z-[70] top-0 md:flex flex-col max-w-[340px] xl:mr-0 gap-4 border-l-2 border-textGray/20 pl-4'
         >
           <div
             className='xl:flex w-full flex-col snap-proximity snap-y overflow-y-auto pb-4'

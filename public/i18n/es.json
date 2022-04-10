@@ -38,7 +38,8 @@
     "followers": "Seguidores",
     "follow": "Seguir",
     "unfollow": "Dejar de seguir",
-    "me": "Mi perfil"
+    "me": "Mi perfil",
+    "liked": "Me gusta"
   },
   "post": {
     "update": "Actualizar publicación",
