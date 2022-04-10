@@ -1,45 +1,63 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ALL_POSTS, ALL_POST_BY_USER, ALL_POST_RANKING, FINDONE_POST } from 'src/post/graphql-queries'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { ADD_POST } from 'src/post/graphql-mutations'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { FIND_USER } from 'src/users/graphql-queries'
+import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
+
+import { ADD_POST } from 'src/post/graphql-mutations'
+import { FIND_USER } from 'src/users/graphql-queries'
 import { categorys } from 'src/assets/data/category'
 import { useTranslate } from 'src/hooks/useTranslate'
+import Textarea from './Textarea'
 interface Props {
   id?: string | string[] | undefined
 }
 const NewForm = ({ id = '' }: Props): JSX.Element => {
   const [getPost, { data }] = useLazyQuery(FINDONE_POST)
-  const [fileImage, setFileImage] = useState<string | any>('')
   const [btnDisabled, setBtnDisabled] = useState(false)
-  const [textDescription, setTextDescription] = useState('')
   const translate = useTranslate()
   const { data: session, status } = useSession()
   const router = useRouter()
-  const descriptionRef: any = useRef(null)
-  const [formState, setFormState] = useState({
-    title: '',
-    author: '',
-    bookUrl: '',
-    tags: [''],
-  })
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm()
+    control,
+    setValue,
+  } = useForm({
+    defaultValues: {
+      postValues: {
+        title: '',
+        author: '',
+        bookUrl: '',
+        tags: [''],
+        description: '',
+        image: '',
+      },
+    },
+  })
 
   const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
   const [newPostWithBook] = useMutation(ADD_POST, {
     refetchQueries: [
       { query: ALL_POSTS, variables: { pageSize: 3, skipValue: 0 } },
       { query: ALL_POST_RANKING, variables: { pageSize: 6, skipValue: 0 } },
-      { query: ALL_POST_BY_USER, variables: { pageSize: 6, skipValue: 0, username: dataUser?.findUser.me.username } },
+      {
+        query: ALL_POST_BY_USER,
+        variables: {
+          pageSize: 6,
+          skipValue: 0,
+          username: dataUser?.findUser.me.username,
+        },
+      },
     ],
+  })
+
+  const [description, image] = useWatch({
+    control,
+    name: ['postValues.description', 'postValues.image'],
   })
 
   useEffect(() => {
@@ -54,43 +72,6 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
   }, [session?.user])
 
   useEffect(() => {
-    if (typeof window !== undefined) {
-      if (textDescription.length === 0) {
-        setBtnDisabled(true)
-      } else {
-        setBtnDisabled(false)
-      }
-    }
-  }, [data?.findPost, textDescription])
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (data?.findPost) {
-        setFormState({
-          title: data?.findPost.title,
-          author: data?.findPost.author,
-          bookUrl: data?.findPost.bookUrl,
-          tags: data?.findPost.tags,
-        })
-        if (data?.findPost.image) {
-          setFileImage(data?.findPost.image)
-        }
-        descriptionRef.current.innerHTML = data?.findPost.description
-          .map(
-            (descrp: string, index: number) =>
-              `<div key=${index}>${descrp}</div>`
-          )
-          .join('\n')
-        setTextDescription(data?.findPost.description)
-      }
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [data?.findPost.description])
-
-  useEffect(() => {
     let cleanup = true
     if (cleanup) {
       if (status === 'unauthenticated') {
@@ -102,7 +83,7 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
         if (!isMatch && !dataUser?.findUser.verified) {
           return router.back()
         }
-        id && getPost({ variables: { id: id } })
+        id && getPost({ variables: { id: [id] } })
       }
     }
     return () => {
@@ -110,30 +91,38 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
     }
   }, [id, dataUser?.findUser, status])
 
-  const handleChangeFile = (img: string) => {
-    return setFileImage(img)
-  }
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      data?.findPost[0] &&
+        setValue('postValues', {
+          author: data?.findPost[0].author,
+          bookUrl: data?.findPost[0].bookUrl,
+          description: data?.findPost[0].description.join('\n'),
+          image: data?.findPost[0].image,
+          tags: data?.findPost[0].tags,
+          title: data?.findPost[0].title,
+        })
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [data?.findPost])
 
   const onSubmit = (data: FormInputs) => {
-    const elDescription = document.getElementById('box-editable')
-    const hasDescription = elDescription?.innerText.split('\n')
     newPostWithBook({
       variables: {
-        title: data.title,
-        description: hasDescription,
+        title: data?.postValues.title,
+        description: data?.postValues.description.split('\n'),
         email: session?.user?.email,
-        bookUrl: data.bookUrl,
-        image: fileImage,
-        tags: data.tags ? [...data.tags] : [''],
-        author: data.author,
+        bookUrl: data?.postValues.bookUrl,
+        image: data?.postValues.image,
+        tags: data?.postValues.tags ? data?.postValues.tags : [''],
+        author: data?.postValues.author,
       },
     })
     setBtnDisabled(true)
-    return router.back()
-  }
-
-  const handleElementEditable = (e: ChangeEvent<HTMLInputElement>) => {
-    setTextDescription(e.target.innerText)
+    return router.push('/')
   }
 
   return (
@@ -145,20 +134,20 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
         <div className='w-full flex flex-col gap-3 justify-center'>
           <label className='font-semibold'>
             {translate.post.title} <span className='text-thirdBlue'>* </span>
-            {errors.title?.type === 'required' && (
+            {errors.postValues?.title?.type === 'required' && (
               <span className='text-red-500 text-sm font-medium'>
-                {errors.title.message}
+                {errors.postValues?.title.message}
               </span>
             )}
             <input
               className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
-              {...register('title', {
+              {...register('postValues.title', {
                 required: {
                   value: true,
                   message: translate.post.required,
                 },
               })}
-              defaultValue={formState.title}
+              // defaultValue={formState.title}
               type='text'
               placeholder={
                 translate.post.title === 'Título'
@@ -170,39 +159,29 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
           <label className='font-semibold'>
             {translate.post.Description}{' '}
             <span className='text-thirdBlue'>* </span>
-            {textDescription.length === 0 && (
+            {description.length < 1 && (
               <span className='text-red-500 text-sm font-medium'>
                 {translate.post.required}
               </span>
             )}
-            <div
-              id={
-                translate.post.Description === 'Descripción'
-                  ? 'box-editable-es'
-                  : 'box-editable-en'
-              }
-              className='dark:bg-secondaryLigth bg-sky-200/80'
-              contentEditable='true'
-              onInput={handleElementEditable}
-              ref={descriptionRef}
-            />
+            <Textarea control={control} />
           </label>
           <label className='font-semibold'>
             {translate.post.Author} <span className='text-thirdBlue'>* </span>
-            {errors.author?.type === 'required' && (
+            {errors.postValues?.author?.type === 'required' && (
               <span className='text-red-500 text-sm font-medium'>
-                {errors.author.message}
+                {errors.postValues?.author.message}
               </span>
             )}
             <input
               className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
-              {...register('author', {
+              {...register('postValues.author', {
                 required: {
                   value: true,
                   message: `${translate.post.Author} ${translate.post.required}`,
                 },
               })}
-              defaultValue={formState.author}
+              // defaultValue={formState.author}
               type='text'
               placeholder={
                 translate.post.Author === 'Autor'
@@ -214,37 +193,33 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
         </div>
         <label className='font-semibold'>
           {translate.post.urlBook} <span className='text-thirdBlue'>* </span>
-          {errors.bookUrl?.type === 'required' && (
+          {errors.postValues?.bookUrl?.type === 'required' && (
             <span className='text-red-500 text-sm font-medium'>
-              {errors.bookUrl.message}
+              {errors.postValues?.bookUrl.message}
             </span>
           )}
           <input
             className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-offset-gray-200'
-            {...register('bookUrl', {
+            {...register('postValues.bookUrl', {
               required: {
                 value: true,
                 message: `${translate.post.urlBook} ${translate.post.required}`,
               },
             })}
-            defaultValue={formState.bookUrl}
+            // defaultValue={formState.bookUrl}
             type='text'
             placeholder='drive.google.com/example'
           />
         </label>
         <label className='font-semibold'>
           {translate.post.urlImage} <span className='text-thirdBlue'>* </span>
-          {fileImage.length === 0 && (
+          {errors.postValues?.image?.type === 'required' && (
             <span className='text-red-500 text-sm font-medium'>
-              {translate.post.required}
+              {errors.postValues?.image.message}
             </span>
           )}
           <input
             className='block w-full rounded-md py-1 px-2 mt-2 dark:text-textWhite dark:bg-secondaryLigth bg-sky-200/80 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 '
-            onChange={(e) => {
-              handleChangeFile(e.target.value)
-            }}
-            value={fileImage}
             type='url'
             placeholder={
               translate.post.urlImage === 'Url de la imagen'
@@ -252,18 +227,21 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
                 : 'Write url of image'
             }
             required
+            {...register('postValues.image', {
+              required: {
+                value: true,
+                message: `${translate.post.urlImage} ${translate.post.required}`,
+              },
+            })}
           />
         </label>
-        {fileImage && (
-          <img
-            className='m-auto rounded-lg mt-2 w-1/2 shadow-lg'
-            src={fileImage || ''}
-          />
+        {image !== '' && (
+          <img className='m-auto rounded-lg mt-2 w-1/2 shadow-lg' src={image} />
         )}
         <div className='w-full grid grid-cols-2 sm:grid-cols-3 justify-evenly gap-2'>
           {data?.findPost &&
             categorys.map((category, index: number) => {
-              const isMatch = data?.findPost.tags.some(
+              const isMatch = data?.findPost[0].tags.some(
                 (checkTag: string) => checkTag === category
               )
               return (
@@ -273,20 +251,20 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
                     value={category}
                     defaultChecked={isMatch ? isMatch : null}
                     className='accent-sky-600 mr-1 h-4 w-4'
-                    {...register('tags')}
+                    {...register('postValues.tags')}
                   />
                   {category}
                 </label>
               )
             })}
-          {!data?.findPost.tags &&
+          {!data?.findPost[0].tags &&
             categorys.map((category, index: number) => (
               <label key={index} className='font-medium flex items-center'>
                 <input
                   type='checkbox'
                   value={category}
                   className='accent-sky-600 mr-1 h-4 w-4'
-                  {...register('tags')}
+                  {...register('postValues.tags')}
                 />
                 {category}
               </label>
