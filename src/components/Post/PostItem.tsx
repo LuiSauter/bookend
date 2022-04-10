@@ -86,7 +86,7 @@ const PostItem = ({
                       {findUser?.findUserById.me.name}
                     </h3>
                     {findUser?.findUserById.me.verified && (
-                      <span title='Verified account text-sm'>
+                      <span title='Verified account'>
                         {icons.checkVeriFied}
                       </span>
                     )}
@@ -95,8 +95,8 @@ const PostItem = ({
                     translate='no'
                     className='dark:text-slate-400 text-slate-500 text-[15px] whitespace-nowrap no-underline'
                   >
-                    @{findUser?.findUserById.me.username}·{' '}
-                    <time title={dateLong.toString()}>{timeago}</time>
+                    @{findUser?.findUserById.me.username} ·
+                    <time title={dateLong.toString()}> {timeago}</time>
                   </span>
                 </a>
               </Link>
@@ -108,7 +108,7 @@ const PostItem = ({
                 e.stopPropagation()
                 setShowOptions(true)
               }}
-              className='flex items-center text-slate-400 justify-center w-10 h-10 flex-shrink-0  dark:hover:bg-textGray/20 hover:bg-slate-300/70 rounded-full'
+              className='flex items-center text-slate-400 justify-center w-9 h-9 flex-shrink-0  dark:hover:bg-textGray/20 hover:bg-slate-300/70 rounded-full'
             >
               {icons.dotsHorizontal}
             </button>

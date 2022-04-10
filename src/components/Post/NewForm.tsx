@@ -11,6 +11,7 @@ import { FIND_USER } from 'src/users/graphql-queries'
 import { categorys } from 'src/assets/data/category'
 import { useTranslate } from 'src/hooks/useTranslate'
 import Textarea from './Textarea'
+
 interface Props {
   id?: string | string[] | undefined
 }
@@ -81,7 +82,7 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
       if (dataUser?.findUser) {
         const isMatch = dataUser?.findUser.post.some((p: string) => p === id)
         if (!isMatch && !dataUser?.findUser.verified) {
-          return router.back()
+          history.length <= 2 ? router.push('/') : router.back()
         }
         id && getPost({ variables: { id: [id] } })
       }
@@ -270,8 +271,8 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
               </label>
             ))}
         </div>
-        <label className='text-textGray text-base'>
-          <span className='text-thirdBlue'>*</span>{' '}
+        <label className='dark:text-slate-400 text-slate-700 text-base'>
+          <span className='text-thirdBlue'>* </span>
           {translate.home.fieldRequired}
         </label>
         <button

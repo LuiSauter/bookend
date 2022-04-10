@@ -196,7 +196,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
             />
           </label>
         </div>
-        <label className='text-textGray text-base'>
+        <label className='dark:text-slate-400 text-slate-700 text-base'>
           <span className='text-thirdBlue'>*</span>{' '}
           {translate.home.fieldRequired}
         </label>

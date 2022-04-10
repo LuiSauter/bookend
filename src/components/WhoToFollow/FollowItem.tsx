@@ -53,7 +53,7 @@ const FollowItem = ({
                     {verified && checkVeriFied}
                   </span>
                 </h3>
-                <span translate='no' className='text-textGray text-sm'>
+                <span translate='no' className='dark:text-slate-400 text-slate-700 text-sm'>
                   @{username}
                 </span>
               </a>

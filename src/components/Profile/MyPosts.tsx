@@ -100,7 +100,7 @@ const MyPosts = ({ username }: Props) => {
 
   return (
     <>
-      <section className='flex flex-col gap-4 w-full min-h-[30vh] mb-4 sm:mb-0'>
+      <section className='flex flex-col gap-4 w-full min-h-[30vh] mb-4 sm:mb-0 pt-2'>
         {!userData?.findProfile.verified &&
           likedPosts?.findPost.map((post: Post) => (
             <PostItem

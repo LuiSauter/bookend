@@ -57,7 +57,7 @@ const CardProfile = () => {
                       <span title='Verified account'>{checkVeriFied}</span>
                     )}
                   </h2>
-                  <h3 translate='no' className='text-textGray'>
+                  <h3 translate='no' className='dark:text-slate-400 text-slate-700'>
                       @{data?.findUser?.me.username}
                   </h3>
                   <p className='text-sm'>{data?.findUser?.description}</p>
@@ -69,7 +69,7 @@ const CardProfile = () => {
                     <span className='font-bold'>
                       {data?.findUser?.following.length}
                     </span>
-                    <span className='text-textGray text-sm'>
+                    <span className='dark:text-slate-400 text-slate-700 text-sm'>
                       {translate.profile.following}
                     </span>
                   </a>
@@ -80,14 +80,14 @@ const CardProfile = () => {
                     <span className='font-bold'>
                       {data?.findUser?.followers.length}
                     </span>
-                    <span className='text-textGray text-sm'>
+                    <span className='dark:text-slate-400 text-slate-700 text-sm'>
                       {translate.profile.followers}
                     </span>
                   </a>
                 </Link>
               </div>
               <Link href={`/${data?.findUser?.me.username}`}>
-                <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-secondaryLigth hover:bg-sky-200/70 w-full rounded-b-xl'>
+                <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-textGray/10 hover:bg-sky-200/70 w-full rounded-b-xl'>
                   {translate.profile.me}
                 </a>
               </Link>

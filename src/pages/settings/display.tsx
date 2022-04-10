@@ -58,6 +58,10 @@ const Display: NextPage = () => {
     router.reload()
   }
 
+  const handleBack = () => {
+    history.length <= 2 ? router.push('/') : router.back()
+  }
+
   return (
     <section>
       <Head>
@@ -65,7 +69,7 @@ const Display: NextPage = () => {
       </Head>
       <header className='flex items-center py-4 px-2 md:pt-0'>
         <button
-          onClick={() => router.back()}
+          onClick={handleBack}
           className='rounded-full dark:hover:bg-secondaryLigth/80 hover:bg-sky-200/70 p-2'
         >
           {icons.arrowLeft}
@@ -77,7 +81,7 @@ const Display: NextPage = () => {
           <h2 className='px-4 font-medium text-xl flex items-center'>
             {translate.display.h1}
           </h2>
-          <p className='text-base dark:text-slate-400 text-slate-500 pl-4 mt-2'>
+          <p className='text-base dark:text-slate-400 text-slate-700 pl-4 mt-2'>
             {translate.display.p1}
           </p>
         </div>

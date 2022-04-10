@@ -72,19 +72,19 @@ export const PhotoUser = () => {
               color={'dark:hover:bg-secondaryLigth hover:bg-sky-200/70'}
             >
               <>{translate.nav.verfication}</>
-              <span className='text-textGray ml-1'>{checkVeriFied}</span>
+              <span className='dark:text-slate-400 text-slate-700 ml-1'>{checkVeriFied}</span>
             </Button>
             <hr className='dark:border-secondaryLigth border-slate-300 rounded-xl my-3' />
             {status === 'authenticated' ? (
               <button
-                className='w-full text-white hover:bg-red-500 rounded-md py-1 px-3 bg-red-400'
+                className='w-full text-white hover:opacity-80 rounded-md py-1 px-3 transition-opacity bg-red-500'
                 onClick={handleSignOut}
               >
                 {translate.nav.logout}
               </button>
             ) : (
               <button
-                className='w-full text-white bg-thirdBlue rounded-md py-1 px-3 transition-all hover:bg-blue-400'
+                className='w-full text-white bg-thirdBlue rounded-md py-1 px-3 transition-all hover:bg-thirdBlue/90'
                 onClick={() => {
                   handleToggleModal()
                   handleLoginOpen()

@@ -55,7 +55,7 @@ const PostOptions = ({ id, toggleOptions }: Props) => {
             {translate.home.postOptions.edit}
           </Button>
         )}
-        <Button onClick={toggleOptions} color={'bg-red-400 hover:bg-red-500'}>
+        <Button onClick={toggleOptions} color={'bg-red-500 text-white hover:bg-red-400'}>
           {translate.home.postOptions.cancel}
         </Button>
       </div>

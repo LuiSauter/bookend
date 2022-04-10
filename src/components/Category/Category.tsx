@@ -21,15 +21,15 @@ const Category = () => {
           className='px-4 w-full py-1 flex flex-row flex-wrap justify-between dark:hover:bg-secondaryLigth hover:bg-sky-200/70 relative  rounded-lg'
         >
           <div>
-            <span className='text-textGray mr-2'>#</span>
+            <span className='dark:text-slate-400 text-slate-700 mr-2'>#</span>
             {category}
           </div>
-          <span className='text-textGray text-sm flex items-center'>
+          <span className='dark:text-slate-400 text-slate-700 text-sm flex items-center'>
             {category.length} {translate.nav.book}
           </span>
         </li>
       ))}
-      <button onClick={handleShowMore} className='hover:text-textGray'>
+      <button onClick={handleShowMore} className='dark:text-slate-400 text-slate-700 dark:hover:text-slate-400/50 hover:text-thirdBlue transition-colors'>
         {showMore >= 15
           ? translate.home.searchBook.seeLess
           : translate.home.searchBook.showMore.slice(0, -1)}

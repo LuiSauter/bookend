@@ -38,19 +38,19 @@ const LoginModal = () => {
             </header>
             <div className='w-full relative flex flex-col gap-4 items-center justify-center'>
               <button
-                className='bg-white text-textGray hover:bg-sky-200/70 flex flex-row items-center rounded-lg w-11/12 justify-center py-1'
+                className='bg-white text-textGray hover:opacity-80 transition-all flex flex-row items-center rounded-lg w-11/12 justify-center py-1'
                 onClick={handleSignInWithGoogle}
               >
                 {icons.Google} {translate.nav.withGoogle}
               </button>
               <button
-                className='bg-black text-textWhite hover:bg-opacity-60 flex flex-row items-center rounded-lg w-11/12 justify-center py-1'
+                className='bg-black text-textWhite hover:bg-opacity-70 transition-all flex flex-row items-center rounded-lg w-11/12 justify-center py-[0.28rem]'
                 onClick={handleSignInWithGitHub}
               >
                 {icons.github} {translate.nav.withGitHub}
               </button>
               <button
-                className='bg-red-400 text-textWhite hover:bg-red-500 transition-colors w-11/12 justify-center flex flex-row items-center rounded-lg py-1'
+                className='bg-red-500 text-textWhite hover:opacity-80 transition-all w-11/12 justify-center flex flex-row items-center rounded-lg py-1'
                 onClick={handleLoginOpen}
               >
                 {translate.home.postOptions.cancel}
