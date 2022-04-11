@@ -152,7 +152,7 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
           <label className='font-semibold w-full'>
             {translate.home.email} <span className='text-thirdBlue'>* </span>
             <input
-              className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-secondaryLigth focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50'
+              className='block w-full rounded-md py-1 px-2 mt-2 text-textWhite bg-slate-500 focus:outline-none focus:ring-4 focus:border-thirdBlue focus:ring-opacity-25 opacity-50'
               {...register('email', {
                 required: {
                   value: true,

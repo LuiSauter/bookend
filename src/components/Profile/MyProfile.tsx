@@ -54,7 +54,7 @@ const MyProfile = ({ username }: Props) => {
           data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
-            className='border-2 dark:border-slate-300 border-slate-400 dark:text-white text-slate-700 md:border-slate-50 md:text-slate-50 hover:opacity-80 rounded-2xl px-2 py-1 md:ml-2'
+            className='border-2 dark:border-slate-300 border-slate-400 dark:text-white text-slate-700 md:border-slate-50 md:text-slate-50 md:backdrop-blur-sm md:bg-black/10 hover:opacity-80 rounded-2xl px-2 py-1 md:ml-2'
           >
             {translate.profile.edit}
           </button>

@@ -76,7 +76,9 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
     let cleanup = true
     if (cleanup) {
       if (status === 'unauthenticated') {
-        toast.error('login is required')
+        toast.error('login is required', {
+          theme: 'dark',
+        })
         router.push('/')
       }
       if (dataUser?.findUser) {
@@ -130,7 +132,7 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-4 w-full'
+        className='flex flex-col gap-4 w-full px-1 pt-3'
       >
         <div className='w-full flex flex-col gap-3 justify-center'>
           <label className='font-semibold'>
