@@ -21,9 +21,9 @@ const About: NextPage = () => {
         <title>Bookend | {translate.about.name} Bookend</title>
       </Head>
       <section className='w-full rounded-xl'>
-        <div className='flex flex-row items-center px-2 py-4 md:pt-0'>
+        <div className='flex flex-row items-center px-2 py-4 md:pt-0 relative'>
           <button
-            className='rounded-full -ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
+            className='rounded-full  sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
             onClick={handleBack}
           >
             {icons.arrowLeft}
