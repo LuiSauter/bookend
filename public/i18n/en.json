@@ -29,7 +29,10 @@
       "report": "Report a problem",
       "share": "Share",
       "edit": "Edit post",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "delete": "Delete post",
+      "dialog": "Are you sure you want to delete this post?",
+      "dialogYes": "Yes"
     }
   },
   "profile": {
