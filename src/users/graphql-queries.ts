@@ -23,7 +23,6 @@ export const FIND_PROFILE = gql`
     }
   }
 `
-
 export const FIND_USER = gql`
   query findUserByProfileId($email: String!) {
     findUser(email: $email) {
@@ -46,7 +45,6 @@ export const FIND_USER = gql`
     }
   }
 `
-
 export const ALL_USERS = gql`
   query {
     allUsers {
@@ -59,7 +57,6 @@ export const ALL_USERS = gql`
     }
   }
 `
-
 export const FIND_USER_BY_USER = gql`
   query findUserByUserID($user: String!) {
     findUserById(user: $user) {
@@ -75,7 +72,6 @@ export const FIND_USER_BY_USER = gql`
     }
   }
 `
-
 export const SEARCH_USERS = gql`
   query searchUsers($name: String!) {
     searchUsers(name: $name) {
@@ -86,5 +82,10 @@ export const SEARCH_USERS = gql`
       photo
       verified
     }
+  }
+`
+export const GET_DOMINANT_COLOR = gql`
+  query getDominantColor($image: String!) {
+    getColors(image: $image)
   }
 `

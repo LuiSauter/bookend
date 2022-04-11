@@ -2,17 +2,19 @@ import React, { Fragment, useEffect } from 'react'
 import Link from 'next/link'
 import { useLazyQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
-import { FIND_USER } from 'src/users/graphql-queries'
+import { FIND_USER, GET_DOMINANT_COLOR } from 'src/users/graphql-queries'
 import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useTranslate } from 'src/hooks/useTranslate'
+import { useDominanColor } from 'src/hooks/useDominantColor'
 
 const CardProfile = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const translate = useTranslate()
   const [getUser, { data, loading }] = useLazyQuery(FIND_USER, { ssr: true })
+  const [getColor, { data: dataColor }] = useLazyQuery(GET_DOMINANT_COLOR)
 
   useEffect(() => {
     let cleanup = true
@@ -28,6 +30,19 @@ const CardProfile = () => {
     }
   }, [status === 'authenticated'])
 
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      data?.findUser &&
+        getColor({ variables: { image: data?.findUser.me.photo } })
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [data?.findUser])
+
+  const { dominantColor } = useDominanColor(dataColor?.getColors)
+
   return (
     <Fragment>
       {status === 'authenticated' &&
@@ -40,10 +55,15 @@ const CardProfile = () => {
           ) : (
             <>
               <header className='m-0 w-full relative'>
-                <div className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-lg'></div>
+                <div
+                  style={{
+                    // backgroundColor: dominantColor,
+                  }}
+                  className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-t-lg'
+                />
               </header>
               <img
-                className='w-20 rounded-full m-auto mt-8 relative'
+                className='w-20 rounded-full m-auto mt-8 relative ring-4 ring-secondary'
                 src={data?.findUser?.me.photo || '/default-user.webp'}
                 alt={data?.findUser?.me.name || 'bookend'}
               />
@@ -57,7 +77,10 @@ const CardProfile = () => {
                       <span title='Verified account'>{checkVeriFied}</span>
                     )}
                   </h2>
-                  <h3 translate='no' className='dark:text-slate-400 text-slate-700'>
+                  <h3
+                    translate='no'
+                    className='dark:text-slate-400 text-slate-700'
+                  >
                       @{data?.findUser?.me.username}
                   </h3>
                   <p className='text-sm'>{data?.findUser?.description}</p>

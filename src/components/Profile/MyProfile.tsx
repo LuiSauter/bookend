@@ -54,7 +54,7 @@ const MyProfile = ({ username }: Props) => {
           data?.findProfile.me.email === session?.user?.email && (
           <button
             onClick={handleEditProfile}
-            className='border-2 dark:border-slate-300 border-slate-400 dark:text-white text-slate-700 md:border-slate-50 md:text-slate-50 rounded-2xl px-2 py-1 dark:hover:bg-secondaryLigth hover:bg-sky-200/70 md:ml-2'
+            className='border-2 dark:border-slate-300 border-slate-400 dark:text-white text-slate-700 md:border-slate-50 md:text-slate-50 hover:opacity-80 rounded-2xl px-2 py-1 md:ml-2'
           >
             {translate.profile.edit}
           </button>
@@ -89,7 +89,7 @@ const MyProfile = ({ username }: Props) => {
           )}
         </figure>
       </article>
-      <div className='border-b-2 border-textGray/20'>
+      <div className='xl:border-b-2 border-textGray/20'>
         <div className='px-4 sm:px-0 lg:px-4'>
           <div className='text-lg mt-4 font-bold flex items-center justify-start gap-4'>
             <h2 className='flex items-center'>
