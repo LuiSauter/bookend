@@ -12,6 +12,7 @@ type Props = {
   verified: boolean
   email: string | undefined
   user: string | undefined
+  description: string | undefined
 }
 
 const UsersItem = ({
@@ -21,6 +22,7 @@ const UsersItem = ({
   verified,
   email,
   user,
+  description
 }: Props) => {
   const router = useRouter()
   const { data: session } = useSession()
@@ -46,7 +48,16 @@ const UsersItem = ({
                 {verified && icons.checkVeriFied}
               </span>
             </h3>
-            <span translate='no' className='text-textGray text-sm'>@{username}</span>
+            <span translate='no' className='text-textGray text-sm'>
+              @{username}
+            </span>
+            {description && (
+              <p className='text-sm sm:text-base'>
+                {description.length < 50
+                  ? description
+                  : `${description.toString().substring(0, 55)}...`}
+              </p>
+            )}
           </a>
         </Link>
         {session?.user?.email === email ? (
