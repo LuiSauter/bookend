@@ -359,10 +359,10 @@ const resolvers = {
       const filter = { user }
       const findUser = await Profile.findOne(filter)
       if (findUser) {
-        const postFitered = findUser.post.filter(
+        const postFiltered = findUser.post.filter(
           (postId: string) => postId !== id
         )
-        const update = { post: postFitered }
+        const update = { post: postFiltered }
         await Post.findByIdAndDelete(id)
         await Profile.findOneAndUpdate(filter, update, {
           new: true,

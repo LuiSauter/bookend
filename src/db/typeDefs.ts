@@ -15,6 +15,7 @@ const typeDefinitions = gql`
     user: String!
     email: String!
     verified: Boolean!
+    description: String
   }
   type Profile {
     verified: Boolean
