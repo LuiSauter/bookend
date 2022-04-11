@@ -173,15 +173,14 @@ const SearchWord = () => {
                 ))}
                 {dataBooksAuthor?.searchBooksAuthor.map(
                   (book: Post, index: number) => (
-                    <div key={index} className='rounded-xl overflow-hidden'>
-                      <BooksItem
-                        id={book.id}
-                        description={book.description}
-                        title={book.title}
-                        image={book.image}
-                        author={book.author}
-                      />
-                    </div>
+                    <BooksItem
+                      key={index}
+                      id={book.id}
+                      description={book.description}
+                      title={book.title}
+                      image={book.image}
+                      author={book.author}
+                    />
                   )
                 )}
               </>
@@ -202,17 +201,16 @@ const SearchWord = () => {
               </span>
             ) : (
               searchUser?.searchUsers.map((userFind: IUser, index: number) => (
-                <div key={index} className='rounded-xl overflow-hidden'>
-                  <UsersItem
-                    key={index}
-                    photo={userFind.photo}
-                    username={userFind.username}
-                    name={userFind.name}
-                    verified={userFind.verified}
-                    email={userFind.email}
-                    user={userFind.user}
-                  />
-                </div>
+                <UsersItem
+                  key={index}
+                  photo={userFind.photo}
+                  username={userFind.username}
+                  name={userFind.name}
+                  verified={userFind.verified}
+                  email={userFind.email}
+                  user={userFind.user}
+                  description={userFind.description}
+                />
               ))
             )}
             {searchUser?.searchUsers.length === 0 && (

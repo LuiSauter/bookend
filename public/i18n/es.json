@@ -29,7 +29,10 @@
       "report": "Reportar un problema",
       "share": "Compartir",
       "edit": "Editar publicación",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "delete":"Borrar publicación",
+      "dialog": "¿Seguro que quieres eliminar esta publicación?",
+      "dialogYes":"Si"
     }
   },
   "profile": {

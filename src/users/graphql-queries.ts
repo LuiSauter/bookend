@@ -54,6 +54,7 @@ export const ALL_USERS = gql`
       email
       photo
       verified
+      description
     }
   }
 `
@@ -81,6 +82,7 @@ export const SEARCH_USERS = gql`
       email
       photo
       verified
+      description
     }
   }
 `

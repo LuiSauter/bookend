@@ -15,6 +15,7 @@ export interface IUser {
   user: string
   username: string
   verified: boolean
+  description: string
   __typename?: string
 }
 
@@ -94,6 +95,7 @@ const SearchUser = () => {
                     verified={userFind.verified}
                     email={userFind.email}
                     user={userFind.user}
+                    description={userFind.description}
                   />
                 ))
               )}

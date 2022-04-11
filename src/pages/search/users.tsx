@@ -38,17 +38,16 @@ const Users = () => {
         Object.values(data?.allUsers)
           .sort(sortFunction)
           .map((user: IUser | any, index: number) => (
-            <div key={index} className='rounded-xl overflow-hidden'>
-              <UsersItem
-                key={index}
-                photo={user.photo}
-                username={user.username}
-                name={user.name}
-                verified={user.verified}
-                email={user.email}
-                user={user.user}
-              />
-            </div>
+            <UsersItem
+              key={index}
+              photo={user.photo}
+              username={user.username}
+              name={user.name}
+              verified={user.verified}
+              email={user.email}
+              user={user.user}
+              description={user.description}
+            />
           ))
       )}
     </section>
