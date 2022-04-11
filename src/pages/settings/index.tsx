@@ -59,13 +59,13 @@ function Settings() {
           </button>
           <h1 className='font-bold text-2xl pl-4'>{translate.setting.name}</h1>
         </header>
-        <ul>
+        <ul className='md:pr-4 xl:pr-0'>
           {data.map((setting) => (
             <li
               key={setting.id}
               className={`${
                 setting.screen !== '' ? 'cursor-pointer' : 'cursor-default'
-              } flex flex-row rounded-xl justify-between items-center gap-4 dark:hover:bg-secondaryHover hover:bg-sky-200/70 px-4 py-2`}
+              } flex flex-row sm:rounded-xl xl:rounded-none justify-between items-center gap-4 dark:hover:bg-secondaryHover hover:bg-sky-200/70 px-4 py-2`}
               onClick={() =>
                 setting.screen !== '' &&
                 router.push(`/settings/${setting.screen}`)
