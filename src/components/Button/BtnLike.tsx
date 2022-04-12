@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import React, { useEffect, useState } from 'react'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { DISLIKE_POST, LIKE_POST } from 'src/post/graphql-mutations'
 import * as icons from 'src/assets/icons'
 import { useSession } from 'next-auth/react'
@@ -72,11 +72,16 @@ const BtnLike = ({ id, likes }: Props) => {
     getDisLike({ variables: { id: id, email: session?.user?.email } })
   }
 
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    if (status === 'unauthenticated') return handleLoginOpen()
+    !like ? handleLike(id) : handleDisLike(id)
+    !like ? setLike(true) : setLike(false)
+  }
+
   return (
     <div
-      onClick={(e) => {
-        e.stopPropagation()
-      }}
+      onClick={(e) => e.stopPropagation()}
       title='Likes'
       className='hover:text-red-500 dark:hover:text-red-500 dark:text-slate-400 contrast-125 cursor-default flex items-center gap-1 select-none'
       onMouseEnter={() => {
@@ -85,12 +90,7 @@ const BtnLike = ({ id, likes }: Props) => {
       onMouseLeave={() => setShowHover(false)}
     >
       <button
-        onClick={(e) => {
-          e.stopPropagation()
-          if (status === 'unauthenticated') return handleLoginOpen()
-          !like ? handleLike(id) : handleDisLike(id)
-          !like ? setLike(true) : setLike(false)
-        }}
+        onClick={handleClick}
         id='btn-animation'
         className={`
           ${!like ? 'dark:text-inherit text-inherit' : 'text-red-500'}

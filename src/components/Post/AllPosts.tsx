@@ -67,17 +67,20 @@ const AllPosts = () => {
 
   return (
     <>
-      <section className='w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4'>
+      <section className='w-full min-h-screen p-4 sm:p-0 grid place-content-start grid-cols-2 sm:grid-cols-3 gap-4 rounded-xl transition-all 2xl:grid-cols-4 md:pr-4 xl:pl-4'>
         {allPostData?.allPostRanking.length > Math.random() * (10 - 6) + 6 && (
           <div className='odd:row-start-4 col-span-2 sm:col-span-3 2xl:col-span-4'>
             <CarruselWhoToFollow />
           </div>
         )}
         {allPostData?.allPostRanking.map((post: Post) => (
-          <button onClick={(e) => {
-            e.stopPropagation()
-            route.push(`/books/${post.id}`)
-          }} key={post.id}>
+          <div
+            onClick={(e) => {
+              e.stopPropagation()
+              route.push(`/books/${post.id}`)
+            }}
+            key={post.id}
+          >
             <AllPostItem
               bookUrl={post.bookUrl}
               comments={post.comments}
@@ -91,7 +94,7 @@ const AllPosts = () => {
               author={post.author}
               likes={post.likes}
             />
-          </button>
+          </div>
         ))}
         {loadingIcon && (
           <div className='col-span-2 sm:col-span-3 mt-4'>

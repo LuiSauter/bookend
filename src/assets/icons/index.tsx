@@ -116,6 +116,40 @@ export const newBookCurrent = (
   </svg>
 )
 
+export const allUsers = (
+  <svg
+    stroke='currentColor'
+    fill='none'
+    strokeWidth={2}
+    viewBox='0 0 24 24'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    className='h-6 w-6 md:mx-2'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' />
+    <circle cx={9} cy={7} r={4} />
+    <path d='M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
+  </svg>
+)
+
+export const allUsersCurrent = (
+  <svg
+    stroke='currentColor'
+    fill='white'
+    className='h-6 w-6 md:h-5 md:w-5 md:mx-2'
+    strokeWidth={2}
+    viewBox='0 0 24 24'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' />
+    <circle cx={9} cy={7} r={4} />
+    <path d='M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
+  </svg>
+)
+
 export const search = (
   <svg
     xmlns='http://www.w3.org/2000/svg'

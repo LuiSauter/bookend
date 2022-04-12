@@ -82,7 +82,7 @@ const FindPost = ({ id }: Props) => {
             )}
           </div>
           <div className='px-4'>
-            <h1 className='text-lg font-semibold text-thirdBlue'>
+            <h1 className='text-xl font-semibold text-thirdBlue'>
               {data?.findPost[0].title}
               <span> | {data?.findPost[0].author}</span>
             </h1>
@@ -90,16 +90,16 @@ const FindPost = ({ id }: Props) => {
               <p>
                 {data?.findPost[0].description?.map(
                   (d: string, index: number) => (
-                    <span className='block mt-3 text-[22px] leading-7 font-[400] dark:text-white' key={index}>
+                    <span className='block mt-3 text-xl lg:text-[20px] leading-7 font-light dark:text-white' key={index}>
                       {d}
                     </span>
                   )
                 )}
               </p>
             </div>
-            <figure className='my-3 rounded-lg relative overflow-hidden aspect-[160/230] w-full border border-textGray/50'>
+            <figure className='my-3 rounded-2xl relative overflow-hidden aspect-[160/200] w-full border border-textGray/50'>
               <img
-                className='w-full h-full absolute inset-0 rounded-lg object-cover object-center'
+                className='w-full h-full absolute inset-0 rounded-2xl object-cover object-center'
                 src={data?.findPost[0].image}
                 alt={data?.findPost[0].title}
               />

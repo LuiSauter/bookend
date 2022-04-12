@@ -30,9 +30,9 @@
       "share": "Compartir",
       "edit": "Editar publicación",
       "cancel": "Cancelar",
-      "delete":"Borrar publicación",
+      "delete": "Borrar publicación",
       "dialog": "¿Seguro que quieres eliminar esta publicación?",
-      "dialogYes":"Si"
+      "dialogYes": "Si"
     }
   },
   "profile": {
@@ -42,7 +42,8 @@
     "follow": "Seguir",
     "unfollow": "Dejar de seguir",
     "me": "Mi perfil",
-    "liked": "Me gusta"
+    "liked": "Me gusta",
+    "users": "Usuarios"
   },
   "post": {
     "update": "Actualizar publicación",

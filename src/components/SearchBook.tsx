@@ -47,7 +47,11 @@ const SearchBook = () => {
   return (
     <>
       <div className='h-10' />
-      <div className='dark:focus-within:bg-primary focus-within:ring-2 ring-thirdBlue focus-within:bg-slate-200 absolute top-2 md:top-0 left-[3%] z-[60] rounded-bl-xl rounded-2xl w-[94%]'>
+      <div
+        className={`dark:focus-within:bg-primary focus-within:ring-2 ring-thirdBlue focus-within:bg-slate-200 absolute top-2 md:top-0 left-[3%] z-[60] rounded-2xl w-[94%] overflow-hidden ${
+          showResults && 'shadow-3xl shadow-thirdBlue/30'
+        }`}
+      >
         <form
           onSubmit={handleSubmit}
           className='focus-within:text-thirdBlue transition-colors rounded-t-2xl w-full h-full z-[60] flex md:mt-0'

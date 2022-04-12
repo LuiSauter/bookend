@@ -9,9 +9,7 @@ const AllPostItem = ({ image, title, description, author, id, likes }: Post) => 
     <article
       className='w-full flex flex-col gap-2 transition-all text-slate-300 relative cursor-pointer hover:text-thirdBlue rounded-xl'
       onMouseEnter={() => setHoverInfo(true)}
-      onMouseLeave={() => {
-        setHoverInfo(false)
-      }}
+      onMouseLeave={() => setHoverInfo(false)}
     >
       <figure className='relative m-0 overflow-hidden w-full h-full bg-red-500 aspect-[160/230] rounded-xl '>
         <div
@@ -35,7 +33,7 @@ const AllPostItem = ({ image, title, description, author, id, likes }: Post) => 
       </figure>
       <div className='flex flex-row justify-between items-center transform scale-90'>
         <h2 className='dark:text-thirdBlue text-black'>{title}</h2>
-        <BtnLike id={id} likes={likes?.length} />
+        <BtnLike id={id} likes={likes ? likes?.length : 0} />
       </div>
       {hoverInfo && (
         <Modal
