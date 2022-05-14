@@ -1,25 +1,21 @@
-import type { AppProps, } from 'next/app'
-import React, { useCallback, useEffect, useState } from 'react'
 import 'tailwindcss/tailwind.css'
 import 'src/layouts/custom-scrollbar.css'
 import 'src/styles/global-style.css'
+import type { AppProps, } from 'next/app'
+import React, { useEffect } from 'react'
 
-import { ApolloProvider } from '@apollo/client'
-import { getApolloClient } from 'src/data/apollo'
 import { SessionProvider } from 'next-auth/react'
-import { Layout } from 'src/layouts/Layout'
-import { LoginStateProvider } from 'src/context/login/LoginContext'
-import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { LoadingPage } from 'src/layouts/LoadingPage'
 import { languageStorage, themeStorage } from 'src/config/constants'
+import { ApolloProvider } from '@apollo/client'
+import { LoginStateProvider } from 'src/context/login/LoginContext'
+import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
+import { Layout } from 'src/layouts/Layout'
+import { getApolloClient } from 'src/data/apollo'
 
 const currentLanguageStorage =
   typeof window !== 'undefined' && window.localStorage.getItem(languageStorage)
-
-const waitFor = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms))
 
 const currentTheme =
   typeof window !== 'undefined' && window.localStorage.getItem(themeStorage)
@@ -37,37 +33,22 @@ function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps): JSX.Element {
-  const [loading, setLoading] = useState(true)
   const client = getApolloClient()
-
-  const getLoading = useCallback(async () => {
-    await waitFor(300)
-    setLoading(false)
-  }, [])
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) getLoading()
-    return () => {
-      cleanup = false
-    }
-  }, [])
 
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      typeof window !== 'undefined' &&
-        currentLanguageStorage === null &&
-        window.localStorage.setItem(languageStorage, 'es')
+      if (typeof document !== 'undefined') {
+        currentLanguageStorage === null && window.localStorage.setItem(languageStorage, 'es')
+        document.querySelector('html')?.setAttribute('lang', 'es')
+      }
     }
     return () => {
       cleanup = false
     }
   }, [currentLanguageStorage])
 
-  return loading ? (
-    <LoadingPage />
-  ) : (
+  return (
     <SessionProvider session={session}>
       <ApolloProvider client={client}>
         <LoginStateProvider>
