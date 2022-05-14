@@ -5,6 +5,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    'plugin:@next/next/recommended',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -24,6 +25,8 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-single'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
+    'react/no-unescaped-entities': 'off',
+    '@next/next/no-page-custom-font': 'off'
   },
   settings: {
     react: {

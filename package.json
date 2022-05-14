@@ -32,6 +32,7 @@
     "react-toastify": "8.1.0"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "12.1.6",
     "@s-ui/mono": "2.26.0",
     "@types/jsonwebtoken": "8.5.8",
     "@types/micro-cors": "0.1.2",
