@@ -34,24 +34,30 @@ const resolvers = {
   Query: {
     userCount: () => User.collection.countDocuments(),
     postCount: () => Post.collection.countDocuments(),
-    findUser: async (root: undefined, args: { email: string }) => {
+    findUser: async (_root: undefined, args: { email: string }) => {
       const { email } = args
-      if (email) {
+      try {
         return await Profile.findOne({ email })
+      } catch (error) {
+        return null
+      }
+    },
+    findUserById: async (_root: undefined, args: { user: string }) => {
+      try {
+        return await Profile.findOne({ user: args.user })
+      } catch (error) {
+        return null
+      }
+    },
+    findProfile: async (_root: undefined, args: { username: string }) => {
+      const isfindProfile = await Profile.findOne({ username: args.username })
+      if (isfindProfile) {
+        return isfindProfile
       } else {
         return null
       }
     },
-    findUserById: async (root: undefined, args: { user: string }) => {
-      const { user } = args
-      return await Profile.findOne({ user })
-    },
-    findProfile: async (root: undefined, args: { username: string }) => {
-      const { username } = args
-      const isfindProfile = await Profile.findOne({ username: username })
-      return isfindProfile
-    },
-    searchUsers: async (root: undefined, args: { name: string }) => {
+    searchUsers: async (_root: undefined, args: { name: string }) => {
       const { name } = args
       if (name) {
         const search = escapeStringRegexp(name)
@@ -74,7 +80,7 @@ const resolvers = {
         return result
       }
     },
-    searchBooks: async (root: undefined, args: any) => {
+    searchBooks: async (_root: undefined, args: any) => {
       const { words } = args
       if (words) {
         const search = escapeStringRegexp(words)
@@ -87,7 +93,7 @@ const resolvers = {
         })
       }
     },
-    searchBooksAuthor: async (root: undefined, args: any) => {
+    searchBooksAuthor: async (_root: undefined, args: any) => {
       const { words } = args
       if (words) {
         const search = escapeStringRegexp(words)
@@ -104,7 +110,7 @@ const resolvers = {
       return await Profile.find({}).sort({ createdAt: 'desc' })
     },
     allPosts: async (
-      root: undefined,
+      _root: undefined,
       args: { pageSize: number; skipValue: number }
     ) => {
       const { pageSize, skipValue } = args
@@ -114,7 +120,7 @@ const resolvers = {
         .skip(skipValue)
     },
     allPostRanking: async (
-      root: undefined,
+      _root: undefined,
       args: { pageSize: number; skipValue: number }
     ) => {
       const { pageSize, skipValue } = args
@@ -124,7 +130,7 @@ const resolvers = {
         .skip(skipValue)
     },
     allPostsByUsername: async (
-      root: undefined,
+      _root: undefined,
       args: { pageSize: number; skipValue: number; username: string }
     ) => {
       const { pageSize, skipValue, username } = args
@@ -137,17 +143,21 @@ const resolvers = {
         return findPost
       }
     },
-    allPostUserCount: async (root: undefined, args: { username: string }) => {
+    allPostUserCount: async (_root: undefined, args: { username: string }) => {
       const { username } = args
       const userId = await Profile.findOne({ username })
       if (userId) {
         return await Post.find({ user: userId.user }).countDocuments()
       }
     },
-    findPost: async (root: any, args: any) => {
-      return await Post.find({ _id: args.id })
+    findPost: async (_root: any, args: any) => {
+      try {
+        return await Post.find({ _id: args.id })
+      } catch (error) {
+        return null
+      }
     },
-    getColors: async (root: any, args: { image: string }) => {
+    getColors: async (_root: any, args: { image: string }) => {
       const { image } = args
       if (image) {
         const data = await getDominantColor(image)
@@ -170,20 +180,20 @@ const resolvers = {
     },
   },
   Profile: {
-    me: (root: any) => {
+    me: (_root: any) => {
       return {
-        name: root.name,
-        username: root.username,
-        photo: root.photo,
-        user: root.user,
-        email: root.email,
-        verified: root.verified,
+        name: _root.name,
+        username: _root.username,
+        photo: _root.photo,
+        user: _root.user,
+        email: _root.email,
+        verified: _root.verified,
       }
     },
   },
   Mutation: {
     signin: async (
-      root: undefined,
+      _root: undefined,
       args: { email: string; name: string; image: string }
     ) => {
       const { email, name, image } = args
@@ -216,7 +226,7 @@ const resolvers = {
         return userFind
       }
     },
-    updateProfile: async (root: undefined, args: any) => {
+    updateProfile: async (_root: undefined, args: any) => {
       const { profile } = args
       const findProfile = await Profile.findById(profile)
       if (findProfile) {
@@ -232,7 +242,7 @@ const resolvers = {
         return null
       }
     },
-    follow: async (root: undefined, args: { email: string; user: any }) => {
+    follow: async (_root: undefined, args: { email: string; user: any }) => {
       const { email, user } = args
       const findUser = await Profile.findOne({ email })
       const filterUser = findUser.following.some(
@@ -259,7 +269,7 @@ const resolvers = {
       return null
     },
     unFollow: async (
-      root: undefined,
+      _root: undefined,
       args: { email: string; user: string }
     ) => {
       const { email, user } = args
@@ -283,7 +293,7 @@ const resolvers = {
       })
       return 'unFollow'
     },
-    likePost: async (root: undefined, args: { email: string; id: any }) => {
+    likePost: async (_root: undefined, args: { email: string; id: any }) => {
       const { email, id } = args
       const findUser = await Profile.findOne({ email })
 
@@ -308,7 +318,7 @@ const resolvers = {
       }
       return null
     },
-    disLikePost: async (root: undefined, args: { email: string; id: any }) => {
+    disLikePost: async (_root: undefined, args: { email: string; id: any }) => {
       const { email, id } = args
       const findUser = await Profile.findOne({ email })
       const filterUser = findUser.liked.some(
@@ -337,7 +347,7 @@ const resolvers = {
         return 'dislike'
       }
     },
-    addPost: async (root: undefined, args: any) => {
+    addPost: async (_root: undefined, args: any) => {
       const { bookUrl, email } = args
       const userEmail = { email }
       const findUser = await Profile.findOne(userEmail)
@@ -354,7 +364,7 @@ const resolvers = {
         return 'update Post'
       }
     },
-    deletePost: async (root: undefined, args: { id: string; user: string }) => {
+    deletePost: async (_root: undefined, args: { id: string; user: string }) => {
       const { id, user } = args
       const filter = { user }
       const findUser = await Profile.findOne(filter)
@@ -371,14 +381,14 @@ const resolvers = {
       }
       return null
     },
-    deleteUser: async (root: undefined, args: { user: string }) => {
+    deleteUser: async (_root: undefined, args: { user: string }) => {
       const { user } = args
       await User.findByIdAndDelete(user)
       await Profile.findOneAndDelete({ user })
       return 'delete successfully'
     },
     giveVerification: async (
-      root: undefined,
+      _root: undefined,
       args: { user: string; verification: any; wordSecret: string }
     ) => {
       const { user, verification, wordSecret } = args
