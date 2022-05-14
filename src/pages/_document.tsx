@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement } from 'react'
 import Document, {
   DocumentContext,
@@ -10,6 +9,7 @@ import Document, {
 import { getApolloClient } from 'src/data/apollo'
 
 class MyDocument extends Document {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(props: any) {
     super(props)
     const { __NEXT_DATA__, apolloState } = props
@@ -31,24 +31,12 @@ class MyDocument extends Document {
   }
   render(): ReactElement {
     return (
-      <Html lang='es' className='dark:bg-primary scroll-smooth'>
+      <Html className='dark:bg-primary scroll-smooth'>
         <Head>
-          {/* <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
-              `,
-            }}
-          /> */}
-          {/* <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> */}
-          <meta name='description' content='Bookend es una aplicación web para compartir libros de ciencia, programación, física, universo, cuantica, espacio.' />
+          <meta
+            name='description'
+            content='Bookend es una aplicación web para compartir libros de ciencia, programación, física, universo, cuantica, espacio.'
+          />
           <meta name='twitter:card' content='sumary' />
         </Head>
         <body className='dark:bg-primary'>

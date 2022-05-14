@@ -15,7 +15,8 @@ export interface IUser {
   user: string
   username: string
   verified: boolean
-  description: string
+  description?: string
+  _id?: string
   __typename?: string
 }
 

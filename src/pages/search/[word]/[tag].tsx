@@ -1,4 +1,5 @@
 import { useLazyQuery } from '@apollo/client'
+import { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
@@ -11,7 +12,7 @@ import { useTranslate } from 'src/hooks/useTranslate'
 import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
 import { SEARCH_USERS } from 'src/users/graphql-queries'
 
-const SearchWord = () => {
+const SearchWord: NextPage = (): JSX.Element => {
   const router = useRouter()
   const [showResults, setShowResults] = useState({ books: true, users: false })
   const [words, setWords] = useState<string>('')
@@ -58,7 +59,7 @@ const SearchWord = () => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (typeof window !== undefined) {
+      if (typeof document !== 'undefined') {
         const wordStorage = window.localStorage.getItem('lastSearch') || ''
         setCurrentWord(wordStorage)
       }
@@ -77,7 +78,7 @@ const SearchWord = () => {
   const handleSubmitSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (words.length !== 0) {
-      typeof window !== undefined && window.localStorage.setItem('lastSearch', words)
+      typeof window !== 'undefined' && window.localStorage.setItem('lastSearch', words)
       router.push(`/search/${words}/${router.query.tag}`)
     }
   }

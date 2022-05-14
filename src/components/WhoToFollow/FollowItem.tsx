@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
 import BtnFollow from '../Button/BtnFollow'
+import Image from 'next/image'
 
 interface Props {
   email: string
@@ -36,11 +37,14 @@ const FollowItem = ({
           className='flex justify-center items-center w-full relative dark:hover:bg-secondaryLigth hover:bg-sky-200/70 transition-colors cursor-pointer py-2 px-4 overflow-hidden'
           onClick={() => handleClickLi(username)}
         >
-          <img
-            src={photo || '/default-user.webp'}
-            alt={name}
-            className='w-11 h-11 rounded-full mr-3'
-          />
+          <figure className='w-11 h-11 flex flex-shrink-0 mr-3 rounded-full relative overflow-hidden'>
+            <Image
+              layout='fill'
+              src={photo || '/default-user.webp'}
+              alt={name}
+              className='rounded-full'
+            />
+          </figure>
           <div className='flex flex-row w-full bg-transparent justify-between items-center relative overflow-hidden'>
             <Link href={`/${username}`}>
               <a className='flex flex-col overflow-hidden w-full relative'>

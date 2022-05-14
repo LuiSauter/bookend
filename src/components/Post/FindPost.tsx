@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import Head from 'next/head'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import { useLazyQuery } from '@apollo/client'
-import { useRouter } from 'next/router'
 import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
 import { FINDONE_POST } from 'src/post/graphql-queries'
 import * as icons from 'src/assets/icons'
@@ -11,6 +12,7 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import MultipleButtons from 'src/components/Button'
 import PostOptions from '../Modal/PostOptions'
 import useTimeAgo from 'src/hooks/useTimeAgo'
+import { usePlaceholder } from 'src/hooks/usePlaceholder'
 
 interface Props {
   id: string | string[];
@@ -18,6 +20,7 @@ interface Props {
 
 const FindPost = ({ id }: Props) => {
   const [showOptions, setShowOptions] = useState(false)
+  const createBlurDataUrl = usePlaceholder()
   const [getPostById, { data, loading }] = useLazyQuery(FINDONE_POST)
   const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
 
@@ -67,7 +70,7 @@ const FindPost = ({ id }: Props) => {
         </div>
       ) : (
         <article className='w-full pb-8 rounded-xl relative hover:bg-transparent active:bg-transparent'>
-          <div className='flex items-center py-1 pr-2 dark:bg-primary/80 bg-white/80 backdrop-blur-md justify-center w-full gap-4 sticky inset-0 z-[1] md:top-0 md:static xl:px-4'>
+          <div className='flex items-center py-2 pr-2 dark:bg-primary/80 bg-white/80 backdrop-blur-md justify-center w-full gap-4 sticky inset-0 z-[1] md:top-0 md:pt-0 md:pb-4 md:static xl:px-4'>
             <button
               className='rounded-full ml-2 sm:ml-0 dark:hover:bg-secondaryLigth/50 hover:bg-sky-200/70 flex flex-shrink-0 h-10 w-10 items-center justify-center'
               onClick={handleBack}
@@ -90,7 +93,10 @@ const FindPost = ({ id }: Props) => {
               <p>
                 {data?.findPost[0].description?.map(
                   (d: string, index: number) => (
-                    <span className='block mt-3 text-xl lg:text-[20px] leading-7 font-light dark:text-white' key={index}>
+                    <span
+                      className='block mt-3 text-xl lg:text-[20px] leading-7 font-light dark:text-white'
+                      key={index}
+                    >
                       {d}
                     </span>
                   )
@@ -98,10 +104,19 @@ const FindPost = ({ id }: Props) => {
               </p>
             </div>
             <figure className='my-3 rounded-2xl relative overflow-hidden aspect-[160/200] w-full border border-textGray/50'>
-              <img
+              <Image
                 className='w-full h-full absolute inset-0 rounded-2xl object-cover object-center'
-                src={data?.findPost[0].image}
+                layout='responsive'
+                height={700}
+                width={400}
+                src={
+                  data
+                    ? data?.findPost[0].image
+                    : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
+                }
                 alt={data?.findPost[0].title}
+                placeholder='blur'
+                blurDataURL={createBlurDataUrl({ w: 400, h: 700 })}
               />
             </figure>
             <span className='dark:text-slate-400 text-slate-700 flex border-b pb-2 dark:border-slate-400/30 mb-2'>

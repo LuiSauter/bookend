@@ -11,6 +11,7 @@ import { FIND_USER } from 'src/users/graphql-queries'
 import { categorys } from 'src/assets/data/category'
 import { useTranslate } from 'src/hooks/useTranslate'
 import Textarea from './Textarea'
+import Image from 'next/image'
 
 interface Props {
   id?: string | string[] | undefined
@@ -239,7 +240,15 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
           />
         </label>
         {image !== '' && (
-          <img className='m-auto rounded-lg mt-2 w-1/2 shadow-lg' src={image} />
+          <div className='mx-auto rounded-xl w-2/3 aspect-video h-full relative'>
+            <Image
+              layout='responsive'
+              width={'100%'}
+              height={150}
+              className='m-auto aspect-video rounded-xl mt-2 w-full h-full shadow-lg object-cover'
+              src={image}
+            />
+          </div>
         )}
         <div className='w-full grid grid-cols-2 sm:grid-cols-3 justify-evenly gap-2'>
           {data?.findPost &&

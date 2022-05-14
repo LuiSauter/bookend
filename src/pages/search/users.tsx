@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from '@apollo/client'
 import Head from 'next/head'
 import React, { Fragment } from 'react'
@@ -20,7 +21,10 @@ const Users = () => {
         <title>Bookend | All users</title>
       </Head>
       <section>
-        <h2 className='text-2xl font-bold px-4 pt-4 sm:py-3 sm:px-0 xl:pl-4'>{translate.profile.users} · {data?.allUsers ? data?.allUsers.length : 'empty'}</h2>
+        <h2 className='text-2xl font-bold px-4 pt-4 sm:py-3 sm:px-0 xl:pl-4'>
+          {translate.profile.users} ·{' '}
+          {data?.allUsers ? data?.allUsers.length : 'empty'}
+        </h2>
         {loading ? (
           <LoadingIcon height='h-[80vh]' />
         ) : (

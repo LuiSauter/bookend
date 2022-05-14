@@ -7,7 +7,7 @@ import * as icons from 'src/assets/icons'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { useRouter } from 'next/router'
 
-const About: NextPage = () => {
+const About: NextPage = (): JSX.Element => {
   const translate = useTranslate()
   const router = useRouter()
 

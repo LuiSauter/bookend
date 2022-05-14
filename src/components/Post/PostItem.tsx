@@ -5,9 +5,10 @@ import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
 import { useLazyQuery } from '@apollo/client'
 import * as icons from 'src/assets/icons'
 import { useRouter } from 'next/router'
-import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import MultipleButtons from 'src/components/Button'
 import PostOptions from '../Modal/PostOptions'
+import Image from 'next/image'
+import { usePlaceholder } from 'src/hooks/usePlaceholder'
 
 type Props = Post
 
@@ -24,6 +25,7 @@ const PostItem = ({
   author,
 }: Props) => {
   const [showOptions, setShowOptions] = useState(false)
+  const createBlurDataUrl = usePlaceholder()
   const date = Number(createdAt)
   const dateLong = new Date(date)
   const { timeago } = useTimeAgo(date)
@@ -56,13 +58,17 @@ const PostItem = ({
         className='w-full flex flex-row px-4 dark:sm:bg-secondary hover:bg-slate-200 sm:bg-slate-200 sm:hover:bg-sky-200/70 dark:bg-primary dark:sm:hover:bg-secondaryLigth border border-textGray/10 cursor-pointer transition-colors sm:rounded-xl xl:px-6'
         onClick={() => router.push(`/books/${id}`)}
       >
-        <figure className='flex items-start my-4 flex-shrink-0 mr-3'>
-          <img
-            className='h-10 w-10 sm:w-12 sm:h-12 rounded-full'
+        <figure className='h-12 w-12 overflow-hidden rounded-full flex items-start my-4 flex-shrink-0 mr-3'>
+          <Image
+            className='rounded-full overflow-hidden'
+            height={'100%'}
+            width={'100%'}
+            placeholder='blur'
+            blurDataURL={createBlurDataUrl({ w: 48, h: 48 })}
             src={
-              findUser?.findUserById.me.photo
+              findUser?.findUserById
                 ? findUser?.findUserById.me.photo
-                : '/default-user.webp'
+                : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
             }
             onClick={(event) => {
               event.stopPropagation()
@@ -139,21 +145,20 @@ const PostItem = ({
               </p>
             )}
           </div>
-          {image ? (
-            <div className='w-full flex mt-4'>
-              <figure className='max-h-[440px] rounded-xl overflow-hidden relative border border-textGray/50'>
-                <img
-                  className='h-full w-full object-cover rounded-xl object-top'
-                  src={image}
-                  alt={title}
-                />
-              </figure>
-            </div>
-          ) : (
-            <div className='pt-4'>
-              <LoadingIcon />
-            </div>
-          )}
+          <div className='w-full flex mt-4'>
+            <figure className='max-h-[400px] w-full rounded-xl overflow-hidden relative border border-textGray/50'>
+              <Image
+                layout='responsive'
+                height={'100%'}
+                width={'100%'}
+                placeholder='blur'
+                blurDataURL={createBlurDataUrl({ w: 48, h: 48 })}
+                className='h-full w-full object-cover rounded-xl object-top'
+                src={image}
+                alt={title}
+              />
+            </figure>
+          </div>
           <div className='sm:w-[85%] my-2'>
             <MultipleButtons
               comments={comments?.length}
