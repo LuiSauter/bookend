@@ -9,6 +9,7 @@ import Document, {
 import { getApolloClient } from 'src/data/apollo'
 
 class MyDocument extends Document {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(props: any) {
     super(props)
     const { __NEXT_DATA__, apolloState } = props

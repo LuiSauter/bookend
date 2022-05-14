@@ -4,12 +4,11 @@ import { FIND_PROFILE, GET_DOMINANT_COLOR } from 'src/users/graphql-queries'
 import { useDominanColor } from 'src/hooks/useDominantColor'
 import { GraphqlApolloCLient } from 'src/data/ApolloClient'
 import MyProfile from 'src/components/Profile/MyProfile'
-import { useRouter } from 'next/router'
 import ClientOnly from 'src/components/ClientOnly'
 import MyPosts from 'src/components/Profile/MyPosts'
 
 interface Props {
-  user: any | null
+  user: { data: { findProfile: Profile } } | null
   dataColor?: string
   username: string
 }
@@ -20,7 +19,7 @@ interface StaticProps {
   }
 }
 
-const Profile = ({ user, dataColor, username }: Props) => {
+const Profile = ({ username, dataColor, user }: Props) => {
   const { dominantColor } = useDominanColor(dataColor)
 
   return (
@@ -61,10 +60,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: StaticProps) {
+  const { username } = params
   const client = GraphqlApolloCLient()
   const user = await client.query({
     query: FIND_PROFILE,
-    variables: { username: params.username },
+    variables: { username: username },
   })
   if (!user?.data.findProfile) {
     return {
@@ -79,7 +79,7 @@ export async function getStaticProps({ params }: StaticProps) {
     props: {
       user,
       dataColor: dataColor?.getColors,
-      username: params.username,
+      username: username,
     },
   }
 }
