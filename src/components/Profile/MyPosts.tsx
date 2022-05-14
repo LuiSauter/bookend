@@ -5,20 +5,18 @@ import useNearScreen from 'src/hooks/useNearScreen'
 import { ALL_POST_BY_USER, ALL_POST_BY_USER_COUNT, FINDONE_POST } from 'src/post/graphql-queries'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import PostItem from '../Post/PostItem'
-import { FIND_PROFILE } from 'src/users/graphql-queries'
 
 const INITIAL_PAGE = 6
 
 interface Props {
-  username: string | string[] | undefined;
+  user: Profile | null;
 }
-const MyPosts = ({ username }: Props) => {
+const MyPosts = ({ user = null }: Props) => {
   const [page, setPage] = useState(INITIAL_PAGE)
   const [loadingIcon, setLoadingIcon] = useState(true)
   const externalRef = useRef(null)
   const router = useRouter()
 
-  const [getUser, { data: userData }] = useLazyQuery(FIND_PROFILE)
   const [getAllPosts, { data: findAllPosts, loading: loadingByPost, refetch }] = useLazyQuery(ALL_POST_BY_USER)
   const [getPostsUserCount, { data: allPostUserCount, error: errorCount }] =
     useLazyQuery(ALL_POST_BY_USER_COUNT, { ssr: true })
@@ -36,23 +34,22 @@ const MyPosts = ({ username }: Props) => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (username) {
-        getUser({ variables: { username: username } })
+      if (user?.me.username) {
         getAllPosts({
           variables: {
             pageSize: INITIAL_PAGE,
             skipValue: 0,
-            username: username,
+            username: user.me.username,
           },
         })
         setPage(INITIAL_PAGE)
-        getPostsUserCount({ variables: { username: username } })
+        getPostsUserCount({ variables: { username: user?.me.username } })
       }
     }
     return () => {
       cleanup = false
     }
-  }, [username, setPage])
+  }, [user?.me.username, setPage])
 
   useEffect(() => {
     let cleanup = true
@@ -70,11 +67,11 @@ const MyPosts = ({ username }: Props) => {
       if (page >= allPostUserCount?.allPostUserCount) {
         setLoadingIcon(false)
       }
-      username &&
+      user?.me.username &&
         refetch({
           pageSize: page,
           skipValue: 0,
-          username: username,
+          username: user?.me.username,
         })
     }
 
@@ -86,13 +83,13 @@ const MyPosts = ({ username }: Props) => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      userData?.findProfile.verified === false &&
-        getLikedPost({ variables: { id: userData?.findProfile.liked } })
+      user?.verified === false &&
+        getLikedPost({ variables: { id: user.liked } })
     }
     return () => {
       cleanup = false
     }
-  }, [userData?.findProfile])
+  }, [user])
 
   if (findAllPosts?.allPostsByUsername === null || errorCount) {
     router.replace('/')
@@ -101,7 +98,7 @@ const MyPosts = ({ username }: Props) => {
   return (
     <>
       <section className='flex flex-col gap-4 w-full min-h-[30vh] mb-4 sm:mb-0 pt-4 sm:px-0 md:pr-4 xl:pl-4'>
-        {!userData?.findProfile.verified &&
+        {!user?.verified &&
           likedPosts?.findPost.map((post: Post) => (
             <PostItem
               key={post.id}
