@@ -21,7 +21,7 @@ const BtnFollow = ({ user }: Props) => {
   const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
 
   useEffect(() => {
-    const cleanup = true
+    let cleanup = true
     if (cleanup) {
       status === 'authenticated' &&
         getUserByEmail({
@@ -29,7 +29,7 @@ const BtnFollow = ({ user }: Props) => {
         })
     }
     return () => {
-      cleanup
+      cleanup = false
     }
   }, [status === 'authenticated'])
 

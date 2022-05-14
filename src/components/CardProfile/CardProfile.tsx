@@ -8,6 +8,8 @@ import { checkVeriFied } from 'src/assets/icons'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { useDominanColor } from 'src/hooks/useDominantColor'
+import CountFollows from '../CountFollows'
+import ClientOnly from '../ClientOnly'
 
 const CardProfile = () => {
   const { data: session, status } = useSession()
@@ -47,7 +49,7 @@ const CardProfile = () => {
     <Fragment>
       {status === 'authenticated' &&
         router.asPath !== `/${data?.findUser?.me.username}` && (
-        <article className='dark:bg-secondary bg-slate-200 border border-textGray/10 w-full rounded-xl flex flex-col shrink-0 mb-4 items-center justify-center relative'>
+        <article className='dark:bg-secondary bg-slate-200 border border-textGray/10 w-full rounded-xl flex flex-col shrink-0 mb-4 justify-center relative'>
           {loading ? (
             <div className='p-4 w-full h-full flex justify-center items-center'>
               <LoadingIcon />
@@ -57,13 +59,13 @@ const CardProfile = () => {
               <header className='m-0 w-full relative'>
                 <div
                   style={{
-                    // backgroundColor: dominantColor,
+                    backgroundColor: dominantColor,
                   }}
-                  className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-t-lg'
+                  className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-t-xl dark:opacity-100 opacity-50'
                 />
               </header>
               <img
-                className='w-20 rounded-full m-auto mt-8 relative ring-4 ring-secondary'
+                className='w-20 rounded-full m-auto mt-8 relative ring-4 ring-secondary/50'
                 src={data?.findUser?.me.photo || '/default-user.webp'}
                 alt={data?.findUser?.me.name || 'bookend'}
               />
@@ -86,29 +88,12 @@ const CardProfile = () => {
                   <p className='text-sm'>{data?.findUser?.description}</p>
                 </div>
               )}
-              <div className='flex flex-row w-full justify-center border-t border-b border-textGray/10 py-3'>
-                <Link href='#'>
-                  <a className='flex flex-col items-center justify-center w-full'>
-                    <span className='font-bold'>
-                      {data?.findUser?.following.length}
-                    </span>
-                    <span className='dark:text-slate-400 text-slate-700 text-sm'>
-                      {translate.profile.following}
-                    </span>
-                  </a>
-                </Link>
-                <span className='border-l border-textGray/10' />
-                <Link href='#'>
-                  <a className='flex flex-col items-center justify-center w-full'>
-                    <span className='font-bold'>
-                      {data?.findUser?.followers.length}
-                    </span>
-                    <span className='dark:text-slate-400 text-slate-700 text-sm'>
-                      {translate.profile.followers}
-                    </span>
-                  </a>
-                </Link>
-              </div>
+              <ClientOnly>
+                <CountFollows
+                  design='colunm'
+                  username={data?.findUser?.me.username}
+                />
+              </ClientOnly>
               <Link href={`/${data?.findUser?.me.username}`}>
                 <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-textGray/10 hover:bg-sky-200/70 w-full rounded-b-xl'>
                   {translate.profile.me}

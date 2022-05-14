@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import ClientOnly from 'src/components/ClientOnly'
 
-import { LoadingPage } from './LoadingPage'
 import { PhotoUser } from 'src/components/Nav/PhotoUser'
 import { NavBar } from 'src/components/Nav/NavBar'
 import CardProfile from 'src/components/CardProfile/CardProfile'
@@ -69,7 +68,7 @@ export const Layout = ({ children }: Props) => {
               </a>
             </Link>
             <ClientOnly>
-              <article className='flex relative w-full justify-center snap-none shrink-0 pt-4'>
+              <article className='flex relative w-full justify-center snap-end shrink-0 pt-4'>
                 <CardProfile />
               </article>
             </ClientOnly>
@@ -88,7 +87,7 @@ export const Layout = ({ children }: Props) => {
         >
           <NavBar />
           <div className='flex flex-col relative w-full'>
-            {children ? children : <LoadingPage />}
+            {children}
           </div>
         </main>
         <section
