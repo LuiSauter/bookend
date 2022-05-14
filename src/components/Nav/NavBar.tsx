@@ -10,6 +10,7 @@ import { useTranslate } from 'src/hooks/useTranslate'
 import { useSession } from 'next-auth/react'
 import { useLazyQuery } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
+import Image from 'next/image'
 
 export const NavBar = () => {
   const router = useRouter()
@@ -44,18 +45,17 @@ export const NavBar = () => {
         2xl:px-8'
       >
         <div className='flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min overflow-y-auto overflow-x-hidden'>
-          <div
-            className='flex w-full md:hidden sm:flex-shrink-0 items-center justify-center h-11 transition-colors sm:h-12
-              sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4
-              md:mt-0 md:h-12 md:w-12 md:hover:rounded-3xl dark:hover:bg-secondaryHover hover:bg-sky-200/70'
+          <figure
+            className='flex relative md:hidden sm:flex-shrink-0 items-center justify-center h-11 w-full transition-colors sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4 md:mt-0 md:h-12 md:w-12 md:hover:rounded-3xl dark:hover:bg-secondaryHover hover:bg-sky-200/70'
             onClick={handleToggleModal}
           >
-            <img
-              className='w-9 md:hidden'
+            <Image
+              layout='fill'
+              className='object-contain md:hidden scale-[.70] h-full md:translate-y-[2px]'
               src='/images/bookend-logo.png'
               alt='bookend logo'
             />
-          </div>
+          </figure>
           <button
             onClick={() => {
               router.push('/')

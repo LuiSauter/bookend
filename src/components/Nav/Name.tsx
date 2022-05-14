@@ -1,6 +1,8 @@
+import React, { useEffect } from 'react'
+import Image from 'next/image'
 import { useLazyQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
-import React, { useEffect } from 'react'
+
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useProfileId } from 'src/hooks/useProfileId'
 import { FIND_USER } from 'src/users/graphql-queries'
@@ -42,7 +44,9 @@ const Name = () => {
   if (status === 'unauthenticated' && !session) {
     return (
       <figure className='overflow-hidden sm:h-auto md:w-full md:h-8 md:flex flex-shrink-0 md:items-center hover:opacity-80'>
-        <img
+        <Image
+          width={32}
+          height={32}
           className='w-8 h-8 rounded-full md:w-7 md:h-7'
           src='/default-user.webp'
           alt='bookend free books'
@@ -60,7 +64,9 @@ const Name = () => {
   ) : (
     <>
       <figure className='overflow-hidden sm:h-auto md:w-full md:h-8 md:flex flex-shrink-0 md:items-center hover:opacity-80'>
-        <img
+        <Image
+          width={32}
+          height={32}
           className='w-8 h-8 rounded-full md:w-7 md:h-7'
           src={data?.findUser?.me.photo || '/default-user.webp'}
           alt={data?.findUser?.me.name}
@@ -68,7 +74,9 @@ const Name = () => {
         <span className='ml-2 text-sm whitespace-nowrap w-full dark:text-textWhite hidden md:flex items-center'>
           {data?.findUser?.me.name}
           {data?.findUser?.verified && (
-            <span title='Verified account' className='scale-90'>{icons.checkVeriFied}</span>
+            <span title='Verified account' className='scale-90'>
+              {icons.checkVeriFied}
+            </span>
           )}
           {icons.chevronDown}
         </span>

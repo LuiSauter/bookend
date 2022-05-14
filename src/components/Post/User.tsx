@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import * as icons from 'src/assets/icons'
 import BtnFollow from '../Button/BtnFollow'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 interface Props {
   findUser: Profile
@@ -22,11 +23,12 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
             event.stopPropagation()
             router.push(`/${findUser?.me.username}`)
           }}
-          className='cursor-pointer w-10 h-10 rounded-full overflow-hidden mr-4'
+          className='cursor-pointer w-12 h-12 rounded-full relative overflow-hidden mr-4'
         >
-          <img
+          <Image
+            layout='fill'
             className='w-full h-full rounded-full'
-            src={findUser?.me.photo || '/default-user.webp'}
+            src={findUser?.me.photo || 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'}
             alt={findUser?.me.name}
           />
         </figure>
@@ -34,9 +36,13 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
           <a className='flex flex-col relative'>
             <p className='flex flex-row items-center text-lg whitespace-nowrap inset-0'>
               {findUser?.me.name}
-              {findUser?.me.verified && <span title='Verified account'>{icons.checkVeriFied}</span>}
+              {findUser?.me.verified && (
+                <span title='Verified account'>{icons.checkVeriFied}</span>
+              )}
             </p>
-            <span translate='no' className='dark:text-slate-400 text-slate-700'>@{findUser?.me.username}</span>
+            <span translate='no' className='dark:text-slate-400 text-slate-700'>
+              @{findUser?.me.username}
+            </span>
           </a>
         </Link>
       </div>

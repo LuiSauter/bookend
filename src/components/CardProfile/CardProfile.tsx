@@ -1,18 +1,22 @@
 import React, { Fragment, useEffect } from 'react'
 import Link from 'next/link'
-import { useLazyQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
-import { FIND_USER, GET_DOMINANT_COLOR } from 'src/users/graphql-queries'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import { useLazyQuery } from '@apollo/client'
+
+import { FIND_USER, GET_DOMINANT_COLOR } from 'src/users/graphql-queries'
 import { checkVeriFied } from 'src/assets/icons'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { useDominanColor } from 'src/hooks/useDominantColor'
 import CountFollows from '../CountFollows'
 import ClientOnly from '../ClientOnly'
+import { usePlaceholder } from 'src/hooks/usePlaceholder'
 
 const CardProfile = () => {
   const { data: session, status } = useSession()
+  const createBlurDataUrl = usePlaceholder()
   const router = useRouter()
   const translate = useTranslate()
   const [getUser, { data, loading }] = useLazyQuery(FIND_USER, { ssr: true })
@@ -49,7 +53,7 @@ const CardProfile = () => {
     <Fragment>
       {status === 'authenticated' &&
         router.asPath !== `/${data?.findUser?.me.username}` && (
-        <article className='dark:bg-secondary bg-slate-200 border border-textGray/10 w-full rounded-xl flex flex-col shrink-0 mb-4 justify-center relative'>
+        <article className='dark:bg-secondary bg-slate-200 border border-textGray/10 w-full rounded-xl flex flex-col  mb-4 justify-center relative'>
           {loading ? (
             <div className='p-4 w-full h-full flex justify-center items-center'>
               <LoadingIcon />
@@ -64,11 +68,18 @@ const CardProfile = () => {
                   className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-t-xl dark:opacity-100 opacity-50'
                 />
               </header>
-              <img
-                className='w-20 rounded-full m-auto mt-8 relative ring-4 ring-secondary/50'
-                src={data?.findUser?.me.photo || '/default-user.webp'}
-                alt={data?.findUser?.me.name || 'bookend'}
-              />
+              <div className='relative mt-10 ring-4 ring-secondary/50 rounded-full mx-auto'>
+                <Image
+                  width={80}
+                  height={80}
+                  priority={true}
+                  className='rounded-full mx-auto relative'
+                  src={data?.findUser?.me.photo || '/default-user.webp'}
+                  alt={data?.findUser?.me.name || 'bookend'}
+                  placeholder='blur'
+                  blurDataURL={createBlurDataUrl({ w: 80, h: 80 })}
+                />
+              </div>
               {loading ? (
                 <LoadingIcon />
               ) : (

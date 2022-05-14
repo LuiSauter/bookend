@@ -1,11 +1,12 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react'
-import * as icons from 'src/assets/icons'
+import { NextPage } from 'next'
+import Head from 'next/head'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
+import * as icons from 'src/assets/icons'
 import { languageStorage, themeStorage } from 'src/config/constants'
 import { useTranslate } from 'src/hooks/useTranslate'
-import Head from 'next/head'
 import ClientOnly from 'src/components/ClientOnly'
-import { NextPage } from 'next'
 
 const setDark = () => {
   window.localStorage.setItem(themeStorage, 'dark')
@@ -111,44 +112,56 @@ const Display: NextPage = (): JSX.Element => {
       </article>
       <article className='flex flex-col px-4 mt-4'>
         <h2 className='font-medium text-xl'>{translate.display.h2}</h2>
-        <div className='flex flex-row gap-4 justify-center'>
-          <label className='flex flex-col justify-center items-center cursor-pointer select-none'>
-            <span className='flex flex-row text-lg font-semibold'>
-              Español
-              <img
-                src='https://flagicons.lipis.dev/flags/4x3/es.svg'
-                width='20'
-                alt='en'
-                className='ml-2'
+        <ClientOnly>
+          <div className='flex flex-row gap-4 justify-center'>
+            <label
+              className={`${
+                languages === 'es' ? 'border-b-4 border-red-700' : ''
+              } flex flex-col justify-center items-center cursor-pointer select-none`}
+            >
+              <span className='flex flex-row text-lg font-semibold'>
+                Español
+                <Image
+                  src='https://flagicons.lipis.dev/flags/4x3/es.svg'
+                  width={20}
+                  height={20}
+                  alt='en'
+                  className='ml-2'
+                />
+              </span>
+              <input
+                type='radio'
+                name='es'
+                className='hidden'
+                checked={languages === 'es'}
+                onChange={onChangeInput}
               />
-            </span>
-            <input
-              type='radio'
-              name='es'
-              className='hidden'
-              checked={languages === 'es'}
-              onChange={onChangeInput}
-            />
-          </label>
-          <label className='flex flex-col justify-center items-center cursor-pointer select-none'>
-            <span className='flex flex-row text-lg font-semibold'>
-              English
-              <img
-                src='https://flagicons.lipis.dev/flags/4x3/us.svg'
-                width='20'
-                alt='en'
-                className='ml-2'
+            </label>
+            <label
+              className={`${
+                languages === 'en' ? 'border-b-4 border-blue-800' : ''
+              } flex flex-col justify-center items-center cursor-pointer select-none`}
+            >
+              <span className='flex flex-row text-lg font-semibold'>
+                English
+                <Image
+                  src='https://flagicons.lipis.dev/flags/4x3/us.svg'
+                  width={20}
+                  height={20}
+                  alt='en'
+                  className='ml-2'
+                />
+              </span>
+              <input
+                type='radio'
+                name='en'
+                className='hidden'
+                checked={languages === 'en'}
+                onChange={onChangeInput}
               />
-            </span>
-            <input
-              type='radio'
-              name='en'
-              className='hidden'
-              checked={languages === 'en'}
-              onChange={onChangeInput}
-            />
-          </label>
-        </div>
+            </label>
+          </div>
+        </ClientOnly>
       </article>
     </section>
   )

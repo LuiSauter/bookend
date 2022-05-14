@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Fragment, useEffect } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useSession } from 'next-auth/react'

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from '@apollo/client'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -75,13 +76,14 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
         className='flex flex-col gap-4 w-full h-full sm:w-11/12 m-auto p-4 pt-2'
       >
         <div className='flex items-center justify-center m-auto w-full'>
-          <figure className='m-0 rounded-full overflow-hidden h-full mr-5'>
-            <img
-              className='w-32 m-auto rounded-full'
+          <figure className='w-32 h-32 relative m-0 rounded-full overflow-hidden mr-5'>
+            <Image
+              layout='fill'
+              className='m-auto rounded-full'
               src={
                 session?.user?.image
                   ? session?.user?.image
-                  : '/default-user.webp'
+                  : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
               }
               alt={profileData?.me.name || 'bookend'}
             />
