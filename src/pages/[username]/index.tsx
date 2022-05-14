@@ -60,8 +60,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: StaticProps) {
-  const { username } = params
   const client = GraphqlApolloCLient()
+  const { username } = params
   const user = await client.query({
     query: FIND_PROFILE,
     variables: { username: username },

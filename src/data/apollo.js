@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 
-const isServer = typeof window === 'undefined'
+const isServer = typeof document === 'undefined'
 const windowApolloState = !isServer && window.__NEXT_DATA__.apolloState
 
 let CLIENT
