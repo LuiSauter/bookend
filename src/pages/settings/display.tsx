@@ -1,10 +1,11 @@
 import React, { ChangeEventHandler, useEffect, useState } from 'react'
-import { NextPage } from 'next'
 import * as icons from 'src/assets/icons'
 import { useRouter } from 'next/router'
 import { languageStorage, themeStorage } from 'src/config/constants'
 import { useTranslate } from 'src/hooks/useTranslate'
 import Head from 'next/head'
+import ClientOnly from 'src/components/ClientOnly'
+import { NextPage } from 'next'
 
 const setDark = () => {
   window.localStorage.setItem(themeStorage, 'dark')
@@ -19,7 +20,7 @@ const setLight = () => {
 const currentLanguageStorage =
   typeof window !== 'undefined' && window.localStorage.getItem(languageStorage)
 
-const Display: NextPage = () => {
+const Display: NextPage = (): JSX.Element => {
   const router = useRouter()
   const currentStorage =
     typeof window !== 'undefined' && window.localStorage.getItem(themeStorage)
@@ -52,7 +53,7 @@ const Display: NextPage = () => {
   }
 
   const onChangeInput: ChangeEventHandler<HTMLInputElement> = (e) => {
-    typeof window !== 'undefined' &&
+    typeof document !== 'undefined' &&
       window.localStorage.setItem(languageStorage, e.target.name)
     setLanguages(e.target.name)
     router.reload()
@@ -95,13 +96,15 @@ const Display: NextPage = () => {
               className='hidden'
               defaultChecked={currentStorage === 'dark'}
             />
-            <div
-              className={`bg-slate-400 absolute cursor-pointer inset-0 transition-[0.2s] before:bg-white before:bottom-[4px] before:content-[""] before:h-[18px] before:left-[4px] before:absolute before:transition-[0.4s] before:w-[18px] ${
-                checked
-                  ? 'before:translate-x-[26px] bg-sky-500'
-                  : 'bg-slate-400'
-              } rounded-[34px] before:rounded-full`}
-            ></div>
+            <ClientOnly>
+              <div
+                className={`bg-slate-400 absolute cursor-pointer inset-0 transition-[0.2s] before:bg-white before:bottom-[4px] before:h-[18px] before:left-[4px] before:absolute before:transition-[0.4s] before:w-[18px] ${
+                  checked
+                    ? 'before:translate-x-[26px] bg-sky-500'
+                    : 'bg-slate-400'
+                } rounded-[34px] before:rounded-full`}
+              />
+            </ClientOnly>
           </label>
           <span className='text-2xl'>🌒</span>
         </div>
@@ -109,7 +112,7 @@ const Display: NextPage = () => {
       <article className='flex flex-col px-4 mt-4'>
         <h2 className='font-medium text-xl'>{translate.display.h2}</h2>
         <div className='flex flex-row gap-4 justify-center'>
-          <label className='flex flex-col justify-center items-center cursor-pointer'>
+          <label className='flex flex-col justify-center items-center cursor-pointer select-none'>
             <span className='flex flex-row text-lg font-semibold'>
               Español
               <img
@@ -119,12 +122,6 @@ const Display: NextPage = () => {
                 className='ml-2'
               />
             </span>
-            <span
-              className={`${
-                languages === 'es' &&
-                'bg-gradient-to-r from-red-600 via-amber-400 to-red-600'
-              } h-2 rounded-t-xl w-full mt-2`}
-            />
             <input
               type='radio'
               name='es'
@@ -133,7 +130,7 @@ const Display: NextPage = () => {
               onChange={onChangeInput}
             />
           </label>
-          <label className='flex flex-col justify-center items-center cursor-pointer'>
+          <label className='flex flex-col justify-center items-center cursor-pointer select-none'>
             <span className='flex flex-row text-lg font-semibold'>
               English
               <img
@@ -143,12 +140,6 @@ const Display: NextPage = () => {
                 className='ml-2'
               />
             </span>
-            <span
-              className={`${
-                languages === 'en' &&
-                'bg-gradient-to-r from-blue-500 via-white to-red-600'
-              } h-2 rounded-t-xl w-full mt-2`}
-            />
             <input
               type='radio'
               name='en'
