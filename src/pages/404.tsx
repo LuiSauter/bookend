@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { GraphqlApolloCLient } from 'src/data/ApolloClient'
 import { ALL_USERS } from 'src/users/graphql-queries'
-import { UserContext } from 'src/context/User/UserContext'
 import { IUser } from 'src/interfaces/Users'
+import { useStaticUsers } from 'src/hooks/useStaticUsers'
 
 type Props = {
   users: { allUsers: IUser[] }
 }
 
 const Notfound = ({ users }: Props) => {
-  const { addUsers, userState } = useContext(UserContext)
+  const { addUsers, userState } = useStaticUsers()
   useEffect(() => {
     let cleanup = true
     if (cleanup && userState.users.length === 0) {

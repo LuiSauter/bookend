@@ -1,40 +1,24 @@
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import React from 'react'
 import { useTranslate } from 'src/hooks/useTranslate'
-import { ALL_USERS } from 'src/users/graphql-queries'
 import FollowItem from './FollowItem'
 import PulseUsers from 'src/assets/icons/esqueleton/PulseUsers'
 import { IUser } from 'src/interfaces/Users'
+import { useStaticUsers } from 'src/hooks/useStaticUsers'
 
 const WhoToFollow = () => {
   const router = useRouter()
-  const { data, loading } = useQuery(ALL_USERS, {
-    ssr: true,
-  })
-  const [allUser, setAllUsers] = useState<IUser[]>([] as IUser[])
+  const { userState } = useStaticUsers()
   const translate = useTranslate()
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (data?.allUsers) {
-        setAllUsers(data?.allUsers)
-      }
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [data?.allUsers])
 
   return (
     <>
-      {loading ? (
+      {userState.users.length === 0 ? (
         <PulseUsers size='h-11 w-11' n={5} font='h-2' paddingY='py-2' />
       ) : (
         <ul className='flex w-full flex-col overflow-x-auto relative overflow-hidden'>
-          {allUser.length !== 0 &&
-            allUser.map(
+          {userState.users.length !== 0 &&
+            userState.users.map(
               (user: IUser) =>
                 user.verified && (
                   <FollowItem

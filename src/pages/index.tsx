@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 
 import Footer from 'src/components/Footer'
@@ -9,13 +9,13 @@ import { useTranslate } from 'src/hooks/useTranslate'
 import { GraphqlApolloCLient } from 'src/data/ApolloClient'
 import { ALL_USERS } from 'src/users/graphql-queries'
 import { IUser } from 'src/interfaces/Users'
-import { UserContext } from 'src/context/User/UserContext'
+import { useStaticUsers } from 'src/hooks/useStaticUsers'
 type Props = {
   users: { allUsers: IUser[] }
 }
 
 const Home = ({ users }: Props): JSX.Element => {
-  const { addUsers } = useContext(UserContext)
+  const { addUsers } = useStaticUsers()
   useEffect(() => {
     let cleanup = true
     if (cleanup) {

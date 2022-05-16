@@ -1,11 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import { useLazyQuery } from '@apollo/client'
-import { FIND_USER_BY_USER } from 'src/users/graphql-queries'
-import { FINDONE_POST } from 'src/post/graphql-queries'
 import * as icons from 'src/assets/icons'
 import User from './User'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
@@ -13,41 +10,19 @@ import MultipleButtons from 'src/components/Button'
 import PostOptions from '../Modal/PostOptions'
 import useTimeAgo from 'src/hooks/useTimeAgo'
 import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import { IUser } from 'src/interfaces/Users'
 
 interface Props {
-  id: string | string[];
+  post: Post
+  user: IUser | undefined | null
 }
 
-const FindPost = ({ id }: Props) => {
+const FindPost = ({ post, user = null }: Props) => {
   const [showOptions, setShowOptions] = useState(false)
   const createBlurDataUrl = usePlaceholder()
-  const [getPostById, { data, loading }] = useLazyQuery(FINDONE_POST)
-  const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
-
-  const date = Number(data?.findPost ? data?.findPost[0].createdAt : 0)
+  const date = Number(post ? post.createdAt : 0)
   const { hourAndMinute } = useTimeAgo(date)
   const router = useRouter()
-
-  useEffect(() => {
-    const cleanup = true
-    if (cleanup) {
-      id && getPostById({ variables: { id: [id] } })
-    }
-    return () => {
-      cleanup
-    }
-  }, [id])
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (data?.findPost[0].user)
-        getUserById({ variables: { user: data?.findPost[0].user } })
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [data?.findPost])
 
   const toggleOptions = () => setShowOptions(false)
   const toggleOptionsOn = () => setShowOptions(true)
@@ -59,12 +34,12 @@ const FindPost = ({ id }: Props) => {
   return (
     <Fragment>
       <Head>
-        <title>Bookend | {loading ? 'Loading' : data?.findPost[0].title}</title>
+        <title>Bookend | {post ? post.title : 'loading'}</title>
       </Head>
       {showOptions && (
-        <PostOptions id={data?.findPost[0].id} toggleOptions={toggleOptions} />
+        <PostOptions id={post.id} toggleOptions={toggleOptions} />
       )}
-      {loading ? (
+      {!post ? (
         <div className='flex justify-center items-center h-[90vh]'>
           <LoadingIcon />
         </div>
@@ -77,30 +52,23 @@ const FindPost = ({ id }: Props) => {
             >
               {icons.arrowLeft}
             </button>
-            {findUser?.findUserById && (
-              <User
-                findUser={findUser?.findUserById}
-                toggleOptionsOn={toggleOptionsOn}
-              />
-            )}
+            {user && <User user={user} toggleOptionsOn={toggleOptionsOn} />}
           </div>
           <div className='px-4'>
             <h1 className='text-xl font-semibold text-thirdBlue'>
-              {data?.findPost[0].title}
-              <span> | {data?.findPost[0].author}</span>
+              {post.title}
+              <span> | {post.author}</span>
             </h1>
             <div className='w-full flex flex-col gap-4 justify-center'>
               <p>
-                {data?.findPost[0].description?.map(
-                  (d: string, index: number) => (
-                    <span
-                      className='block mt-3 text-xl lg:text-[20px] leading-7 font-light dark:text-white'
-                      key={index}
-                    >
-                      {d}
-                    </span>
-                  )
-                )}
+                {post.description?.map((d: string, index: number) => (
+                  <span
+                    className='block mt-3 text-xl lg:text-[20px] leading-7 font-light dark:text-white'
+                    key={index}
+                  >
+                    {d}
+                  </span>
+                ))}
               </p>
             </div>
             <figure className='my-3 rounded-2xl relative overflow-hidden aspect-[160/200] w-full border border-textGray/50'>
@@ -110,11 +78,11 @@ const FindPost = ({ id }: Props) => {
                 height={700}
                 width={400}
                 src={
-                  data
-                    ? data?.findPost[0].image
+                  post
+                    ? post.image
                     : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
                 }
-                alt={data?.findPost[0].title}
+                alt={post.title}
                 placeholder='blur'
                 blurDataURL={createBlurDataUrl({ w: 400, h: 700 })}
               />
@@ -123,13 +91,13 @@ const FindPost = ({ id }: Props) => {
               {hourAndMinute}
             </span>
             <MultipleButtons
-              comments={data?.findPost[0]?.comments.length}
-              id={data?.findPost[0].id}
-              likes={data?.findPost[0].likes.length}
-              bookDownload={data?.findPost[0].bookUrl}
+              comments={post.comments?.length}
+              id={post.id}
+              likes={post.likes?.length}
+              bookDownload={post.bookUrl}
             />
             <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-2'>
-              {data?.findPost[0].tags.map((tag: string, index: number) => (
+              {post.tags?.map((tag: string, index: number) => (
                 <li
                   className='dark:bg-secondary rounded-md px-3 dark:hover:bg-slate-700 hover:bg-sky-200/70 dark:text-slate-400 text-slate-700'
                   key={index}

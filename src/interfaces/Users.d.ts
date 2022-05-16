@@ -5,6 +5,9 @@ export interface IUser {
   username: string
   user: string
   verified: boolean
+  email?: string
+  description?: string
+  __typename?: string
 }
 
 export interface UserState {

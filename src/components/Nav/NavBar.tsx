@@ -30,7 +30,6 @@ export const NavBar = () => {
     let cleanup = true
     if (cleanup) {
       if (status === 'authenticated' && session?.user) {
-        console.log(session?.user)
         getLogin({
           variables: {
             name: session?.user.name,
