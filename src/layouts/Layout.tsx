@@ -12,6 +12,7 @@ import Footer from 'src/components/Footer'
 import SearchUser from 'src/components/SearchUser'
 import * as icons from 'src/assets/icons'
 import { useTranslate } from 'src/hooks/useTranslate'
+import Image from 'next/image'
 
 interface Props {
   children: JSX.Element | JSX.Element[]
@@ -46,11 +47,14 @@ export const Layout = ({ children }: Props) => {
           >
             <Link href='/'>
               <a className='hidden snap-start shrink-0 w-full md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 pt-0'>
-                <img
-                  className='w-8 h-auto'
-                  src='/images/bookend-logo.png'
-                  alt='bookend'
-                />
+                <figure className='w-10 h-8 flex flex-shrink-0 relative'>
+                  <Image
+                    layout='fill'
+                    className='h-auto'
+                    src='/images/bookend-logo.png'
+                    alt='bookend'
+                  />
+                </figure>
                 <h1
                   translate='no'
                   className='text-2xl font-medium font-mono hidden lg:block'
@@ -86,9 +90,7 @@ export const Layout = ({ children }: Props) => {
           sm:pr-4 md:pr-0 2xl:m-0 relative md:min-w-[430px] max-w-[620px] sm:flex md:flex-col'
         >
           <NavBar />
-          <div className='flex flex-col relative w-full'>
-            {children}
-          </div>
+          <div className='flex flex-col relative w-full'>{children}</div>
         </main>
         <section
           className='xl:flex snap-proximity snap-y overflow-y-auto overflow-x-hidden
