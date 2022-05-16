@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Head from 'next/head'
 
 import Footer from 'src/components/Footer'
@@ -6,8 +6,26 @@ import Posts from 'src/components/Post'
 import ClientOnly from 'src/components/ClientOnly'
 import SearchBook from 'src/components/SearchBook'
 import { useTranslate } from 'src/hooks/useTranslate'
+import { GraphqlApolloCLient } from 'src/data/ApolloClient'
+import { ALL_USERS } from 'src/users/graphql-queries'
+import { IUser } from 'src/interfaces/Users'
+import { UserContext } from 'src/context/User/UserContext'
+type Props = {
+  users: { allUsers: IUser[] }
+}
 
-const Home = (): JSX.Element => {
+const Home = ({ users }: Props): JSX.Element => {
+  const { addUsers } = useContext(UserContext)
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      users && addUsers(users?.allUsers)
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [users])
+
   const translate = useTranslate()
   return (
     <>
@@ -29,12 +47,14 @@ const Home = (): JSX.Element => {
   )
 }
 
-// export async function getStaticProps() {
-//   return {
-//     props: {
-//       users: []
-//     }
-//   }
-// }
+export async function getStaticProps() {
+  const client = GraphqlApolloCLient()
+  const { data } = await client.query({ query: ALL_USERS })
+  return {
+    props: {
+      users: data,
+    },
+  }
+}
 
 export default Home

@@ -1,5 +1,4 @@
 import { useLazyQuery } from '@apollo/client'
-import { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
@@ -8,11 +7,16 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import BooksItem from 'src/components/SearchResults/BooksItem'
 import UsersItem from 'src/components/SearchResults/UsersItem'
 import { IUser } from 'src/components/SearchUser'
+import { GraphqlApolloCLient } from 'src/data/ApolloClient'
+import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
-import { SEARCH_USERS } from 'src/users/graphql-queries'
+import { ALL_USERS, SEARCH_USERS } from 'src/users/graphql-queries'
 
-const SearchWord: NextPage = (): JSX.Element => {
+type Props = {
+  users: { allUsers: IUser[] }
+}
+const SearchWord = ({ users }: Props): JSX.Element => {
   const router = useRouter()
   const [showResults, setShowResults] = useState({ books: true, users: false })
   const [words, setWords] = useState<string>('')
@@ -21,8 +25,19 @@ const SearchWord: NextPage = (): JSX.Element => {
   const [getSearchBooks, { data, loading }] = useLazyQuery(SEARCH_POSTS)
   const [getSearchUser, { data: searchUser, loading: userLoading }] =
     useLazyQuery(SEARCH_USERS)
-  const [getSearchBooksByAuthor, { data: dataBooksAuthor }] = useLazyQuery(SEARCH_POSTS_AUTHOR)
+  const [getSearchBooksByAuthor, { data: dataBooksAuthor }] =
+    useLazyQuery(SEARCH_POSTS_AUTHOR)
+  const { addUsers, userState } = useStaticUsers()
 
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup && userState.users.length === 0) {
+      users && addUsers(users?.allUsers)
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [users])
 
   useEffect(() => {
     let cleanup = true
@@ -70,7 +85,6 @@ const SearchWord: NextPage = (): JSX.Element => {
     }
   }, [words.length === 0])
 
-
   const handleChangeWords = (e: ChangeEvent<HTMLInputElement>) => {
     setWords(e.target.value)
   }
@@ -78,7 +92,8 @@ const SearchWord: NextPage = (): JSX.Element => {
   const handleSubmitSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (words.length !== 0) {
-      typeof window !== 'undefined' && window.localStorage.setItem('lastSearch', words)
+      typeof window !== 'undefined' &&
+        window.localStorage.setItem('lastSearch', words)
       router.push(`/search/${words}/${router.query.tag}`)
     }
   }
@@ -224,6 +239,16 @@ const SearchWord: NextPage = (): JSX.Element => {
       </section>
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const client = GraphqlApolloCLient()
+  const { data } = await client.query({ query: ALL_USERS })
+  return {
+    props: {
+      users: data,
+    },
+  }
 }
 
 export default SearchWord

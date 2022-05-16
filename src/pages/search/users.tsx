@@ -1,19 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Head from 'next/head'
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import UsersItem from 'src/components/SearchResults/UsersItem'
 import { GraphqlApolloCLient } from 'src/data/ApolloClient'
+import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { IUser } from 'src/interfaces/Users'
 import { ALL_USERS } from 'src/users/graphql-queries'
 
 interface Props {
-  users: { allUsers: IUser[]}
+  users: { allUsers: IUser[] }
 }
 
 const Users = ({ users }:Props) => {
-  console.log(users)
+  const { addUsers, userState } = useStaticUsers()
   const translate = useTranslate()
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup && userState.users.length === 0) {
+      users && addUsers(users?.allUsers)
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [users])
 
   const sortFunction = (a: IUser | any, b: IUser | any): number =>
     a.verified === b.verified ? 0 : a.verified ? -1 : 1

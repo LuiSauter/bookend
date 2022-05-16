@@ -13,11 +13,7 @@ interface Props {
   username: string
 }
 
-interface StaticProps {
-  params: {
-    username: string
-  }
-}
+interface StaticProps {params: { username: string }}
 
 const Profile = ({ username, dataColor, user }: Props) => {
   const { dominantColor } = useDominanColor(dataColor)
