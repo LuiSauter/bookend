@@ -119,11 +119,9 @@ export const newBookCurrent = (
 export const allUsers = (
   <svg
     stroke='currentColor'
-    fill='none'
+    fill='transparent'
     strokeWidth={2}
     viewBox='0 0 24 24'
-    strokeLinecap='round'
-    strokeLinejoin='round'
     className='h-6 w-6 md:mx-2'
     xmlns='http://www.w3.org/2000/svg'
   >
@@ -136,12 +134,10 @@ export const allUsers = (
 export const allUsersCurrent = (
   <svg
     stroke='currentColor'
-    fill='white'
+    fill='#0099ff'
     className='h-6 w-6 md:h-5 md:w-5 md:mx-2'
     strokeWidth={2}
     viewBox='0 0 24 24'
-    strokeLinecap='round'
-    strokeLinejoin='round'
     xmlns='http://www.w3.org/2000/svg'
   >
     <path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2' />

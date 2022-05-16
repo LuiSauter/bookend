@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useQuery } from '@apollo/client'
 import Head from 'next/head'
 import React, { Fragment } from 'react'
-import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import UsersItem from 'src/components/SearchResults/UsersItem'
-import { IUser } from 'src/components/SearchUser'
+import { GraphqlApolloCLient } from 'src/data/ApolloClient'
 import { useTranslate } from 'src/hooks/useTranslate'
+import { IUser } from 'src/interfaces/Users'
 import { ALL_USERS } from 'src/users/graphql-queries'
 
-const Users = () => {
+interface Props {
+  users: { allUsers: IUser[]}
+}
+
+const Users = ({ users }:Props) => {
+  console.log(users)
   const translate = useTranslate()
-  const { data, loading } = useQuery(ALL_USERS)
 
   const sortFunction = (a: IUser | any, b: IUser | any): number =>
     a.verified === b.verified ? 0 : a.verified ? -1 : 1
@@ -18,18 +21,15 @@ const Users = () => {
   return (
     <Fragment>
       <Head>
-        <title>Bookend | All users</title>
+        <title>Bookend | Best users</title>
       </Head>
       <section>
         <h2 className='text-2xl font-bold px-4 pt-4 sm:py-3 sm:px-0 xl:pl-4'>
           {translate.profile.users} ·{' '}
-          {data?.allUsers ? data?.allUsers.length : 'empty'}
+          {users?.allUsers ? users?.allUsers.length : 'empty'}
         </h2>
-        {loading ? (
-          <LoadingIcon height='h-[80vh]' />
-        ) : (
-          data?.allUsers &&
-          Object.values(data?.allUsers)
+        {users?.allUsers &&
+          Object.values(users?.allUsers)
             .sort(sortFunction)
             .map((user: IUser | any, index: number) => (
               <UsersItem
@@ -42,11 +42,24 @@ const Users = () => {
                 user={user.user}
                 description={user.description}
               />
-            ))
-        )}
+            ))}
       </section>
     </Fragment>
   )
+}
+
+export async function getStaticProps() {
+  try {
+    const client = GraphqlApolloCLient()
+    const { data } = await client.query({ query: ALL_USERS })
+    return {
+      props: { users: data },
+    }
+  } catch (error) {
+    return {
+      props: { users: null },
+    }
+  }
 }
 
 export default Users
