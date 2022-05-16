@@ -27,7 +27,6 @@ const profileSchema = new Schema<IProfile>(
     username: {
       type: String,
       unique: true,
-      minlength: [3, 'username cannot be greater than 5 characters'],
       required: [true, 'username is required'],
     },
     photo: {
@@ -35,14 +34,11 @@ const profileSchema = new Schema<IProfile>(
     },
     name: {
       type: String,
-      maxlength: [30, 'name cannot be grater than 30 characters'],
-      minlength: [5, 'name cannot be greater than 5 characters'],
       required: [true, 'name is required'],
     },
     description: {
       type: String,
       trim: true,
-      maxlength: [200, 'description cannot be grater than 200 characters'],
     },
     gender: {
       type: String,

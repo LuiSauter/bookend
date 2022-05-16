@@ -73,7 +73,7 @@ const typeDefinitions = gql`
   }
 
   type Mutation {
-    signin(email: String!, name: String!, image: String!): Signin
+    signin(email: String!, name: String!, image: String!): String
     updateProfile(
       name: String!
       username: String!

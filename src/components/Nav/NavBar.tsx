@@ -8,28 +8,62 @@ import ClientOnly from '../ClientOnly'
 import LoginModal from '../LoginModal'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { useSession } from 'next-auth/react'
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
 import Image from 'next/image'
+import { LOGINQL } from 'src/login/graphql-mutations'
 
 export const NavBar = () => {
   const router = useRouter()
-  const { handleToggleModal } = useToggleUser()
+  const { handleToggleModal, handleEditProfile } = useToggleUser()
   const { loginOpen } = useToggleUser()
   const translate = useTranslate()
   const { status, data: session } = useSession()
-  const [getUser, {data}] = useLazyQuery(FIND_USER)
+  const [getUser, { data }] = useLazyQuery(FIND_USER)
+  const [getLogin, { data: login }] = useMutation(LOGINQL, {
+    refetchQueries: [
+      { query: FIND_USER, variables: { email: session?.user?.email } },
+    ],
+  })
 
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      session?.user?.email &&
-        getUser({ variables: { email: session?.user?.email } })
+      if (status === 'authenticated' && session?.user) {
+        console.log(session?.user)
+        getLogin({
+          variables: {
+            name: session?.user.name,
+            email: session?.user.email,
+            image: session?.user.image,
+          },
+        })
+      }
     }
     return () => {
       cleanup = false
     }
-  }, [session?.user])
+  }, [status === 'authenticated'])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup && session?.user?.email && session?.user?.name) {
+      getUser({ variables: { email: session?.user?.email } })
+      if (login?.signin === 'signup') {
+        session?.user &&
+        router.push(
+          `/${
+            session?.user?.email.split('@')[0] + session?.user?.name.length
+          }`
+        )
+        handleEditProfile()
+      }
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [session?.user, login?.signin])
+
 
   return (
     <>
@@ -94,10 +128,14 @@ export const NavBar = () => {
           >
             {router.pathname === '/books' ? icons.bookCurrent : icons.book}
           </Nav>
-          {status === 'authenticated' ? (
+          {status === 'authenticated' && data?.findUser ? (
             <Nav
               visible={'flex md:w-min'}
-              path={data?.findUser.verified ? '/books/new' : '/search/users'}
+              path={
+                data?.findUser && data?.findUser.verified
+                  ? '/books/new'
+                  : '/search/users'
+              }
               name={
                 data?.findUser.verified
                   ? translate.nav.new
@@ -110,8 +148,8 @@ export const NavBar = () => {
                   ? icons.newBookCurrent
                   : icons.newBook
                 : router.pathname === '/search/users'
-                  ? icons.allUsers
-                  : icons.allUsersCurrent}
+                  ? icons.allUsersCurrent
+                  : icons.allUsers}
             </Nav>
           ) : (
             <Nav
@@ -120,13 +158,13 @@ export const NavBar = () => {
               name={translate.profile.users}
               unique={true}
             >
-              {router.pathname === '/books/new'
-                ? icons.allUsers
-                : icons.allUsersCurrent}
+              {router.pathname === '/search/users'
+                ? icons.allUsersCurrent
+                : icons.allUsers}
             </Nav>
           )}
         </div>
-        <div className='mt-4 sm:mr-3 sm:flex md:hidden'>
+        <div className='mt-4 sm:mr-3 sm:flex md:hidden items-center justify-center'>
           <PhotoUser />
         </div>
       </nav>
