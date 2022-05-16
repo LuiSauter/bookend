@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
 import BtnFollow from '../Button/BtnFollow'
 import Image from 'next/image'
+import ClientOnly from '../ClientOnly'
 
 interface Props {
   email: string
@@ -57,12 +58,17 @@ const FollowItem = ({
                     {verified && checkVeriFied}
                   </span>
                 </h3>
-                <span translate='no' className='dark:text-slate-400 text-slate-700 text-sm'>
+                <span
+                  translate='no'
+                  className='dark:text-slate-400 text-slate-700 text-sm'
+                >
                   @{username}
                 </span>
               </a>
             </Link>
-            <BtnFollow user={user} />
+            <ClientOnly>
+              <BtnFollow user={user} />
+            </ClientOnly>
           </div>
         </li>
       )}

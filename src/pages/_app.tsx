@@ -13,6 +13,7 @@ import { LoginStateProvider } from 'src/context/login/LoginContext'
 import { ToggleStateProvider } from 'src/context/toggleModal/toggleContext'
 import { Layout } from 'src/layouts/Layout'
 import { getApolloClient } from 'src/data/apollo'
+import { UserStateProvider } from 'src/context/User/UserContext'
 
 const currentLanguageStorage =
   typeof window !== 'undefined' && window.localStorage.getItem(languageStorage)
@@ -29,10 +30,7 @@ if (currentTheme === 'dark') {
   document.documentElement.classList.add('dark')
 }
 
-function MyApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps): JSX.Element {
+function MyApp({Component,pageProps: { session, ...pageProps }}: AppProps): JSX.Element {
   const client = getApolloClient()
 
   useEffect(() => {
@@ -53,23 +51,25 @@ function MyApp({
       <ApolloProvider client={client}>
         <LoginStateProvider>
           <ToggleStateProvider>
-            <Layout>
-              <Component {...pageProps} />
-              <ToastContainer
-                position='top-right'
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                toastClassName={() =>
-                  'flex bg-secondary relative rounded-xl p-3 overflow-hidden text-white cursor-pointer shadow-3xl shadow-thirdBlue/20 m-4'
-                }
-              />
-            </Layout>
+            <UserStateProvider>
+              <Layout>
+                <Component {...pageProps} />
+                <ToastContainer
+                  position='top-right'
+                  autoClose={2000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  toastClassName={() =>
+                    'flex bg-secondary relative rounded-xl p-3 overflow-hidden text-white cursor-pointer shadow-3xl shadow-thirdBlue/20 m-4'
+                  }
+                />
+              </Layout>
+            </UserStateProvider>
           </ToggleStateProvider>
         </LoginStateProvider>
       </ApolloProvider>

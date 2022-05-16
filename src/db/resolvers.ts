@@ -1,5 +1,4 @@
 import Vibrant from 'node-vibrant'
-import jwt from 'jsonwebtoken'
 import escapeStringRegexp from 'escape-string-regexp'
 
 import User from './models/user'
@@ -8,21 +7,11 @@ import Post from './models/post'
 import config from 'src/config/config'
 
 
-interface IUser {
-  email: string
-  name: string
-  _id?: string
-  __v?: number
-}
 interface User {
   username: string
   name: string
   photo: string
   id: string
-}
-
-function createToken(user: IUser) {
-  return jwt.sign({ id: user._id, email: user.email }, config.jwtSecret)
 }
 
 const getDominantColor = async (image: string) => {
@@ -198,32 +187,30 @@ const resolvers = {
     ) => {
       const { email, name, image } = args
       const userFind = await User.findOne({ email })
-      if (!userFind) {
-        const user = new User({ email, name })
-        await user.save()
-        const userName = email.split('@')[0] + name.length
-        const profile = new Profile({
-          user: user._id,
-          photo: image,
-          name: name,
-          email: email,
-          username: userName,
-        })
-        await profile.save()
-        const newUser = {
-          email: user.email,
-          name: user.name,
-          profile: profile._id,
+      if (userFind === null) {
+        try {
+          const createUser = new User({ email, name })
+          await createUser.save()
+          const userName = email.split('@')[0] + name.length
+          const profile = new Profile({
+            user: createUser._id,
+            photo: image,
+            name: name,
+            email: email,
+            username: userName,
+          })
+          await profile.save()
+          const newUser = {
+            profile: profile._id,
+          }
+          await User.findByIdAndUpdate(createUser._id, newUser, { new: true })
+          return 'signup'
+        } catch (error: any) {
+          console.log(error.message)
+          return null
         }
-        const updateUser = await User.findByIdAndUpdate(user._id, newUser, {
-          new: true,
-        })
-        updateUser.message = 'signup'
-        return updateUser
       } else {
-        const token = createToken(userFind)
-        userFind.message = token
-        return userFind
+        return 'signin'
       }
     },
     updateProfile: async (_root: undefined, args: any) => {
@@ -364,7 +351,10 @@ const resolvers = {
         return 'update Post'
       }
     },
-    deletePost: async (_root: undefined, args: { id: string; user: string }) => {
+    deletePost: async (
+      _root: undefined,
+      args: { id: string; user: string }
+    ) => {
       const { id, user } = args
       const filter = { user }
       const findUser = await Profile.findOne(filter)

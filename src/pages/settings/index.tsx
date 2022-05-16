@@ -1,12 +1,31 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as icons from 'src/assets/icons'
+import { GraphqlApolloCLient } from 'src/data/ApolloClient'
+import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { useTranslate } from 'src/hooks/useTranslate'
+import { IUser } from 'src/interfaces/Users'
+import { ALL_USERS } from 'src/users/graphql-queries'
 
-function Settings() {
+type Props = {
+  users: { allUsers: IUser[] }
+}
+function Settings({users}:Props) {
   const router = useRouter()
   const translate = useTranslate()
+  const { addUsers, userState } = useStaticUsers()
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup && userState.users.length === 0) {
+      users && addUsers(users?.allUsers)
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [users])
+
   const data = [
     {
       id: 0,
@@ -82,6 +101,16 @@ function Settings() {
       </section>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const client = GraphqlApolloCLient()
+  const { data } = await client.query({ query: ALL_USERS })
+  return {
+    props: {
+      users: data,
+    },
+  }
 }
 
 export default Settings

@@ -5,13 +5,15 @@ import * as icons from 'src/assets/icons'
 import BtnFollow from '../Button/BtnFollow'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { IUser } from 'src/interfaces/Users'
+import ClientOnly from '../ClientOnly'
 
 interface Props {
-  findUser: Profile
+  user: IUser
   toggleOptionsOn?: () => void
 }
 
-const User = ({ findUser, toggleOptionsOn }: Props) => {
+const User = ({ user, toggleOptionsOn }: Props) => {
   const { data: session } = useSession()
   const router = useRouter()
 
@@ -21,33 +23,38 @@ const User = ({ findUser, toggleOptionsOn }: Props) => {
         <figure
           onClick={(event) => {
             event.stopPropagation()
-            router.push(`/${findUser?.me.username}`)
+            router.push(`/${user.username}`)
           }}
           className='cursor-pointer w-12 h-12 rounded-full relative overflow-hidden mr-4'
         >
           <Image
             layout='fill'
             className='w-full h-full rounded-full'
-            src={findUser?.me.photo || 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'}
-            alt={findUser?.me.name}
+            src={
+              user.photo ||
+              'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
+            }
+            alt={user.name}
           />
         </figure>
-        <Link href={`/${findUser?.me.username}`}>
+        <Link href={`/${user.username}`}>
           <a className='flex flex-col relative'>
             <p className='flex flex-row items-center text-lg whitespace-nowrap inset-0'>
-              {findUser?.me.name}
-              {findUser?.me.verified && (
+              {user.name}
+              {user.verified && (
                 <span title='Verified account'>{icons.checkVeriFied}</span>
               )}
             </p>
             <span translate='no' className='dark:text-slate-400 text-slate-700'>
-              @{findUser?.me.username}
+              @{user.username}
             </span>
           </a>
         </Link>
       </div>
-      {session?.user?.email !== findUser?.me.email && (
-        <BtnFollow user={findUser?.me.user} />
+      {session?.user?.email !== user.email && (
+        <ClientOnly>
+          <BtnFollow user={user.user} />
+        </ClientOnly>
       )}
       <button
         onClick={toggleOptionsOn}

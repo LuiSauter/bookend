@@ -47,9 +47,10 @@ const BtnLike = ({ id, likes }: Props) => {
     }
   }, [status === 'authenticated'])
 
-  const isMatch = dataUser?.findUser.liked.some(
-    (postId: string) => postId === id
-  )
+  const isMatch =
+    dataUser?.findUser !== null
+      ? dataUser?.findUser.liked.some((postId: string) => postId === id)
+      : false
 
   useEffect(() => {
     let cleanup = true
@@ -64,7 +65,8 @@ const BtnLike = ({ id, likes }: Props) => {
 
   const handleLike = (id: string | undefined) => {
     if (status === 'unauthenticated') handleLoginOpen()
-    status === 'authenticated' && getLike({ variables: { id: id, email: session?.user?.email } })
+    status === 'authenticated' &&
+      getLike({ variables: { id: id, email: session?.user?.email } })
   }
 
   const handleDisLike = (id: string | undefined) => {
