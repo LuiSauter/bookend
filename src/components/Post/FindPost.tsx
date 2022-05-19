@@ -11,6 +11,7 @@ import PostOptions from '../Modal/PostOptions'
 import useTimeAgo from 'src/hooks/useTimeAgo'
 import { usePlaceholder } from 'src/hooks/usePlaceholder'
 import { IUser } from 'src/interfaces/Users'
+import ClientOnly from '../ClientOnly'
 
 interface Props {
   post: Post
@@ -90,12 +91,14 @@ const FindPost = ({ post, user = null }: Props) => {
             <span className='dark:text-slate-400 text-slate-700 flex border-b pb-2 dark:border-slate-400/30 mb-2'>
               {hourAndMinute}
             </span>
-            <MultipleButtons
-              comments={post.comments?.length}
-              id={post.id}
-              likes={post.likes?.length}
-              bookDownload={post.bookUrl}
-            />
+            <ClientOnly>
+              <MultipleButtons
+                comments={post.comments?.length}
+                id={post.id}
+                likes={post.likes?.length}
+                bookDownload={post.bookUrl}
+              />
+            </ClientOnly>
             <ul className='flex flex-row flex-wrap items-center gap-3 transition-all 2xl relative mt-2'>
               {post.tags?.map((tag: string, index: number) => (
                 <li
