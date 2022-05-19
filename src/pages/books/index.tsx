@@ -40,13 +40,12 @@ const Books = ({ users }: Props) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const client = GraphqlApolloCLient()
   const { data } = await client.query({ query: ALL_USERS })
   return {
-    props: {
-      users: data,
-    },
+    props: { users: data },
+    revalidate: 10,
   }
 }
 

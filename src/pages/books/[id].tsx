@@ -77,13 +77,15 @@ export async function getStaticProps({ params }: StaticProps) {
         users: data,
         post: post?.findPost[0],
       },
+      revalidate: 10,
     }
   } catch (error) {
     return {
       props: {
         users: data,
-        post: null
-      }
+        post: null,
+      },
+      revalidate: 10,
     }
   }
 }
