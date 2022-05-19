@@ -95,7 +95,7 @@ const About = ({ users }: Props): JSX.Element => {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const client = GraphqlApolloCLient()
   const { data } = await client.query({ query: ALL_USERS })
   return {
