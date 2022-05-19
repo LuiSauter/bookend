@@ -82,7 +82,7 @@ const index = () => {
         ))}
         {loadingIcon && (
           <div className='col-span-2 sm:col-span-3 mt-4'>
-            <PulsePosts n={1} paddingY='py-4' size='h-12 w-12' font='h-2' />
+            <PulsePosts n={loading ? 2 : 1} paddingY='py-4' size='h-12 w-12' font='h-2' />
           </div>
         )}
       </section>
