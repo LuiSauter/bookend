@@ -64,7 +64,7 @@ const FindPost = ({ post, user = null }: Props) => {
               <p>
                 {post.description?.map((d: string, index: number) => (
                   <span
-                    className='block mt-3 text-xl lg:text-[20px] leading-7 font-light dark:text-white'
+                    className='block mt-3 text-[19px] lg:text-[20px] leading-7 font-light dark:text-white'
                     key={index}
                   >
                     {d}
