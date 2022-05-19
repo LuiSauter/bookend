@@ -15,7 +15,7 @@ import { LOGINQL } from 'src/login/graphql-mutations'
 
 export const NavBar = () => {
   const router = useRouter()
-  const { handleToggleModal, handleEditProfile } = useToggleUser()
+  const { handleToggleModal } = useToggleUser()
   const { loginOpen } = useToggleUser()
   const translate = useTranslate()
   const { status, data: session } = useSession()
@@ -49,13 +49,7 @@ export const NavBar = () => {
     if (cleanup && session?.user?.email && session?.user?.name) {
       getUser({ variables: { email: session?.user?.email } })
       if (login?.signin === 'signup') {
-        session?.user &&
-        router.push(
-          `/${
-            session?.user?.email.split('@')[0] + session?.user?.name.length
-          }`
-        )
-        handleEditProfile()
+        router.reload()
       }
     }
     return () => {

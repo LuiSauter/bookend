@@ -58,19 +58,6 @@ const Profile = ({ username, dataColor, user, users }: Props) => {
 }
 export default Profile
 
-export async function getStaticPaths() {
-  const client = GraphqlApolloCLient()
-  const { data } = await client.query({ query: ALL_USERS })
-  const users: IUser[] = []
-  data?.allUsers.forEach((user:IUser) => {
-    users.push({...user, username: user.username })
-  })
-  const paths = users.map((user) => ({ params: { username: user.username } }))
-  return {
-    paths: paths,
-    fallback: false,
-  }
-}
 
 export async function getStaticProps({ params }: StaticProps) {
   try {
@@ -82,6 +69,7 @@ export async function getStaticProps({ params }: StaticProps) {
     if (!data.findProfile) {
       return {
         notFound: true,
+        revalidate: 1,
       }
     }
     const { data: dataColor } = await client.query({
@@ -96,11 +84,32 @@ export async function getStaticProps({ params }: StaticProps) {
         username: params.username,
         users: allUsers,
       },
-      revalidate: 5,
+      revalidate: 1,
     }
   } catch (error) {
     return {
       notFound: true,
+      revalidate: 1,
+    }
+  }
+}
+
+export async function getStaticPaths() {
+  try {
+    const client = GraphqlApolloCLient()
+    const { data } = await client.query({ query: ALL_USERS })
+    const paths = data?.allUsers.map((user: IUser) => ({
+      params: { username: user.username },
+    }))
+
+    return {
+      paths: paths,
+      fallback: 'blocking',
+    }
+  } catch (error) {
+    return {
+      paths: [{}],
+      fallback: false,
     }
   }
 }

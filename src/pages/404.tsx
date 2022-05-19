@@ -44,7 +44,7 @@ export async function getStaticProps() {
     props: {
       users: data,
     },
-    revalidate: 60,
+    revalidate: 1,
   }
 }
 export default Notfound

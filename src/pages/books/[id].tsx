@@ -77,7 +77,7 @@ export async function getStaticProps({ params }: StaticProps) {
         users: data,
         post: post?.findPost[0],
       },
-      revalidate: 10,
+      revalidate: 1,
     }
   } catch (error) {
     return {
@@ -85,7 +85,7 @@ export async function getStaticProps({ params }: StaticProps) {
         users: data,
         post: null,
       },
-      revalidate: 10,
+      revalidate: 1,
     }
   }
 }

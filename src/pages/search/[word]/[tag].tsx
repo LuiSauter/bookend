@@ -258,7 +258,7 @@ export async function getStaticProps({ params }: { params: StaticParams }) {
   const { data } = await client.query({ query: ALL_USERS })
   return {
     props: { users: data, params: params },
-    revalidate: 10,
+    revalidate: 1,
   }
 }
 
