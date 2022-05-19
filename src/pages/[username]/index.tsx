@@ -58,21 +58,8 @@ const Profile = ({ username, dataColor, user, users }: Props) => {
 }
 export default Profile
 
-export async function getStaticPaths() {
-  const client = GraphqlApolloCLient()
-  const { data } = await client.query({ query: ALL_USERS })
-  const users: IUser[] = []
-  data?.allUsers.forEach((user:IUser) => {
-    users.push({...user, username: user.username })
-  })
-  const paths = users.map((user) => ({ params: { username: user.username } }))
-  return {
-    paths: paths,
-    fallback: false,
-  }
-}
-
-export async function getStaticProps({ params }: StaticProps) {
+// export async function getStaticPaths() {  const client = GraphqlApolloCLient()  const { data } = await client.query({ query: ALL_USERS })  const users: IUser[] = []  data?.allUsers.forEach((user:IUser) => {    users.push({...user, username: user.username })  })  const paths = users.map((user) => ({ params: { username: user.username } }))  return {    paths: paths,    fallback: false,  }}
+export async function getServerSideProps({ params }: StaticProps) {
   try {
     const client = GraphqlApolloCLient()
     const { data } = await client.query({
