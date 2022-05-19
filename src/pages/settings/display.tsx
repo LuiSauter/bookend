@@ -133,16 +133,15 @@ const Display = ({ users }: Props): JSX.Element => {
             <label
               className={`${
                 languages === 'es' ? 'border-b-4 border-red-700' : ''
-              } flex flex-col justify-center items-center cursor-pointer select-none`}
+              } pb-1 flex flex-col justify-center items-center cursor-pointer select-none`}
             >
-              <span className='flex flex-row text-lg font-semibold'>
+              <span className='flex flex-row gap-1 text-lg font-semibold'>
                 Español
                 <Image
                   src='https://flagicons.lipis.dev/flags/4x3/es.svg'
                   width={20}
                   height={20}
                   alt='en'
-                  className='ml-2'
                 />
               </span>
               <input
@@ -156,16 +155,15 @@ const Display = ({ users }: Props): JSX.Element => {
             <label
               className={`${
                 languages === 'en' ? 'border-b-4 border-blue-800' : ''
-              } flex flex-col justify-center items-center cursor-pointer select-none`}
+              } pb-1 flex flex-col justify-center items-center cursor-pointer select-none`}
             >
-              <span className='flex flex-row text-lg font-semibold'>
+              <span className='flex flex-row gap-1 text-lg font-semibold'>
                 English
                 <Image
                   src='https://flagicons.lipis.dev/flags/4x3/us.svg'
                   width={20}
                   height={20}
                   alt='en'
-                  className='ml-2'
                 />
               </span>
               <input
