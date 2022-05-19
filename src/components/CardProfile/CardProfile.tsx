@@ -13,6 +13,7 @@ import { useDominanColor } from 'src/hooks/useDominantColor'
 import CountFollows from '../CountFollows'
 import ClientOnly from '../ClientOnly'
 import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import Presentation from './Presentation'
 
 const CardProfile = () => {
   const { data: session, status } = useSession()
@@ -51,68 +52,70 @@ const CardProfile = () => {
 
   return (
     <Fragment>
-      {status === 'authenticated' &&
+      {status === 'authenticated' ? (
         router.asPath !== `/${data?.findUser?.me.username}` && (
-        <article className='dark:bg-secondary bg-slate-200 border border-textGray/10 w-full rounded-xl flex flex-col  mb-4 justify-center relative'>
-          {loading ? (
-            <div className='p-4 w-full h-full flex justify-center items-center'>
-              <LoadingIcon />
-            </div>
-          ) : (
-            <>
-              <header className='m-0 w-full relative'>
-                <div
-                  style={{
-                    backgroundColor: dominantColor,
-                  }}
-                  className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-t-xl dark:opacity-100 opacity-50'
-                />
-              </header>
-              <div className='relative mt-10 ring-4 ring-secondary/50 rounded-full mx-auto'>
-                <Image
-                  width={80}
-                  height={80}
-                  priority={true}
-                  className='rounded-full mx-auto relative'
-                  src={data?.findUser?.me.photo || '/default-user.webp'}
-                  alt={data?.findUser?.me.name || 'bookend'}
-                  placeholder='blur'
-                  blurDataURL={createBlurDataUrl({ w: 80, h: 80 })}
-                />
-              </div>
-              {loading ? (
+          <article className='dark:bg-secondary bg-slate-200 border border-textGray/10 w-full rounded-xl flex flex-col  mb-4 justify-center relative'>
+            {loading ? (
+              <div className='p-4 w-full h-full flex justify-center items-center'>
                 <LoadingIcon />
-              ) : (
-                <div className='text-center mb-3 px-4'>
-                  <h2 className='text-lg font-bold p-0 m-0 flex items-center justify-center'>
-                    {data?.findUser?.me.name}
-                    {data?.findUser?.verified && (
-                      <span title='Verified account'>{checkVeriFied}</span>
-                    )}
-                  </h2>
-                  <h3
-                    translate='no'
-                    className='dark:text-slate-400 text-slate-700'
-                  >
+              </div>
+            ) : (
+              <>
+                <header className='m-0 w-full relative'>
+                  <div
+                    style={{
+                      backgroundColor: dominantColor,
+                    }}
+                    className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-t-xl dark:opacity-100 opacity-50'
+                  />
+                </header>
+                <figure className='relative w-20 h-20 mt-10 ring-4 ring-secondary/50 rounded-full mx-auto'>
+                  <Image
+                    layout='fill'
+                    priority={true}
+                    className='rounded-full mx-auto relative'
+                    src={data?.findUser?.me.photo || '/default-user.webp'}
+                    alt={data?.findUser?.me.name || 'bookend'}
+                    placeholder='blur'
+                    blurDataURL={createBlurDataUrl({ w: 80, h: 80 })}
+                  />
+                </figure>
+                {loading ? (
+                  <LoadingIcon />
+                ) : (
+                  <div className='text-center mb-3 px-4'>
+                    <h2 className='text-lg font-bold p-0 m-0 flex items-center justify-center'>
+                      {data?.findUser?.me.name}
+                      {data?.findUser?.verified && (
+                        <span title='Verified account'>{checkVeriFied}</span>
+                      )}
+                    </h2>
+                    <h3
+                      translate='no'
+                      className='dark:text-slate-400 text-slate-700'
+                    >
                       @{data?.findUser?.me.username}
-                  </h3>
-                  <p className='text-sm'>{data?.findUser?.description}</p>
-                </div>
-              )}
-              <ClientOnly>
-                <CountFollows
-                  design='colunm'
-                  username={data?.findUser?.me.username}
-                />
-              </ClientOnly>
-              <Link href={`/${data?.findUser?.me.username}`}>
-                <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-textGray/10 hover:bg-sky-200/70 w-full rounded-b-xl'>
-                  {translate.profile.me}
-                </a>
-              </Link>
-            </>
-          )}
-        </article>
+                    </h3>
+                    <p className='text-sm'>{data?.findUser?.description}</p>
+                  </div>
+                )}
+                <ClientOnly>
+                  <CountFollows
+                    design='colunm'
+                    username={data?.findUser?.me.username}
+                  />
+                </ClientOnly>
+                <Link href={`/${data?.findUser?.me.username}`}>
+                  <a className='text-sm text-center text-thirdBlue font-medium py-2 dark:hover:bg-textGray/10 hover:bg-sky-200/70 w-full rounded-b-xl'>
+                    {translate.profile.me}
+                  </a>
+                </Link>
+              </>
+            )}
+          </article>
+        )
+      ) : (
+        <Presentation />
       )}
     </Fragment>
   )

@@ -43,7 +43,7 @@ const Name = () => {
 
   if (status === 'unauthenticated' && !session) {
     return (
-      <figure className='overflow-hidden sm:h-8 md:w-full md:h-8 md:flex flex-shrink-0 md:items-center hover:opacity-80'>
+      <figure className='animate-pulse hover:animate-none overflow-hidden sm:h-8 md:w-full md:h-8 md:flex flex-shrink-0 md:items-center hover:opacity-80'>
         <Image
           width={32}
           height={32}
