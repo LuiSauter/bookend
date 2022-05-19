@@ -27,7 +27,7 @@ const BookIdUpdate = ({ users }: Props) => {
   }, [users])
 
   return (
-    <section className='flex flex-col sm:mx-auto my-4 gap-4 dark:sm:bg-secondary py-4 px-6 sm:min-w-minForm md:mt-0 w-full rounded-xl'>
+    <section className='flex flex-col sm:mx-auto my-4 gap-4 py-4 px-6 sm:min-w-minForm md:mt-0 w-full rounded-xl'>
       <article className='w-full m-auto sm:min-w-minForm'>
         <header className='mb-4'>
           <h2 className='mb-1 text-xl font-semibold dark:text-white'>
@@ -41,13 +41,19 @@ const BookIdUpdate = ({ users }: Props) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: '/books/new/1' } }],
+    fallback: true,
+  }
+}
+
+export async function getStaticProps() {
   const client = GraphqlApolloCLient()
   const { data } = await client.query({ query: ALL_USERS })
   return {
-    props: {
-      users: data,
-    },
+    props: { users: data },
+    revalidate: 10,
   }
 }
 

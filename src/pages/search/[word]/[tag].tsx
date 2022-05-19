@@ -13,8 +13,13 @@ import { useTranslate } from 'src/hooks/useTranslate'
 import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
 import { ALL_USERS, SEARCH_USERS } from 'src/users/graphql-queries'
 
-type Props = {
+type StaticParams = {
+  word: string
+  tag: string
+}
+interface Props {
   users: { allUsers: IUser[] }
+  params: StaticParams
 }
 const SearchWord = ({ users }: Props): JSX.Element => {
   const router = useRouter()
@@ -241,13 +246,19 @@ const SearchWord = ({ users }: Props): JSX.Element => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { word: '/search/1/2', tag: '/search/1/2' } }],
+    fallback: true,
+  }
+}
+
+export async function getStaticProps({ params }: { params: StaticParams }) {
   const client = GraphqlApolloCLient()
   const { data } = await client.query({ query: ALL_USERS })
   return {
-    props: {
-      users: data,
-    },
+    props: { users: data, params: params },
+    revalidate: 10,
   }
 }
 
