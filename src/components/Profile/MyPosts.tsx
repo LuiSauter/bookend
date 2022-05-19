@@ -3,8 +3,8 @@ import { useLazyQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import useNearScreen from 'src/hooks/useNearScreen'
 import { ALL_POST_BY_USER, ALL_POST_BY_USER_COUNT, FINDONE_POST } from 'src/post/graphql-queries'
-import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import PostItem from '../Post/PostItem'
+import { PulsePosts } from 'src/assets/icons/esqueleton/PulsePosts'
 
 const INITIAL_PAGE = 6
 
@@ -134,7 +134,7 @@ const MyPosts = ({ user = null }: Props) => {
           ))}
         {loadingIcon && (
           <div className='col-span-2 sm:col-span-3 py-4'>
-            <LoadingIcon />
+            <PulsePosts n={1} paddingY='py-4' size='h-12 w-12' font='h-2' />
           </div>
         )}
       </section>
