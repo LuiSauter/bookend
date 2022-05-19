@@ -4,8 +4,8 @@ import { ALL_POSTS, POSTS_COUNT } from 'src/post/graphql-queries'
 
 import useNearScreen from 'src/hooks/useNearScreen'
 import PostItem from './PostItem'
-import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import { useToggleUser } from 'src/hooks/useToggleUser'
+import { PulsePosts } from 'src/assets/icons/esqueleton/PulsePosts'
 const INITIAL_PAGE = 3
 
 const index = () => {
@@ -82,7 +82,7 @@ const index = () => {
         ))}
         {loadingIcon && (
           <div className='col-span-2 sm:col-span-3 mt-4'>
-            <LoadingIcon />
+            <PulsePosts n={1} paddingY='py-4' size='h-12 w-12' font='h-2' />
           </div>
         )}
       </section>

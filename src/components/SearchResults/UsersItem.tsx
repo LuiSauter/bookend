@@ -56,7 +56,7 @@ const UsersItem = ({
                 {verified && icons.checkVeriFied}
               </span>
             </h3>
-            <span translate='no' className='text-textGray text-sm'>
+            <span translate='no' className='text-textGray text-base'>
               @{username}
             </span>
             {description && (

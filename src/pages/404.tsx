@@ -31,6 +31,7 @@ const Notfound = ({ users }: Props) => {
           alt='bookend 404 page not found'
           className='w-full object-cover'
           layout='fill'
+          priority={true}
         />
       </figure>
     </div>

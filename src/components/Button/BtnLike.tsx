@@ -16,7 +16,6 @@ const BtnLike = ({ id, likes }: Props) => {
   const { data: session, status } = useSession()
   const [showHover, setShowHover] = useState(false)
   const [like, setLike] = useState(false)
-
   const { handleLoginOpen } = useToggleUser()
   const [getLike] = useMutation(LIKE_POST, {
     refetchQueries: [
@@ -32,7 +31,18 @@ const BtnLike = ({ id, likes }: Props) => {
       { query: ALL_POST_RANKING, variables: { pageSize: 6, skipValue: 0 } },
     ],
   })
+  const [getLikeByPost, { data }] = useLazyQuery(FINDONE_POST)
   const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      id && getLikeByPost({ variables: { id: [id] } })
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [id])
 
   useEffect(() => {
     const cleanup = true
@@ -94,6 +104,7 @@ const BtnLike = ({ id, likes }: Props) => {
       <button
         onClick={handleClick}
         id='btn-animation'
+        title='Like'
         className={`
           ${!like ? 'dark:text-inherit text-inherit' : 'text-red-500'}
           ${showHover ? 'bg-red-500/10' : 'bg-transparent'}
@@ -106,7 +117,7 @@ const BtnLike = ({ id, likes }: Props) => {
           !like ? 'dark:text-inherit text-inherit' : 'text-red-500'
         }`}
       >
-        {likes}
+        {data?.findPost[0] ? data?.findPost[0].likes.length : likes}
       </span>
     </div>
   )

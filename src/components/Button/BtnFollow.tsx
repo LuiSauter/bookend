@@ -74,7 +74,7 @@ const BtnFollow = ({ user }: Props) => {
             event.stopPropagation()
             handleClickButtonFollow(user)
           }}
-          className='active:bg-thirdBlue/70 bg-thirdBlue hover:bg-thirdBlue/90 text-textWhite transition-colors font-medium text-xs rounded-2xl px-3 py-1 relative'
+          className='active:bg-thirdBlue/70 bg-thirdBlue hover:bg-thirdBlue/90 text-textWhite transition-colors font-medium text-sm rounded-2xl px-3 py-1 relative'
         >
           {translate.profile.follow}
         </button>
