@@ -65,12 +65,12 @@ export async function getStaticProps() {
     const { data } = await client.query({ query: ALL_USERS })
     return {
       props: { users: data },
-      revalidate: 10,
+      revalidate: 1,
     }
   } catch (error) {
     return {
       props: { users: null },
-      revalidate: 10,
+      revalidate: 1,
     }
   }
 }
