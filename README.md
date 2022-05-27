@@ -126,6 +126,11 @@ This is an example of how to list things you need to use the software and how to
   ## Authorization callback URL* = http://localhost:3000/api/auth/callback/github
   GITHUB_CLIENT=
   GITHUB_CLIENT_SECRET=
+  
+  ## Uri development
+  URI_1=http://localhost:3000
+  ## path uri for API development
+  PATH_URI=/api/graphql
 
   ```
 
