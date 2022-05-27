@@ -89,6 +89,7 @@ Here's why:
 * [Mongoose.js](https://mongoosejs.com/)
 * [MongoDB](https://www.mongodb.com/)
 * [Tailwindcss](https://tailwindcss.com/)
+  (Extension) `Tailwind CSS IntelliSense` enhances the Tailwind development experience by providing Visual Studio Code users with advanced features such as autocomplete, syntax highlighting, and linting
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
