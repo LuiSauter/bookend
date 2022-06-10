@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import { ALL_USERS, FIND_PROFILE, GET_DOMINANT_COLOR } from 'src/users/graphql-queries'
 import { useDominanColor } from 'src/hooks/useDominantColor'
@@ -6,7 +6,6 @@ import { GraphqlApolloCLient } from 'src/data/ApolloClient'
 import MyProfile from 'src/components/Profile/MyProfile'
 import ClientOnly from 'src/components/ClientOnly'
 import MyPosts from 'src/components/Profile/MyPosts'
-import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { IUser } from 'src/interfaces/Users'
 
 interface Props {
@@ -18,19 +17,8 @@ interface Props {
 
 interface StaticProps {params: { username: string }}
 
-const Profile = ({ username, dataColor, user, users }: Props) => {
+const Profile = ({ username, dataColor, user }: Props) => {
   const { dominantColor } = useDominanColor(dataColor)
-  const { addUsers } = useStaticUsers()
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      users && addUsers(users?.allUsers)
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [users])
-
   return (
     <>
       <Head>
@@ -76,13 +64,11 @@ export async function getStaticProps({ params }: StaticProps) {
       query: GET_DOMINANT_COLOR,
       variables: { image: data.findProfile.me.photo },
     })
-    const { data: allUsers } = await client.query({ query: ALL_USERS })
     return {
       props: {
         user: data,
         dataColor: dataColor?.getColors,
         username: params.username,
-        users: allUsers,
       },
       revalidate: 1,
     }
