@@ -6,6 +6,7 @@ import useNearScreen from 'src/hooks/useNearScreen'
 import PostItem from './PostItem'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import { PulsePosts } from 'src/assets/icons/esqueleton/PulsePosts'
+import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 const INITIAL_PAGE = 3
 
 const index = () => {
@@ -82,7 +83,8 @@ const index = () => {
         ))}
         {loadingIcon && (
           <div className='col-span-2 sm:col-span-3 mt-4'>
-            <PulsePosts n={loading ? 2 : 1} paddingY='py-4' size='h-12 w-12' font='h-2' />
+            <LoadingIcon />
+            <PulsePosts n={1} paddingY='py-4' size='h-12 w-12' font='h-2' />
           </div>
         )}
       </section>

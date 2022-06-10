@@ -1,15 +1,38 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslate } from 'src/hooks/useTranslate'
 import FollowItem from './FollowItem'
 import PulseUsers from 'src/assets/icons/esqueleton/PulseUsers'
 import { IUser } from 'src/interfaces/Users'
 import { useStaticUsers } from 'src/hooks/useStaticUsers'
+import { useLazyQuery } from '@apollo/client'
+import { ALL_USERS } from 'src/users/graphql-queries'
 
 const WhoToFollow = () => {
   const router = useRouter()
-  const { userState } = useStaticUsers()
+  const { userState, addUsers } = useStaticUsers()
   const translate = useTranslate()
+  const [getAllUsers, { data }] = useLazyQuery(ALL_USERS)
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      userState.users.length === 0 && getAllUsers()
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [userState.users.length === 0])
+
+  useEffect(() => {
+    let cleanup = true
+    if (cleanup) {
+      data?.allUsers && addUsers(data?.allUsers)
+    }
+    return () => {
+      cleanup = false
+    }
+  }, [data?.allUsers])
 
   return (
     <>
