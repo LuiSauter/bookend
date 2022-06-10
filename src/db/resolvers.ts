@@ -103,10 +103,14 @@ const resolvers = {
       args: { pageSize: number; skipValue: number }
     ) => {
       const { pageSize, skipValue } = args
-      return await Post.find({})
-        .sort({ createdAt: 'desc' })
-        .limit(pageSize)
-        .skip(skipValue)
+      if (pageSize === 0) {
+        return await Post.find({}).sort({ createdAt: 'desc' })
+      } else {
+        return await Post.find({})
+          .sort({ createdAt: 'desc' })
+          .limit(pageSize)
+          .skip(skipValue)
+      }
     },
     allPostRanking: async (
       _root: undefined,

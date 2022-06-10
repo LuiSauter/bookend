@@ -10,12 +10,12 @@ interface Props {
   unique?: boolean;
 }
 
-export const Nav = ({ children, visible, path, name, unique }: Props) => {
+export const Nav = ({ children, visible, path = '/', name, unique }: Props) => {
   const router = useRouter()
   const isPathName =
     router.pathname === path ? 'hidden md:flex font-bold' : 'hidden'
   return (
-    <Link href={path || ''}>
+    <Link href={path} scroll={true}>
       <a className='cursor-pointer w-full h-full sm:h-auto md:w-min sm:mx-2 transition-all'>
         <div
           title={name}

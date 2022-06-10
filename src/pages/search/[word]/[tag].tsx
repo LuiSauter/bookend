@@ -7,21 +7,11 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import BooksItem from 'src/components/SearchResults/BooksItem'
 import UsersItem from 'src/components/SearchResults/UsersItem'
 import { IUser } from 'src/components/SearchUser'
-import { GraphqlApolloCLient } from 'src/data/ApolloClient'
-import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { SEARCH_POSTS, SEARCH_POSTS_AUTHOR } from 'src/post/graphql-queries'
-import { ALL_USERS, SEARCH_USERS } from 'src/users/graphql-queries'
+import { SEARCH_USERS } from 'src/users/graphql-queries'
 
-type StaticParams = {
-  word: string
-  tag: string
-}
-interface Props {
-  users: { allUsers: IUser[] }
-  params: StaticParams
-}
-const SearchWord = ({ users }: Props): JSX.Element => {
+const SearchWord = (): JSX.Element => {
   const router = useRouter()
   const [showResults, setShowResults] = useState({ books: true, users: false })
   const [words, setWords] = useState<string>('')
@@ -32,17 +22,6 @@ const SearchWord = ({ users }: Props): JSX.Element => {
     useLazyQuery(SEARCH_USERS)
   const [getSearchBooksByAuthor, { data: dataBooksAuthor }] =
     useLazyQuery(SEARCH_POSTS_AUTHOR)
-  const { addUsers, userState } = useStaticUsers()
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup && userState.users.length === 0) {
-      users && addUsers(users?.allUsers)
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [users])
 
   useEffect(() => {
     let cleanup = true
@@ -244,22 +223,6 @@ const SearchWord = ({ users }: Props): JSX.Element => {
       </section>
     </>
   )
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { word: '/search/1/2', tag: '/search/1/2' } }],
-    fallback: true,
-  }
-}
-
-export async function getStaticProps({ params }: { params: StaticParams }) {
-  const client = GraphqlApolloCLient()
-  const { data } = await client.query({ query: ALL_USERS })
-  return {
-    props: { users: data, params: params },
-    revalidate: 1,
-  }
 }
 
 export default SearchWord

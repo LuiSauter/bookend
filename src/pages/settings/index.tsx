@@ -1,30 +1,12 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React from 'react'
 import * as icons from 'src/assets/icons'
-import { GraphqlApolloCLient } from 'src/data/ApolloClient'
-import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { useTranslate } from 'src/hooks/useTranslate'
-import { IUser } from 'src/interfaces/Users'
-import { ALL_USERS } from 'src/users/graphql-queries'
 
-type Props = {
-  users: { allUsers: IUser[] }
-}
-function Settings({users}:Props) {
+function Settings(): JSX.Element {
   const router = useRouter()
   const translate = useTranslate()
-  const { addUsers, userState } = useStaticUsers()
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup && userState.users.length === 0) {
-      users && addUsers(users?.allUsers)
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [users])
 
   const data = [
     {
@@ -92,7 +74,9 @@ function Settings({users}:Props) {
             >
               <div className='flex flex-col'>
                 <h3 className='text-xl font-semibold'>{setting.title}</h3>
-                <p className='dark:text-slate-400 text-base text-slate-700'>{setting.description}</p>
+                <p className='dark:text-slate-400 text-base text-slate-700'>
+                  {setting.description}
+                </p>
               </div>
               <span className='dark:text-slate-400'>{icons.arrowRight}</span>
             </li>
@@ -101,15 +85,6 @@ function Settings({users}:Props) {
       </section>
     </>
   )
-}
-
-export async function getStaticProps() {
-  const client = GraphqlApolloCLient()
-  const { data } = await client.query({ query: ALL_USERS })
-  return {
-    props: { users: data },
-    revalidate: 1,
-  }
 }
 
 export default Settings
