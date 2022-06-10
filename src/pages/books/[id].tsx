@@ -4,7 +4,7 @@ import FindPost from 'src/components/Post/FindPost'
 import { GraphqlApolloCLient } from 'src/data/ApolloClient'
 import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { IUser } from 'src/interfaces/Users'
-import { FINDONE_POST } from 'src/post/graphql-queries'
+import { ALL_POSTS, FINDONE_POST } from 'src/post/graphql-queries'
 import { ALL_USERS } from 'src/users/graphql-queries'
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
   post: Post
 }
 type StaticProps = { params: { id: string } }
+
 const index = ({ users, post }: Props) => {
   const { addUsers, userState } = useStaticUsers()
   const [user, setUser] = useState<IUser | undefined>({} as IUser)
@@ -29,17 +30,15 @@ const index = ({ users, post }: Props) => {
   useEffect(() => {
     let cleanup = true
     if (cleanup) {
-      if (userState.users.length !== 0 || users?.allUsers) {
-        const userFind = userState.users.find(
-          (user) => user.user === post.user
-        )
+      if (post && (userState.users.length !== 0 || users?.allUsers)) {
+        const userFind = userState.users.find((user) => user.user === post.user)
         setUser(userFind)
       }
     }
     return () => {
       cleanup = false
     }
-  }, [userState.users])
+  }, [userState?.users, post?.user])
 
   return (
     <section>
@@ -53,9 +52,26 @@ const index = ({ users, post }: Props) => {
 }
 
 export async function getStaticPaths() {
-  return {
-    paths: [{ params: { id: '/books/1' } }],
-    fallback: true,
+  const client = GraphqlApolloCLient()
+  try {
+    const { data } = await client.query({
+      query: ALL_POSTS,
+      variables: { pageSize: 0, skipValue: 0 },
+    })
+    const paths =
+      data?.allPosts &&
+      data?.allPosts.map((post: Post) => ({
+        params: { id: post.id },
+      }))
+    return {
+      paths: paths,
+      fallback: true,
+    }
+  } catch (error) {
+    return {
+      paths: [{ id: 0 }],
+      fallback: true,
+    }
   }
 }
 
