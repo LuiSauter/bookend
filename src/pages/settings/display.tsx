@@ -6,14 +6,7 @@ import * as icons from 'src/assets/icons'
 import { languageStorage, themeStorage } from 'src/config/constants'
 import { useTranslate } from 'src/hooks/useTranslate'
 import ClientOnly from 'src/components/ClientOnly'
-import { ALL_USERS } from 'src/users/graphql-queries'
-import { GraphqlApolloCLient } from 'src/data/ApolloClient'
-import { IUser } from 'src/interfaces/Users'
-import { useStaticUsers } from 'src/hooks/useStaticUsers'
 
-type Props = {
-  users: { allUsers: IUser[] }
-}
 const setDark = () => {
   window.localStorage.setItem(themeStorage, 'dark')
   document.documentElement.classList.add('dark')
@@ -27,7 +20,7 @@ const setLight = () => {
 const currentLanguageStorage =
 typeof window !== 'undefined' && window.localStorage.getItem(languageStorage)
 
-const Display = ({ users }: Props): JSX.Element => {
+const Display = (): JSX.Element => {
   const router = useRouter()
   const currentStorage =
     typeof window !== 'undefined' && window.localStorage.getItem(themeStorage)
@@ -36,16 +29,6 @@ const Display = ({ users }: Props): JSX.Element => {
     currentLanguageStorage === null ? 'es' : currentLanguageStorage
   )
   const translate = useTranslate()
-  const { addUsers, userState } = useStaticUsers()
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup && userState.users.length === 0) {
-      users && addUsers(users?.allUsers)
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [users])
 
   useEffect(() => {
     let cleanup = true
@@ -179,15 +162,6 @@ const Display = ({ users }: Props): JSX.Element => {
       </article>
     </section>
   )
-}
-
-export async function getStaticProps() {
-  const client = GraphqlApolloCLient()
-  const { data } = await client.query({ query: ALL_USERS })
-  return {
-    props: { users: data },
-    revalidate: 1,
-  }
 }
 
 export default Display

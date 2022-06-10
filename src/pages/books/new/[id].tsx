@@ -1,30 +1,11 @@
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React from 'react'
 import NewForm from 'src/components/Post/NewForm'
-import { GraphqlApolloCLient } from 'src/data/ApolloClient'
-import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { useTranslate } from 'src/hooks/useTranslate'
-import { IUser } from 'src/interfaces/Users'
-import { ALL_USERS } from 'src/users/graphql-queries'
 
-type Props = {
-  users: { allUsers: IUser[] }
-}
-
-const BookIdUpdate = ({ users }: Props) => {
+const BookIdUpdate = () => {
   const router = useRouter()
   const translate = useTranslate()
-  const { addUsers, userState } = useStaticUsers()
-
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup && userState.users.length === 0) {
-      users && addUsers(users?.allUsers)
-    }
-    return () => {
-      cleanup = false
-    }
-  }, [users])
 
   return (
     <section className='flex flex-col sm:mx-auto my-4 gap-4 py-4 px-6 sm:min-w-minForm md:mt-0 w-full rounded-xl'>
@@ -39,22 +20,6 @@ const BookIdUpdate = ({ users }: Props) => {
       </article>
     </section>
   )
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { id: '/books/new/1' } }],
-    fallback: true,
-  }
-}
-
-export async function getStaticProps() {
-  const client = GraphqlApolloCLient()
-  const { data } = await client.query({ query: ALL_USERS })
-  return {
-    props: { users: data },
-    revalidate: 1,
-  }
 }
 
 export default BookIdUpdate
