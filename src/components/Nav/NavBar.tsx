@@ -66,7 +66,7 @@ export const NavBar = () => {
         </ClientOnly>
       )}
       <nav
-        className='dark:bg-primary/80 bg-white/80 backdrop-blur-md fixed bottom-0 right-0 left-0 sm:sticky sm:inset-0 flex w-full z-[70] transition-all
+        className='dark:bg-primary/80 bg-white/50 backdrop-blur-md fixed bottom-0 right-0 left-0 sm:sticky sm:inset-0 flex w-full z-[70] transition-all
         sm:h-screen sm:flex-col sm:w-auto sm:pl-4 sm:pr-2 sm:py-4 sm:justify-between
         md:py-0 md:mx-0 md:px-4 md:flex-row md:w-full md:h-14 md:justify-center md:overflow-visible
         2xl:px-8'
