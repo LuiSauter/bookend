@@ -2,8 +2,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Link from 'next/link'
 import { useTranslate } from 'src/hooks/useTranslate'
-import Image from 'next/image'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import PhotoUser from '../User/PhotoUser'
 
 type Props = {
   id: string | undefined
@@ -15,7 +14,6 @@ type Props = {
 
 const BooksItem = ({ description, id, image, title, author }: Props) => {
   const router = useRouter()
-  const createBlurDataUrl = usePlaceholder()
   const translate = useTranslate()
   return (
     <li
@@ -25,17 +23,11 @@ const BooksItem = ({ description, id, image, title, author }: Props) => {
       className='flex flex-row p-4 dark:hover:bg-secondary hover:bg-sky-200/70 gap-4'
     >
       <figure className='w-20 min-h-[120px] my-auto aspect-book sm:w-32 md:w-24 flex flex-shrink-0 relative overflow-hidden rounded-lg shadow-lg'>
-        <Image
-          layout='fill'
-          className='aspect-book'
-          src={
-            image
-              ? image
-              : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
-          }
-          placeholder='blur'
-          blurDataURL={createBlurDataUrl({ w: 120, h: 200 })}
-          alt={title}
+        <PhotoUser
+          nameAlt={title}
+          photoURL={image}
+          styles='aspect-book'
+          placeholder={true}
         />
       </figure>
       <Link href={`/books/${id}`}>

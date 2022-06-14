@@ -125,6 +125,7 @@ const Display = (): JSX.Element => {
                   width={20}
                   height={20}
                   alt='en'
+                  quality={50}
                 />
               </span>
               <input

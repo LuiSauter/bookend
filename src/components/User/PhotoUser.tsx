@@ -27,7 +27,7 @@ const PhotoUser = ({
   nameAlt = 'Bookend',
   photoURL = randomImage, // image random
   styles = '',
-  placeholder = false,
+  placeholder = true,
   priority = false,
   quality = 75,
   onClick,
@@ -43,10 +43,11 @@ const PhotoUser = ({
       className={styles}
       src={photoURL}
       alt={nameAlt}
-      placeholder={!placeholder ? 'blur' : 'empty'}
+      placeholder={placeholder ? 'blur' : 'empty'}
       blurDataURL={createBlurDataUrl({ w: 80, h: 80 })}
       onError={errorHandlerImg}
       quality={quality}
+      objectFit='cover'
     />
   )
 }

@@ -10,8 +10,8 @@ import { useTranslate } from 'src/hooks/useTranslate'
 import { useSession } from 'next-auth/react'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { FIND_USER } from 'src/users/graphql-queries'
-import Image from 'next/image'
 import { LOGINQL } from 'src/login/graphql-mutations'
+import PhotoUser from '../User/PhotoUser'
 
 export const NavBar = () => {
   const router = useRouter()
@@ -72,23 +72,24 @@ export const NavBar = () => {
         2xl:px-8'
       >
         <div className='flex w-full sm:items-center sm:flex-col md:flex-row md:justify-center md:w-min overflow-y-auto overflow-x-hidden'>
-          <figure
-            className='flex relative md:hidden sm:flex-shrink-0 items-center justify-center h-11 w-full transition-colors sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4 md:mt-0 md:h-12 md:w-12 md:hover:rounded-3xl dark:hover:bg-secondaryHover hover:bg-sky-200/70'
-            onClick={handleToggleModal}
-          >
-            <Image
-              layout='fill'
-              className='object-contain md:hidden scale-[.70] h-full md:translate-y-[2px]'
-              src='/images/bookend-logo.png'
-              alt='bookend logo'
-            />
-          </figure>
+          <button onClick={handleToggleModal} className='w-full relative h-full md:hover:rounded-3xl dark:hover:bg-secondaryHover hover:bg-sky-200/70'>
+            <figure
+              className='flex object-contain scale-[.70] md:translate-y-[2px] relative md:hidden sm:flex-shrink-0 items-center justify-center h-11 w-[65px] mx-auto flex-shrink-0 transition-colors sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 sm:mr-4 md:mt-0 md:h-12 md:w-12'
+            >
+              <PhotoUser
+                nameAlt='bookend logo'
+                photoURL='/images/bookend-logo.png'
+                styles='rounded-full'
+                placeholder={true}
+              />
+            </figure>
+          </button>
           <button
             onClick={() => {
               router.push('/')
               return window.document.getElementById('search-books')?.focus()
             }}
-            className='flex sm:flex-shrink-0 w-full h-full items-center mr-auto justify-center dark:hover:bg-slate-300/20 hover:bg-sky-200/70 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10 transition-all'
+            className='flex relative sm:flex-shrink-0 w-full h-full items-center mr-auto justify-center dark:hover:bg-slate-300/20 hover:bg-sky-200/70 sm:h-12 sm:w-12 sm:rounded-full sm:mt-4 md:mt-0 md:h-10 md:w-10 transition-all'
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'

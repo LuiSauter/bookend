@@ -12,7 +12,7 @@ import Footer from 'src/components/Footer'
 import SearchUser from 'src/components/SearchUser'
 import * as icons from 'src/assets/icons'
 import { useTranslate } from 'src/hooks/useTranslate'
-import Image from 'next/image'
+import PhotoUser from 'src/components/User/PhotoUser'
 
 interface Props {
   children: JSX.Element | JSX.Element[]
@@ -48,11 +48,11 @@ export const Layout = ({ children }: Props) => {
             <Link href='/'>
               <a className='hidden snap-start shrink-0 w-full md:flex gap-3 justify-center md:items-center relative bg-transparent cursor-pointer hover:opacity-90 transition-opacity h-14 pt-0'>
                 <figure className='w-10 h-8 flex flex-shrink-0 relative'>
-                  <Image
-                    layout='fill'
-                    className='h-auto'
-                    src='/images/bookend-logo.png'
-                    alt='bookend'
+                  <PhotoUser
+                    nameAlt='bookend'
+                    photoURL='/images/bookend-logo.png'
+                    styles='h-auto'
+                    placeholder={true}
                   />
                 </figure>
                 <h1

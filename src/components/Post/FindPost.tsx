@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import * as icons from 'src/assets/icons'
@@ -9,9 +8,9 @@ import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import MultipleButtons from 'src/components/Button'
 import PostOptions from '../Modal/PostOptions'
 import useTimeAgo from 'src/hooks/useTimeAgo'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
 import { IUser } from 'src/interfaces/Users'
 import ClientOnly from '../ClientOnly'
+import PhotoUser from '../User/PhotoUser'
 
 interface Props {
   post: Post
@@ -20,7 +19,6 @@ interface Props {
 
 const FindPost = ({ post, user = null }: Props) => {
   const [showOptions, setShowOptions] = useState(false)
-  const createBlurDataUrl = usePlaceholder()
   const date = Number(post ? post.createdAt : 0)
   const { hourAndMinute } = useTimeAgo(date)
   const router = useRouter()
@@ -73,19 +71,11 @@ const FindPost = ({ post, user = null }: Props) => {
               </p>
             </div>
             <figure className='my-3 rounded-2xl relative overflow-hidden aspect-[160/200] w-full border border-textGray/50'>
-              <Image
-                className='w-full h-full absolute inset-0 rounded-2xl object-cover object-center'
-                layout='responsive'
-                height={700}
-                width={400}
-                src={
-                  post
-                    ? post.image
-                    : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
-                }
-                alt={post.title}
-                placeholder='blur'
-                blurDataURL={createBlurDataUrl({ w: 400, h: 700 })}
+              <PhotoUser
+                nameAlt={post.title}
+                photoURL={post.image}
+                styles=''
+                placeholder={true}
               />
             </figure>
             <span className='dark:text-slate-400 text-slate-700 flex border-b pb-2 dark:border-slate-400/30 mb-2'>
