@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import ClientOnly from 'src/components/ClientOnly'
 
-import { PhotoUser } from 'src/components/Nav/PhotoUser'
+import { NavUser } from 'src/components/Nav/NavUser'
 import { NavBar } from 'src/components/Nav/NavBar'
 import CardProfile from 'src/components/CardProfile/CardProfile'
 import Category from 'src/components/Category/Category'
@@ -100,7 +100,7 @@ export const Layout = ({ children }: Props) => {
             className='xl:flex w-full flex-col snap-proximity snap-y overflow-y-auto pb-4'
             id='custom-scrollbar-none'
           >
-            <PhotoUser />
+            <NavUser />
             <ClientOnly>
               <SearchUser />
             </ClientOnly>

@@ -9,7 +9,7 @@ import Button from '../Button/Button'
 import { useRouter } from 'next/router'
 import { useTranslate } from 'src/hooks/useTranslate'
 
-export const PhotoUser = () => {
+export const NavUser = () => {
   const { status } = useSession()
   const { dropdownOpen, handleToggleModal, handleLoginOpen } = useToggleUser()
   const router = useRouter()
