@@ -28,7 +28,9 @@ const Profile = ({ username, dataColor, user }: Props) => {
       <section className='w-full h-full rounded-xl py-4 mx-auto sm:md:min-w-[430px]'>
         <header className='m-0 w-full z-0'>
           <div
-            style={{ backgroundColor: dominantColor }}
+            style={{
+              backgroundColor: dominantColor ? dominantColor : 'rgb(21,32,43)',
+            }}
             className='bg-backgroundImageFronPage absolute top-12 md:top-0 w-full h-32 sm:h-36 md:h-44'
           />
         </header>

@@ -27,9 +27,7 @@ const Home = (): JSX.Element => {
           <SearchBook />
         </ClientOnly>
       </section>
-      <ClientOnly>
-        <DynamicComponent />
-      </ClientOnly>
+      <DynamicComponent />
       <footer className='w-full py-4 mb-2 sm:mb-0 flex md:hidden justify-center lg:hidden'>
         <Footer />
       </footer>

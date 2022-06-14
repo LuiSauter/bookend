@@ -13,7 +13,7 @@ type Props = {
   bookDownload?: string | undefined
 }
 
-const index = ({ comments, id, likes, bookDownload }: Props) => {
+const Index = ({ comments, id, likes, bookDownload }: Props) => {
   const translate = useTranslate()
   const handleClick = async () => {
     const copyLink = `https://bookendd.vercel.app/books/${id}`
@@ -63,4 +63,4 @@ const index = ({ comments, id, likes, bookDownload }: Props) => {
   )
 }
 
-export default index
+export default Index

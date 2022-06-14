@@ -40,7 +40,7 @@ function MyApp({Component,pageProps: { session, ...pageProps }}: AppProps): JSX.
   const getLoading = useCallback(async () => {
     if (typeof document !== 'undefined') {
       document.body.style.overflowY = 'hidden'
-      await waitForLoading(200)
+      await waitForLoading(500)
       setLoading(false)
       document.body.style.overflowY = 'auto'
     }

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Head from 'next/head'
 import React, { Fragment } from 'react'
+import PulseUsers from 'src/assets/icons/esqueleton/PulseUsers'
 import UsersItem from 'src/components/SearchResults/UsersItem'
 import { useStaticUsers } from 'src/hooks/useStaticUsers'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { IUser } from 'src/interfaces/Users'
-
 
 const Users = () => {
   const translate = useTranslate()
@@ -23,7 +23,7 @@ const Users = () => {
           {translate.profile.users} ·{' '}
           {userState.users ? userState.users.length : 'empty'}
         </h2>
-        {userState.users &&
+        {userState.users ? (
           Object.values(userState.users)
             .sort(sortFunction)
             .map((user: IUser | any, index: number) => (
@@ -37,7 +37,10 @@ const Users = () => {
                 user={user.user}
                 description={user.description}
               />
-            ))}
+            ))
+        ) : (
+          <PulseUsers n={6} paddingY='py-5' size='h-12 w-12' font='h-2' />
+        )}
       </section>
     </Fragment>
   )
