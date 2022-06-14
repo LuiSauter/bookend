@@ -4,8 +4,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { checkVeriFied } from 'src/assets/icons'
 import BtnFollow from '../Button/BtnFollow'
-import Image from 'next/image'
 import ClientOnly from '../ClientOnly'
+import PhotoUser from '../User/PhotoUser'
 
 interface Props {
   email: string
@@ -39,11 +39,10 @@ const FollowItem = ({
           onClick={() => handleClickLi(username)}
         >
           <figure className='w-11 h-11 flex flex-shrink-0 mr-3 rounded-full relative overflow-hidden'>
-            <Image
-              layout='fill'
-              src={photo || '/default-user.webp'}
-              alt={name}
-              className='rounded-full'
+            <PhotoUser
+              nameAlt={name}
+              photoURL={photo}
+              styles='rounded-full'
             />
           </figure>
           <div className='flex flex-row w-full bg-transparent justify-between items-center relative overflow-hidden'>

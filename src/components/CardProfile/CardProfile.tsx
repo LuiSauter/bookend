@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { useLazyQuery } from '@apollo/client'
 
 import { FIND_USER, GET_DOMINANT_COLOR } from 'src/users/graphql-queries'
@@ -12,12 +11,11 @@ import { useTranslate } from 'src/hooks/useTranslate'
 import { useDominanColor } from 'src/hooks/useDominantColor'
 import CountFollows from '../CountFollows'
 import ClientOnly from '../ClientOnly'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
 import Presentation from './Presentation'
+import PhotoUser from '../User/PhotoUser'
 
 const CardProfile = () => {
   const { data: session, status } = useSession()
-  const createBlurDataUrl = usePlaceholder()
   const router = useRouter()
   const translate = useTranslate()
   const [getUser, { data, loading }] = useLazyQuery(FIND_USER, { ssr: true })
@@ -70,14 +68,12 @@ const CardProfile = () => {
                   />
                 </header>
                 <figure className='relative w-20 h-20 mt-10 ring-4 ring-secondary/50 rounded-full mx-auto'>
-                  <Image
-                    layout='fill'
+                  <PhotoUser
+                    nameAlt={data?.findUser?.me.name}
+                    photoURL={data?.findUser?.me.photo}
+                    styles='rounded-full mx-auto relative'
+                    placeholder={true}
                     priority={true}
-                    className='rounded-full mx-auto relative'
-                    src={data?.findUser?.me.photo || '/default-user.webp'}
-                    alt={data?.findUser?.me.name || 'bookend'}
-                    placeholder='blur'
-                    blurDataURL={createBlurDataUrl({ w: 80, h: 80 })}
                   />
                 </figure>
                 {loading ? (

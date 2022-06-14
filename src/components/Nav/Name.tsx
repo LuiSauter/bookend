@@ -8,6 +8,7 @@ import { useProfileId } from 'src/hooks/useProfileId'
 import { FIND_USER } from 'src/users/graphql-queries'
 import * as icons from 'src/assets/icons'
 import { useTranslate } from 'src/hooks/useTranslate'
+import PhotoUser from '../User/PhotoUser'
 
 const Name = () => {
   const { data: session, status } = useSession()
@@ -62,26 +63,24 @@ const Name = () => {
   return status === 'loading' ? (
     <LoadingIcon />
   ) : (
-    <>
-      <figure className='overflow-hidden sm:h-auto md:w-full md:h-8 md:flex flex-shrink-0 md:items-center hover:opacity-80'>
-        <Image
-          width={32}
-          height={32}
-          className='w-8 h-8 rounded-full md:w-7 md:h-7'
-          src={data?.findUser?.me.photo || '/default-user.webp'}
-          alt={data?.findUser?.me.name}
+    <div className='overflow-hidden w-full md:flex flex-shrink-0 md:items-center hover:opacity-80'>
+      <figure className='overflow-hidden h-8 w-8 flex flex-shrink-0 relative rounded-full'>
+        <PhotoUser
+          nameAlt={data?.findUser?.me.name}
+          photoURL={data?.findUser?.me.photo}
+          styles='rounded-full'
         />
-        <span className='ml-2 text-sm whitespace-nowrap w-full dark:text-textWhite hidden md:flex items-center'>
-          {data?.findUser?.me.name}
-          {data?.findUser?.verified && (
-            <span title='Verified account' className='scale-90'>
-              {icons.checkVeriFied}
-            </span>
-          )}
-          {icons.chevronDown}
-        </span>
       </figure>
-    </>
+      <span className='ml-2 text-sm whitespace-nowrap w-full dark:text-textWhite hidden md:flex items-center'>
+        {data?.findUser?.me.name}
+        {data?.findUser?.verified && (
+          <span title='Verified account' className='scale-90'>
+            {icons.checkVeriFied}
+          </span>
+        )}
+        {icons.chevronDown}
+      </span>
+    </div>
   )
 }
 

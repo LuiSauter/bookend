@@ -7,8 +7,7 @@ import * as icons from 'src/assets/icons'
 import { useRouter } from 'next/router'
 import MultipleButtons from 'src/components/Button'
 import PostOptions from '../Modal/PostOptions'
-import Image from 'next/image'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import PhotoUser from '../User/PhotoUser'
 
 type Props = Post
 
@@ -25,7 +24,6 @@ const PostItem = ({
   author,
 }: Props) => {
   const [showOptions, setShowOptions] = useState(false)
-  const createBlurDataUrl = usePlaceholder()
   const date = Number(createdAt)
   const dateLong = new Date(date)
   const { timeago } = useTimeAgo(date)
@@ -58,23 +56,17 @@ const PostItem = ({
         className='w-full flex flex-row px-4 dark:sm:bg-secondary hover:bg-slate-200 sm:bg-slate-200 sm:hover:bg-sky-200/70 dark:bg-primary dark:sm:hover:bg-secondaryLigth border border-textGray/10 cursor-pointer transition-colors sm:rounded-xl xl:px-6'
         onClick={() => router.push(`/books/${id}`)}
       >
-        <figure className='h-12 w-12 overflow-hidden rounded-full flex items-start my-4 flex-shrink-0 mr-3'>
-          <Image
-            className='rounded-full overflow-hidden'
-            height={'100%'}
-            width={'100%'}
-            placeholder='blur'
-            blurDataURL={createBlurDataUrl({ w: 48, h: 48 })}
-            src={
-              findUser?.findUserById
-                ? findUser?.findUserById.me.photo
-                : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
-            }
+        <figure className='h-12 w-12 relative overflow-hidden rounded-full flex items-start my-4 flex-shrink-0 mr-3'>
+          <PhotoUser
             onClick={(event) => {
               event.stopPropagation()
               router.push(`/${findUser?.findUserById.me.username}`)
             }}
-            alt={findUser?.findUserById.me.username}
+            nameAlt={findUser?.findUserById.me.username}
+            photoURL={findUser?.findUserById.me.photo}
+            styles='rounded-full overflow-hidden'
+            placeholder={true}
+            priority={true}
           />
         </figure>
         <div className='w-full mt-3 xl:mt-4'>
@@ -146,16 +138,12 @@ const PostItem = ({
             )}
           </div>
           <div className='w-full flex mt-4'>
-            <figure className='max-h-[400px] w-full rounded-xl overflow-hidden relative border border-textGray/50'>
-              <Image
-                layout='responsive'
-                height={'100%'}
-                width={'100%'}
-                placeholder='blur'
-                blurDataURL={createBlurDataUrl({ w: 48, h: 48 })}
-                className='h-full w-full object-cover rounded-xl object-top'
-                src={image}
-                alt={title}
+            <figure className='max-h-[400px] h-96 w-full rounded-xl overflow-hidden relative border border-textGray/50'>
+              <PhotoUser
+                nameAlt={title}
+                photoURL={image}
+                styles='object-cover rounded-xl object-top'
+                placeholder={true}
               />
             </figure>
           </div>

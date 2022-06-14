@@ -4,9 +4,9 @@ import { useSession } from 'next-auth/react'
 import * as icons from 'src/assets/icons'
 import BtnFollow from '../Button/BtnFollow'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { IUser } from 'src/interfaces/Users'
 import ClientOnly from '../ClientOnly'
+import PhotoUser from '../User/PhotoUser'
 
 interface Props {
   user: IUser
@@ -27,14 +27,12 @@ const User = ({ user, toggleOptionsOn }: Props) => {
           }}
           className='cursor-pointer w-12 h-12 rounded-full relative overflow-hidden mr-4'
         >
-          <Image
-            layout='fill'
-            className='w-full h-full rounded-full'
-            src={
-              user.photo ||
-              'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
-            }
-            alt={user.name}
+          <PhotoUser
+            nameAlt={user.name}
+            photoURL={user.photo}
+            styles='rounded-full'
+            placeholder={true}
+            priority={true}
           />
         </figure>
         <Link href={`/${user.username}`}>

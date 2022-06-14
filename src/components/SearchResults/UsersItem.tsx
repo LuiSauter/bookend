@@ -4,8 +4,7 @@ import BtnFollow from '../Button/BtnFollow'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import * as icons from 'src/assets/icons'
-import Image from 'next/image'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import PhotoUser from '../User/PhotoUser'
 
 type Props = {
   photo: string | undefined
@@ -27,7 +26,6 @@ const UsersItem = ({
   description
 }: Props) => {
   const router = useRouter()
-  const createBlurDataUrl = usePlaceholder()
   const { data: session } = useSession()
 
   return (
@@ -38,13 +36,11 @@ const UsersItem = ({
       }}
     >
       <figure className='w-14 h-14 mr-3 relative overflow-hidden rounded-full flex flex-shrink-0'>
-        <Image
-          layout='fill'
-          src={photo || '/default-user.webp'}
-          alt={name}
-          placeholder='blur'
-          blurDataURL={createBlurDataUrl({ w: 44, h: 44 })}
-          className='rounded-full'
+        <PhotoUser
+          nameAlt={name}
+          photoURL={photo}
+          styles='rounded-full'
+          placeholder={true}
         />
       </figure>
       <div className='flex flex-row w-full justify-between items-center relative'>

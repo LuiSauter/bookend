@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { Nav } from './Nav'
-import { PhotoUser } from './PhotoUser'
+import { NavUser } from './NavUser'
 import * as icons from '../../assets/icons'
 import { useToggleUser } from 'src/hooks/useToggleUser'
 import ClientOnly from '../ClientOnly'
@@ -158,7 +158,7 @@ export const NavBar = () => {
           )}
         </div>
         <div className='mt-4 sm:mr-3 sm:flex md:hidden items-center justify-center'>
-          <PhotoUser />
+          <NavUser />
         </div>
       </nav>
     </>

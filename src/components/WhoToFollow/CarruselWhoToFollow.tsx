@@ -7,8 +7,7 @@ import BtnFollow from '../Button/BtnFollow'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
-import Image from 'next/image'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import PhotoUser from '../User/PhotoUser'
 interface IUser {
   email: string;
   name: string;
@@ -20,7 +19,6 @@ interface IUser {
 
 const CarruselWhoToFollow = () => {
   const { data: session } = useSession()
-  const createBlurDataUrl = usePlaceholder()
   const { data, loading } = useQuery(ALL_USERS, { ssr: true })
   const [allUser, setAllUsers] = useState<IUser[]>([] as IUser[])
   const router = useRouter()
@@ -59,13 +57,11 @@ const CarruselWhoToFollow = () => {
                     className='dark:bg-secondary bg-slate-200 dark:hover:bg-secondaryLigth hover:bg-sky-200/70 shrink-0 flex flex-col w-56 gap-4 snap-always snap-center rounded-xl p-4 mb-2 cursor-pointer'
                   >
                     <figure className='m-0 rounded-full w-20 h-20 mx-auto overflow-hidden relative'>
-                      <Image
-                        layout='fill'
-                        src={user.photo || '/default-user.webp'}
-                        alt={user.name}
-                        placeholder='blur'
-                        blurDataURL={createBlurDataUrl({ w: 80, h: 80 })}
-                        className='w-full h-full rounded-full'
+                      <PhotoUser
+                        nameAlt={user.name}
+                        photoURL={user.photo}
+                        styles='rounded-full'
+                        placeholder={true}
                       />
                     </figure>
                     <Link href={`/${user.username}`}>

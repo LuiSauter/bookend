@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { useLazyQuery } from '@apollo/client'
 
@@ -9,10 +8,9 @@ import { FIND_USER } from 'src/users/graphql-queries'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 import * as icons from 'src/assets/icons'
 import { useTranslate } from 'src/hooks/useTranslate'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import PhotoUser from '../User/PhotoUser'
 
 const UserOfModal = () => {
-  const createBlurDataUrl = usePlaceholder()
   const { data: session, status } = useSession()
   const { handleToggleModal } = useToggleUser()
   const [getUserByEmail, { data, loading }] = useLazyQuery(FIND_USER)
@@ -41,18 +39,15 @@ const UserOfModal = () => {
         onClick={handleModalOut}
         className='w-full dark:hover:bg-secondaryLigth hover:bg-sky-200/70 transition-all rounded-md py-1 px-4 flex items-center justify-center'
       >
-        <Image
-          src={
-            session?.user?.image ? session?.user?.image : '/default-user.webp'
-          }
-          placeholder='blur'
-          blurDataURL={createBlurDataUrl({ w: 48, h: 48 })}
-          width={48}
-          height={48}
-          priority={true}
-          className='w-8 rounded-full md:w-12'
-          alt={data?.findUser?.me.name}
-        />
+        <figure className='w-12 h-12 relative overflow-hidden flex flex-shrink-0 rounded-full'>
+          <PhotoUser
+            nameAlt={data?.findUser?.me.name}
+            photoURL={session?.user?.image || undefined}
+            styles='rounded-full'
+            placeholder={true}
+            priority={true}
+          />
+        </figure>
         <div className='flex flex-col ml-4'>
           <h2 className='flex items-center whitespace-nowrap font-medium'>
             {data?.findUser?.me.name}

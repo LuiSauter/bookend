@@ -10,8 +10,7 @@ import BtnFollow from '../Button/BtnFollow'
 import ProfileForm from '../ProfileForm/ProfileForm'
 import ClientOnly from '../ClientOnly'
 import CountFollows from '../CountFollows'
-import Image from 'next/image'
-import { usePlaceholder } from 'src/hooks/usePlaceholder'
+import PhotoUser from '../User/PhotoUser'
 
 interface Props {
   user: Profile | null
@@ -19,7 +18,6 @@ interface Props {
 
 const MyProfile = ({ user = null }: Props) => {
   const { data: session } = useSession()
-  const createBlurDataUrl = usePlaceholder()
   const router = useRouter()
   const [showTokenId, setShowTokenId] = useState({ show: false, copy: false })
   const translate = useTranslate()
@@ -64,17 +62,12 @@ const MyProfile = ({ user = null }: Props) => {
         <>
           <article className='w-full relative px-4 pt-14 md:pt-6'>
             <figure className='mx-auto relative mt-10 z-auto sm:mt-11 md:mt-14 w-28 h-28 sm:w-32 sm:h-32 xl:w-36 xl:h-36 rounded-full border-4 dark:border-secondary border-slate-300 overflow-hidden'>
-              <Image
-                layout='fill'
-                className='w-full rounded-full h-full z-auto relative'
-                src={
-                  user.me.photo ||
-                  'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
-                }
-                alt={user.me.name}
+              <PhotoUser
+                nameAlt={user.me.name}
+                photoURL={user.me.photo}
+                styles='w-full rounded-full h-full z-auto relative'
+                placeholder={true}
                 priority={true}
-                placeholder='blur'
-                blurDataURL={createBlurDataUrl({ w: 128, h: 128 })}
                 quality={100}
               />
             </figure>

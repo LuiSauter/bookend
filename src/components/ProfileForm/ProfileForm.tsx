@@ -10,6 +10,7 @@ import { useToggleUser } from 'src/hooks/useToggleUser'
 import { useTranslate } from 'src/hooks/useTranslate'
 import { UPDATE_PROFILE } from 'src/users/graphql-mutations'
 import { ALL_USERS } from 'src/users/graphql-queries'
+import PhotoUser from '../User/PhotoUser'
 interface Props {
   profileData: Profile | any
   onClick?: () => void
@@ -77,15 +78,10 @@ const ProfileForm = ({ profileData, onClick }: Props) => {
       >
         <div className='flex items-center justify-center m-auto w-full'>
           <figure className='w-32 h-32 relative m-0 rounded-full overflow-hidden mr-5'>
-            <Image
-              layout='fill'
-              className='m-auto rounded-full'
-              src={
-                session?.user?.image
-                  ? session?.user?.image
-                  : 'https://i.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.webp'
-              }
-              alt={profileData?.me.name || 'bookend'}
+            <PhotoUser
+              nameAlt={profileData?.me.name}
+              photoURL={session?.user?.image || undefined}
+              styles='rounded-full m-auto'
             />
           </figure>
           <div className='flex flex-col'>
