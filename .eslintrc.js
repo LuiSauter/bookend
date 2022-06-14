@@ -18,7 +18,7 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks'],
   rules: {
     indent: ['error', 2],
     'linebreak-style': 0,
@@ -26,7 +26,9 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'react/no-unescaped-entities': 'off',
-    '@next/next/no-page-custom-font': 'off'
+    '@next/next/no-page-custom-font': 'off',
+    'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+    'react-hooks/exhaustive-deps': 'off' // Checks effect dependencies
   },
   settings: {
     react: {
