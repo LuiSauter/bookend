@@ -42,15 +42,13 @@ const SearchUser = () => {
       : setShowSearchResults(false)
   }
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (searhUser) {
-        searhUser !== '' && getSearchUser({ variables: { name: searhUser } })
-      }
+    if (subscribe) {
+      searhUser !== '' && getSearchUser({ variables: { name: searhUser } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [searhUser])
 

@@ -9,7 +9,7 @@ import { PulsePosts } from 'src/assets/icons/esqueleton/PulsePosts'
 import { LoadingIcon } from 'src/assets/icons/LoadingIcon'
 const INITIAL_PAGE = 3
 
-const index = () => {
+const Index = () => {
   const [loadingIcon, setLoadingIcon] = useState(true)
   const { page, handleCountPage } = useToggleUser()
   const externalRef = useRef(null)
@@ -33,9 +33,9 @@ const index = () => {
     handleCountPage()
   }, [])
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (page === INITIAL_PAGE) return
       if (
         allPostData?.allPosts !== undefined &&
@@ -45,20 +45,19 @@ const index = () => {
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [page, allPostData?.allPosts])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (page >= postsCount?.postCount) {
         return setLoadingIcon(false)
       }
       isNearScreen && throttleHandleNextPage()
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [isNearScreen, throttleHandleNextPage, allPostData?.allPosts])
 
@@ -95,4 +94,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Index

@@ -30,9 +30,9 @@ const Display = (): JSX.Element => {
   )
   const translate = useTranslate()
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup && typeof window !== 'undefined') {
+    if (subscribe && typeof window !== 'undefined') {
       const theme = window.localStorage.getItem(themeStorage)
       if (theme === null) {
         setChecked(true)
@@ -43,7 +43,7 @@ const Display = (): JSX.Element => {
         : (setChecked(false), setLight())
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [currentStorage])
 

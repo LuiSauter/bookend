@@ -30,15 +30,11 @@ const PostItem = ({
   const router = useRouter()
   const [getUserById, { data: findUser }] = useLazyQuery(FIND_USER_BY_USER)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (user) {
-        getUserById({ variables: { user: user } })
-      }
-    }
+    subscribe && user && getUserById({ variables: { user: user } })
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [user])
 

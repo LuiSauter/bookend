@@ -22,14 +22,13 @@ const PostOptions = ({ id, toggleOptions }: Props) => {
   const [getUserByEmail, { data }] = useLazyQuery(FIND_USER)
   const [deletePost] = useMutation(DELETE_POST)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      session?.user?.email &&
-        getUserByEmail({ variables: { email: session?.user?.email } })
+    if (subscribe) {
+      session?.user?.email && getUserByEmail({ variables: { email: session?.user?.email } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [session?.user])
 

@@ -17,16 +17,16 @@ const SearchBook = () => {
   const [getSearchBooksByAuthor, { data: dataBooksAuthor }] = useLazyQuery(SEARCH_POSTS_AUTHOR)
   const router = useRouter()
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (words) {
         getSearchBooks({ variables: { words: words } })
         getSearchBooksByAuthor({ variables: { words: words } })
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [words])
 

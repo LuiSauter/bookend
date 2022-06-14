@@ -62,24 +62,20 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
     name: ['postValues.description', 'postValues.image'],
   })
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      session?.user?.email &&
-        getUserByEmail({ variables: { email: session?.user?.email } })
+    if (subscribe) {
+      session?.user?.email && getUserByEmail({ variables: { email: session?.user?.email } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [session?.user])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (status === 'unauthenticated') {
-        toast.error('login is required', {
-          theme: 'dark',
-        })
+        toast.error('login is required', {theme: 'dark'})
         router.push('/')
       }
       if (dataUser?.findUser) {
@@ -91,13 +87,12 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [id, dataUser?.findUser, status])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       data?.findPost[0] &&
         setValue('postValues', {
           author: data?.findPost[0].author,
@@ -109,7 +104,7 @@ const NewForm = ({ id = '' }: Props): JSX.Element => {
         })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [data?.findPost])
 

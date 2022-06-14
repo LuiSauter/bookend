@@ -26,34 +26,26 @@ export const NavBar = () => {
     ],
   })
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (status === 'authenticated' && session?.user) {
-        getLogin({
-          variables: {
-            name: session?.user.name,
-            email: session?.user.email,
-            image: session?.user.image,
-          },
-        })
+        const { name, email, image } = session.user
+        getLogin({ variables: { name, email, image } })
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [status === 'authenticated'])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup && session?.user?.email && session?.user?.name) {
+    if (subscribe && session?.user?.email && session?.user?.name) {
       getUser({ variables: { email: session?.user?.email } })
-      if (login?.signin === 'signup') {
-        router.reload()
-      }
+      login?.signin === 'signup' && router.reload()
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [session?.user, login?.signin])
 

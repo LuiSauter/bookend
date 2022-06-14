@@ -12,15 +12,15 @@ export const useTranslate = () => {
     currentLanguageStorage === null ? 'es' : currentLanguageStorage
   )
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       setLang(i18n === 'es' ? spanish : english)
       const html = document.querySelector('html')
       html?.setAttribute('lang', i18n.toString())
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [])
 

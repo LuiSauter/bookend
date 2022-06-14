@@ -16,15 +16,13 @@ const UserOfModal = () => {
   const [getUserByEmail, { data, loading }] = useLazyQuery(FIND_USER)
   const translate = useTranslate()
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (status === 'authenticated') {
-        getUserByEmail({ variables: { email: session?.user?.email } })
-      }
+    if (subscribe) {
+      status === 'authenticated' && getUserByEmail({ variables: { email: session?.user?.email } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [status === 'authenticated'])
 

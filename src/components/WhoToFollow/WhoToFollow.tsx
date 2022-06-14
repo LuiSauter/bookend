@@ -14,23 +14,18 @@ const WhoToFollow = () => {
   const translate = useTranslate()
   const [getAllUsers, { data }] = useLazyQuery(ALL_USERS)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      userState.users.length === 0 && getAllUsers()
-    }
+    subscribe && userState.users.length === 0 && getAllUsers()
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [userState.users.length === 0])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      data?.allUsers && addUsers(data?.allUsers)
-    }
+    subscribe && data?.allUsers && addUsers(data?.allUsers)
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [data?.allUsers])
 

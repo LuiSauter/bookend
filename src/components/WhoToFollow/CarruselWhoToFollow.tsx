@@ -23,15 +23,11 @@ const CarruselWhoToFollow = () => {
   const [allUser, setAllUsers] = useState<IUser[]>([] as IUser[])
   const router = useRouter()
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (data?.allUsers) {
-        setAllUsers(data?.allUsers)
-      }
-    }
+    subscribe && data?.allUsers && setAllUsers(data?.allUsers)
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [data?.allUsers])
 

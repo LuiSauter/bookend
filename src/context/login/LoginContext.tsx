@@ -22,18 +22,16 @@ export const LoginContext = createContext<IsLogged>({} as IsLogged)
 export const LoginStateProvider = ({ children }: Props) => {
   const [state, setstate] = useState<IProfileId>(initialState)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (state.profile === '') {
-        if (typeof window !== 'undefined') {
-          const getDataStorage = localStorage.getItem('profileUser') || ''
-          setstate({ profile: getDataStorage })
-        }
+    if (subscribe) {
+      if (state.profile === '' && typeof window !== 'undefined') {
+        const getDataStorage = localStorage.getItem('profileUser') || ''
+        setstate({ profile: getDataStorage })
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [])
 

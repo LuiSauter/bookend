@@ -31,42 +31,32 @@ const MyPosts = ({ user = null }: Props) => {
     setPage((prevPage) => prevPage + INITIAL_PAGE)
   }, [setPage])
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (user?.me.username) {
         getAllPosts({
-          variables: {
-            pageSize: INITIAL_PAGE,
-            skipValue: 0,
-            username: user.me.username,
-          },
+          variables: { pageSize: INITIAL_PAGE, skipValue: 0, username: user.me.username },
         })
         setPage(INITIAL_PAGE)
         getPostsUserCount({ variables: { username: user?.me.username } })
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [user?.me.username, setPage])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      isNearScreen && throttleHandleNextPage()
-    }
+    subscribe && isNearScreen && throttleHandleNextPage()
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [isNearScreen, throttleHandleNextPage, allPostUserCount?.allPostUserCount])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (page >= allPostUserCount?.allPostUserCount) {
-        setLoadingIcon(false)
-      }
+    if (subscribe) {
+      page >= allPostUserCount?.allPostUserCount && setLoadingIcon(false)
       user?.me.username &&
         refetch({
           pageSize: page,
@@ -76,18 +66,16 @@ const MyPosts = ({ user = null }: Props) => {
     }
 
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [page, allPostUserCount?.allPostUserCount])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      user?.verified === false &&
-        getLikedPost({ variables: { id: user.liked } })
+    if (subscribe) {
+      user?.verified === false && getLikedPost({ variables: { id: user.liked } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [user])
 

@@ -34,26 +34,21 @@ const BtnLike = ({ id, likes }: Props) => {
   const [getLikeByPost, { data }] = useLazyQuery(FINDONE_POST)
   const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      id && getLikeByPost({ variables: { id: [id] } })
-    }
+    if (subscribe) id && getLikeByPost({ variables: { id: [id] } })
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [id])
 
   useEffect(() => {
-    const cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       status === 'authenticated' &&
-        getUserByEmail({
-          variables: { email: session?.user?.email },
-        })
+        getUserByEmail({ variables: { email: session?.user?.email } })
     }
     return () => {
-      cleanup
+      subscribe = false
     }
   }, [status === 'authenticated'])
 
@@ -63,13 +58,9 @@ const BtnLike = ({ id, likes }: Props) => {
       : false
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup && isMatch) {
-      isMatch ? setLike(true) : setLike(false)
-    }
-
+    if (subscribe) isMatch ? setLike(true) : setLike(false)
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [isMatch])
 

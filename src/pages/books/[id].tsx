@@ -13,30 +13,29 @@ type Props = {
 }
 type StaticProps = { params: { id: string } }
 
-const index = ({ users, post }: Props) => {
+const Index = ({ users, post }: Props) => {
   const { addUsers, userState } = useStaticUsers()
   const [user, setUser] = useState<IUser | undefined>({} as IUser)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup && userState.users.length === 0) {
+    if (subscribe && userState.users.length === 0) {
       users && addUsers(users?.allUsers)
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [users])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (post && (userState.users.length !== 0 || users?.allUsers)) {
         const userFind = userState.users.find((user) => user.user === post.user)
         setUser(userFind)
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [userState?.users, post?.user])
 
@@ -106,4 +105,4 @@ export async function getStaticProps({ params }: StaticProps) {
   }
 }
 
-export default index
+export default Index

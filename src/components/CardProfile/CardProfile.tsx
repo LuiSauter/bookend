@@ -21,28 +21,23 @@ const CardProfile = () => {
   const [getUser, { data, loading }] = useLazyQuery(FIND_USER, { ssr: true })
   const [getColor, { data: dataColor }] = useLazyQuery(GET_DOMINANT_COLOR)
 
+  let subscribe = true
+
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (status === 'authenticated') {
-        getUser({
-          variables: { email: session?.user?.email },
-        })
-      }
+    if (subscribe) {
+      status === 'authenticated' && getUser({ variables: { email: session?.user?.email } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [status === 'authenticated'])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      data?.findUser &&
-        getColor({ variables: { image: data?.findUser.me.photo } })
+    if (subscribe) {
+      data?.findUser && getColor({ variables: { image: data?.findUser.me.photo } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [data?.findUser])
 
@@ -61,9 +56,7 @@ const CardProfile = () => {
               <>
                 <header className='m-0 w-full relative'>
                   <div
-                    style={{
-                      backgroundColor: dominantColor,
-                    }}
+                    style={{ backgroundColor: dominantColor ? dominantColor : 'rgb(21,32,43)' }}
                     className='bg-backgroundImageFronPage absolute inset-0 w-full h-20 sm:rounded-t-xl dark:opacity-100 opacity-50'
                   />
                 </header>

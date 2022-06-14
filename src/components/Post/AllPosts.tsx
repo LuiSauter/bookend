@@ -36,9 +36,9 @@ const AllPosts = () => {
     handleCountPage()
   }, [])
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (page === INITIAL_PAGE) return
       if (
         allPostData?.allPostRanking !== undefined &&
@@ -48,20 +48,19 @@ const AllPosts = () => {
       }
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [page, allPostData?.allPostRanking])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (page >= postsCount?.postCount) {
         return setLoadingIcon(false)
       }
       isNearScreen && throttleHandleNextPage()
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [isNearScreen, throttleHandleNextPage, allPostData?.allPostRanking])
 

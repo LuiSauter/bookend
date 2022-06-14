@@ -20,16 +20,16 @@ const BtnFollow = ({ user }: Props) => {
   const translate = useTranslate()
   const [getUserByEmail, { data: dataUser }] = useLazyQuery(FIND_USER)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       status === 'authenticated' &&
         getUserByEmail({
           variables: { email: session?.user?.email },
         })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [status === 'authenticated'])
 

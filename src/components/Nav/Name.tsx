@@ -16,29 +16,26 @@ const Name = () => {
   const translate = useTranslate()
   const [getUserByProfileId, { data }] = useLazyQuery(FIND_USER)
 
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (status === 'authenticated') {
-        getUserByProfileId({ variables: { email: session?.user?.email } })
-      }
+    if (subscribe) {
+      status === 'authenticated' && getUserByProfileId({ variables: { email: session?.user?.email } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [status === 'authenticated'])
 
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (profile === 'undefined' || profile === '') {
         setProfileId(data?.findUser?.me.username)
       }
       localStorage.setItem('profileUser', data?.findUser?.me.username)
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [data?.findUser])
 

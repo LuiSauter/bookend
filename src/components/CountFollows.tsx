@@ -12,13 +12,13 @@ type Props = {
 const CountFollows = ({ username, design }: Props) => {
   const [getUser, { data }] = useLazyQuery(FIND_PROFILE)
   const translate = useTranslate()
+  let subscribe = true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       username && getUser({ variables: { username } })
     }
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [username])
 

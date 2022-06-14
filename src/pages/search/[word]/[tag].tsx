@@ -23,9 +23,9 @@ const SearchWord = (): JSX.Element => {
   const [getSearchBooksByAuthor, { data: dataBooksAuthor }] =
     useLazyQuery(SEARCH_POSTS_AUTHOR)
 
+  let subscribe= true
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (words.length !== 0) {
         if (router.query.tag === 'books') {
           getSearchBooks({ variables: { words: words } })
@@ -40,24 +40,22 @@ const SearchWord = (): JSX.Element => {
     }
 
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [router.query.tag, words])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       router.query.word && setWords(router.query.word.toString())
     }
 
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [router.query.word])
 
   useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
+    if (subscribe) {
       if (typeof document !== 'undefined') {
         const wordStorage = window.localStorage.getItem('lastSearch') || ''
         setCurrentWord(wordStorage)
@@ -65,7 +63,7 @@ const SearchWord = (): JSX.Element => {
     }
 
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [words.length === 0])
 

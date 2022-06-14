@@ -9,16 +9,12 @@ interface Props {
 
 const Modal = ({ description, title, hoverInfo, author }: Props) => {
   const [hoverModal, setHoverModal] = useState(false)
-  useEffect(() => {
-    let cleanup = true
-    if (cleanup) {
-      if (hoverInfo) {
-        setHoverModal(true)
-      }
-    }
 
+  let subscribe = true
+  useEffect(() => {
+    subscribe && hoverInfo && setHoverModal(true)
     return () => {
-      cleanup = false
+      subscribe = false
     }
   }, [hoverInfo])
 
