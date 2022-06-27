@@ -1,0 +1,32 @@
+{
+    "theme_color": "#15202b",
+    "background_color": "#15202b",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "Bookend",
+    "short_name": "Bookend",
+    "description": "Bookend es una aplicaci\u00f3n web para compartir libros de ciencia.",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
