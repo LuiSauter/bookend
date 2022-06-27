@@ -37,6 +37,8 @@ class MyDocument extends Document {
             name='description'
             content='Bookend es una aplicación web para compartir libros de ciencia, programación, física, universo, cuantica, espacio.'
           />
+          <link rel='manifest' href='/manifest.json' />
+          <link rel='apple-touch-icon' href='/icon-192x192.png' />
           <meta name='twitter:card' content='sumary' />
         </Head>
         <body className='dark:bg-primary'>
