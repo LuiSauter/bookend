@@ -186,6 +186,3 @@ Please make sure to update tests as appropriate.
 
 I accept suggestions.
 
-## Project status
-
-In process, but I am open to receive contributions :D.
