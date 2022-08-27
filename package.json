@@ -20,7 +20,7 @@
     "jsonwebtoken": "8.5.1",
     "micro": "9.3.4",
     "micro-cors": "0.1.1",
-    "mongoose": "6.1.0",
+    "mongoose": "6.4.6",
     "next": "12.1.6",
     "next-auth": "4.10.3",
     "next-pwa": "5.5.4",
